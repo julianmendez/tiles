@@ -45,8 +45,8 @@ This scenario is used to test the equality tile with [EqualityTileSpec](https://
 
 ```mermaid
 graph LR;
-all-actor --- received-Σ-p;
-received-Σ-p --- all-equal;
+all-actor --- received-σ-p;
+received-σ-p --- all-equal;
 ```
 
 
@@ -54,9 +54,9 @@ received-Σ-p --- all-equal;
 
 ```mermaid
 graph LR;
-all-actor --- received-Σ-p;
+all-actor --- received-σ-p;
 all-actor --- needed-p;
-received-Σ-p --- at-least;
+received-σ-p --- at-least;
 needed-p ---  at-least;
 ```
 
