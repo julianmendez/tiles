@@ -30,7 +30,7 @@ These are some of the implemented fairness tiles for resource allocation scenari
 | Tile                                                 | Class                                                                                                                                        |
 |:-----------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------|
 | all-actor <sub>*(a)*</sub>                           | [AllActorTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/AllActorTile.soda)             |
-| <sub>*(a)*</sub> received-&Sigma;-p <sub>*(m)*</sub> | [ReceivedSigmaPTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/ReceivedSigmaPTile.soda) |
+| <sub>*(a)*</sub> received-&sigma;-p <sub>*(m)*</sub> | [ReceivedSigmaPTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/ReceivedSigmaPTile.soda) |
 | <sub>*(m)*</sub> all-equal <sub>*b*</sub>            | [AllEqualTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/AllEqualTile.soda)             |
 | <sub>*(a)*</sub> needed-p <sub>*(m)*</sub>           | [NeededPTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/NeededPTile.soda)               |
 | <sub>*(m0, m1)*</sub> at-least <sub>*b*</sub>        | [AtLeastTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/AtLeastTile.soda)               |
@@ -104,7 +104,7 @@ are:
 | Tile                                                                     | Class                                                                                                                                 |
 |:-------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------|
 | <sub>*(a)*</sub> attribute-p <sub>*(m)*</sub>                            | [AttributePTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/AttributePTile.soda)  |
-| <sub>*(m0, m1)*</sub> &Sigma;-p <sub>*(m)*</sub>                         | [SigmaTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/FalsePosTile.soda)         |
+| <sub>*(m0, m1)*</sub> &sigma;-p <sub>*(m)*</sub>                         | [SigmaTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/FalsePosTile.soda)         |
 | <sub>*(&alpha;0) (&alpha;1)*</sub> zip <sub>*(&alpha;0, &alpha;1)*</sub> | [ZipTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/ZipTile.soda)                |
 | <sub>*(&alpha;0, &alpha;1)*</sub> unzip-0 <sub>*(&alpha;0)*</sub>        | [UnzipPairFstTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/UnzipPairTile.soda) |
 | <sub>*(&alpha;0, &alpha;1)*</sub> unzip-1 <sub>*(&alpha;1)*</sub>        | [UnzipPairSndTile](https://github.com/julianmendez/soda/blob/master/tiles/src/main/scala/soda/tiles/fairness/tile/UnzipPairTile.soda) |
