@@ -7,7 +7,7 @@ lazy val commonSettings =
     organization := "se.umu.cs.tiles",
     version := "0.1.0",
     description := "Object-oriented functional language to describe, analyze, and model human-centered problems",
-    homepage := Some(url("https://julianmendez.github.io/soda/")),
+    homepage := Some(url("https://julianmendez.github.io/tiles/")),
     startYear := Some(2023),
     licenses := Seq("Apache License Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
     organizationName := "Umea University",
@@ -29,7 +29,7 @@ lazy val commonSettings =
      * [[https://github.com/scalatest/scalatest]]
      * [[https://repo1.maven.org/maven2/org/scalatest/]]
      */
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.17" % "test",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % "test",
     resolvers += Resolver.mavenLocal,
     publishTo := Some(Resolver.mavenLocal),
     publishMavenStyle := true,
@@ -44,7 +44,7 @@ lazy val docs =
     .in(file("docs"))
     .settings(commonSettings)
 
-lazy val tiles =
+lazy val root =
   project
     .withId("tiles")
     .in(file("tiles"))
@@ -53,14 +53,4 @@ lazy val tiles =
       assembly / assemblyJarName := "tiles-" + version.value + ".jar"
     )
 
-lazy val root =
-  project
-    .withId("soda")
-    .in(file("."))
-    .aggregate(docs, tiles)
-    .dependsOn(docs, tiles)
-    .settings(
-      commonSettings,
-      assembly / assemblyJarName := "tiles-" + version.value + ".jar"
-    )
 
