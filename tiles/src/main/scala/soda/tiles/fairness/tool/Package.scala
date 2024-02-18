@@ -8,51 +8,13 @@ package soda.tiles.fairness.tool
 
 
 
-trait Actor
-  extends
-    Comparable [Actor]
-{
+type Identifier = String
 
-  def   id : String
+type Actor = Identifier
 
-  def compareTo (other : Actor) : Int =
-    id .compareTo (other .id)
+type Resource = Identifier
 
-  override
-  lazy val toString : String =
-    id
-
-}
-
-case class Actor_ (id : String) extends Actor
-
-object Actor {
-  def mk (id : String) : Actor =
-    Actor_ (id)
-}
-
-trait Resource
-  extends
-    Comparable [Resource]
-{
-
-  def   id : String
-
-  def compareTo (other : Resource) : Int =
-    id .compareTo (other .id)
-
-  override
-  lazy val toString : String =
-    id
-
-}
-
-case class Resource_ (id : String) extends Resource
-
-object Resource {
-  def mk (id : String) : Resource =
-    Resource_ (id)
-}
+type Context = Identifier
 
 trait Measure
   extends
@@ -125,19 +87,7 @@ object Outcome {
     Outcome_ (assignments)
 }
 
-trait Context
-{
 
-
-
-}
-
-case class Context_ () extends Context
-
-object Context {
-  def mk : Context =
-    Context_ ()
-}
 
 
 /**

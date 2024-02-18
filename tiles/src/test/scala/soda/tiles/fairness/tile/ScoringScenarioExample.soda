@@ -8,11 +8,11 @@ class ScoringScenarioExample
       "Alice", "Benjamin", "Charlotte", "Daniel", "Emily", "Fiona", "George", "Hannah", "Isaac",
       "James", "Kevin", "Lily", "Matthew", "Natalie", "Olivia", "Quinn", "Peter", "Rachel",
       "Sarah", "Timothy", "Ursula", "Victoria", "William", "Xavier", "Yasmine", "Zachary"
-    ) .map (lambda name --> Actor_ (name) )
+    )
 
-  _resource_zero : Resource = Resource_ ("0")
+  _resource_zero : Resource = "0"
 
-  _resource_one : Resource = Resource_ ("1")
+  _resource_one : Resource = "1"
 
   _measure_zero : Measure = Measure_ (0)
 
@@ -133,7 +133,7 @@ class ScoringScenarioExample
     then _measure_zero
     else _measure_one
 
-  context = Context_ ()
+  context = "context"
 
   initial_unbiased : TileMessage [Boolean] =
     TileMessageBuilder_ () .build (context) (unbiased_outcome) (true)

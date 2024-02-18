@@ -9,17 +9,17 @@ class ResourceAllocationScenarioExample
   measure_sum (a : Measure) (b : Measure) : Measure =
     Measure_ (a .value + b .value)
 
-  resource0 = Resource_ ("small box - 0.1 m")
+  resource0 = "small box - 0.1 m"
 
-  resource1 = Resource_ ("medium box - 0.2 m")
+  resource1 = "medium box - 0.2 m"
 
-  resource2 = Resource_ ("large box - 0.3 m")
+  resource2 = "large box - 0.3 m"
 
-  actor0 = Actor_ ("Anna A")
+  actor0 = "Anna A"
 
-  actor1 = Actor_ ("Bob B")
+  actor1 = "Bob B"
 
-  actor2 = Actor_ ("Charlie C")
+  actor2 = "Charlie C"
 
   actor_need_map : Map [Actor] [Measure] = Seq (
     Tuple2 [Actor] [Measure] (actor0 , Measure_ (30) ) ,
@@ -39,7 +39,7 @@ class ResourceAllocationScenarioExample
   resource_height (resource : Resource) : Measure =
     resource_height_map .getOrElse (resource , Measure_ (-1) )
 
-  context = Context_ ()
+  context = "context"
 
   outcome0 : Outcome =
     Outcome_ (

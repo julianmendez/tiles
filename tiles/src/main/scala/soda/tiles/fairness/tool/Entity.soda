@@ -1,36 +1,14 @@
 
-class Actor
-  extends
-    Comparable [Actor]
-
-  abstract
-    id : String
-
-  compareTo (other : Actor) : Int =
-    id .compareTo (other .id)
-
-  @override
-  toString : String =
-    id
-
-end
+class Identifier = String
 
 
-class Resource
-  extends
-    Comparable [Resource]
+class Actor = Identifier
 
-  abstract
-    id : String
 
-  compareTo (other : Resource) : Int =
-    id .compareTo (other .id)
+class Resource = Identifier
 
-  @override
-  toString : String =
-    id
 
-end
+class Context = Identifier
 
 
 class Measure
@@ -85,10 +63,4 @@ class Outcome
 
 end
 
-
-class Context
-
-  abstract
-
-end
 

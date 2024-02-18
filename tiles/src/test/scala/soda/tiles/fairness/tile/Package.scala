@@ -6,17 +6,14 @@ package soda.tiles.fairness.tile
 
 import   org.scalatest.funsuite.AnyFunSuite
 import   soda.tiles.fairness.tool.Actor
-import   soda.tiles.fairness.tool.Actor_
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Assignment_
 import   soda.tiles.fairness.tool.Context
-import   soda.tiles.fairness.tool.Context_
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Measure_
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.Outcome_
 import   soda.tiles.fairness.tool.Resource
-import   soda.tiles.fairness.tool.Resource_
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessage_
 import   soda.tiles.fairness.tool.TileMessageBuilder
@@ -132,17 +129,17 @@ trait ResourceAllocationScenarioExample
   def measure_sum (a : Measure) (b : Measure) : Measure =
     Measure_ (a .value + b .value)
 
-  lazy val resource0 = Resource_ ("small box - 0.1 m")
+  lazy val resource0 = "small box - 0.1 m"
 
-  lazy val resource1 = Resource_ ("medium box - 0.2 m")
+  lazy val resource1 = "medium box - 0.2 m"
 
-  lazy val resource2 = Resource_ ("large box - 0.3 m")
+  lazy val resource2 = "large box - 0.3 m"
 
-  lazy val actor0 = Actor_ ("Anna A")
+  lazy val actor0 = "Anna A"
 
-  lazy val actor1 = Actor_ ("Bob B")
+  lazy val actor1 = "Bob B"
 
-  lazy val actor2 = Actor_ ("Charlie C")
+  lazy val actor2 = "Charlie C"
 
   lazy val actor_need_map : Map [Actor, Measure] = Seq (
     Tuple2 [Actor, Measure] (actor0 , Measure_ (30) ) ,
@@ -162,7 +159,7 @@ trait ResourceAllocationScenarioExample
   def resource_height (resource : Resource) : Measure =
     resource_height_map .getOrElse (resource , Measure_ (-1) )
 
-  lazy val context = Context_ ()
+  lazy val context = "context"
 
   lazy val outcome0 : Outcome =
     Outcome_ (
@@ -232,11 +229,11 @@ trait ScoringScenarioExample
       "Alice", "Benjamin", "Charlotte", "Daniel", "Emily", "Fiona", "George", "Hannah", "Isaac",
       "James", "Kevin", "Lily", "Matthew", "Natalie", "Olivia", "Quinn", "Peter", "Rachel",
       "Sarah", "Timothy", "Ursula", "Victoria", "William", "Xavier", "Yasmine", "Zachary"
-    ) .map ( name => Actor_ (name) )
+    )
 
-  private lazy val _resource_zero : Resource = Resource_ ("0")
+  private lazy val _resource_zero : Resource = "0"
 
-  private lazy val _resource_one : Resource = Resource_ ("1")
+  private lazy val _resource_one : Resource = "1"
 
   private lazy val _measure_zero : Measure = Measure_ (0)
 
@@ -357,7 +354,7 @@ trait ScoringScenarioExample
     ) _measure_zero
     else _measure_one
 
-  lazy val context = Context_ ()
+  lazy val context = "context"
 
   lazy val initial_unbiased : TileMessage [Boolean] =
     TileMessageBuilder_ () .build (context) (unbiased_outcome) (true)
