@@ -16,31 +16,50 @@ type Resource = Identifier
 
 type Context = Identifier
 
-trait Measure
-  extends
-    Comparable [Measure]
+type Measure = Option [Int]
+
+trait Comparator
 {
 
-  def   value : Int
 
-  lazy val minus_infinity = Int .MinValue
 
-  lazy val plus_infinity = Int .MaxValue
+  def compareToIdentifier (identifier0 : Identifier) (identifier1 : Identifier) : Int =
+    identifier0 .compareTo (identifier1)
 
-  def compareTo (other : Measure) : Int =
-    value .compareTo (other .value)
+  def compareToActor (actor0 : Actor) (actor1 : Actor) : Int =
+    compareToIdentifier (actor0) (actor1)
 
-  override
-  lazy val toString : String =
-    value .toString
+  def compareToResource (resource0 : Resource) (resource1 : Resource) : Int =
+    compareToIdentifier (resource0) (resource1)
+
+  def compareToContext (context0 : Context) (context1 : Context) : Int =
+    compareToIdentifier (context0) (context1)
+
+  private def _compareNoneTo (measure : Measure) : Int =
+    measure match  {
+      case Some (value) => -1
+      case None => 0
+    }
+
+  private def _compareSomeTo (value : Int) (measure : Measure) : Int =
+    measure match  {
+      case Some (other_value) => value - other_value
+      case None => 1
+    }
+
+  def compareToMeasure (measure0 : Measure) (measure1 : Measure) : Int =
+    measure0 match  {
+      case Some (value) => _compareSomeTo (value) (measure1)
+      case None => _compareNoneTo (measure1)
+    }
 
 }
 
-case class Measure_ (value : Int) extends Measure
+case class Comparator_ () extends Comparator
 
-object Measure {
-  def mk (value : Int) : Measure =
-    Measure_ (value)
+object Comparator {
+  def mk : Comparator =
+    Comparator_ ()
 }
 
 trait Assignment

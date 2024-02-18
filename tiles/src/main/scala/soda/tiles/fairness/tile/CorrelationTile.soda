@@ -3,7 +3,7 @@ class CorrelationTile
 
   abstract
 
-  _measure_zero = Measure_ (0)
+  _measure_zero : Measure = Some (0)
 
   _percentage_constant : Double = 100.0
 
@@ -16,7 +16,7 @@ class CorrelationTile
     else 1.0
 
   to_measure (d : Double) : Measure =
-    Measure_ ( (d * _percentage_constant) .intValue)
+    Some ( (d * _percentage_constant) .intValue)
 
   get_fst_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Double] =
     lists .map (lambda pair --> to_double (pair .fst) )

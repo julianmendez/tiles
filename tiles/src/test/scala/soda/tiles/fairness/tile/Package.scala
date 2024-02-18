@@ -10,7 +10,6 @@ import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Assignment_
 import   soda.tiles.fairness.tool.Context
 import   soda.tiles.fairness.tool.Measure
-import   soda.tiles.fairness.tool.Measure_
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.Outcome_
 import   soda.tiles.fairness.tool.Resource
@@ -126,8 +125,17 @@ trait ResourceAllocationScenarioExample
   private def _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
     Assignment_ (actor, resource)
 
+  private def _addValueTo (value : Int) (m : Measure) : Measure =
+    m match  {
+      case Some (other_value) => Some (value + other_value)
+      case None => None
+    }
+
   def measure_sum (a : Measure) (b : Measure) : Measure =
-    Measure_ (a .value + b .value)
+    a match  {
+      case Some (value) => _addValueTo (value) (b)
+      case None => None
+    }
 
   lazy val resource0 = "small box - 0.1 m"
 
@@ -142,22 +150,22 @@ trait ResourceAllocationScenarioExample
   lazy val actor2 = "Charlie C"
 
   lazy val actor_need_map : Map [Actor, Measure] = Seq (
-    Tuple2 [Actor, Measure] (actor0 , Measure_ (30) ) ,
-    Tuple2 [Actor, Measure] (actor1 , Measure_ (10) ) ,
-    Tuple2 [Actor, Measure] (actor2 , Measure_ (0) )
+    Tuple2 [Actor, Measure] (actor0 , Some (30) ) ,
+    Tuple2 [Actor, Measure] (actor1 , Some (10) ) ,
+    Tuple2 [Actor, Measure] (actor2 , Some (0) )
   ) .toMap
 
   lazy val resource_height_map : Map [Resource, Measure] = Seq (
-    Tuple2 [Resource, Measure] (resource0 , Measure_ (10) ) ,
-    Tuple2 [Resource, Measure] (resource1 , Measure_ (20) ) ,
-    Tuple2 [Resource, Measure] (resource2 , Measure_ (30) )
+    Tuple2 [Resource, Measure] (resource0 , Some (10) ) ,
+    Tuple2 [Resource, Measure] (resource1 , Some (20) ) ,
+    Tuple2 [Resource, Measure] (resource2 , Some (30) )
   ) .toMap
 
   def actor_need (actor : Actor) : Measure =
-    actor_need_map .getOrElse (actor , Measure_ (-1) )
+    actor_need_map .getOrElse (actor , Some (-1) )
 
   def resource_height (resource : Resource) : Measure =
-    resource_height_map .getOrElse (resource , Measure_ (-1) )
+    resource_height_map .getOrElse (resource , Some (-1) )
 
   lazy val context = "context"
 
@@ -235,9 +243,9 @@ trait ScoringScenarioExample
 
   private lazy val _resource_one : Resource = "1"
 
-  private lazy val _measure_zero : Measure = Measure_ (0)
+  private lazy val _measure_zero : Measure = Some (0)
 
-  private lazy val _measure_one : Measure = Measure_ (1)
+  private lazy val _measure_one : Measure = Some (1)
 
   lazy val seed_protected_attribute : Long = 127
 
@@ -251,7 +259,7 @@ trait ScoringScenarioExample
 
   lazy val protected_attribute : Seq [Measure] =
     Random_ () .get_next_seq (seed_protected_attribute) (actors .length)
-      .map ( x => Measure_ ( as_protected_attribute (x .intValue) ) )
+      .map ( x => Some ( as_protected_attribute (x .intValue) ) )
 
   lazy val protected_attribute_map : Map [Actor, Measure] =
     actors
@@ -296,7 +304,7 @@ trait ScoringScenarioExample
 
   lazy val prediction_bias_on_attribute : Int = 40
 
-  lazy val maximum_acceptable_bias_percentage : Measure = Measure_ (30)
+  lazy val maximum_acceptable_bias_percentage : Measure = Some (30)
 
   lazy val result : Seq [Measure] =
     result_values .map ( x => make_binary_measure (x) )
@@ -415,7 +423,7 @@ case class UnbiasednessTileSpec ()
     check (
       obtained = get_coefficient (ex .initial_unbiased) .contents
     ) (
-      expected = Measure_ (0)
+      expected = Some (0)
     )
   )
 
@@ -423,7 +431,7 @@ case class UnbiasednessTileSpec ()
     check (
       obtained = get_coefficient (ex .initial_biased) .contents
     ) (
-      expected = Measure_ (42)
+      expected = Some (42)
     )
   )
 

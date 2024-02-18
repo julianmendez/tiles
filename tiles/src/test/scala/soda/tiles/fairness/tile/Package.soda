@@ -11,7 +11,6 @@ import
   soda.tiles.fairness.tool.Assignment_
   soda.tiles.fairness.tool.Context
   soda.tiles.fairness.tool.Measure
-  soda.tiles.fairness.tool.Measure_
   soda.tiles.fairness.tool.Outcome
   soda.tiles.fairness.tool.Outcome_
   soda.tiles.fairness.tool.Resource

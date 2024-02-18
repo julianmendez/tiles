@@ -14,9 +14,9 @@ class ScoringScenarioExample
 
   _resource_one : Resource = "1"
 
-  _measure_zero : Measure = Measure_ (0)
+  _measure_zero : Measure = Some (0)
 
-  _measure_one : Measure = Measure_ (1)
+  _measure_one : Measure = Some (1)
 
   seed_protected_attribute : Long = 127
 
@@ -30,7 +30,7 @@ class ScoringScenarioExample
 
   protected_attribute : Seq [Measure] =
     Random_ () .get_next_seq (seed_protected_attribute) (actors .length)
-      .map (lambda x --> Measure_ ( as_protected_attribute (x .intValue) ) )
+      .map (lambda x --> Some ( as_protected_attribute (x .intValue) ) )
 
   protected_attribute_map : Map [Actor] [Measure] =
     actors
@@ -75,7 +75,7 @@ class ScoringScenarioExample
 
   prediction_bias_on_attribute : Int = 40
 
-  maximum_acceptable_bias_percentage : Measure = Measure_ (30)
+  maximum_acceptable_bias_percentage : Measure = Some (30)
 
   result : Seq [Measure] =
     result_values .map (lambda x --> make_binary_measure (x) )

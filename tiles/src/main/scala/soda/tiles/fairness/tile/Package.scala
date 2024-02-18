@@ -6,8 +6,9 @@ package soda.tiles.fairness.tile
 
 import   soda.tiles.fairness.tool.Actor
 import   soda.tiles.fairness.tool.Assignment
+import   soda.tiles.fairness.tool.Comparator
+import   soda.tiles.fairness.tool.Comparator_
 import   soda.tiles.fairness.tool.Measure
-import   soda.tiles.fairness.tool.Measure_
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.Pearson
 import   soda.tiles.fairness.tool.Pearson_
@@ -147,7 +148,9 @@ trait AtLeastTile
     : TileMessage [Boolean] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (
       ( (message .contents)
-        .map ( pair => (pair .fst .compareTo (pair .snd) >= 0 ) )
+        .map ( pair =>
+          (Comparator_ ()
+            .compareToMeasure (pair .fst) (pair .snd) ) >= 0 )
         .forall ( e => e)
       )
     )
@@ -188,7 +191,7 @@ trait CorrelationTile
 
 
 
-  private lazy val _measure_zero = Measure_ (0)
+  private lazy val _measure_zero : Measure = Some (0)
 
   private lazy val _percentage_constant : Double = 100.0
 
@@ -201,7 +204,7 @@ trait CorrelationTile
     else 1.0
 
   def to_measure (d : Double) : Measure =
-    Measure_ ( (d * _percentage_constant) .intValue)
+    Some ( (d * _percentage_constant) .intValue)
 
   def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Double] =
     lists .map ( pair => to_double (pair .fst) )
@@ -234,7 +237,8 @@ trait DecisionTile
   def   maximum_acceptable_bias_percentage : Measure
 
   def to_boolean (m : Measure) : Boolean =
-    m .value <= maximum_acceptable_bias_percentage .value
+    ( Comparator_ ()
+       .compareToMeasure (m) (maximum_acceptable_bias_percentage) ) <= 0
 
   def apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (
@@ -335,9 +339,9 @@ trait FalsePosTile
 
 
 
-  private lazy val _measure_zero = Measure_ (0)
+  private lazy val _measure_zero : Measure = Some (0)
 
-  private lazy val _measure_one = Measure_ (1)
+  private lazy val _measure_one : Measure = Some (1)
 
   def sigma (m0 : Measure) (m1 : Measure) : Measure =
     if ( (m0 == _measure_one) && (m1 == _measure_zero)
@@ -381,7 +385,7 @@ trait PredictionPTile
 
   def   p : Resource => Measure
 
-  private lazy val _measure_zero : Measure = Measure_ (0)
+  private lazy val _measure_zero : Measure = Some (0)
 
   def measure_or (m0 : Measure) (m1 : Measure) : Measure =
     if ( (m0 == _measure_zero)
@@ -410,7 +414,7 @@ trait ReceivedSigmaPTile
   private def _sigma2 (m0 : Measure , m1 : Measure) : Measure =
     sigma (m0) (m1)
 
-  private lazy val _measure_zero : Measure = Measure_ (0)
+  private lazy val _measure_zero : Measure = Some (0)
 
   def get_assignment (assignments : Seq [Assignment] ) (a : Actor) : Option [Assignment] =
     assignments . find ( assignment => (assignment .actor) == a)

@@ -6,8 +6,15 @@ class ResourceAllocationScenarioExample
   _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
     Assignment_ (actor) (resource)
 
+  _addValueTo (value : Int) (m : Measure) : Measure =
+    match m
+      case Some (other_value) ==> Some (value + other_value)
+      case None ==> None
+
   measure_sum (a : Measure) (b : Measure) : Measure =
-    Measure_ (a .value + b .value)
+    match a
+      case Some (value) ==> _addValueTo (value) (b)
+      case None ==> None
 
   resource0 = "small box - 0.1 m"
 
@@ -22,22 +29,22 @@ class ResourceAllocationScenarioExample
   actor2 = "Charlie C"
 
   actor_need_map : Map [Actor] [Measure] = Seq (
-    Tuple2 [Actor] [Measure] (actor0 , Measure_ (30) ) ,
-    Tuple2 [Actor] [Measure] (actor1 , Measure_ (10) ) ,
-    Tuple2 [Actor] [Measure] (actor2 , Measure_ (0) )
+    Tuple2 [Actor] [Measure] (actor0 , Some (30) ) ,
+    Tuple2 [Actor] [Measure] (actor1 , Some (10) ) ,
+    Tuple2 [Actor] [Measure] (actor2 , Some (0) )
   ) .toMap
 
   resource_height_map : Map [Resource] [Measure] = Seq (
-    Tuple2 [Resource] [Measure] (resource0 , Measure_ (10) ) ,
-    Tuple2 [Resource] [Measure] (resource1 , Measure_ (20) ) ,
-    Tuple2 [Resource] [Measure] (resource2 , Measure_ (30) )
+    Tuple2 [Resource] [Measure] (resource0 , Some (10) ) ,
+    Tuple2 [Resource] [Measure] (resource1 , Some (20) ) ,
+    Tuple2 [Resource] [Measure] (resource2 , Some (30) )
   ) .toMap
 
   actor_need (actor : Actor) : Measure =
-    actor_need_map .getOrElse (actor , Measure_ (-1) )
+    actor_need_map .getOrElse (actor , Some (-1) )
 
   resource_height (resource : Resource) : Measure =
-    resource_height_map .getOrElse (resource , Measure_ (-1) )
+    resource_height_map .getOrElse (resource , Some (-1) )
 
   context = "context"
 

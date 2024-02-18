@@ -7,7 +7,9 @@ class AtLeastTile
     : TileMessage [Boolean] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (
       ( (message .contents)
-        .map (lambda pair --> (pair .fst .compareTo (pair .snd) >= 0 ) )
+        .map (lambda pair -->
+          (Comparator_ ()
+            .compareToMeasure (pair .fst) (pair .snd) ) >= 0 )
         .forall (lambda e --> e)
       )
     )

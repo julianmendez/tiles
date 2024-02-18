@@ -11,23 +11,39 @@ class Resource = Identifier
 class Context = Identifier
 
 
-class Measure
-  extends
-    Comparable [Measure]
+class Measure = Option [Int]
+
+
+class Comparator
 
   abstract
-    value : Int
 
-  minus_infinity = Int .MinValue
+  compareToIdentifier (identifier0 : Identifier) (identifier1 : Identifier) : Int =
+    identifier0 .compareTo (identifier1)
 
-  plus_infinity = Int .MaxValue
+  compareToActor (actor0 : Actor) (actor1 : Actor) : Int =
+    compareToIdentifier (actor0) (actor1)
 
-  compareTo (other : Measure) : Int =
-    value .compareTo (other .value)
+  compareToResource (resource0 : Resource) (resource1 : Resource) : Int =
+    compareToIdentifier (resource0) (resource1)
 
-  @override
-  toString : String =
-    value .toString
+  compareToContext (context0 : Context) (context1 : Context) : Int =
+    compareToIdentifier (context0) (context1)
+
+  _compareNoneTo (measure : Measure) : Int =
+    match measure
+      case Some (value) ==> -1
+      case None ==> 0
+
+  _compareSomeTo (value : Int) (measure : Measure) : Int =
+    match measure
+      case Some (other_value) ==> value - other_value
+      case None ==> 1
+
+  compareToMeasure (measure0 : Measure) (measure1 : Measure) : Int =
+    match measure0
+      case Some (value) ==> _compareSomeTo (value) (measure1)
+      case None ==> _compareNoneTo (measure1)
 
 end
 
