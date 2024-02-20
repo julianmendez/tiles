@@ -1,9 +1,14 @@
 
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
 /**
  *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
  *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
  *  \bar{y})^{2}}}
  */
+
 
 class MathTool
 

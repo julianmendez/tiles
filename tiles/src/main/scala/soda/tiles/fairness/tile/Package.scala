@@ -150,7 +150,7 @@ trait AtLeastTile
       ( (message .contents)
         .map ( pair =>
           (Comparator_ ()
-            .compareToMeasure (pair .fst) (pair .snd) ) >= 0 )
+            .compareMeasure (pair .fst) (pair .snd) ) >= 0 )
         .forall ( e => e)
       )
     )
@@ -238,7 +238,7 @@ trait DecisionTile
 
   def to_boolean (m : Measure) : Boolean =
     ( Comparator_ ()
-       .compareToMeasure (m) (maximum_acceptable_bias_percentage) ) <= 0
+       .compareMeasure (m) (maximum_acceptable_bias_percentage) ) <= 0
 
   def apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (

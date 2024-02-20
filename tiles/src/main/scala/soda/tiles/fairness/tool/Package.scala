@@ -8,6 +8,11 @@ package soda.tiles.fairness.tool
 
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.StringComparator
+*/
+
 type Identifier = String
 
 type Actor = Identifier
@@ -18,66 +23,11 @@ type Context = Identifier
 
 type Measure = Option [Int]
 
-trait Comparator
-{
-
-
-
-  def compareToIdentifier (identifier0 : Identifier) (identifier1 : Identifier) : Int =
-    identifier0 .compareTo (identifier1)
-
-  def compareToActor (actor0 : Actor) (actor1 : Actor) : Int =
-    compareToIdentifier (actor0) (actor1)
-
-  def compareToResource (resource0 : Resource) (resource1 : Resource) : Int =
-    compareToIdentifier (resource0) (resource1)
-
-  def compareToContext (context0 : Context) (context1 : Context) : Int =
-    compareToIdentifier (context0) (context1)
-
-  private def _compareNoneTo (measure : Measure) : Int =
-    measure match  {
-      case Some (value) => -1
-      case None => 0
-    }
-
-  private def _compareSomeTo (value : Int) (measure : Measure) : Int =
-    measure match  {
-      case Some (other_value) => value - other_value
-      case None => 1
-    }
-
-  def compareToMeasure (measure0 : Measure) (measure1 : Measure) : Int =
-    measure0 match  {
-      case Some (value) => _compareSomeTo (value) (measure1)
-      case None => _compareNoneTo (measure1)
-    }
-
-}
-
-case class Comparator_ () extends Comparator
-
-object Comparator {
-  def mk : Comparator =
-    Comparator_ ()
-}
-
 trait Assignment
-  extends
-    Comparable [Assignment]
 {
 
   def   actor : Actor
   def   resource : Resource
-
-  def compareTo (other : Assignment) : Int =
-    if ( actor == other .actor
-    ) resource .compareTo (other .resource)
-    else actor .compareTo (other .actor)
-
-  override
-  lazy val toString : String =
-    "\u27E8" + actor + ", " + resource + "\u27E9"
 
 }
 
@@ -93,10 +43,6 @@ trait Outcome
 
   def   assignments : Seq [Assignment]
 
-  override
-  lazy val toString : String =
-    assignments .mkString (",")
-
 }
 
 case class Outcome_ (assignments : Seq [Assignment]) extends Outcome
@@ -106,8 +52,69 @@ object Outcome {
     Outcome_ (assignments)
 }
 
+trait Comparator
+{
 
 
+
+/*
+  directive lean
+  def compareString (string0 : String) (string1 : String) : Int :=
+    StringComparator.compare (string0) (string1)
+*/
+
+  def compareString (string0 : String) (string1 : String) : Int =
+    StringComparator.mk.compare (string0) (string1)
+
+  def compareIdentifier (identifier0 : Identifier) (identifier1 : Identifier) : Int =
+    compareString (identifier0) (identifier1)
+
+  def compareActor (actor0 : Actor) (actor1 : Actor) : Int =
+    compareIdentifier (actor0) (actor1)
+
+  def compareResource (resource0 : Resource) (resource1 : Resource) : Int =
+    compareIdentifier (resource0) (resource1)
+
+  def compareContext (context0 : Context) (context1 : Context) : Int =
+    compareIdentifier (context0) (context1)
+
+  private def _compareNone (measure : Measure) : Int =
+    measure match  {
+      case Some (value) => -1
+      case None => 0
+    }
+
+  private def _compareSome (value : Int) (measure : Measure) : Int =
+    measure match  {
+      case Some (other_value) => value - other_value
+      case None => 1
+    }
+
+  def compareMeasure (measure0 : Measure) (measure1 : Measure) : Int =
+    measure0 match  {
+      case Some (value) => _compareSome (value) (measure1)
+      case None => _compareNone (measure1)
+    }
+
+  def compareAssignment (assignment0 : Assignment) (assignment1 : Assignment) : Int =
+    if ( assignment0 .actor == assignment1 .actor
+    ) compareResource (assignment0 .resource) (assignment1 .resource)
+    else compareActor (assignment0 .actor) (assignment1 .actor)
+
+}
+
+case class Comparator_ () extends Comparator
+
+object Comparator {
+  def mk : Comparator =
+    Comparator_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
 
 /**
  *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
@@ -229,6 +236,94 @@ object ScoringCategory {
     ScoringCategory_ ()
 }
 
+
+
+
+trait HelperTuple
+{
+
+  def   comparison : Int
+  def   remaining : Seq [Char]
+
+}
+
+case class HelperTuple_ (comparison : Int, remaining : Seq [Char]) extends HelperTuple
+
+object HelperTuple {
+  def mk (comparison : Int) (remaining : Seq [Char]) : HelperTuple =
+    HelperTuple_ (comparison, remaining)
+}
+
+trait StringComparator
+{
+
+
+
+  lazy val it_is_greater : Int = 1
+
+  lazy val it_is_less : Int = -1
+
+  lazy val they_are_equal : Int = 0
+
+  private def _tailrec_foldl_while [A , B ] (sequence : Seq [A] ) (current : B)
+      (next : B => A => B) (condition : B => A => Boolean) : B =
+    sequence match  {
+      case Nil => current
+      case (head) +: (tail) =>
+        if ( (! (condition (current) (head) ) )
+        ) current
+        else _tailrec_foldl_while [A, B] (tail) (next (current) (head) ) (next) (condition)
+    }
+
+  private def _compare_char_seq (current_char : Char) (other_seq : Seq [Char] ) : HelperTuple =
+    other_seq match  {
+      case head +: tail =>
+        if ( current_char < head
+        ) HelperTuple_ (it_is_less, Nil)
+        else
+          if ( current_char > head
+          ) HelperTuple_ (it_is_greater, Nil)
+          else HelperTuple_ (they_are_equal, tail)
+      case Nil => HelperTuple_ (it_is_greater, Nil)
+    }
+
+  private def _condition (other_seq_cmp : HelperTuple) (current_char : Char) : Boolean =
+    other_seq_cmp .comparison == they_are_equal
+
+  private def _next (other_seq_cmp : HelperTuple) (current_char : Char) : HelperTuple =
+    if ( other_seq_cmp .comparison == they_are_equal
+    ) _compare_char_seq (current_char) (other_seq_cmp .remaining)
+    else other_seq_cmp
+
+  private def _interpret_comparison (result : HelperTuple) : Int =
+    result .remaining match  {
+      case head +: tail => it_is_less
+      case Nil => result .comparison
+    }
+
+  private def _compare_seq (seq0 : Seq [Char] ) (seq1 : Seq [Char] ) : Int =
+    _interpret_comparison (
+      _tailrec_foldl_while [Char, HelperTuple] (seq0) (
+        HelperTuple_ (they_are_equal, seq1) ) (_next) (_condition)
+    )
+
+  def compare (str0 : String) (str1 : String) : Int =
+    _compare_seq (str0 .toList) (str1 .toList)
+
+}
+
+case class StringComparator_ () extends StringComparator
+
+object StringComparator {
+  def mk : StringComparator =
+    StringComparator_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.Entity
+*/
 
 trait TilePair [A , B ]
 {

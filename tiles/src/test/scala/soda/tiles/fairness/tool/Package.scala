@@ -253,3 +253,160 @@ case class ScoringToolSpec ()
 
 }
 
+
+case class StringComparatorSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val empty_string : String = ""
+
+  lazy val string0 : String = "an"
+
+  lazy val string1 : String = "example"
+
+  lazy val string2 : String = "z"
+
+  lazy val instance : StringComparator = StringComparator_ ()
+
+  def sign (a : Int) : Int =
+    if ( a > 0
+    ) 1
+    else
+      if ( a < 0
+      ) -1
+      else 0
+
+  test ("compare equal strings 0") (
+    check (
+      obtained = instance .compare (empty_string) (empty_string)
+    ) (
+      expected = 0
+    )
+  )
+
+  test ("compare equal strings 1") (
+    check (
+      obtained = instance .compare (string0) (string0)
+    ) (
+      expected = 0
+    )
+  )
+
+  test ("compare equal strings 2") (
+    check (
+      obtained = instance .compare (string1) (string1)
+    ) (
+      expected = 0
+    )
+  )
+
+  test ("compare equal strings 3") (
+    check (
+      obtained = instance .compare (string2) (string2)
+    ) (
+      expected = 0
+    )
+  )
+
+  test ("compare smaller strings 0") (
+    check (
+      obtained = instance .compare (empty_string) (string0)
+    ) (
+      expected = -1
+    )
+  )
+
+  test ("compare smaller strings 0 compareTo") (
+    check (
+      obtained = instance .compare (empty_string) (string0)
+    ) (
+      expected = sign (empty_string .compareTo (string0) )
+    )
+  )
+
+  test ("compare smaller strings 1") (
+    check (
+      obtained = instance .compare (string0) (empty_string)
+    ) (
+      expected = 1
+    )
+  )
+
+  test ("compare smaller strings 1 compareTo") (
+    check (
+      obtained = instance .compare (string0) (empty_string)
+    ) (
+      expected = sign (string0 .compareTo (empty_string) )
+    )
+  )
+
+  test ("compare smaller strings 2") (
+    check (
+      obtained = instance .compare (string0) (string2)
+    ) (
+      expected = -1
+    )
+  )
+
+  test ("compare smaller strings 2 compareTo") (
+    check (
+      obtained = instance .compare (string0) (string2)
+    ) (
+      expected = sign (string0 .compareTo (string2) )
+    )
+  )
+
+  test ("compare smaller strings 3") (
+    check (
+      obtained = instance .compare (string2) (string0)
+    ) (
+      expected = 1
+    )
+  )
+
+  test ("compare smaller strings 3 compareTo") (
+    check (
+      obtained = instance .compare (string2) (string0)
+    ) (
+      expected = sign (string2 .compareTo (string0) )
+    )
+  )
+
+  test ("compare smaller strings 4") (
+    check (
+      obtained = instance .compare (string0) (string1)
+    ) (
+      expected = -1
+    )
+  )
+
+  test ("compare smaller strings 4 compareTo") (
+    check (
+      obtained = instance .compare (string0) (string1)
+    ) (
+      expected = sign (string0 .compareTo (string1) )
+    )
+  )
+
+  test ("compare smaller strings 5") (
+    check (
+      obtained = instance .compare (string1) (string0)
+    ) (
+      expected = 1
+    )
+  )
+
+  test ("compare smaller strings 5 compareTo") (
+    check (
+      obtained = instance .compare (string1) (string0)
+    ) (
+      expected = sign (string1 .compareTo (string0) )
+    )
+  )
+
+}
+

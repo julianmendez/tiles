@@ -9,7 +9,7 @@ class AtLeastTile
       ( (message .contents)
         .map (lambda pair -->
           (Comparator_ ()
-            .compareToMeasure (pair .fst) (pair .snd) ) >= 0 )
+            .compareMeasure (pair .fst) (pair .snd) ) >= 0 )
         .forall (lambda e --> e)
       )
     )

@@ -6,7 +6,7 @@ class DecisionTile
 
   to_boolean (m : Measure) : Boolean =
     ( Comparator_ ()
-       .compareToMeasure (m) (maximum_acceptable_bias_percentage) ) <= 0
+       .compareMeasure (m) (maximum_acceptable_bias_percentage) ) <= 0
 
   apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
     TileMessageBuilder_ () .build (message .context) (message .outcome) (
