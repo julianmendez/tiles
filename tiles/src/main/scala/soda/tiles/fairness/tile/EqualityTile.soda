@@ -1,4 +1,11 @@
 
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllActorTile
+import Soda.tiles.fairness.tile.AllEqualTile
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+
+
 class EqualityTile
 
   abstract

@@ -24,14 +24,19 @@ import   soda.tiles.fairness.tool.TileTriple_
 
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
 trait AllActorPairTile
 {
 
 
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor, Actor] ] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
-      ( (message .outcome) .assignments)
+    TileMessageBuilder_ () .build (
+      message .context) (message .outcome) ( ( (message .outcome) .assignments)
         .map ( assignment => assignment .actor)
         .distinct
         .sorted
@@ -47,6 +52,11 @@ object AllActorPairTile {
     AllActorPairTile_ ()
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
 
 trait AllActorTile
 {
@@ -70,6 +80,11 @@ object AllActorTile {
     AllActorTile_ ()
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
 
 trait AllActorTripleTile
 {
@@ -96,6 +111,11 @@ object AllActorTripleTile {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
 trait AllEqual1Tile
 {
 
@@ -116,6 +136,12 @@ object AllEqual1Tile {
     AllEqual1Tile_ ()
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllEqual1Tile
+*/
 
 trait AllEqualTile
 {
@@ -138,6 +164,11 @@ object AllEqualTile {
     AllEqualTile_ ()
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
 
 trait AtLeastTile
 {
@@ -165,6 +196,11 @@ object AtLeastTile {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
 trait AttributePTile
 {
 
@@ -185,6 +221,11 @@ object AttributePTile {
     AttributePTile_ (p)
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
 
 trait CorrelationTile
 {
@@ -231,6 +272,11 @@ object CorrelationTile {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
 trait DecisionTile
 {
 
@@ -254,6 +300,14 @@ object DecisionTile {
     DecisionTile_ (maximum_acceptable_bias_percentage)
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllActorTile
+import Soda.tiles.fairness.tile.AllEqualTile
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+*/
 
 trait EqualityTile
 {
@@ -283,6 +337,17 @@ object EqualityTile {
     EqualityTile_ (sigma, p_utility)
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AtLeastTile
+import Soda.tiles.fairness.tile.NeededPTile
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.UnzipPairFstTile
+import Soda.tiles.fairness.tile.UnzipPairSndTile
+import Soda.tiles.fairness.tile.ZipTile
+*/
 
 trait EquityTile
 {
@@ -334,6 +399,12 @@ object EquityTile {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.SigmaTile
+*/
+
 trait FalsePosTile
 {
 
@@ -362,6 +433,12 @@ object FalsePosTile {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AttributePTile
+*/
+
 trait NeededPTile
 {
 
@@ -379,6 +456,12 @@ object NeededPTile {
     NeededPTile_ (p)
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+*/
 
 trait PredictionPTile
 {
@@ -404,6 +487,11 @@ object PredictionPTile {
     PredictionPTile_ (p)
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
 
 trait ReceivedSigmaPTile
 {
@@ -440,6 +528,12 @@ object ReceivedSigmaPTile {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AttributePTile
+*/
+
 trait ResultPTile
 {
 
@@ -457,6 +551,11 @@ object ResultPTile {
     ResultPTile_ (p)
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
 
 trait SigmaTile
 {
@@ -479,6 +578,22 @@ object SigmaTile {
     SigmaTile_ (sigma)
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllActorTripleTile
+import Soda.tiles.fairness.tile.CorrelationTile
+import Soda.tiles.fairness.tile.DecisionTile
+import Soda.tiles.fairness.tile.FalsePosTile
+import Soda.tiles.fairness.tile.PredictionPTile
+import Soda.tiles.fairness.tile.ResultPTile
+import Soda.tiles.fairness.tile.UnzipTripleFstTile
+import Soda.tiles.fairness.tile.UnzipTripleSndTile
+import Soda.tiles.fairness.tile.UnzipTripleTrdTile
+import Soda.tiles.fairness.tile.WithPTile
+import Soda.tiles.fairness.tile.ZipTile
+*/
 
 trait UnbiasednessTile
 {
@@ -553,6 +668,11 @@ object UnbiasednessTile {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
 trait UnzipPairFstTile
 {
 
@@ -599,6 +719,11 @@ object UnzipPairSndTile {
     UnzipPairSndTile_ ()
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
 
 trait UnzipTripleFstTile
 {
@@ -673,6 +798,12 @@ object UnzipTripleTrdTile {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AttributePTile
+*/
+
 trait WithPTile
 {
 
@@ -690,6 +821,11 @@ object WithPTile {
     WithPTile_ (p)
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
 
 trait ZipTile
 {

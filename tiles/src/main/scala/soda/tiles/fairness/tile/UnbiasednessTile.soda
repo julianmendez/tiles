@@ -1,4 +1,19 @@
 
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllActorTripleTile
+import Soda.tiles.fairness.tile.CorrelationTile
+import Soda.tiles.fairness.tile.DecisionTile
+import Soda.tiles.fairness.tile.FalsePosTile
+import Soda.tiles.fairness.tile.PredictionPTile
+import Soda.tiles.fairness.tile.ResultPTile
+import Soda.tiles.fairness.tile.UnzipTripleFstTile
+import Soda.tiles.fairness.tile.UnzipTripleSndTile
+import Soda.tiles.fairness.tile.UnzipTripleTrdTile
+import Soda.tiles.fairness.tile.WithPTile
+import Soda.tiles.fairness.tile.ZipTile
+
+
 class UnbiasednessTile
 
   abstract

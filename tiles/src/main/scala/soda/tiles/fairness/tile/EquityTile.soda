@@ -1,4 +1,14 @@
 
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AtLeastTile
+import Soda.tiles.fairness.tile.NeededPTile
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.UnzipPairFstTile
+import Soda.tiles.fairness.tile.UnzipPairSndTile
+import Soda.tiles.fairness.tile.ZipTile
+
+
 class EquityTile
 
   abstract

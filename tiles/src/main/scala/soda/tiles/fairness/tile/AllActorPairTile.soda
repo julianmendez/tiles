@@ -1,11 +1,15 @@
 
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
 class AllActorPairTile
 
   abstract
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor] [Actor] ] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
-      ( (message .outcome) .assignments)
+    TileMessageBuilder_ () .build (
+      message .context) (message .outcome) ( ( (message .outcome) .assignments)
         .map (lambda assignment --> assignment .actor)
         .distinct
         .sorted

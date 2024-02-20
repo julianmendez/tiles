@@ -1,4 +1,8 @@
 
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
 class AttributePTile
 
   abstract
