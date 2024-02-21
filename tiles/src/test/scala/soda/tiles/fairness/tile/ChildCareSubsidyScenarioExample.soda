@@ -1,0 +1,138 @@
+
+class ChildCareSubsidyScenarioExample
+
+  abstract
+
+  resource0 = "no subsidy - 0"
+
+  resource1 = "subsidy - 100"
+
+  resource2 = "subsidy - 200"
+
+  resource3 = "subsidy - 300"
+
+  actor0 = "family A"
+
+  actor1 = "family B"
+
+  actor2 = "family C"
+
+  actor_children_map : Map [Actor] [Measure] = Seq (
+    Tuple2 [Actor] [Measure] (actor0 , Some (2) ) ,
+    Tuple2 [Actor] [Measure] (actor1 , Some (3) ) ,
+    Tuple2 [Actor] [Measure] (actor2 , Some (1) )
+  ) .toMap
+
+  actor_adults_map : Map [Actor] [Measure] = Seq (
+    Tuple2 [Actor] [Measure] (actor0 , Some (2) ) ,
+    Tuple2 [Actor] [Measure] (actor1 , Some (1) ) ,
+    Tuple2 [Actor] [Measure] (actor2 , Some (2) )
+  ) .toMap
+
+  actor_income_map : Map [Actor] [Measure] = Seq (
+    Tuple2 [Actor] [Measure] (actor0 , Some (5000) ) ,
+    Tuple2 [Actor] [Measure] (actor1 , Some (3000) ) ,
+    Tuple2 [Actor] [Measure] (actor2 , Some (800) )
+  ) .toMap
+
+  context = "context"
+
+  outcome_no_subsidy : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource0) ,
+        Assignment .mk (actor1) (resource0) ,
+        Assignment .mk (actor2) (resource0)
+      )
+    )
+
+  outcome_per_family_0 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource1) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource1)
+      )
+    )
+
+  outcome_per_family_1 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource2) ,
+        Assignment .mk (actor2) (resource2)
+      )
+    )
+
+  outcome_single_guardian : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource0) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource0)
+      )
+    )
+
+  outcome_per_child : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource3) ,
+        Assignment .mk (actor2) (resource1)
+      )
+    )
+
+  outcome_decreasing_on_income_0 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource1) ,
+        Assignment .mk (actor1) (resource2) ,
+        Assignment .mk (actor2) (resource2)
+      )
+    )
+
+  outcome_decreasing_on_income_1 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource1) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource3)
+      )
+    )
+
+  outcome_decreasing_per_child : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource3) ,
+        Assignment .mk (actor2) (resource1)
+      )
+    )
+
+  initial_no_subsidy : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_no_subsidy) (true)
+
+  initial_per_family_0 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_per_family_0) (true)
+
+  initial_per_family_1 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_per_family_1) (true)
+
+  initial_single_guardian : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_single_guardian) (true)
+
+  initial_per_child : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_per_child) (true)
+
+  initial_decreasing_on_income_0 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_decreasing_on_income_0) (true)
+
+  initial_decreasing_on_income_1 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_decreasing_on_income_1) (true)
+
+  initial_decreasing_per_child : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_decreasing_per_child) (true)
+
+
+end
+

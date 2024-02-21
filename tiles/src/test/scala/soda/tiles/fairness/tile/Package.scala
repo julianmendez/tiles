@@ -22,6 +22,151 @@ import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.Random
 import   soda.tiles.fairness.tool.Random_
 
+trait ChildCareSubsidyScenarioExample
+{
+
+
+
+  lazy val resource0 = "no subsidy - 0"
+
+  lazy val resource1 = "subsidy - 100"
+
+  lazy val resource2 = "subsidy - 200"
+
+  lazy val resource3 = "subsidy - 300"
+
+  lazy val actor0 = "family A"
+
+  lazy val actor1 = "family B"
+
+  lazy val actor2 = "family C"
+
+  lazy val actor_children_map : Map [Actor, Measure] = Seq (
+    Tuple2 [Actor, Measure] (actor0 , Some (2) ) ,
+    Tuple2 [Actor, Measure] (actor1 , Some (3) ) ,
+    Tuple2 [Actor, Measure] (actor2 , Some (1) )
+  ) .toMap
+
+  lazy val actor_adults_map : Map [Actor, Measure] = Seq (
+    Tuple2 [Actor, Measure] (actor0 , Some (2) ) ,
+    Tuple2 [Actor, Measure] (actor1 , Some (1) ) ,
+    Tuple2 [Actor, Measure] (actor2 , Some (2) )
+  ) .toMap
+
+  lazy val actor_income_map : Map [Actor, Measure] = Seq (
+    Tuple2 [Actor, Measure] (actor0 , Some (5000) ) ,
+    Tuple2 [Actor, Measure] (actor1 , Some (3000) ) ,
+    Tuple2 [Actor, Measure] (actor2 , Some (800) )
+  ) .toMap
+
+  lazy val context = "context"
+
+  lazy val outcome_no_subsidy : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource0) ,
+        Assignment .mk (actor1) (resource0) ,
+        Assignment .mk (actor2) (resource0)
+      )
+    )
+
+  lazy val outcome_per_family_0 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource1) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource1)
+      )
+    )
+
+  lazy val outcome_per_family_1 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource2) ,
+        Assignment .mk (actor2) (resource2)
+      )
+    )
+
+  lazy val outcome_single_guardian : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource0) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource0)
+      )
+    )
+
+  lazy val outcome_per_child : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource3) ,
+        Assignment .mk (actor2) (resource1)
+      )
+    )
+
+  lazy val outcome_decreasing_on_income_0 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource1) ,
+        Assignment .mk (actor1) (resource2) ,
+        Assignment .mk (actor2) (resource2)
+      )
+    )
+
+  lazy val outcome_decreasing_on_income_1 : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource1) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource3)
+      )
+    )
+
+  lazy val outcome_decreasing_per_child : Outcome =
+    Outcome_ (
+      Seq [Assignment] (
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource3) ,
+        Assignment .mk (actor2) (resource1)
+      )
+    )
+
+  lazy val initial_no_subsidy : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_no_subsidy) (true)
+
+  lazy val initial_per_family_0 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_per_family_0) (true)
+
+  lazy val initial_per_family_1 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_per_family_1) (true)
+
+  lazy val initial_single_guardian : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_single_guardian) (true)
+
+  lazy val initial_per_child : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_per_child) (true)
+
+  lazy val initial_decreasing_on_income_0 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_decreasing_on_income_0) (true)
+
+  lazy val initial_decreasing_on_income_1 : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_decreasing_on_income_1) (true)
+
+  lazy val initial_decreasing_per_child : TileMessage [Boolean] =
+    TileMessageBuilder_ () .build (context) (outcome_decreasing_per_child) (true)
+
+}
+
+case class ChildCareSubsidyScenarioExample_ () extends ChildCareSubsidyScenarioExample
+
+object ChildCareSubsidyScenarioExample {
+  def mk : ChildCareSubsidyScenarioExample =
+    ChildCareSubsidyScenarioExample_ ()
+}
+
+
 case class EqualityTileSpec ()
   extends
     AnyFunSuite
