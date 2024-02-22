@@ -234,23 +234,23 @@ trait CorrelationTile
 
   private lazy val _measure_zero : Measure = Some (0)
 
-  private lazy val _percentage_constant : Double = 100.0
+  private lazy val _percentage_constant : Float = 100.0
 
-  def get_coefficient (xlist : Seq [Double] ) (ylist : Seq [Double] ) : Double =
+  def get_coefficient (xlist : Seq [Float] ) (ylist : Seq [Float] ) : Float =
     Pearson_ (xlist, ylist) .coefficient
 
-  def to_double (m : Measure) : Double =
+  def to_double (m : Measure) : Float =
     if ( (m == _measure_zero)
     ) 0.0
     else 1.0
 
-  def to_measure (d : Double) : Measure =
+  def to_measure (d : Float) : Measure =
     Some ( (d * _percentage_constant) .intValue)
 
-  def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Double] =
+  def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Float] =
     lists .map ( pair => to_double (pair .fst) )
 
-  def get_snd_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Double] =
+  def get_snd_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Float] =
     lists .map ( pair => to_double (pair .snd) )
 
   def process_tuples (lists : Seq [TilePair [Measure, Measure] ] ) : Measure =

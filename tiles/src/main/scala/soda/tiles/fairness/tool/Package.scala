@@ -127,19 +127,27 @@ trait MathTool
 
 
 
-  def squared (x : Double) : Double =
+  private def _tailrec_foldl [A , B ] (sequence : Seq [A] ) (current : B)
+      (next : B => A => B) : B =
+    sequence match  {
+      case Nil => current
+      case (head) +: (tail) =>
+        _tailrec_foldl [A, B] (tail) (next (current) (head) ) (next)
+    }
+
+  def squared (x : Float) : Float =
     x * x
 
-  private lazy val _sum_init : Double = 0
+  private lazy val _sum_init : Float = 0
 
-  private def _sum_next (accum : Double , elem : Double) : Double =
+  private def _sum_next (accum : Float) (elem : Float) : Float =
     accum + elem
 
-  def sum (seq : Seq [Double] ) : Double =
-    seq .foldLeft (_sum_init) (_sum_next)
+  def sum (seq : Seq [Float] ) : Float =
+    _tailrec_foldl [Float, Float] (seq) (_sum_init) (_sum_next)
 
-  def average (seq : Seq [Double] ) : Double =
-    sum (seq) / seq .length .toDouble
+  def average (seq : Seq [Float] ) : Float =
+    sum (seq) / seq .length .toFloat
 
 }
 
@@ -153,46 +161,61 @@ object MathTool {
 trait Pearson
 {
 
-  def   xlist : Seq [Double]
-  def   ylist : Seq [Double]
+  def   xlist : Seq [Float]
+  def   ylist : Seq [Float]
 
-  private lazy val _mt : MathTool = MathTool_ ()
+  private lazy val _mm : MathTool = MathTool .mk
 
-  private def _sum_squared_diff_with (seq : Seq [Double] ) (x_average : Double) : Double =
-    _mt .sum (seq .map ( x_i => _mt .squared (x_i - x_average) ) )
+/*
+  directive lean
+  notation "Math.sqrt" => Float.sqrt
+  notation "_mm.average" => MathTool.average
+  notation "_mm.sum" => MathTool.sum
+  notation "_mm.squared" => MathTool.squared
+*/
 
-  def sum_squared_diff (seq : Seq [Double] ) : Double =
-    _sum_squared_diff_with (seq) (_mt .average (seq) )
+  def _to_Float (d : Double) : Float = d .toFloat
 
-  private def _sqrt_sum_squared_diff (seq : Seq [Double] ) : Double =
-    Math.sqrt (sum_squared_diff (seq) )
+/*
+  directive lean
+  def _to_Float (x : Float) : Float := x
+*/
 
-  private lazy val _denominator : Double =
+  private def _sum_squared_diff_with (seq : Seq [Float] ) (x_average : Float) : Float =
+    _mm .sum (seq .map ( x_i => _mm .squared (x_i - x_average) ) )
+
+  def sum_squared_diff (seq : Seq [Float] ) : Float =
+    _sum_squared_diff_with (seq) (_mm .average (seq) )
+
+  private def _sqrt_sum_squared_diff (seq : Seq [Float] ) : Float =
+    _to_Float ( Math.sqrt (sum_squared_diff (seq) ) )
+
+  private lazy val _denominator : Float =
     _sqrt_sum_squared_diff (xlist) * _sqrt_sum_squared_diff (ylist)
 
-  private def _multip (x_i : Double) (y_i : Double) (x_average : Double) (y_average : Double) : Double =
+  private def _multip (x_i : Float) (y_i : Float) (x_average : Float) (y_average : Float) : Float =
     (x_i - x_average) * (y_i - y_average)
 
-  private def _numerator_with (pair_list : Seq [Tuple2 [Double, Double] ] ) (x_average : Double)
-      (y_average : Double) : Double =
-    _mt .sum (pair_list .map ( pair =>
+  private def _numerator_with (pair_list : Seq [Tuple2 [Float, Float] ] ) (x_average : Float)
+      (y_average : Float) : Float =
+    _mm .sum (pair_list .map ( pair =>
       _multip (pair ._1) (pair ._2) (x_average) (y_average) ) )
 
-  private lazy val _x_y_together : Seq [Tuple2 [Double, Double] ] =
+  private lazy val _x_y_together : Seq [Tuple2 [Float, Float] ] =
     xlist .zip (ylist)
 
-  private lazy val _numerator : Double =
-    _numerator_with (_x_y_together) (_mt .average (xlist) ) (_mt .average (ylist) )
+  private lazy val _numerator : Float =
+    _numerator_with (_x_y_together) (_mm .average (xlist) ) (_mm .average (ylist) )
 
-  lazy val coefficient : Double =
+  lazy val coefficient : Float =
     _numerator / _denominator
 
 }
 
-case class Pearson_ (xlist : Seq [Double], ylist : Seq [Double]) extends Pearson
+case class Pearson_ (xlist : Seq [Float], ylist : Seq [Float]) extends Pearson
 
 object Pearson {
-  def mk (xlist : Seq [Double]) (ylist : Seq [Double]) : Pearson =
+  def mk (xlist : Seq [Float]) (ylist : Seq [Float]) : Pearson =
     Pearson_ (xlist, ylist)
 }
 
@@ -217,7 +240,7 @@ trait ScoringCategory
 
   lazy val strong_negative_correlation : Int = 7
 
-  def categorize (x : Double) : Int =
+  def categorize (x : Float) : Int =
     if ( (x > 0.5) && (x <= 1.0) ) strong_positive_correlation
     else if ( (x > 0.3) && (x <= 0.5) ) moderate_positive_correlation
     else if ( (x > 0) && (x <= 0.3) ) weak_positive_correlation

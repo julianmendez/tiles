@@ -9,23 +9,23 @@ class CorrelationTile
 
   _measure_zero : Measure = Some (0)
 
-  _percentage_constant : Double = 100.0
+  _percentage_constant : Float = 100.0
 
-  get_coefficient (xlist : Seq [Double] ) (ylist : Seq [Double] ) : Double =
+  get_coefficient (xlist : Seq [Float] ) (ylist : Seq [Float] ) : Float =
     Pearson_ (xlist) (ylist) .coefficient
 
-  to_double (m : Measure) : Double =
+  to_double (m : Measure) : Float =
     if (m == _measure_zero)
     then 0.0
     else 1.0
 
-  to_measure (d : Double) : Measure =
+  to_measure (d : Float) : Measure =
     Some ( (d * _percentage_constant) .intValue)
 
-  get_fst_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Double] =
+  get_fst_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Float] =
     lists .map (lambda pair --> to_double (pair .fst) )
 
-  get_snd_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Double] =
+  get_snd_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Float] =
     lists .map (lambda pair --> to_double (pair .snd) )
 
   process_tuples (lists : Seq [TilePair [Measure] [Measure] ] ) : Measure =

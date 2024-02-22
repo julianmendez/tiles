@@ -2,7 +2,6 @@
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
-
 /**
  *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
  *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
@@ -14,19 +13,26 @@ class MathTool
 
   abstract
 
-  squared (x : Double) : Double =
+  _tailrec_foldl [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
+      (next : B -> A -> B) : B =
+    match sequence
+      case Nil ==> current
+      case (head) +: (tail) ==>
+        _tailrec_foldl [A] [B] (tail) (next (current) (head) ) (next)
+
+  squared (x : Float) : Float =
     x * x
 
-  _sum_init : Double = 0
+  _sum_init : Float = 0
 
-  _sum_next (accum : Double , elem : Double) : Double =
+  _sum_next (accum : Float) (elem : Float) : Float =
     accum + elem
 
-  sum (seq : Seq [Double] ) : Double =
-    seq .foldLeft (_sum_init) (_sum_next)
+  sum (seq : Seq [Float] ) : Float =
+    _tailrec_foldl [Float] [Float] (seq) (_sum_init) (_sum_next)
 
-  average (seq : Seq [Double] ) : Double =
-    sum (seq) / seq .length .toDouble
+  average (seq : Seq [Float] ) : Float =
+    sum (seq) / seq .length .toFloat
 
 end
 
@@ -34,38 +40,50 @@ end
 class Pearson
 
   abstract
-    xlist : Seq [Double]
-    ylist : Seq [Double]
+    xlist : Seq [Float]
+    ylist : Seq [Float]
 
-  _mt : MathTool = MathTool_ ()
+  _mm : MathTool = MathTool .mk
 
-  _sum_squared_diff_with (seq : Seq [Double] ) (x_average : Double) : Double =
-    _mt .sum (seq .map (lambda x_i --> _mt .squared (x_i - x_average) ) )
+  directive lean
+  notation "Math.sqrt" => Float.sqrt
+  notation "_mm.average" => MathTool.average
+  notation "_mm.sum" => MathTool.sum
+  notation "_mm.squared" => MathTool.squared
 
-  sum_squared_diff (seq : Seq [Double] ) : Double =
-    _sum_squared_diff_with (seq) (_mt .average (seq) )
+  directive scala
+  def _to_Float (d : Double) : Float = d .toFloat
 
-  _sqrt_sum_squared_diff (seq : Seq [Double] ) : Double =
-    Math.sqrt (sum_squared_diff (seq) )
+  directive lean
+  def _to_Float (x : Float) : Float := x
 
-  _denominator : Double =
+  _sum_squared_diff_with (seq : Seq [Float] ) (x_average : Float) : Float =
+    _mm .sum (seq .map (lambda x_i --> _mm .squared (x_i - x_average) ) )
+
+  sum_squared_diff (seq : Seq [Float] ) : Float =
+    _sum_squared_diff_with (seq) (_mm .average (seq) )
+
+  _sqrt_sum_squared_diff (seq : Seq [Float] ) : Float =
+    _to_Float ( Math.sqrt (sum_squared_diff (seq) ) )
+
+  _denominator : Float =
     _sqrt_sum_squared_diff (xlist) * _sqrt_sum_squared_diff (ylist)
 
-  _multip (x_i : Double) (y_i : Double) (x_average : Double) (y_average : Double) : Double =
+  _multip (x_i : Float) (y_i : Float) (x_average : Float) (y_average : Float) : Float =
     (x_i - x_average) * (y_i - y_average)
 
-  _numerator_with (pair_list : Seq [Tuple2 [Double] [Double] ] ) (x_average : Double)
-      (y_average : Double) : Double =
-    _mt .sum (pair_list .map (lambda pair -->
+  _numerator_with (pair_list : Seq [Tuple2 [Float] [Float] ] ) (x_average : Float)
+      (y_average : Float) : Float =
+    _mm .sum (pair_list .map (lambda pair -->
       _multip (pair ._1) (pair ._2) (x_average) (y_average) ) )
 
-  _x_y_together : Seq [Tuple2 [Double] [Double] ] =
+  _x_y_together : Seq [Tuple2 [Float] [Float] ] =
     xlist .zip (ylist)
 
-  _numerator : Double =
-    _numerator_with (_x_y_together) (_mt .average (xlist) ) (_mt .average (ylist) )
+  _numerator : Float =
+    _numerator_with (_x_y_together) (_mm .average (xlist) ) (_mm .average (ylist) )
 
-  coefficient : Double =
+  coefficient : Float =
     _numerator / _denominator
 
 end
@@ -91,7 +109,7 @@ class ScoringCategory
 
   strong_negative_correlation : Int = 7
 
-  categorize (x : Double) : Int =
+  categorize (x : Float) : Int =
     if (x > 0.5) and (x <= 1.0) then strong_positive_correlation
     else if (x > 0.3) and (x <= 0.5) then moderate_positive_correlation
     else if (x > 0) and (x <= 0.3) then weak_positive_correlation
