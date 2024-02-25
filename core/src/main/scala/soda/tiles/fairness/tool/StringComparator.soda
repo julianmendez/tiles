@@ -31,12 +31,12 @@ class StringComparator
     match other_seq
       case head +: tail ==>
         if current_char < head
-        then HelperTuple_ (it_is_less) (Nil)
+        then HelperTuple .mk (it_is_less) (Nil)
         else
           if current_char > head
-          then HelperTuple_ (it_is_greater) (Nil)
-          else HelperTuple_ (they_are_equal) (tail)
-      case Nil ==> HelperTuple_ (it_is_greater) (Nil)
+          then HelperTuple .mk (it_is_greater) (Nil)
+          else HelperTuple .mk (they_are_equal) (tail)
+      case Nil ==> HelperTuple .mk (it_is_greater) (Nil)
 
   _condition (other_seq_cmp : HelperTuple) (current_char : Char) : Boolean =
     other_seq_cmp .comparison == they_are_equal
@@ -54,7 +54,7 @@ class StringComparator
   _compare_seq (seq0 : Seq [Char] ) (seq1 : Seq [Char] ) : Int =
     _interpret_comparison (
       _tailrec_foldl_while [Char] [HelperTuple] (seq0) (
-        HelperTuple_ (they_are_equal) (seq1) ) (_next) (_condition)
+        HelperTuple .mk (they_are_equal) (seq1) ) (_next) (_condition)
     )
 
   compare (str0 : String) (str1 : String) : Int =

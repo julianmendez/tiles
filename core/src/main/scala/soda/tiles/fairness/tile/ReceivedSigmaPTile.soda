@@ -23,7 +23,7 @@ class ReceivedSigmaPTile
       .foldLeft (_measure_zero) (_sigma2)
 
   apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
         .map (lambda actor --> get_measure (message .outcome) (actor) ) )
     )

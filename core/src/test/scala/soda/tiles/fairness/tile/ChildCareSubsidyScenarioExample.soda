@@ -38,7 +38,7 @@ class ChildCareSubsidyScenarioExample
   context = "context"
 
   outcome_no_subsidy : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource0) ,
         Assignment .mk (actor1) (resource0) ,
@@ -47,7 +47,7 @@ class ChildCareSubsidyScenarioExample
     )
 
   outcome_per_family_0 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource1) ,
         Assignment .mk (actor1) (resource1) ,
@@ -56,7 +56,7 @@ class ChildCareSubsidyScenarioExample
     )
 
   outcome_per_family_1 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource2) ,
@@ -65,7 +65,7 @@ class ChildCareSubsidyScenarioExample
     )
 
   outcome_single_guardian : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource0) ,
         Assignment .mk (actor1) (resource1) ,
@@ -74,7 +74,7 @@ class ChildCareSubsidyScenarioExample
     )
 
   outcome_per_child : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource3) ,
@@ -83,7 +83,7 @@ class ChildCareSubsidyScenarioExample
     )
 
   outcome_decreasing_on_income_0 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource1) ,
         Assignment .mk (actor1) (resource2) ,
@@ -92,7 +92,7 @@ class ChildCareSubsidyScenarioExample
     )
 
   outcome_decreasing_on_income_1 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource1) ,
         Assignment .mk (actor1) (resource1) ,
@@ -101,7 +101,7 @@ class ChildCareSubsidyScenarioExample
     )
 
   outcome_decreasing_per_child : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource3) ,
@@ -110,29 +110,28 @@ class ChildCareSubsidyScenarioExample
     )
 
   initial_no_subsidy : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_no_subsidy) (true)
+    TileMessageBuilder .mk .build (context) (outcome_no_subsidy) (true)
 
   initial_per_family_0 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_per_family_0) (true)
+    TileMessageBuilder .mk .build (context) (outcome_per_family_0) (true)
 
   initial_per_family_1 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_per_family_1) (true)
+    TileMessageBuilder .mk .build (context) (outcome_per_family_1) (true)
 
   initial_single_guardian : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_single_guardian) (true)
+    TileMessageBuilder .mk .build (context) (outcome_single_guardian) (true)
 
   initial_per_child : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_per_child) (true)
+    TileMessageBuilder .mk .build (context) (outcome_per_child) (true)
 
   initial_decreasing_on_income_0 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_decreasing_on_income_0) (true)
+    TileMessageBuilder .mk .build (context) (outcome_decreasing_on_income_0) (true)
 
   initial_decreasing_on_income_1 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_decreasing_on_income_1) (true)
+    TileMessageBuilder .mk .build (context) (outcome_decreasing_on_income_1) (true)
 
   initial_decreasing_per_child : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_decreasing_per_child) (true)
-
+    TileMessageBuilder .mk .build (context) (outcome_decreasing_per_child) (true)
 
 end
 

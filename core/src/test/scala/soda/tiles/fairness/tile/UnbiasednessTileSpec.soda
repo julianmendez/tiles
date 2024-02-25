@@ -6,13 +6,13 @@ class UnbiasednessTileSpec ()
   check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  ex = ScoringScenarioExample_ ()
+  ex = ScoringScenarioExample .mk
 
   unbiasedness_tile =
-    UnbiasednessTile_ (
-      ex .evaluation ,
-      ex .result_function ,
-      ex .protected_attribute_function,
+    UnbiasednessTile .mk (
+      ex .evaluation) (
+      ex .result_function) (
+      ex .protected_attribute_function) (
       ex .maximum_acceptable_bias_percentage
     )
 

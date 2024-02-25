@@ -19,7 +19,7 @@ class FalsePosTile
 
   apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
       : TileMessage [Seq [Measure] ] =
-    SigmaTile_ (sigma) .apply (message)
+    SigmaTile .mk (sigma) .apply (message)
 
 end
 

@@ -302,12 +302,12 @@ trait StringComparator
     other_seq match  {
       case head +: tail =>
         if ( current_char < head
-        ) HelperTuple_ (it_is_less, Nil)
+        ) HelperTuple .mk (it_is_less) (Nil)
         else
           if ( current_char > head
-          ) HelperTuple_ (it_is_greater, Nil)
-          else HelperTuple_ (they_are_equal, tail)
-      case Nil => HelperTuple_ (it_is_greater, Nil)
+          ) HelperTuple .mk (it_is_greater) (Nil)
+          else HelperTuple .mk (they_are_equal) (tail)
+      case Nil => HelperTuple .mk (it_is_greater) (Nil)
     }
 
   private def _condition (other_seq_cmp : HelperTuple) (current_char : Char) : Boolean =
@@ -327,7 +327,7 @@ trait StringComparator
   private def _compare_seq (seq0 : Seq [Char] ) (seq1 : Seq [Char] ) : Int =
     _interpret_comparison (
       _tailrec_foldl_while [Char, HelperTuple] (seq0) (
-        HelperTuple_ (they_are_equal, seq1) ) (_next) (_condition)
+        HelperTuple .mk (they_are_equal) (seq1) ) (_next) (_condition)
     )
 
   def compare (str0 : String) (str1 : String) : Int =
@@ -401,7 +401,7 @@ trait TileMessageBuilder
 
 
   def build [A ] (context : Context) (outcome : Outcome) (contents : A) : TileMessage [A] =
-    TileMessage_ (context, outcome, contents)
+    TileMessage .mk (context) (outcome) (contents)
 
 }
 

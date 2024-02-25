@@ -62,7 +62,7 @@ trait ChildCareSubsidyScenarioExample
   lazy val context = "context"
 
   lazy val outcome_no_subsidy : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource0) ,
         Assignment .mk (actor1) (resource0) ,
@@ -71,7 +71,7 @@ trait ChildCareSubsidyScenarioExample
     )
 
   lazy val outcome_per_family_0 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource1) ,
         Assignment .mk (actor1) (resource1) ,
@@ -80,7 +80,7 @@ trait ChildCareSubsidyScenarioExample
     )
 
   lazy val outcome_per_family_1 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource2) ,
@@ -89,7 +89,7 @@ trait ChildCareSubsidyScenarioExample
     )
 
   lazy val outcome_single_guardian : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource0) ,
         Assignment .mk (actor1) (resource1) ,
@@ -98,7 +98,7 @@ trait ChildCareSubsidyScenarioExample
     )
 
   lazy val outcome_per_child : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource3) ,
@@ -107,7 +107,7 @@ trait ChildCareSubsidyScenarioExample
     )
 
   lazy val outcome_decreasing_on_income_0 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource1) ,
         Assignment .mk (actor1) (resource2) ,
@@ -116,7 +116,7 @@ trait ChildCareSubsidyScenarioExample
     )
 
   lazy val outcome_decreasing_on_income_1 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource1) ,
         Assignment .mk (actor1) (resource1) ,
@@ -125,7 +125,7 @@ trait ChildCareSubsidyScenarioExample
     )
 
   lazy val outcome_decreasing_per_child : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (actor0) (resource2) ,
         Assignment .mk (actor1) (resource3) ,
@@ -134,28 +134,28 @@ trait ChildCareSubsidyScenarioExample
     )
 
   lazy val initial_no_subsidy : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_no_subsidy) (true)
+    TileMessageBuilder .mk .build (context) (outcome_no_subsidy) (true)
 
   lazy val initial_per_family_0 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_per_family_0) (true)
+    TileMessageBuilder .mk .build (context) (outcome_per_family_0) (true)
 
   lazy val initial_per_family_1 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_per_family_1) (true)
+    TileMessageBuilder .mk .build (context) (outcome_per_family_1) (true)
 
   lazy val initial_single_guardian : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_single_guardian) (true)
+    TileMessageBuilder .mk .build (context) (outcome_single_guardian) (true)
 
   lazy val initial_per_child : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_per_child) (true)
+    TileMessageBuilder .mk .build (context) (outcome_per_child) (true)
 
   lazy val initial_decreasing_on_income_0 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_decreasing_on_income_0) (true)
+    TileMessageBuilder .mk .build (context) (outcome_decreasing_on_income_0) (true)
 
   lazy val initial_decreasing_on_income_1 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_decreasing_on_income_1) (true)
+    TileMessageBuilder .mk .build (context) (outcome_decreasing_on_income_1) (true)
 
   lazy val initial_decreasing_per_child : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome_decreasing_per_child) (true)
+    TileMessageBuilder .mk .build (context) (outcome_decreasing_per_child) (true)
 
 }
 
@@ -175,9 +175,9 @@ case class EqualityTileSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val example = ResourceAllocationScenarioExample_ ()
+  lazy val example = ResourceAllocationScenarioExample .mk
 
-  lazy val equality_tile = EqualityTile_ (example .measure_sum , example .resource_height)
+  lazy val equality_tile = EqualityTile .mk (example .measure_sum) (example .resource_height)
 
   test ("equality on outcome 0") (
     check (
@@ -222,10 +222,10 @@ case class EquityTileSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val example = ResourceAllocationScenarioExample_ ()
+  lazy val example = ResourceAllocationScenarioExample .mk
 
   lazy val equity_tile =
-    EquityTile_ (example .measure_sum , example .actor_need , example .resource_height)
+    EquityTile .mk (example .measure_sum) (example .actor_need) (example .resource_height)
 
   test ("equity on outcome 0") (
     check (
@@ -268,7 +268,7 @@ trait ResourceAllocationScenarioExample
 
 
   private def _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
-    Assignment_ (actor, resource)
+    Assignment .mk (actor) (resource)
 
   private def _addValueTo (value : Int) (m : Measure) : Measure =
     m match  {
@@ -315,52 +315,52 @@ trait ResourceAllocationScenarioExample
   lazy val context = "context"
 
   lazy val outcome0 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
-        _mk_Assignment (actor0) (resource2) ,
-        _mk_Assignment (actor1) (resource1) ,
-        _mk_Assignment (actor2) (resource0)
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource0)
       )
     )
 
   lazy val outcome1 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
-        _mk_Assignment (actor0) (resource0) ,
-        _mk_Assignment (actor1) (resource0) ,
-        _mk_Assignment (actor2) (resource0)
+        Assignment .mk (actor0) (resource0) ,
+        Assignment .mk (actor1) (resource0) ,
+        Assignment .mk (actor2) (resource0)
       )
     )
 
   lazy val outcome2 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
-        _mk_Assignment (actor0) (resource1) ,
-        _mk_Assignment (actor1) (resource1) ,
-        _mk_Assignment (actor2) (resource1)
+        Assignment .mk (actor0) (resource1) ,
+        Assignment .mk (actor1) (resource1) ,
+        Assignment .mk (actor2) (resource1)
       )
     )
 
   lazy val outcome3 : Outcome =
-    Outcome_ (
+    Outcome .mk (
       Seq [Assignment] (
-        _mk_Assignment (actor0) (resource2) ,
-        _mk_Assignment (actor1) (resource2) ,
-        _mk_Assignment (actor2) (resource2)
+        Assignment .mk (actor0) (resource2) ,
+        Assignment .mk (actor1) (resource2) ,
+        Assignment .mk (actor2) (resource2)
       )
     )
 
   lazy val initial0 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome0) (true)
+    TileMessageBuilder .mk .build (context) (outcome0) (true)
 
   lazy val initial1 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome1) (true)
+    TileMessageBuilder .mk .build (context) (outcome1) (true)
 
   lazy val initial2 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome2) (true)
+    TileMessageBuilder .mk .build (context) (outcome2) (true)
 
   lazy val initial3 : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (outcome3) (true)
+    TileMessageBuilder .mk .build (context) (outcome3) (true)
 
 }
 
@@ -403,7 +403,7 @@ trait ScoringScenarioExample
     mod (x) (protected_attribute_modulus)
 
   lazy val protected_attribute : Seq [Measure] =
-    Random_ () .get_next_seq (seed_protected_attribute) (actors .length)
+    Random .mk .get_next_seq (seed_protected_attribute) (actors .length)
       .map ( x => Some ( as_protected_attribute (x .intValue) ) )
 
   lazy val protected_attribute_map : Map [Actor, Measure] =
@@ -441,7 +441,7 @@ trait ScoringScenarioExample
     else _measure_zero
 
   lazy val result_values : Seq [Int] =
-    Random_ ()
+    Random .mk
       .get_next_seq (seed_result) (actors .length)
       .map ( x => as_prediction ( (x .intValue) % prediction_modulus) )
 
@@ -485,20 +485,20 @@ trait ScoringScenarioExample
       .map ( x => make_binary_resource (x) )
 
   lazy val unbiased_outcome : Outcome =
-    Outcome_ (
+    Outcome .mk (
       actors
         .indices
         .map ( index =>
-          Assignment_ (actors .apply (index) , unbiased_prediction .apply (index) )
+          Assignment .mk (actors .apply (index) ) (unbiased_prediction .apply (index) )
         )
     )
 
   lazy val biased_outcome : Outcome =
-    Outcome_ (
+    Outcome .mk (
       actors
         .indices
         .map ( index =>
-          Assignment_ (actors .apply (index) , biased_prediction .apply (index) )
+          Assignment .mk (actors .apply (index) ) (biased_prediction .apply (index) )
         )
     )
 
@@ -510,10 +510,10 @@ trait ScoringScenarioExample
   lazy val context = "context"
 
   lazy val initial_unbiased : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (unbiased_outcome) (true)
+    TileMessageBuilder .mk .build (context) (unbiased_outcome) (true)
 
   lazy val initial_biased : TileMessage [Boolean] =
-    TileMessageBuilder_ () .build (context) (biased_outcome) (true)
+    TileMessageBuilder .mk .build (context) (biased_outcome) (true)
 
 }
 
@@ -533,13 +533,13 @@ case class UnbiasednessTileSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val ex = ScoringScenarioExample_ ()
+  lazy val ex = ScoringScenarioExample .mk
 
   lazy val unbiasedness_tile =
-    UnbiasednessTile_ (
-      ex .evaluation ,
-      ex .result_function ,
-      ex .protected_attribute_function,
+    UnbiasednessTile .mk (
+      ex .evaluation) (
+      ex .result_function) (
+      ex .protected_attribute_function) (
       ex .maximum_acceptable_bias_percentage
     )
 

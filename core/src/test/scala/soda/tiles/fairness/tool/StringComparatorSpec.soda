@@ -14,7 +14,7 @@ class StringComparatorSpec ()
 
   string2 : String = "z"
 
-  instance : StringComparator = StringComparator_ ()
+  instance : StringComparator = StringComparator .mk
 
   sign (a : Int) : Int =
     if a > 0

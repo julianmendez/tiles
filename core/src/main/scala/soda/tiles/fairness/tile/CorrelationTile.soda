@@ -12,7 +12,7 @@ class CorrelationTile
   _percentage_constant : Float = 100.0
 
   get_coefficient (xlist : Seq [Float] ) (ylist : Seq [Float] ) : Float =
-    Pearson_ (xlist) (ylist) .coefficient
+    (Pearson .mk (xlist) (ylist) ) .coefficient
 
   to_double (m : Measure) : Float =
     if (m == _measure_zero)
@@ -33,7 +33,7 @@ class CorrelationTile
 
   apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
     : TileMessage [Measure] =
-    TileMessageBuilder_ () .build (message .context) (message .outcome) (
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
       process_tuples (message .contents)
     )
 

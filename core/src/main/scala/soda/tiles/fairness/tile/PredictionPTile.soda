@@ -17,7 +17,7 @@ class PredictionPTile
     else m0
 
   apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    ReceivedSigmaPTile_ (measure_or , p) .apply (message)
+    (ReceivedSigmaPTile .mk (measure_or) (p) ) .apply (message)
 
 end
 

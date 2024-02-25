@@ -15,7 +15,7 @@ import
   soda.tiles.fairness.tool.Pearson_
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
-  soda.tiles.fairness.tool.TileMessageBuilder_
+  soda.tiles.fairness.tool.TileMessageBuilder
   soda.tiles.fairness.tool.TilePair
   soda.tiles.fairness.tool.TilePair_
   soda.tiles.fairness.tool.TileTriple
