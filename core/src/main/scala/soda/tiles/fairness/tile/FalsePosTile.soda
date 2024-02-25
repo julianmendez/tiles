@@ -3,6 +3,10 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.SigmaTile
 
+/**
+ * This tiles takes a sequence of pairs of measures (m0, m1), and returns a sequence, which
+ * for each pair is 1, if m0 = 1 and m1 = 0, and 0 otherwise.
+ */
 
 class FalsePosTile
 

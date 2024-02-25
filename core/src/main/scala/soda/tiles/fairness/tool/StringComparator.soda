@@ -8,6 +8,11 @@ class HelperTuple
 
 end
 
+
+/**
+ * The main function of this class compares two strings.
+ */
+
 class StringComparator
 
   abstract

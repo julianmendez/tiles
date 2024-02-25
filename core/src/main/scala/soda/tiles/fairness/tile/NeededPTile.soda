@@ -3,6 +3,9 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AttributePTile
 
+/**
+ * This tile is a particular case of an 'AttributePTile', where the attribute is 'need'.
+ */
 
 class NeededPTile
 

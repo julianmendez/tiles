@@ -52,6 +52,10 @@ object Outcome {
     Outcome_ (assignments)
 }
 
+/**
+ * This class contains functions to compare different types of objects.
+ */
+
 trait Comparator
 {
 
@@ -117,9 +121,7 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
- *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
- *  \bar{y})^{2}}}
+ * This class contains helper functions for mathematical calculations.
  */
 
 trait MathTool
@@ -157,6 +159,14 @@ object MathTool {
   def mk : MathTool =
     MathTool_ ()
 }
+
+/**
+ * The main function in this class computes the Pearson correlation coefficient.
+ *
+ *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
+ *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
+ *  \bar{y})^{2}}}
+ */
 
 trait Pearson
 {
@@ -276,6 +286,10 @@ object HelperTuple {
   def mk (comparison : Int) (remaining : Seq [Char]) : HelperTuple =
     HelperTuple_ (comparison, remaining)
 }
+
+/**
+ * The main function of this class compares two strings.
+ */
 
 trait StringComparator
 {

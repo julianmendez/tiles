@@ -4,6 +4,11 @@ import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AttributePTile
 
 
+/**
+ * This tile is a particular case of an 'AttributePTile', where the attribute is the 'result'.
+ * This tile is used to contrast actual results to predicted results.
+ */
+
 class ResultPTile
 
   abstract

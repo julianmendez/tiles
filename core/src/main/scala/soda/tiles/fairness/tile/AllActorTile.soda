@@ -3,6 +3,10 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
 
+/**
+ * This tile returns a sorted sequence of actors, where each actor occurs exactly once.
+ */
+
 class AllActorTile
 
   abstract

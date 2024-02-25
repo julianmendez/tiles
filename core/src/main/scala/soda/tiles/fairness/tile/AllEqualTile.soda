@@ -3,6 +3,9 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AllEqual1Tile
 
+/**
+ * This tile takes a sequence of measures and returns 'true' when they are all the same.
+ */
 
 class AllEqualTile
 

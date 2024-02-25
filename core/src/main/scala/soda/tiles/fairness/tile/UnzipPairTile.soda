@@ -3,6 +3,11 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
 
+/**
+ * This tile takes a sequence of pairs (a, b), and returns a sequence with the first
+ * component of each pair from the input.
+ */
+
 class UnzipPairFstTile
 
   abstract
@@ -18,6 +23,11 @@ class UnzipPairFstTile
 
 end
 
+
+/**
+ * This tile takes a sequence of pairs (a, b), and returns a sequence with the second
+ * component of each pair from the input.
+ */
 
 class UnzipPairSndTile
 

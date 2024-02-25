@@ -3,6 +3,12 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
 
+/**
+ * This tile connects two sequences and returns a sequence of pairs, such that for each
+ * position in both sequences, it has a pair with elements for the corresponding input
+ * sequences.
+ */
+
 class ZipTile
 
   abstract

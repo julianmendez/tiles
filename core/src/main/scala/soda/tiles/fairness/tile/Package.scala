@@ -29,6 +29,11 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
 
+/**
+ * This tile returns a sequence of pairs containing the same actor, sorted by actor, where each
+ * pair of actors occurs exactly once.
+ */
+
 trait AllActorPairTile
 {
 
@@ -58,6 +63,10 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
 
+/**
+ * This tile returns a sorted sequence of actors, where each actor occurs exactly once.
+ */
+
 trait AllActorTile
 {
 
@@ -85,6 +94,11 @@ object AllActorTile {
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
+
+/**
+ * This tile returns a sequence of triples containing the same actor, sorted by actor, where
+ * each triple of actors occurs exactly once.
+ */
 
 trait AllActorTripleTile
 {
@@ -116,6 +130,11 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
 
+/**
+ * This tile takes a sequence of measures and returns 'true' when all measures are the same as
+ * the first one.
+ */
+
 trait AllEqual1Tile
 {
 
@@ -143,6 +162,10 @@ import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AllEqual1Tile
 */
 
+/**
+ * This tile takes a sequence of measures and returns 'true' when they are all the same.
+ */
+
 trait AllEqualTile
 {
 
@@ -169,6 +192,12 @@ object AllEqualTile {
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
+
+/**
+ * This tile takes a sequence of pairs of measures, and compares both components (m0, m1).
+ * If for each pair (m0, m1), it holds that m0 >= m1, it returns 'true, otherwise, it returns
+ * 'false'.
+ */
 
 trait AtLeastTile
 {
@@ -201,6 +230,12 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
 
+/**
+ * This tile takes a sequence of actors as input and returns the a sequence of measures, such
+ * that,  each position in output sequence is the projection of an attribute for its respective
+ * actor from the input.
+ */
+
 trait AttributePTile
 {
 
@@ -226,6 +261,11 @@ object AttributePTile {
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
+
+/**
+ * This tile computes the Pearson correlation, and for that, takes two sequences of measures,
+ * and computes a single measure.
+ */
 
 trait CorrelationTile
 {
@@ -277,6 +317,11 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
 
+/**
+ * This tile works as a binary threshold for a measure. It returns 'true' if the input measure
+ * is than or equal to a given threshold, and 'false' otherwise.
+ */
+
 trait DecisionTile
 {
 
@@ -308,6 +353,11 @@ import Soda.tiles.fairness.tile.AllActorTile
 import Soda.tiles.fairness.tile.AllEqualTile
 import Soda.tiles.fairness.tile.ReceivedSigmaPTile
 */
+
+/**
+ * This pipeline returns 'true' when all the actors in the input receive a resource of the
+ * value, and 'false' otherwise.
+ */
 
 trait EqualityTile
 {
@@ -348,6 +398,11 @@ import Soda.tiles.fairness.tile.UnzipPairFstTile
 import Soda.tiles.fairness.tile.UnzipPairSndTile
 import Soda.tiles.fairness.tile.ZipTile
 */
+
+/**
+ * This pipeline returns 'true' when all the actors in the input receive a resource that
+ * satisfies their needs, and 'false' otherwise.
+ */
 
 trait EquityTile
 {
@@ -405,6 +460,11 @@ import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.SigmaTile
 */
 
+/**
+ * This tiles takes a sequence of pairs of measures (m0, m1), and returns a sequence, which
+ * for each pair is 1, if m0 = 1 and m1 = 0, and 0 otherwise.
+ */
+
 trait FalsePosTile
 {
 
@@ -439,6 +499,10 @@ import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AttributePTile
 */
 
+/**
+ * This tile is a particular case of an 'AttributePTile', where the attribute is 'need'.
+ */
+
 trait NeededPTile
 {
 
@@ -462,6 +526,11 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.ReceivedSigmaPTile
 */
+
+/**
+ * This tile is a particular case of a 'ReceivedSigmaPTile' where the resource is a prediction
+ * score.
+ */
 
 trait PredictionPTile
 {
@@ -492,6 +561,13 @@ object PredictionPTile {
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
+
+/**
+ * This tile takes a sequence of actors as input and returns a sequence containing, for each
+ * actor in the input sequence, a measure amounting the value of all the resources given that
+ * actor. This tile requires a function to count multiple resources, and another function that
+ * informs the value of each resource.
+ */
 
 trait ReceivedSigmaPTile
 {
@@ -534,6 +610,11 @@ import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AttributePTile
 */
 
+/**
+ * This tile is a particular case of an 'AttributePTile', where the attribute is the 'result'.
+ * This tile is used to contrast actual results to predicted results.
+ */
+
 trait ResultPTile
 {
 
@@ -556,6 +637,12 @@ object ResultPTile {
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
+
+/**
+ * This tile takes a sequence of pair of measures as input, and returns a sequence such that,
+ * for each pair (m0, m1) in the input, is m = sigma (m0, m1), where sigma is a given function
+ * to combine measures.
+ */
 
 trait SigmaTile
 {
@@ -594,6 +681,10 @@ import Soda.tiles.fairness.tile.UnzipTripleTrdTile
 import Soda.tiles.fairness.tile.WithPTile
 import Soda.tiles.fairness.tile.ZipTile
 */
+
+/**
+ * This pipeline check unbiasedness for a give scenario.
+ */
 
 trait UnbiasednessTile
 {
@@ -673,6 +764,11 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
 
+/**
+ * This tile takes a sequence of pairs (a, b), and returns a sequence with the first
+ * component of each pair from the input.
+ */
+
 trait UnzipPairFstTile
 {
 
@@ -695,6 +791,11 @@ object UnzipPairFstTile {
   def mk : UnzipPairFstTile =
     UnzipPairFstTile_ ()
 }
+
+/**
+ * This tile takes a sequence of pairs (a, b), and returns a sequence with the second
+ * component of each pair from the input.
+ */
 
 trait UnzipPairSndTile
 {
@@ -725,6 +826,11 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
 
+/**
+ * This tile takes a sequence of triples (a, b, c), and returns a sequence with the first
+ * component of each pair from the input.
+ */
+
 trait UnzipTripleFstTile
 {
 
@@ -749,6 +855,11 @@ object UnzipTripleFstTile {
     UnzipTripleFstTile_ ()
 }
 
+/**
+ * This tile takes a sequence of triples (a, b, c), and returns a sequence with the second
+ * component of each pair from the input.
+ */
+
 trait UnzipTripleSndTile
 {
 
@@ -772,6 +883,11 @@ object UnzipTripleSndTile {
   def mk : UnzipTripleSndTile =
     UnzipTripleSndTile_ ()
 }
+
+/**
+ * This tile takes a sequence of triples (a, b, c), and returns a sequence with the third
+ * component of each pair from the input.
+ */
 
 trait UnzipTripleTrdTile
 {
@@ -804,6 +920,10 @@ import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AttributePTile
 */
 
+/**
+ * This tile is a particular case of a 'AttributePTile', that projects given property.
+ */
+
 trait WithPTile
 {
 
@@ -826,6 +946,12 @@ object WithPTile {
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 */
+
+/**
+ * This tile connects two sequences and returns a sequence of pairs, such that for each
+ * position in both sequences, it has a pair with elements for the corresponding input
+ * sequences.
+ */
 
 trait ZipTile
 {

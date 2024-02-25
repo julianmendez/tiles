@@ -2,6 +2,11 @@
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
+/**
+ * This tile takes a sequence of actors as input and returns the a sequence of measures, such
+ * that,  each position in output sequence is the projection of an attribute for its respective
+ * actor from the input.
+ */
 
 class AttributePTile
 

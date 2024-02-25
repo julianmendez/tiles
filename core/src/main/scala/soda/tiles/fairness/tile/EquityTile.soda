@@ -9,6 +9,11 @@ import Soda.tiles.fairness.tile.UnzipPairSndTile
 import Soda.tiles.fairness.tile.ZipTile
 
 
+/**
+ * This pipeline returns 'true' when all the actors in the input receive a resource that
+ * satisfies their needs, and 'false' otherwise.
+ */
+
 class EquityTile
 
   abstract

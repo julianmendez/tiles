@@ -3,6 +3,12 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
 
+/**
+ * This tile takes a sequence of pairs of measures, and compares both components (m0, m1).
+ * If for each pair (m0, m1), it holds that m0 >= m1, it returns 'true, otherwise, it returns
+ * 'false'.
+ */
+
 class AtLeastTile
 
   abstract

@@ -5,6 +5,10 @@ import Soda.tiles.fairness.tile.AllActorTile
 import Soda.tiles.fairness.tile.AllEqualTile
 import Soda.tiles.fairness.tile.ReceivedSigmaPTile
 
+/**
+ * This pipeline returns 'true' when all the actors in the input receive a resource of the
+ * value, and 'false' otherwise.
+ */
 
 class EqualityTile
 

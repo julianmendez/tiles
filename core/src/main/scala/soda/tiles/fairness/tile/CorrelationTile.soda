@@ -2,6 +2,10 @@
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
+/**
+ * This tile computes the Pearson correlation, and for that, takes two sequences of measures,
+ * and computes a single measure.
+ */
 
 class CorrelationTile
 

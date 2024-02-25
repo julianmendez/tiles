@@ -35,6 +35,10 @@ class Outcome
 end
 
 
+/**
+ * This class contains functions to compare different types of objects.
+ */
+
 class Comparator
 
   abstract

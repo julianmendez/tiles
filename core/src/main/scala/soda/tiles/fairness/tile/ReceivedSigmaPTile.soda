@@ -3,6 +3,13 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
 
+/**
+ * This tile takes a sequence of actors as input and returns a sequence containing, for each
+ * actor in the input sequence, a measure amounting the value of all the resources given that
+ * actor. This tile requires a function to count multiple resources, and another function that
+ * informs the value of each resource.
+ */
+
 class ReceivedSigmaPTile
 
   abstract
