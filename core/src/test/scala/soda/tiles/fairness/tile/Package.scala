@@ -122,10 +122,7 @@ trait ResourceAllocationScenarioExample
 
 
 
-  private def _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
-    Assignment .mk (actor) (resource)
-
-  private def _addValueTo (value : Int) (m : Measure) : Measure =
+  private def _add_value_to (value : Int) (m : Measure) : Measure =
     m match  {
       case Some (other_value) => Some (value + other_value)
       case None => None
@@ -133,7 +130,7 @@ trait ResourceAllocationScenarioExample
 
   def measure_sum (a : Measure) (b : Measure) : Measure =
     a match  {
-      case Some (value) => _addValueTo (value) (b)
+      case Some (value) => _add_value_to (value) (b)
       case None => None
     }
 

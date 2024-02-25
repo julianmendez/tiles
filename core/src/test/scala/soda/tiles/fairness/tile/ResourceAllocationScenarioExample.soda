@@ -3,17 +3,14 @@ class ResourceAllocationScenarioExample
 
   abstract
 
-  _mk_Assignment (actor : Actor) (resource : Resource) : Assignment =
-    Assignment .mk (actor) (resource)
-
-  _addValueTo (value : Int) (m : Measure) : Measure =
+  _add_value_to (value : Int) (m : Measure) : Measure =
     match m
       case Some (other_value) ==> Some (value + other_value)
       case None ==> None
 
   measure_sum (a : Measure) (b : Measure) : Measure =
     match a
-      case Some (value) ==> _addValueTo (value) (b)
+      case Some (value) ==> _add_value_to (value) (b)
       case None ==> None
 
   resource0 = "small box - 0.1 m"
