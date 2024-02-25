@@ -46,11 +46,11 @@ lazy val docs =
 
 lazy val core =
   project
-    .withId("tiles-core")
-    .in(file("tiles"))
+    .withId("core")
+    .in(file("core"))
     .settings(
       commonSettings,
-      assembly / assemblyJarName := "tiles-" + version.value + ".jar"
+      assembly / assemblyJarName := "core-" + version.value + ".jar"
     )
 
 lazy val root =
