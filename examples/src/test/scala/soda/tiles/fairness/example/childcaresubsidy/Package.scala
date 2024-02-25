@@ -7,38 +7,29 @@ package soda.tiles.fairness.example.childcaresubsidy
 import   org.scalatest.funsuite.AnyFunSuite
 import   soda.tiles.fairness.tool.Actor
 import   soda.tiles.fairness.tool.Assignment
-import   soda.tiles.fairness.tool.Assignment_
 import   soda.tiles.fairness.tool.Context
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Outcome
-import   soda.tiles.fairness.tool.Outcome_
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
-import   soda.tiles.fairness.tool.TileMessage_
 import   soda.tiles.fairness.tool.TileMessageBuilder
-import   soda.tiles.fairness.tool.TileMessageBuilder_
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.TilePair_
-import   soda.tiles.fairness.tool.Random
-import   soda.tiles.fairness.tool.Random_
 import   soda.tiles.fairness.tile.AllActorPairTile
 import   soda.tiles.fairness.tile.AllActorTile
 import   soda.tiles.fairness.tile.AllActorTripleTile
+import   soda.tiles.fairness.tile.AllAtLeastTile
 import   soda.tiles.fairness.tile.AllEqual1Tile
 import   soda.tiles.fairness.tile.AllEqualTile
-import   soda.tiles.fairness.tile.AtLeastTile
 import   soda.tiles.fairness.tile.AttributePTile
 import   soda.tiles.fairness.tile.CorrelationTile
 import   soda.tiles.fairness.tile.DecisionTile
-import   soda.tiles.fairness.tile.EqualityTile
-import   soda.tiles.fairness.tile.EquityTile
 import   soda.tiles.fairness.tile.FalsePosTile
 import   soda.tiles.fairness.tile.NeededPTile
 import   soda.tiles.fairness.tile.PredictionPTile
 import   soda.tiles.fairness.tile.ReceivedSigmaPTile
 import   soda.tiles.fairness.tile.ResultPTile
 import   soda.tiles.fairness.tile.SigmaTile
-import   soda.tiles.fairness.tile.UnbiasednessTile
 import   soda.tiles.fairness.tile.UnzipPairFstTile
 import   soda.tiles.fairness.tile.UnzipPairSndTile
 import   soda.tiles.fairness.tile.UnzipTripleFstTile
@@ -46,6 +37,9 @@ import   soda.tiles.fairness.tile.UnzipTripleSndTile
 import   soda.tiles.fairness.tile.UnzipTripleTrdTile
 import   soda.tiles.fairness.tile.WithPTile
 import   soda.tiles.fairness.tile.ZipTile
+import   soda.tiles.fairness.pipeline.EqualityTile
+import   soda.tiles.fairness.pipeline.EquityTile
+import   soda.tiles.fairness.pipeline.UnbiasednessTile
 
 
 
