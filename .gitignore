@@ -13,3 +13,4 @@ Thumbs.db
 .cache-main
 .cache-tests
 docs/sphinx/build
+.lake/

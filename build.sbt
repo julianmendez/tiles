@@ -1,19 +1,13 @@
 import sbt.Keys.scalacOptions
 
-lazy val scala2_11 = "2.11.12"
-
-lazy val scala2_12 = "2.12.18"
-
-lazy val scala2_13 = "2.13.12"
-
-lazy val scala3_3 = "3.3.1"
+lazy val scala3_4 = "3.4.0"
 
 lazy val commonSettings =
   Seq(
     organization := "se.umu.cs.tiles",
     version := "0.1.0",
     description := "Object-oriented functional language to describe, analyze, and model human-centered problems",
-    homepage := Some(url("https://julianmendez.github.io/soda/")),
+    homepage := Some(url("https://julianmendez.github.io/tiles/")),
     startYear := Some(2023),
     licenses := Seq("Apache License Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
     organizationName := "Umea University",
@@ -25,18 +19,17 @@ lazy val commonSettings =
      * Scala
      * [[https://www.scala-lang.org]]
      * [[https://github.com/scala/scala]]
-     * [[https://repo1.maven.org/maven2/org/scala-lang/scalap/]]
      * [[https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/]]
      */
-    crossScalaVersions := Seq(scala2_11, scala2_12, scala2_13, scala3_3),
-    scalaVersion := scala3_3,
+    crossScalaVersions := Seq(scala3_4),
+    scalaVersion := scala3_4,
     /**
      * ScalaTest
      * [[https://www.scalatest.org]]
      * [[https://github.com/scalatest/scalatest]]
      * [[https://repo1.maven.org/maven2/org/scalatest/]]
      */
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.17" % "test",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % "test",
     resolvers += Resolver.mavenLocal,
     publishTo := Some(Resolver.mavenLocal),
     publishMavenStyle := true,
@@ -51,21 +44,32 @@ lazy val docs =
     .in(file("docs"))
     .settings(commonSettings)
 
-lazy val tiles =
+lazy val core =
   project
-    .withId("tiles")
-    .in(file("tiles"))
+    .withId("core")
+    .in(file("core"))
     .settings(
       commonSettings,
-      assembly / assemblyJarName := "tiles-" + version.value + ".jar"
+      assembly / assemblyJarName := "core-" + version.value + ".jar"
+    )
+
+lazy val examples =
+  project
+    .withId("examples")
+    .in(file("examples"))
+    .aggregate(core)
+    .dependsOn(core)
+    .settings(
+      commonSettings,
+      assembly / assemblyJarName := "examples-" + version.value + ".jar"
     )
 
 lazy val root =
   project
-    .withId("soda")
+    .withId("tiles")
     .in(file("."))
-    .aggregate(docs, tiles)
-    .dependsOn(docs, tiles)
+    .aggregate(docs, core, examples)
+    .dependsOn(docs, core, examples)
     .settings(
       commonSettings,
       assembly / assemblyJarName := "tiles-" + version.value + ".jar"

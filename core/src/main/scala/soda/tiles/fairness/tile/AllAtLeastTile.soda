@@ -1,0 +1,28 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile takes a sequence of pairs of measures, and compares both components (m0, m1).
+ * If for each pair (m0, m1), it holds that m0 >= m1, it returns 'true, otherwise, it returns
+ * 'false'.
+ */
+
+class AllAtLeastTile
+
+  abstract
+
+  apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
+    : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .map (lambda pair -->
+          (Comparator .mk
+            .compareMeasure (pair .fst) (pair .snd) ) >= 0 )
+        .forall (lambda e --> e)
+      )
+    )
+
+end
+

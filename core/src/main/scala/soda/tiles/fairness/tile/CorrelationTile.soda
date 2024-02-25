@@ -1,0 +1,45 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile computes the Pearson correlation, and for that, takes two sequences of measures,
+ * and computes a single measure.
+ */
+
+class CorrelationTile
+
+  abstract
+
+  _measure_zero : Measure = Some (0)
+
+  _percentage_constant : Float = 100.0
+
+  get_coefficient (xlist : Seq [Float] ) (ylist : Seq [Float] ) : Float =
+    (Pearson .mk (xlist) (ylist) ) .coefficient
+
+  to_double (m : Measure) : Float =
+    if (m == _measure_zero)
+    then 0.0
+    else 1.0
+
+  to_measure (d : Float) : Measure =
+    Some ( (d * _percentage_constant) .intValue)
+
+  get_fst_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Float] =
+    lists .map (lambda pair --> to_double (pair .fst) )
+
+  get_snd_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Float] =
+    lists .map (lambda pair --> to_double (pair .snd) )
+
+  process_tuples (lists : Seq [TilePair [Measure] [Measure] ] ) : Measure =
+    to_measure (get_coefficient (get_fst_list (lists) ) (get_snd_list (lists) ) )
+
+  apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
+    : TileMessage [Measure] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      process_tuples (message .contents)
+    )
+
+end
+

@@ -1,0 +1,128 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This class contains helper functions for mathematical calculations.
+ */
+
+class MathTool
+
+  abstract
+
+  _tailrec_foldl [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
+      (next : B -> A -> B) : B =
+    match sequence
+      case Nil ==> current
+      case (head) +: (tail) ==>
+        _tailrec_foldl [A] [B] (tail) (next (current) (head) ) (next)
+
+  squared (x : Float) : Float =
+    x * x
+
+  _sum_init : Float = 0
+
+  _sum_next (accum : Float) (elem : Float) : Float =
+    accum + elem
+
+  sum (seq : Seq [Float] ) : Float =
+    _tailrec_foldl [Float] [Float] (seq) (_sum_init) (_sum_next)
+
+  average (seq : Seq [Float] ) : Float =
+    sum (seq) / seq .length .toFloat
+
+end
+
+
+/**
+ * The main function in this class computes the Pearson correlation coefficient.
+ *
+ *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
+ *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
+ *  \bar{y})^{2}}}
+ */
+
+class Pearson
+
+  abstract
+    xlist : Seq [Float]
+    ylist : Seq [Float]
+
+  _mm : MathTool = MathTool .mk
+
+  directive lean
+  notation "Math.sqrt" => Float.sqrt
+  notation "_mm.average" => MathTool.average
+  notation "_mm.sum" => MathTool.sum
+  notation "_mm.squared" => MathTool.squared
+
+  directive scala
+  def _to_Float (d : Double) : Float = d .toFloat
+
+  directive lean
+  def _to_Float (x : Float) : Float := x
+
+  _sum_squared_diff_with (seq : Seq [Float] ) (x_average : Float) : Float =
+    _mm .sum (seq .map (lambda x_i --> _mm .squared (x_i - x_average) ) )
+
+  sum_squared_diff (seq : Seq [Float] ) : Float =
+    _sum_squared_diff_with (seq) (_mm .average (seq) )
+
+  _sqrt_sum_squared_diff (seq : Seq [Float] ) : Float =
+    _to_Float ( Math.sqrt (sum_squared_diff (seq) ) )
+
+  _denominator : Float =
+    _sqrt_sum_squared_diff (xlist) * _sqrt_sum_squared_diff (ylist)
+
+  _multip (x_i : Float) (y_i : Float) (x_average : Float) (y_average : Float) : Float =
+    (x_i - x_average) * (y_i - y_average)
+
+  _numerator_with (pair_list : Seq [Tuple2 [Float] [Float] ] ) (x_average : Float)
+      (y_average : Float) : Float =
+    _mm .sum (pair_list .map (lambda pair -->
+      _multip (pair ._1) (pair ._2) (x_average) (y_average) ) )
+
+  _x_y_together : Seq [Tuple2 [Float] [Float] ] =
+    xlist .zip (ylist)
+
+  _numerator : Float =
+    _numerator_with (_x_y_together) (_mm .average (xlist) ) (_mm .average (ylist) )
+
+  coefficient : Float =
+    _numerator / _denominator
+
+end
+
+
+class ScoringCategory
+
+  abstract
+
+  undefined_correlation : Int = 0
+
+  no_correlation : Int = 1
+
+  weak_positive_correlation : Int = 2
+
+  weak_negative_correlation : Int = 3
+
+  moderate_positive_correlation : Int = 4
+
+  moderate_negative_correlation : Int = 5
+
+  strong_positive_correlation : Int = 6
+
+  strong_negative_correlation : Int = 7
+
+  categorize (x : Float) : Int =
+    if (x > 0.5) and (x <= 1.0) then strong_positive_correlation
+    else if (x > 0.3) and (x <= 0.5) then moderate_positive_correlation
+    else if (x > 0) and (x <= 0.3) then weak_positive_correlation
+    else if (x == 0) then no_correlation
+    else if (x < 0) and (x >= -0.3) then weak_negative_correlation
+    else if (x < -0.3) and (x >= -0.5) then moderate_negative_correlation
+    else if (x < -0.5) and (x >= -1.0) then strong_negative_correlation
+    else undefined_correlation
+
+end
+

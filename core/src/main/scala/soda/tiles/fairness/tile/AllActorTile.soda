@@ -1,0 +1,23 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns a sorted sequence of actors, where each actor occurs exactly once.
+ */
+
+class AllActorTile
+
+  abstract
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Actor] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .outcome) .assignments)
+        .map (lambda assignment --> assignment .actor)
+        .distinct
+        .sorted
+    )
+
+end
+

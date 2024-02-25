@@ -1,0 +1,43 @@
+
+directive lean
+import Soda.tiles.fairness.tool.Entity
+
+
+class TilePair [A : Type] [B : Type]
+
+  abstract
+    fst : A
+    snd : B
+
+end
+
+
+class TileTriple [A : Type] [B : Type] [C : Type]
+
+  abstract
+    fst : A
+    snd : B
+    trd : C
+
+end
+
+
+class TileMessage [A : Type]
+
+  abstract
+    context : Context
+    outcome : Outcome
+    contents : A
+
+end
+
+
+class TileMessageBuilder
+
+  abstract
+
+  build [A : Type] (context : Context) (outcome : Outcome) (contents : A) : TileMessage [A] =
+    TileMessage .mk (context) (outcome) (contents)
+
+end
+

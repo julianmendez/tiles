@@ -1,0 +1,26 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns a sequence of triples containing the same actor, sorted by actor, where
+ * each triple of actors occurs exactly once.
+ */
+
+class AllActorTripleTile
+
+  abstract
+
+  apply (message : TileMessage [Boolean] )
+      : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .outcome) .assignments)
+        .map (lambda assignment --> assignment .actor)
+        .distinct
+        .sorted
+        .map (lambda actor --> TileTriple .mk (actor) (actor) (actor) )
+    )
+
+end
+
