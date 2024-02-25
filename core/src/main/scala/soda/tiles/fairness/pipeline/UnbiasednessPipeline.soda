@@ -14,7 +14,7 @@ import Soda.tiles.fairness.tile.WithPTile
 import Soda.tiles.fairness.tile.ZipTile
 
 /**
- * This pipeline check unbiasedness for a give scenario.
+ * This pipeline checks unbiasedness for a given scenario.
  */
 
 class UnbiasednessPipeline

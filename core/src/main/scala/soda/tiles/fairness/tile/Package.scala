@@ -390,7 +390,7 @@ import Soda.tiles.fairness.tile.AttributePTile
 */
 
 /**
- * This tile is a particular case of an 'AttributePTile', where the attribute is 'need'.
+ * This tile is a particular case of an 'AttributePTile', where the attribute is 'needed'.
  */
 
 trait NeededPTile
@@ -454,7 +454,7 @@ import Soda.tiles.fairness.tool.TileMessage
 
 /**
  * This tile takes a sequence of actors as input and returns a sequence containing, for each
- * actor in the input sequence, a measure amounting the value of all the resources given that
+ * actor in the input sequence, a measure amounting the value of all the resources given to that
  * actor. This tile requires a function to count multiple resources, and another function that
  * informs the value of each resource.
  */
@@ -502,7 +502,7 @@ import Soda.tiles.fairness.tile.AttributePTile
 
 /**
  * This tile is a particular case of an 'AttributePTile', where the attribute is the 'result'.
- * This tile is used to contrast actual results to predicted results.
+ * This tile is used to contrast obtained results to predicted results.
  */
 
 trait ResultPTile

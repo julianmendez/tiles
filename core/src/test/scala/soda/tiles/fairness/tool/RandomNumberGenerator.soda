@@ -41,6 +41,11 @@ class LinearCongruentialGenerator
 
 end
 
+
+/**
+ * This generates pseudorandom numbers based on a seed.
+ */
+
 class Random
   extends
     RandomNumberGenerator
