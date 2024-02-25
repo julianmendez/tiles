@@ -53,12 +53,23 @@ lazy val core =
       assembly / assemblyJarName := "core-" + version.value + ".jar"
     )
 
+lazy val examples =
+  project
+    .withId("examples")
+    .in(file("examples"))
+    .aggregate(core)
+    .dependsOn(core)
+    .settings(
+      commonSettings,
+      assembly / assemblyJarName := "examples-" + version.value + ".jar"
+    )
+
 lazy val root =
   project
     .withId("tiles")
     .in(file("."))
-    .aggregate(docs, core)
-    .dependsOn(docs, core)
+    .aggregate(docs, core, examples)
+    .dependsOn(docs, core, examples)
     .settings(
       commonSettings,
       assembly / assemblyJarName := "tiles-" + version.value + ".jar"
