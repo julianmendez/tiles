@@ -32,7 +32,7 @@ import
   soda.tiles.fairness.tile.UnzipTripleTrdTile
   soda.tiles.fairness.tile.WithPTile
   soda.tiles.fairness.tile.ZipTile
-  soda.tiles.fairness.pipeline.EqualityTile
-  soda.tiles.fairness.pipeline.EquityTile
-  soda.tiles.fairness.pipeline.UnbiasednessTile
+  soda.tiles.fairness.pipeline.EqualityPipeline
+  soda.tiles.fairness.pipeline.EquityPipeline
+  soda.tiles.fairness.pipeline.UnbiasednessPipeline
 

@@ -14,7 +14,7 @@ import Soda.tiles.fairness.tile.ZipTile
  * satisfies their needs, and 'false' otherwise.
  */
 
-class EquityTile
+class EquityPipeline
 
   abstract
     sigma : Measure -> Measure -> Measure

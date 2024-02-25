@@ -1,5 +1,5 @@
 
-class UnbiasednessTileSpec ()
+class UnbiasednessPipelineSpec ()
   extends
     AnyFunSuite
 
@@ -8,8 +8,8 @@ class UnbiasednessTileSpec ()
 
   ex = ScoringScenarioExample .mk
 
-  unbiasedness_tile =
-    UnbiasednessTile .mk (
+  unbiasedness_pipeline =
+    UnbiasednessPipeline .mk (
       ex .evaluation) (
       ex .result_function) (
       ex .protected_attribute_function) (
@@ -17,14 +17,14 @@ class UnbiasednessTileSpec ()
     )
 
   get_coefficient (message : TileMessage [Boolean] ) : TileMessage [Measure] =
-    unbiasedness_tile .get_correlation_plumbing (
-      unbiasedness_tile .all_actor_triple_tile .apply (message)
+    unbiasedness_pipeline .get_correlation_plumbing (
+      unbiasedness_pipeline .all_actor_triple_tile .apply (message)
     )
 
 
   test ("unbiasedness on unbiased sample") (
     check (
-      obtained := unbiasedness_tile .apply (ex .initial_unbiased) .contents
+      obtained := unbiasedness_pipeline .apply (ex .initial_unbiased) .contents
     ) (
       expected := true
     )
@@ -32,7 +32,7 @@ class UnbiasednessTileSpec ()
 
   test ("unbiasedness on biased sample") (
     check (
-      obtained := unbiasedness_tile .apply (ex .initial_biased) .contents
+      obtained := unbiasedness_pipeline .apply (ex .initial_biased) .contents
     ) (
       expected := false
     )

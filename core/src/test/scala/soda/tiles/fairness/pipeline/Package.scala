@@ -16,7 +16,7 @@ import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.Random
 
-case class EqualityTileSpec ()
+case class EqualityPipelineSpec ()
   extends
     AnyFunSuite
 {
@@ -26,11 +26,11 @@ case class EqualityTileSpec ()
 
   lazy val example = ResourceAllocationScenarioExample .mk
 
-  lazy val equality_tile = EqualityTile .mk (example .measure_sum) (example .resource_height)
+  lazy val equality_pipeline = EqualityPipeline .mk (example .measure_sum) (example .resource_height)
 
   test ("equality on outcome 0") (
     check (
-      obtained = equality_tile .apply (example .initial0) .contents
+      obtained = equality_pipeline .apply (example .initial0) .contents
     ) (
       expected = false
     )
@@ -38,7 +38,7 @@ case class EqualityTileSpec ()
 
   test ("equality on outcome 1") (
     check (
-      obtained = equality_tile .apply (example .initial1) .contents
+      obtained = equality_pipeline .apply (example .initial1) .contents
     ) (
       expected = true
     )
@@ -46,7 +46,7 @@ case class EqualityTileSpec ()
 
   test ("equality on outcome 2") (
     check (
-      obtained = equality_tile .apply (example .initial2) .contents
+      obtained = equality_pipeline .apply (example .initial2) .contents
     ) (
       expected = true
     )
@@ -54,7 +54,7 @@ case class EqualityTileSpec ()
 
   test ("equality on outcome 3") (
     check (
-      obtained = equality_tile .apply (example .initial3) .contents
+      obtained = equality_pipeline .apply (example .initial3) .contents
     ) (
       expected = true
     )
@@ -63,7 +63,7 @@ case class EqualityTileSpec ()
 }
 
 
-case class EquityTileSpec ()
+case class EquityPipelineSpec ()
   extends
     AnyFunSuite
 {
@@ -73,12 +73,12 @@ case class EquityTileSpec ()
 
   lazy val example = ResourceAllocationScenarioExample .mk
 
-  lazy val equity_tile =
-    EquityTile .mk (example .measure_sum) (example .actor_need) (example .resource_height)
+  lazy val equity_pipeline =
+    EquityPipeline .mk (example .measure_sum) (example .actor_need) (example .resource_height)
 
   test ("equity on outcome 0") (
     check (
-      obtained = equity_tile .apply (example .initial0) .contents
+      obtained = equity_pipeline .apply (example .initial0) .contents
     ) (
       expected = true
     )
@@ -86,7 +86,7 @@ case class EquityTileSpec ()
 
   test ("equity on outcome 1") (
     check (
-      obtained = equity_tile .apply (example .initial1) .contents
+      obtained = equity_pipeline .apply (example .initial1) .contents
     ) (
       expected = false
     )
@@ -94,7 +94,7 @@ case class EquityTileSpec ()
 
   test ("equity on outcome 2") (
     check (
-      obtained = equity_tile .apply (example .initial2) .contents
+      obtained = equity_pipeline .apply (example .initial2) .contents
     ) (
       expected = false
     )
@@ -102,7 +102,7 @@ case class EquityTileSpec ()
 
   test ("equity on outcome 3") (
     check (
-      obtained = equity_tile .apply (example .initial3) .contents
+      obtained = equity_pipeline .apply (example .initial3) .contents
     ) (
       expected = true
     )
@@ -371,7 +371,7 @@ object ScoringScenarioExample {
 }
 
 
-case class UnbiasednessTileSpec ()
+case class UnbiasednessPipelineSpec ()
   extends
     AnyFunSuite
 {
@@ -381,8 +381,8 @@ case class UnbiasednessTileSpec ()
 
   lazy val ex = ScoringScenarioExample .mk
 
-  lazy val unbiasedness_tile =
-    UnbiasednessTile .mk (
+  lazy val unbiasedness_pipeline =
+    UnbiasednessPipeline .mk (
       ex .evaluation) (
       ex .result_function) (
       ex .protected_attribute_function) (
@@ -390,13 +390,13 @@ case class UnbiasednessTileSpec ()
     )
 
   def get_coefficient (message : TileMessage [Boolean] ) : TileMessage [Measure] =
-    unbiasedness_tile .get_correlation_plumbing (
-      unbiasedness_tile .all_actor_triple_tile .apply (message)
+    unbiasedness_pipeline .get_correlation_plumbing (
+      unbiasedness_pipeline .all_actor_triple_tile .apply (message)
     )
 
   test ("unbiasedness on unbiased sample") (
     check (
-      obtained = unbiasedness_tile .apply (ex .initial_unbiased) .contents
+      obtained = unbiasedness_pipeline .apply (ex .initial_unbiased) .contents
     ) (
       expected = true
     )
@@ -404,7 +404,7 @@ case class UnbiasednessTileSpec ()
 
   test ("unbiasedness on biased sample") (
     check (
-      obtained = unbiasedness_tile .apply (ex .initial_biased) .contents
+      obtained = unbiasedness_pipeline .apply (ex .initial_biased) .contents
     ) (
       expected = false
     )

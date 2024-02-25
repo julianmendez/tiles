@@ -55,7 +55,7 @@ import Soda.tiles.fairness.tile.ReceivedSigmaPTile
  * value, and 'false' otherwise.
  */
 
-trait EqualityTile
+trait EqualityPipeline
 {
 
   def   sigma : Measure => Measure => Measure
@@ -76,11 +76,11 @@ trait EqualityTile
 
 }
 
-case class EqualityTile_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure) extends EqualityTile
+case class EqualityPipeline_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure) extends EqualityPipeline
 
-object EqualityTile {
-  def mk (sigma : Measure => Measure => Measure) (p_utility : Resource => Measure) : EqualityTile =
-    EqualityTile_ (sigma, p_utility)
+object EqualityPipeline {
+  def mk (sigma : Measure => Measure => Measure) (p_utility : Resource => Measure) : EqualityPipeline =
+    EqualityPipeline_ (sigma, p_utility)
 }
 
 
@@ -100,7 +100,7 @@ import Soda.tiles.fairness.tile.ZipTile
  * satisfies their needs, and 'false' otherwise.
  */
 
-trait EquityTile
+trait EquityPipeline
 {
 
   def   sigma : Measure => Measure => Measure
@@ -142,11 +142,11 @@ trait EquityTile
 
 }
 
-case class EquityTile_ (sigma : Measure => Measure => Measure, p0_need : Actor => Measure, p1_utility : Resource => Measure) extends EquityTile
+case class EquityPipeline_ (sigma : Measure => Measure => Measure, p0_need : Actor => Measure, p1_utility : Resource => Measure) extends EquityPipeline
 
-object EquityTile {
-  def mk (sigma : Measure => Measure => Measure) (p0_need : Actor => Measure) (p1_utility : Resource => Measure) : EquityTile =
-    EquityTile_ (sigma, p0_need, p1_utility)
+object EquityPipeline {
+  def mk (sigma : Measure => Measure => Measure) (p0_need : Actor => Measure) (p1_utility : Resource => Measure) : EquityPipeline =
+    EquityPipeline_ (sigma, p0_need, p1_utility)
 }
 
 
@@ -170,7 +170,7 @@ import Soda.tiles.fairness.tile.ZipTile
  * This pipeline check unbiasedness for a give scenario.
  */
 
-trait UnbiasednessTile
+trait UnbiasednessPipeline
 {
 
   def   p0_evaluation : Resource => Measure
@@ -235,10 +235,10 @@ trait UnbiasednessTile
 
 }
 
-case class UnbiasednessTile_ (p0_evaluation : Resource => Measure, p1_result : Actor => Measure, p2_with_p : Actor => Measure, p3_acceptable_bias : Measure) extends UnbiasednessTile
+case class UnbiasednessPipeline_ (p0_evaluation : Resource => Measure, p1_result : Actor => Measure, p2_with_p : Actor => Measure, p3_acceptable_bias : Measure) extends UnbiasednessPipeline
 
-object UnbiasednessTile {
-  def mk (p0_evaluation : Resource => Measure) (p1_result : Actor => Measure) (p2_with_p : Actor => Measure) (p3_acceptable_bias : Measure) : UnbiasednessTile =
-    UnbiasednessTile_ (p0_evaluation, p1_result, p2_with_p, p3_acceptable_bias)
+object UnbiasednessPipeline {
+  def mk (p0_evaluation : Resource => Measure) (p1_result : Actor => Measure) (p2_with_p : Actor => Measure) (p3_acceptable_bias : Measure) : UnbiasednessPipeline =
+    UnbiasednessPipeline_ (p0_evaluation, p1_result, p2_with_p, p3_acceptable_bias)
 }
 
