@@ -1,4 +1,4 @@
-package soda.tiles.fairness.tile
+package soda.tiles.fairness.pipeline
 
 /*
  * This package contains tests for the classes to model a resource allocation scenario.
@@ -7,20 +7,14 @@ package soda.tiles.fairness.tile
 import   org.scalatest.funsuite.AnyFunSuite
 import   soda.tiles.fairness.tool.Actor
 import   soda.tiles.fairness.tool.Assignment
-import   soda.tiles.fairness.tool.Assignment_
 import   soda.tiles.fairness.tool.Context
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Outcome
-import   soda.tiles.fairness.tool.Outcome_
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
-import   soda.tiles.fairness.tool.TileMessage_
 import   soda.tiles.fairness.tool.TileMessageBuilder
-import   soda.tiles.fairness.tool.TileMessageBuilder_
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.Random
-import   soda.tiles.fairness.tool.Random_
 
 case class EqualityTileSpec ()
   extends

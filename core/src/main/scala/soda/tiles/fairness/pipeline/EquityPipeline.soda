@@ -21,7 +21,7 @@ class EquityTile
     p0_need : Actor -> Measure
     p1_utility : Resource -> Measure
 
-  at_least_tile = AtLeastTile .mk
+  at_least_tile = AllAtLeastTile .mk
 
   received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p1_utility)
 

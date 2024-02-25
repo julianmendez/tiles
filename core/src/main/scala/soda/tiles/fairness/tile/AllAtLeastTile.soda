@@ -9,7 +9,7 @@ import Soda.tiles.fairness.tool.TileMessage
  * 'false'.
  */
 
-class AtLeastTile
+class AllAtLeastTile
 
   abstract
 
