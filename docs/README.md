@@ -56,8 +56,8 @@ received-σ-p --- all-equal;
 graph LR;
 all-actor --- received-σ-p;
 all-actor --- needed-p;
-received-σ-p --- at-least;
-needed-p ---  at-least;
+received-σ-p --- all-at-least;
+needed-p ---  all-at-least;
 ```
 
 
@@ -65,16 +65,16 @@ needed-p ---  at-least;
 
 These are some of the implemented fairness tiles for scoring scenarios:
 
-| Tile                                             | Class                                                                                                                                        |
-|:-------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------|
-| all-actor <sub>*(a0, a1, a2)*</sub>              | [AllActorTripleTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllActorTripleTile.soda) |
-| <sub>*(a)*</sub> prediction-p <sub>*(m)*</sub>   | [PredictionPTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/PredictionPTile.soda)       |
-| <sub>*(a)*</sub> result-p <sub>*(m)*</sub>       | [ResultPTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ResultPTile.soda)               |
-| <sub>*(m0, m1)*</sub> false-pos <sub>*(m)*</sub> | [FalsePosTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/FalsePosTile.soda)             |
-| <sub>*(a)*</sub> with-p <sub>*(m)*</sub>         | [WithPTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/WithPTile.soda)                   |
-| <sub>*(m0, m1)*</sub> correlation <sub>*m*</sub> | [CorrelationTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/CorrelationTile.soda)       |
-| <sub>*m*</sub> decision <sub>*b*</sub>           | [DecisionTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/DecisionTile.soda)             |
-| unbiasedness <sub>*b*</sub>                      | [UnbiasednessTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/UnbiasednessPipeline.soda)     |
+| Tile                                             | Class                                                                                                                                                |
+|:-------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| all-actor <sub>*(a0, a1, a2)*</sub>              | [AllActorTripleTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllActorTripleTile.soda)         |
+| <sub>*(a)*</sub> prediction-p <sub>*(m)*</sub>   | [PredictionPTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/PredictionPTile.soda)               |
+| <sub>*(a)*</sub> result-p <sub>*(m)*</sub>       | [ResultPTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ResultPTile.soda)                       |
+| <sub>*(m0, m1)*</sub> false-pos <sub>*(m)*</sub> | [FalsePosTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/FalsePosTile.soda)                     |
+| <sub>*(a)*</sub> with-p <sub>*(m)*</sub>         | [WithPTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/WithPTile.soda)                           |
+| <sub>*(m0, m1)*</sub> correlation <sub>*m*</sub> | [CorrelationTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/CorrelationTile.soda)               |
+| <sub>*m*</sub> decision <sub>*b*</sub>           | [DecisionTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/DecisionTile.soda)                     |
+| unbiasedness <sub>*b*</sub>                      | [UnbiasednessPipeline](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/UnbiasednessPipeline.soda) |
 
 A specific scenario is given as an example in [ScoringScenarioExample](https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/ScoringScenarioExample.soda).
 This scenario is used to test the scoring scenario tile (unbiasedness with respect to false positives) with

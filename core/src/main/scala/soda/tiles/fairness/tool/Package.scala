@@ -288,7 +288,8 @@ object HelperTuple {
 }
 
 /**
- * The main function of this class compares two strings.
+ * The main purpose of this class is to compare two strings. It behaves similarly to the
+ * function `compareTo` provided by Scala.
  */
 
 trait StringComparator

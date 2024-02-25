@@ -1,4 +1,9 @@
 
+/**
+ * This is a scoring scenario. Twenty-six people have a protected attribute, and are considered
+ * for 'yes' or 'no' with respect to some unspecified query.
+ */
+
 class ScoringScenarioExample
 
   abstract

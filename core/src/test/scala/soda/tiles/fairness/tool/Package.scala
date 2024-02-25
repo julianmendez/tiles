@@ -66,6 +66,10 @@ object LinearCongruentialGenerator {
     LinearCongruentialGenerator_ (modulus, multiplier, increment)
 }
 
+/**
+ * This generates pseudorandom numbers based on a seed.
+ */
+
 trait Random
   extends
     RandomNumberGenerator

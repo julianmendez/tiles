@@ -111,6 +111,11 @@ case class EquityPipelineSpec ()
 }
 
 
+/**
+ * This is a resource allocation scenario. There are three people of different heights. The may
+ * need boxes to stand on them and to watch above a wall.
+ */
+
 trait ResourceAllocationScenarioExample
 {
 
@@ -217,6 +222,11 @@ object ResourceAllocationScenarioExample {
     ResourceAllocationScenarioExample_ ()
 }
 
+
+/**
+ * This is a scoring scenario. Twenty-six people have a protected attribute, and are considered
+ * for 'yes' or 'no' with respect to some unspecified query.
+ */
 
 trait ScoringScenarioExample
 {
