@@ -1,4 +1,9 @@
 
+/**
+ * This is a resource allocation scenario. There are three people of different heights. The may
+ * need boxes to stand on them and to watch above a wall.
+ */
+
 class ResourceAllocationScenarioExample
 
   abstract

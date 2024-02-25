@@ -52,7 +52,7 @@ import Soda.tiles.fairness.tile.ReceivedSigmaPTile
 
 /**
  * This pipeline returns 'true' when all the actors in the input receive a resource of the
- * value, and 'false' otherwise.
+ * same value, and 'false' otherwise.
  */
 
 trait EqualityPipeline
@@ -167,7 +167,7 @@ import Soda.tiles.fairness.tile.ZipTile
 */
 
 /**
- * This pipeline check unbiasedness for a give scenario.
+ * This pipeline checks unbiasedness for a given scenario.
  */
 
 trait UnbiasednessPipeline
