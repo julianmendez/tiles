@@ -17,11 +17,29 @@ class ChildCareSubsidyScenarioExample
 
   actor2 = "family C"
 
+  _add_value_to (value : Int) (m : Measure) : Measure =
+    match m
+      case Some (other_value) ==> Some (value + other_value)
+      case None ==> None
+
+  measure_sum (a : Measure) (b : Measure) : Measure =
+    match a
+      case Some (value) ==> _add_value_to (value) (b)
+      case None ==> None
+
+  get_or_else [A : Type] (map : Map [A] [Measure] ) (key : A) (default : Measure) : Measure =
+    match map .get (key)
+      case Some (value) ==> value
+      case None ==> default
+
   actor_children_map : Map [Actor] [Measure] = Seq (
     Tuple2 [Actor] [Measure] (actor0 , Some (2) ) ,
     Tuple2 [Actor] [Measure] (actor1 , Some (3) ) ,
     Tuple2 [Actor] [Measure] (actor2 , Some (1) )
   ) .toMap
+
+  actor_children (actor : Actor) : Measure =
+    get_or_else [Actor] (actor_children_map) (actor) (Some (-1) )
 
   actor_adults_map : Map [Actor] [Measure] = Seq (
     Tuple2 [Actor] [Measure] (actor0 , Some (2) ) ,
@@ -29,11 +47,27 @@ class ChildCareSubsidyScenarioExample
     Tuple2 [Actor] [Measure] (actor2 , Some (2) )
   ) .toMap
 
+  actor_adults (actor : Actor) : Measure =
+    get_or_else [Actor] (actor_adults_map) (actor) (Some (-1) )
+
   actor_income_map : Map [Actor] [Measure] = Seq (
     Tuple2 [Actor] [Measure] (actor0 , Some (5000) ) ,
     Tuple2 [Actor] [Measure] (actor1 , Some (3000) ) ,
     Tuple2 [Actor] [Measure] (actor2 , Some (800) )
   ) .toMap
+
+  actor_income (actor : Actor) : Measure =
+    get_or_else [Actor] (actor_income_map) (actor) (Some (-1) )
+
+  resource_value_map : Map [Resource] [Measure] = Seq (
+    Tuple2 [Resource] [Measure] (resource0 , Some (0) ) ,
+    Tuple2 [Resource] [Measure] (resource1 , Some (100) ) ,
+    Tuple2 [Resource] [Measure] (resource2 , Some (200) ) ,
+    Tuple2 [Resource] [Measure] (resource3 , Some (300) )
+  ) .toMap
+
+  resource_value (resource : Resource) : Measure =
+    get_or_else [Resource] (resource_value_map) (resource) (Some (-1) )
 
   context = "context"
 
@@ -46,6 +80,9 @@ class ChildCareSubsidyScenarioExample
       )
     )
 
+  initial_no_subsidy : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome_no_subsidy) (true)
+
   outcome_per_family_0 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
@@ -54,6 +91,9 @@ class ChildCareSubsidyScenarioExample
         Assignment .mk (actor2) (resource1)
       )
     )
+
+  initial_per_family_0 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome_per_family_0) (true)
 
   outcome_per_family_1 : Outcome =
     Outcome .mk (
@@ -64,6 +104,9 @@ class ChildCareSubsidyScenarioExample
       )
     )
 
+  initial_per_family_1 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome_per_family_1) (true)
+
   outcome_single_guardian : Outcome =
     Outcome .mk (
       Seq [Assignment] (
@@ -72,6 +115,9 @@ class ChildCareSubsidyScenarioExample
         Assignment .mk (actor2) (resource0)
       )
     )
+
+  initial_single_guardian : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome_single_guardian) (true)
 
   outcome_per_child : Outcome =
     Outcome .mk (
@@ -82,6 +128,9 @@ class ChildCareSubsidyScenarioExample
       )
     )
 
+  initial_per_child : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome_per_child) (true)
+
   outcome_decreasing_on_income_0 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
@@ -90,6 +139,9 @@ class ChildCareSubsidyScenarioExample
         Assignment .mk (actor2) (resource2)
       )
     )
+
+  initial_decreasing_on_income_0 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome_decreasing_on_income_0) (true)
 
   outcome_decreasing_on_income_1 : Outcome =
     Outcome .mk (
@@ -100,6 +152,9 @@ class ChildCareSubsidyScenarioExample
       )
     )
 
+  initial_decreasing_on_income_1 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome_decreasing_on_income_1) (true)
+
   outcome_decreasing_per_child : Outcome =
     Outcome .mk (
       Seq [Assignment] (
@@ -109,29 +164,23 @@ class ChildCareSubsidyScenarioExample
       )
     )
 
-  initial_no_subsidy : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (context) (outcome_no_subsidy) (true)
-
-  initial_per_family_0 : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (context) (outcome_per_family_0) (true)
-
-  initial_per_family_1 : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (context) (outcome_per_family_1) (true)
-
-  initial_single_guardian : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (context) (outcome_single_guardian) (true)
-
-  initial_per_child : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (context) (outcome_per_child) (true)
-
-  initial_decreasing_on_income_0 : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (context) (outcome_decreasing_on_income_0) (true)
-
-  initial_decreasing_on_income_1 : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (context) (outcome_decreasing_on_income_1) (true)
-
   initial_decreasing_per_child : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (context) (outcome_decreasing_per_child) (true)
+
+  all_cases : Seq [TileMessage [Boolean] ] =
+    Seq (
+      initial_no_subsidy ,
+      initial_per_family_0 ,
+      initial_per_family_1 ,
+      initial_single_guardian ,
+      initial_per_child ,
+      initial_decreasing_on_income_0 ,
+      initial_decreasing_on_income_1 ,
+      initial_decreasing_per_child
+    )
+
+
+
 
 end
 
