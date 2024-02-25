@@ -10,7 +10,7 @@ import Soda.tiles.fairness.tile.ReceivedSigmaPTile
  * value, and 'false' otherwise.
  */
 
-class EqualityTile
+class EqualityPipeline
 
   abstract
     sigma : Measure -> Measure -> Measure

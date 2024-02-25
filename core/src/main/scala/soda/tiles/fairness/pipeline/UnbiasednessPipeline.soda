@@ -17,7 +17,7 @@ import Soda.tiles.fairness.tile.ZipTile
  * This pipeline check unbiasedness for a give scenario.
  */
 
-class UnbiasednessTile
+class UnbiasednessPipeline
 
   abstract
     p0_evaluation : Resource -> Measure
