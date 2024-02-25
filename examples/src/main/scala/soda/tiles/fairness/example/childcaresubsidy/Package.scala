@@ -15,10 +15,12 @@ import   soda.tiles.fairness.tile.AllActorTripleTile
 import   soda.tiles.fairness.tile.AllAtLeastTile
 import   soda.tiles.fairness.tile.AllEqual1Tile
 import   soda.tiles.fairness.tile.AllEqualTile
+import   soda.tiles.fairness.tile.AllSatisfyPTile
 import   soda.tiles.fairness.tile.AttributePTile
 import   soda.tiles.fairness.tile.CorrelationTile
 import   soda.tiles.fairness.tile.DecisionTile
 import   soda.tiles.fairness.tile.FalsePosTile
+import   soda.tiles.fairness.tile.MapPTile
 import   soda.tiles.fairness.tile.NeededPTile
 import   soda.tiles.fairness.tile.PredictionPTile
 import   soda.tiles.fairness.tile.ReceivedSigmaPTile
@@ -45,14 +47,20 @@ trait CcsNoSubsidyPipeline
   def   sigma : Measure => Measure => Measure
   def   p_utility : Resource => Measure
 
-  lazy val all_equal_tile = AllEqualTile .mk
+  def is_equals_0 (measure : Measure) : Boolean =
+    measure match  {
+      case Some (0) => true
+      case otherwise => false
+    }
+
+  lazy val all_satisfy_p_tile = AllSatisfyPTile .mk (is_equals_0)
 
   lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
 
   lazy val all_actor_tile = AllActorTile .mk
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    all_equal_tile .apply (
+    all_satisfy_p_tile .apply (
       received_sigma_p_tile .apply (
         all_actor_tile .apply (message)
       )
@@ -68,7 +76,7 @@ object CcsNoSubsidyPipeline {
 }
 
 
-trait CcsPerFamily
+trait CcsPerFamilyPipeline
 {
 
   def   sigma : Measure => Measure => Measure
@@ -89,10 +97,10 @@ trait CcsPerFamily
 
 }
 
-case class CcsPerFamily_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure) extends CcsPerFamily
+case class CcsPerFamilyPipeline_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure) extends CcsPerFamilyPipeline
 
-object CcsPerFamily {
-  def mk (sigma : Measure => Measure => Measure) (p_utility : Resource => Measure) : CcsPerFamily =
-    CcsPerFamily_ (sigma, p_utility)
+object CcsPerFamilyPipeline {
+  def mk (sigma : Measure => Measure => Measure) (p_utility : Resource => Measure) : CcsPerFamilyPipeline =
+    CcsPerFamilyPipeline_ (sigma, p_utility)
 }
 

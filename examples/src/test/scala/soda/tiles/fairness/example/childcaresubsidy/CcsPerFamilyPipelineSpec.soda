@@ -11,7 +11,7 @@ class CcsPerFamilyPipelineSpec ()
   all_cases = _mm .all_cases
 
   no_subsidy_pipeline =
-    CcsNoSubsidyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+    CcsPerFamilyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
 
   test ("per family on all outcomes") (
     check (
