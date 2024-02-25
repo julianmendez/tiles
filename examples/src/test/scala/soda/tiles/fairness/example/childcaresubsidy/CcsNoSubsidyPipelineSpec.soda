@@ -1,0 +1,28 @@
+
+class CcsNoSubsidyPipelineSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  _mm = ChildCareSubsidyScenarioExample .mk
+
+  all_cases = _mm .all_cases
+
+  no_subsidy_pipeline =
+    CcsNoSubsidyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+
+  test ("no subsidy on all outcomes") (
+    check (
+      obtained := all_cases
+        .map (lambda scenario -->
+          no_subsidy_pipeline .apply (scenario) .contents
+        )
+    ) (
+      expected := Seq (true , true , true , false , false , false , false , false)
+    )
+  )
+
+end
+

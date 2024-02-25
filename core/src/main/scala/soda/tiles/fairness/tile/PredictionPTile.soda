@@ -1,0 +1,28 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+
+
+/**
+ * This tile is a particular case of a 'ReceivedSigmaPTile' where the resource is a prediction
+ * score.
+ */
+
+class PredictionPTile
+
+  abstract
+    p : Resource -> Measure
+
+  _measure_zero : Measure = Some (0)
+
+  measure_or (m0 : Measure) (m1 : Measure) : Measure =
+    if (m0 == _measure_zero)
+    then m1
+    else m0
+
+  apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+    (ReceivedSigmaPTile .mk (measure_or) (p) ) .apply (message)
+
+end
+

@@ -1,0 +1,58 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AtLeastTile
+import Soda.tiles.fairness.tile.NeededPTile
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.UnzipPairFstTile
+import Soda.tiles.fairness.tile.UnzipPairSndTile
+import Soda.tiles.fairness.tile.ZipTile
+
+
+/**
+ * This pipeline returns 'true' when all the actors in the input receive a resource that
+ * satisfies their needs, and 'false' otherwise.
+ */
+
+class EquityTile
+
+  abstract
+    sigma : Measure -> Measure -> Measure
+    p0_need : Actor -> Measure
+    p1_utility : Resource -> Measure
+
+  at_least_tile = AllAtLeastTile .mk
+
+  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p1_utility)
+
+  needed_p_tile = NeededPTile .mk (p0_need)
+
+  all_actor_pair_tile = AllActorPairTile .mk
+
+  unzip_fst_tile = UnzipPairFstTile .mk
+
+  unzip_snd_tile = UnzipPairSndTile .mk
+
+  zip_tile = ZipTile .mk
+
+  get_branch_0 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    received_sigma_p_tile .apply (unzip_fst_tile .apply (message) )
+
+  get_branch_1 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    needed_p_tile .apply (unzip_snd_tile .apply (message) )
+
+  zip_branches (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Seq [TilePair [Measure] [Measure] ] ] =
+    zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    at_least_tile .apply (
+      zip_branches (
+        all_actor_pair_tile .apply (message)
+      )
+    )
+
+end
+

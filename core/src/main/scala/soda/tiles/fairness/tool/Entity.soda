@@ -1,0 +1,89 @@
+
+directive lean
+import Soda.tiles.fairness.tool.StringComparator
+
+
+class Identifier = String
+
+
+class Actor = Identifier
+
+
+class Resource = Identifier
+
+
+class Context = Identifier
+
+
+class Measure = Option [Int]
+
+
+class Assignment
+
+  abstract
+    actor : Actor
+    resource : Resource
+
+end
+
+
+class Outcome
+
+  abstract
+    assignments : Seq [Assignment]
+
+end
+
+
+/**
+ * This class contains functions to compare different types of objects.
+ */
+
+class Comparator
+
+  abstract
+
+  directive lean
+  def compareString (string0 : String) (string1 : String) : Int :=
+    StringComparator.compare (string0) (string1)
+
+  directive scala
+  def compareString (string0 : String) (string1 : String) : Int =
+    StringComparator.mk.compare (string0) (string1)
+
+  compareIdentifier (identifier0 : Identifier) (identifier1 : Identifier) : Int =
+    compareString (identifier0) (identifier1)
+
+  compareActor (actor0 : Actor) (actor1 : Actor) : Int =
+    compareIdentifier (actor0) (actor1)
+
+  compareResource (resource0 : Resource) (resource1 : Resource) : Int =
+    compareIdentifier (resource0) (resource1)
+
+  compareContext (context0 : Context) (context1 : Context) : Int =
+    compareIdentifier (context0) (context1)
+
+  _compareNone (measure : Measure) : Int =
+    match measure
+      case Some (value) ==> -1
+      case None ==> 0
+
+  _compareSome (value : Int) (measure : Measure) : Int =
+    match measure
+      case Some (other_value) ==> value - other_value
+      case None ==> 1
+
+  compareMeasure (measure0 : Measure) (measure1 : Measure) : Int =
+    match measure0
+      case Some (value) ==> _compareSome (value) (measure1)
+      case None ==> _compareNone (measure1)
+
+  compareAssignment (assignment0 : Assignment) (assignment1 : Assignment) : Int =
+    if assignment0 .actor == assignment1 .actor
+    then compareResource (assignment0 .resource) (assignment1 .resource)
+    else compareActor (assignment0 .actor) (assignment1 .actor)
+
+end
+
+
+

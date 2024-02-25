@@ -1,0 +1,20 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AttributePTile
+
+
+/**
+ * This tile is a particular case of a 'AttributePTile', that projects given property.
+ */
+
+class WithPTile
+
+  abstract
+    p : Actor -> Measure
+
+  apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+    AttributePTile .mk (p) .apply (message)
+
+end
+

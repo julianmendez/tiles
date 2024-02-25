@@ -1,0 +1,25 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns a sequence of pairs containing the same actor, sorted by actor, where each
+ * pair of actors occurs exactly once.
+ */
+
+class AllActorPairTile
+
+  abstract
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor] [Actor] ] ] =
+    TileMessageBuilder .mk .build (
+      message .context) (message .outcome) ( ( (message .outcome) .assignments)
+        .map (lambda assignment --> assignment .actor)
+        .distinct
+        .sorted
+        .map (lambda actor --> TilePair .mk (actor) (actor) )
+    )
+
+end
+

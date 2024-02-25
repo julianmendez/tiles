@@ -1,0 +1,69 @@
+
+
+class HelperTuple
+
+  abstract
+    comparison : Int
+    remaining : Seq [Char]
+
+end
+
+
+/**
+ * The main function of this class compares two strings.
+ */
+
+class StringComparator
+
+  abstract
+
+  it_is_greater : Int = 1
+
+  it_is_less : Int = -1
+
+  they_are_equal : Int = 0
+
+  _tailrec_foldl_while [A : Type] [B : Type] (sequence : Seq [A] ) (current : B)
+      (next : B -> A -> B) (condition : B -> A -> Boolean) : B =
+    match sequence
+      case Nil ==> current
+      case (head) +: (tail) ==>
+        if (not (condition (current) (head) ) )
+        then current
+        else _tailrec_foldl_while [A] [B] (tail) (next (current) (head) ) (next) (condition)
+
+  _compare_char_seq (current_char : Char) (other_seq : Seq [Char] ) : HelperTuple =
+    match other_seq
+      case head +: tail ==>
+        if current_char < head
+        then HelperTuple .mk (it_is_less) (Nil)
+        else
+          if current_char > head
+          then HelperTuple .mk (it_is_greater) (Nil)
+          else HelperTuple .mk (they_are_equal) (tail)
+      case Nil ==> HelperTuple .mk (it_is_greater) (Nil)
+
+  _condition (other_seq_cmp : HelperTuple) (current_char : Char) : Boolean =
+    other_seq_cmp .comparison == they_are_equal
+
+  _next (other_seq_cmp : HelperTuple) (current_char : Char) : HelperTuple =
+    if other_seq_cmp .comparison == they_are_equal
+    then _compare_char_seq (current_char) (other_seq_cmp .remaining)
+    else other_seq_cmp
+
+  _interpret_comparison (result : HelperTuple) : Int =
+    match result .remaining
+      case head +: tail ==> it_is_less
+      case Nil ==> result .comparison
+
+  _compare_seq (seq0 : Seq [Char] ) (seq1 : Seq [Char] ) : Int =
+    _interpret_comparison (
+      _tailrec_foldl_while [Char] [HelperTuple] (seq0) (
+        HelperTuple .mk (they_are_equal) (seq1) ) (_next) (_condition)
+    )
+
+  compare (str0 : String) (str1 : String) : Int =
+    _compare_seq (str0 .toList) (str1 .toList)
+
+end
+
