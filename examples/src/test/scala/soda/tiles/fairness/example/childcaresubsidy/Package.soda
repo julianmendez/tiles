@@ -22,10 +22,12 @@ import
   soda.tiles.fairness.tile.AllAtLeastTile
   soda.tiles.fairness.tile.AllEqual1Tile
   soda.tiles.fairness.tile.AllEqualTile
+  soda.tiles.fairness.tile.AllSatisfyPTile
   soda.tiles.fairness.tile.AttributePTile
   soda.tiles.fairness.tile.CorrelationTile
   soda.tiles.fairness.tile.DecisionTile
   soda.tiles.fairness.tile.FalsePosTile
+  soda.tiles.fairness.tile.MapPTile
   soda.tiles.fairness.tile.NeededPTile
   soda.tiles.fairness.tile.PredictionPTile
   soda.tiles.fairness.tile.ReceivedSigmaPTile

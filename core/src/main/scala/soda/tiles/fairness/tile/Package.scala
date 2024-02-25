@@ -229,9 +229,40 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile takes a sequence of actors as input and returns the a sequence of measures, such
- * that,  each position in output sequence is the projection of an attribute for its respective
- * actor from the input.
+ * This tile takes a sequence of measures and returns 'true' when all the elements in the input
+ * satisfy a property.
+ */
+
+trait AllSatisfyPTile
+{
+
+  def   p : Measure => Boolean
+
+  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .forall ( actor => p (actor) ) )
+    )
+
+}
+
+case class AllSatisfyPTile_ (p : Measure => Boolean) extends AllSatisfyPTile
+
+object AllSatisfyPTile {
+  def mk (p : Measure => Boolean) : AllSatisfyPTile =
+    AllSatisfyPTile_ (p)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile takes a sequence of actors as input and returns the sequence of measures, such
+ * that, each position in the output sequence is the application of a function on the
+ * corresponding actor in the input.
  */
 
 trait AttributePTile
@@ -380,6 +411,37 @@ case class FalsePosTile_ () extends FalsePosTile
 object FalsePosTile {
   def mk : FalsePosTile =
     FalsePosTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile takes a sequence of measures as input and applies a function to each of the
+ * elements in the input, and return the result as output.
+ */
+
+trait MapPTile
+{
+
+  def   p : Measure => Measure
+
+  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .map ( measure => p (measure) ) )
+    )
+
+}
+
+case class MapPTile_ (p : Measure => Measure) extends MapPTile
+
+object MapPTile {
+  def mk (p : Measure => Measure) : MapPTile =
+    MapPTile_ (p)
 }
 
 

@@ -21,10 +21,12 @@ import   soda.tiles.fairness.tile.AllActorTripleTile
 import   soda.tiles.fairness.tile.AllAtLeastTile
 import   soda.tiles.fairness.tile.AllEqual1Tile
 import   soda.tiles.fairness.tile.AllEqualTile
+import   soda.tiles.fairness.tile.AllSatisfyPTile
 import   soda.tiles.fairness.tile.AttributePTile
 import   soda.tiles.fairness.tile.CorrelationTile
 import   soda.tiles.fairness.tile.DecisionTile
 import   soda.tiles.fairness.tile.FalsePosTile
+import   soda.tiles.fairness.tile.MapPTile
 import   soda.tiles.fairness.tile.NeededPTile
 import   soda.tiles.fairness.tile.PredictionPTile
 import   soda.tiles.fairness.tile.ReceivedSigmaPTile
@@ -67,7 +69,7 @@ case class CcsNoSubsidyPipelineSpec ()
           no_subsidy_pipeline .apply (scenario) .contents
         )
     ) (
-      expected = Seq (true , true , true , false , false , false , false , false)
+      expected = Seq (true , false , false , false , false , false , false , false)
     )
   )
 
@@ -87,7 +89,7 @@ case class CcsPerFamilyPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val no_subsidy_pipeline =
-    CcsNoSubsidyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+    CcsPerFamilyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
 
   test ("per family on all outcomes") (
     check (
