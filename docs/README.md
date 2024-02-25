@@ -38,7 +38,7 @@ These are some of the implemented fairness tiles for resource allocation scenari
 | equity <sub>*b*</sub>                                | [EquityPipeline](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/EquityPipeline.soda)         |
 
 A specific scenario is given as an example in [ResourceAllocationScenarioExample](https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/ResourceAllocationScenarioExample.soda).
-This scenario is used to test the equality tile with [EqualityPipelineSpec](https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EqualityPipelineSpec.soda) and the equity tile with [EquityTileSpec](https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/tile/EquityTileSpec.soda).
+This scenario is used to test the equality tile with [EqualityPipelineSpec](https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EqualityPipelineSpec.soda) and the equity tile with [EquityPipelineSpec](https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EquityPipelineSpec.soda).
 
 
 #### Equality
@@ -76,7 +76,7 @@ These are some of the implemented fairness tiles for scoring scenarios:
 | <sub>*m*</sub> decision <sub>*b*</sub>           | [DecisionTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/DecisionTile.soda)             |
 | unbiasedness <sub>*b*</sub>                      | [UnbiasednessTile](https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/UnbiasednessPipeline.soda)     |
 
-A specific scenario is given as an example in [ScoringScenarioExample](https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/tile/ScoringScenarioExample.soda).
+A specific scenario is given as an example in [ScoringScenarioExample](https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/ScoringScenarioExample.soda).
 This scenario is used to test the scoring scenario tile (unbiasedness with respect to false positives) with
 [UnbiasednessPipelineSpec](https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/UnbiasednessPipelineSpec.soda).
 

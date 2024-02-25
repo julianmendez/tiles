@@ -1,5 +1,5 @@
 
-class EquityTileSpec ()
+class EquityPipelineSpec ()
   extends
     AnyFunSuite
 
@@ -8,12 +8,12 @@ class EquityTileSpec ()
 
   example = ResourceAllocationScenarioExample .mk
 
-  equity_tile =
-    EquityTile .mk (example .measure_sum) (example .actor_need) (example .resource_height)
+  equity_pipeline =
+    EquityPipeline .mk (example .measure_sum) (example .actor_need) (example .resource_height)
 
   test ("equity on outcome 0") (
     check (
-      obtained := equity_tile .apply (example .initial0) .contents
+      obtained := equity_pipeline .apply (example .initial0) .contents
     ) (
       expected := true
     )
@@ -21,7 +21,7 @@ class EquityTileSpec ()
 
   test ("equity on outcome 1") (
     check (
-      obtained := equity_tile .apply (example .initial1) .contents
+      obtained := equity_pipeline .apply (example .initial1) .contents
     ) (
       expected := false
     )
@@ -29,7 +29,7 @@ class EquityTileSpec ()
 
   test ("equity on outcome 2") (
     check (
-      obtained := equity_tile .apply (example .initial2) .contents
+      obtained := equity_pipeline .apply (example .initial2) .contents
     ) (
       expected := false
     )
@@ -37,7 +37,7 @@ class EquityTileSpec ()
 
   test ("equity on outcome 3") (
     check (
-      obtained := equity_tile .apply (example .initial3) .contents
+      obtained := equity_pipeline .apply (example .initial3) .contents
     ) (
       expected := true
     )
