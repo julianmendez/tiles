@@ -1,0 +1,21 @@
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile takes a pair of boolean as input and returns a boolean according to the provided
+ * function.
+ */
+
+class CombineBooleanTile
+
+  abstract
+    combine : Boolean -> Boolean -> Boolean
+
+  apply (message : TileMessage [TilePair [Boolean] [Boolean] ] )
+      : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      combine (message .contents .fst) (message .contents .snd)
+    )
+
+end
