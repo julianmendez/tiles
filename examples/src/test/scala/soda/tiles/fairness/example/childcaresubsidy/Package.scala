@@ -105,6 +105,35 @@ case class CcsPerFamilyPipelineSpec ()
 }
 
 
+case class CcsSingleGuardianPipelineSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  private lazy val _mm = ChildCareSubsidyScenarioExample .mk
+
+  lazy val all_cases = _mm .all_cases
+
+  lazy val no_subsidy_pipeline =
+    CcsSingleGuardianPipeline .mk (_mm .measure_sum) (_mm .resource_value) (_mm .actor_adults)
+
+  test ("single guardian on all outcomes") (
+    check (
+      obtained = all_cases
+        .map ( scenario =>
+          no_subsidy_pipeline .apply (scenario) .contents
+        )
+    ) (
+      expected = Seq (true , false , false , true , false , false , false , false)
+    )
+  )
+
+}
+
+
 trait ChildCareSubsidyScenarioExample
 {
 

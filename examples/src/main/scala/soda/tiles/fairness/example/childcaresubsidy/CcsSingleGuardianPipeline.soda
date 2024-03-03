@@ -1,0 +1,74 @@
+
+class CcsSingleGuardianPipeline
+
+  abstract
+    sigma : Measure -> Measure -> Measure
+    p_utility : Resource -> Measure
+    adults : Actor -> Measure
+
+  is_equals_0 (measure : Measure) : Boolean =
+    match measure
+      case Some (0) ==> true
+      case otherwise ==> false
+
+  all_satisfy_p_tile = AllSatisfyPTile .mk (is_equals_0)
+
+  all_equal_tile = AllEqualTile .mk
+
+  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+
+  all_actor_tile = AllActorTile .mk
+
+  all_actor_pair_tile = AllActorPairTile .mk
+
+  unzip_fst_tile = UnzipPairFstTile .mk
+
+  unzip_snd_tile = UnzipPairSndTile .mk
+
+  and_combination (b0 : Boolean) (b1 : Boolean) : Boolean =
+    b0 and b1
+
+  and_tile = CombineBooleanTile .mk (and_combination)
+
+  atomic_zip_tile = AtomicZipTile .mk
+
+  condition_0 (a : Actor) : Boolean =
+    adults (a) .getOrElse (0) == 1
+
+  condition_1 (a : Actor) : Boolean =
+    adults (a) .getOrElse (0) > 1
+
+  filter_actor_tile_0 = FilterActorTile .mk (condition_0)
+
+  filter_actor_tile_1 = FilterActorTile .mk (condition_1)
+
+  get_branch_0 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Boolean] =
+    all_equal_tile .apply (
+      received_sigma_p_tile .apply (
+        filter_actor_tile_0 .apply (
+          unzip_fst_tile .apply (message)
+        )
+      )
+    )
+
+  get_branch_1 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Boolean] =
+    all_satisfy_p_tile .apply (
+      received_sigma_p_tile .apply (
+        filter_actor_tile_1 .apply (
+          unzip_snd_tile .apply (message)
+        )
+      )
+    )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    and_tile .apply (
+      atomic_zip_tile .apply (
+        get_branch_0 (all_actor_pair_tile .apply (message) )
+      ) (
+        get_branch_1 (all_actor_pair_tile .apply (message) )
+      )
+    )
+
+end
