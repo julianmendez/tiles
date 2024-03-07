@@ -21,10 +21,12 @@ import   soda.tiles.fairness.tile.AllActorTripleTile
 import   soda.tiles.fairness.tile.AllAtLeastTile
 import   soda.tiles.fairness.tile.AllEqual1Tile
 import   soda.tiles.fairness.tile.AllEqualTile
+import   soda.tiles.fairness.tile.AllSatisfyPTile
 import   soda.tiles.fairness.tile.AttributePTile
 import   soda.tiles.fairness.tile.CorrelationTile
 import   soda.tiles.fairness.tile.DecisionTile
 import   soda.tiles.fairness.tile.FalsePosTile
+import   soda.tiles.fairness.tile.MapPTile
 import   soda.tiles.fairness.tile.NeededPTile
 import   soda.tiles.fairness.tile.PredictionPTile
 import   soda.tiles.fairness.tile.ReceivedSigmaPTile
@@ -67,7 +69,36 @@ case class CcsNoSubsidyPipelineSpec ()
           no_subsidy_pipeline .apply (scenario) .contents
         )
     ) (
-      expected = Seq (true , true , true , false , false , false , false , false)
+      expected = Seq (true , false , false , false , false , false , false , false)
+    )
+  )
+
+}
+
+
+case class CcsPerChildPipelineSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  private lazy val _mm = ChildCareSubsidyScenarioExample .mk
+
+  lazy val all_cases = _mm .all_cases
+
+  lazy val per_child_pipeline =
+    CcsPerChildPipeline .mk (_mm .measure_sum) (_mm .actor_children) (_mm .resource_value)
+
+  test ("per child on all outcomes") (
+    check (
+      obtained = all_cases
+        .map ( scenario =>
+          per_child_pipeline .apply (scenario) .contents
+        )
+    ) (
+      expected = Seq (true , false , false , false , true , false , false , true)
     )
   )
 
@@ -86,17 +117,46 @@ case class CcsPerFamilyPipelineSpec ()
 
   lazy val all_cases = _mm .all_cases
 
-  lazy val no_subsidy_pipeline =
-    CcsNoSubsidyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+  lazy val per_family_pipeline =
+    CcsPerFamilyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
 
   test ("per family on all outcomes") (
     check (
       obtained = all_cases
         .map ( scenario =>
-          no_subsidy_pipeline .apply (scenario) .contents
+          per_family_pipeline .apply (scenario) .contents
         )
     ) (
       expected = Seq (true , true , true , false , false , false , false , false)
+    )
+  )
+
+}
+
+
+case class CcsSingleGuardianPipelineSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  private lazy val _mm = ChildCareSubsidyScenarioExample .mk
+
+  lazy val all_cases = _mm .all_cases
+
+  lazy val single_guardian_pipeline =
+    CcsSingleGuardianPipeline .mk (_mm .measure_sum) (_mm .resource_value) (_mm .actor_adults)
+
+  test ("single guardian on all outcomes") (
+    check (
+      obtained = all_cases
+        .map ( scenario =>
+          single_guardian_pipeline .apply (scenario) .contents
+        )
+    ) (
+      expected = Seq (true , false , false , true , false , false , false , false)
     )
   )
 

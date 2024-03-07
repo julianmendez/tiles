@@ -229,9 +229,70 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile takes a sequence of actors as input and returns the a sequence of measures, such
- * that,  each position in output sequence is the projection of an attribute for its respective
- * actor from the input.
+ * This tile takes a sequence of measures and returns 'true' when all the elements in the input
+ * satisfy a property.
+ */
+
+trait AllSatisfyPTile
+{
+
+  def   p : Measure => Boolean
+
+  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .forall ( actor => p (actor) ) )
+    )
+
+}
+
+case class AllSatisfyPTile_ (p : Measure => Boolean) extends AllSatisfyPTile
+
+object AllSatisfyPTile {
+  def mk (p : Measure => Boolean) : AllSatisfyPTile =
+    AllSatisfyPTile_ (p)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile connects two elements and returns a pair.
+ */
+
+trait AtomicZipTile
+{
+
+
+
+  def apply [A , B ] (message0 : TileMessage [A] )
+      (message1 : TileMessage [B] ) : TileMessage [TilePair [A, B] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      TilePair .mk (message0 .contents) (message1 .contents)
+    )
+
+}
+
+case class AtomicZipTile_ () extends AtomicZipTile
+
+object AtomicZipTile {
+  def mk : AtomicZipTile =
+    AtomicZipTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile takes a sequence of actors as input and returns the sequence of measures, such
+ * that, each position in the output sequence is the application of a function on the
+ * corresponding actor in the input.
  */
 
 trait AttributePTile
@@ -252,6 +313,37 @@ case class AttributePTile_ (p : Actor => Measure) extends AttributePTile
 object AttributePTile {
   def mk (p : Actor => Measure) : AttributePTile =
     AttributePTile_ (p)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile takes a pair of boolean as input and returns a boolean according to the provided
+ * function.
+ */
+
+trait CombineBooleanTile
+{
+
+  def   combine : Boolean => Boolean => Boolean
+
+  def apply (message : TileMessage [TilePair [Boolean, Boolean] ] )
+      : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      combine (message .contents .fst) (message .contents .snd)
+    )
+
+}
+
+case class CombineBooleanTile_ (combine : Boolean => Boolean => Boolean) extends CombineBooleanTile
+
+object CombineBooleanTile {
+  def mk (combine : Boolean => Boolean => Boolean) : CombineBooleanTile =
+    CombineBooleanTile_ (combine)
 }
 
 
@@ -380,6 +472,97 @@ case class FalsePosTile_ () extends FalsePosTile
 object FalsePosTile {
   def mk : FalsePosTile =
     FalsePosTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile returns a possibly empty sequence of actors that satisfy a given property.
+ */
+
+trait FilterActorTile
+{
+
+  def   p : Actor => Boolean
+
+  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Actor] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .filter ( actor => p (actor) ) )
+    )
+
+}
+
+case class FilterActorTile_ (p : Actor => Boolean) extends FilterActorTile
+
+object FilterActorTile {
+  def mk (p : Actor => Boolean) : FilterActorTile =
+    FilterActorTile_ (p)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile returns a possibly empty sequence of measures that satisfy a given property.
+ */
+
+trait FilterMeasureTile
+{
+
+  def   p : Measure => Boolean
+
+  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .filter ( measure => p (measure) ) )
+    )
+
+}
+
+case class FilterMeasureTile_ (p : Measure => Boolean) extends FilterMeasureTile
+
+object FilterMeasureTile {
+  def mk (p : Measure => Boolean) : FilterMeasureTile =
+    FilterMeasureTile_ (p)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile takes a sequence of measures as input and applies a function to each of the
+ * elements in the input, and return the result as output.
+ */
+
+trait MapPTile
+{
+
+  def   p : Measure => Measure
+
+  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .map ( measure => p (measure) ) )
+    )
+
+}
+
+case class MapPTile_ (p : Measure => Measure) extends MapPTile
+
+object MapPTile {
+  def mk (p : Measure => Measure) : MapPTile =
+    MapPTile_ (p)
 }
 
 

@@ -1,5 +1,5 @@
 
-class CcsPerFamily
+class CcsPerFamilyPipeline
 
   abstract
     sigma : Measure -> Measure -> Measure

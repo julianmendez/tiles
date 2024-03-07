@@ -5,14 +5,19 @@ class CcsNoSubsidyPipeline
     sigma : Measure -> Measure -> Measure
     p_utility : Resource -> Measure
 
-  all_equal_tile = AllEqualTile .mk
+  is_equals_0 (measure : Measure) : Boolean =
+    match measure
+      case Some (0) ==> true
+      case otherwise ==> false
+
+  all_satisfy_p_tile = AllSatisfyPTile .mk (is_equals_0)
 
   received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
 
   all_actor_tile = AllActorTile .mk
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    all_equal_tile .apply (
+    all_satisfy_p_tile .apply (
       received_sigma_p_tile .apply (
         all_actor_tile .apply (message)
       )

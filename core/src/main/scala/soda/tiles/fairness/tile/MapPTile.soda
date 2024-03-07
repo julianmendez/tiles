@@ -1,0 +1,22 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile takes a sequence of measures as input and applies a function to each of the
+ * elements in the input, and return the result as output.
+ */
+
+class MapPTile
+
+  abstract
+    p : Measure -> Measure
+
+  apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .map (lambda measure --> p (measure) ) )
+    )
+
+end
+

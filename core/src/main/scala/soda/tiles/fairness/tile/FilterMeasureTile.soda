@@ -1,0 +1,22 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns a possibly empty sequence of measures that satisfy a given property.
+ */
+
+class FilterMeasureTile
+
+  abstract
+    p : Measure -> Boolean
+
+  apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .filter (lambda measure --> p (measure) ) )
+    )
+
+end
+

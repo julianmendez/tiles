@@ -1,0 +1,77 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AtLeastTile
+import Soda.tiles.fairness.tile.NeededPTile
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.UnzipPairFstTile
+import Soda.tiles.fairness.tile.UnzipPairSndTile
+import Soda.tiles.fairness.tile.ZipTile
+
+
+/**
+ * This pipeline returns 'true' when all the actors in the input receive a resource that
+ * satisfies their needs, and 'false' otherwise.
+ */
+
+class CcsPerChildPipeline
+
+  abstract
+    sigma : Measure -> Measure -> Measure
+    children : Actor -> Measure
+    utility : Resource -> Measure
+
+  all_equal_tile = AllEqualTile .mk
+
+  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (utility)
+
+  children_tile = AttributePTile .mk (children)
+
+  all_actor_pair_tile = AllActorPairTile .mk
+
+  _division_with_2 (val0 : Int) (val1 : Int) : Measure =
+    if val1 == 0
+    then None
+    else Some (val0 / val1)
+
+  _division_with (val0 : Int) (m1 : Measure) : Measure =
+    match m1
+      case Some (val1) ==> _division_with_2 (val0) (val1)
+      case None ==> None
+
+  division (m0 : Measure) (m1 : Measure) : Measure =
+    match m0
+      case Some (val0) ==> _division_with (val0) (m1)
+      case None ==> None
+
+  division_tile = SigmaTile .mk (division)
+
+  unzip_fst_tile = UnzipPairFstTile .mk
+
+  unzip_snd_tile = UnzipPairSndTile .mk
+
+  zip_tile = ZipTile .mk
+
+  get_branch_0 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    received_sigma_p_tile .apply (unzip_fst_tile .apply (message) )
+
+  get_branch_1 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    children_tile .apply (unzip_snd_tile .apply (message) )
+
+  zip_branches (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+      : TileMessage [Seq [TilePair [Measure] [Measure] ] ] =
+    zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    all_equal_tile .apply (
+      division_tile .apply (
+        zip_branches (
+          all_actor_pair_tile .apply (message)
+        )
+      )
+    )
+
+end
+
