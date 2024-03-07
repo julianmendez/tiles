@@ -79,6 +79,93 @@ object CcsNoSubsidyPipeline {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AtLeastTile
+import Soda.tiles.fairness.tile.NeededPTile
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.UnzipPairFstTile
+import Soda.tiles.fairness.tile.UnzipPairSndTile
+import Soda.tiles.fairness.tile.ZipTile
+*/
+
+/**
+ * This pipeline returns 'true' when all the actors in the input receive a resource that
+ * satisfies their needs, and 'false' otherwise.
+ */
+
+trait CcsPerChildPipeline
+{
+
+  def   sigma : Measure => Measure => Measure
+  def   children : Actor => Measure
+  def   utility : Resource => Measure
+
+  lazy val all_equal_tile = AllEqualTile .mk
+
+  lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (utility)
+
+  lazy val children_tile = AttributePTile .mk (children)
+
+  lazy val all_actor_pair_tile = AllActorPairTile .mk
+
+  private def _division_with_2 (val0 : Int) (val1 : Int) : Measure =
+    if ( val1 == 0
+    ) None
+    else Some (val0 / val1)
+
+  private def _division_with (val0 : Int) (m1 : Measure) : Measure =
+    m1 match  {
+      case Some (val1) => _division_with_2 (val0) (val1)
+      case None => None
+    }
+
+  def division (m0 : Measure) (m1 : Measure) : Measure =
+    m0 match  {
+      case Some (val0) => _division_with (val0) (m1)
+      case None => None
+    }
+
+  lazy val division_tile = SigmaTile .mk (division)
+
+  lazy val unzip_fst_tile = UnzipPairFstTile .mk
+
+  lazy val unzip_snd_tile = UnzipPairSndTile .mk
+
+  lazy val zip_tile = ZipTile .mk
+
+  def get_branch_0 (message : TileMessage [Seq [TilePair [Actor, Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    received_sigma_p_tile .apply (unzip_fst_tile .apply (message) )
+
+  def get_branch_1 (message : TileMessage [Seq [TilePair [Actor, Actor] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    children_tile .apply (unzip_snd_tile .apply (message) )
+
+  def zip_branches (message : TileMessage [Seq [TilePair [Actor, Actor] ] ] )
+      : TileMessage [Seq [TilePair [Measure, Measure] ] ] =
+    zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    all_equal_tile .apply (
+      division_tile .apply (
+        zip_branches (
+          all_actor_pair_tile .apply (message)
+        )
+      )
+    )
+
+}
+
+case class CcsPerChildPipeline_ (sigma : Measure => Measure => Measure, children : Actor => Measure, utility : Resource => Measure) extends CcsPerChildPipeline
+
+object CcsPerChildPipeline {
+  def mk (sigma : Measure => Measure => Measure) (children : Actor => Measure) (utility : Resource => Measure) : CcsPerChildPipeline =
+    CcsPerChildPipeline_ (sigma, children, utility)
+}
+
+
 trait CcsPerFamilyPipeline
 {
 

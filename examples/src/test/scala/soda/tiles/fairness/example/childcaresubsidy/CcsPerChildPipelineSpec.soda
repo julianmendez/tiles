@@ -1,5 +1,5 @@
 
-class CcsPerFamilyPipelineSpec ()
+class CcsPerChildPipelineSpec ()
   extends
     AnyFunSuite
 
@@ -10,17 +10,17 @@ class CcsPerFamilyPipelineSpec ()
 
   all_cases = _mm .all_cases
 
-  per_family_pipeline =
-    CcsPerFamilyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+  per_child_pipeline =
+    CcsPerChildPipeline .mk (_mm .measure_sum) (_mm .actor_children) (_mm .resource_value)
 
-  test ("per family on all outcomes") (
+  test ("per child on all outcomes") (
     check (
       obtained := all_cases
         .map (lambda scenario -->
-          per_family_pipeline .apply (scenario) .contents
+          per_child_pipeline .apply (scenario) .contents
         )
     ) (
-      expected := Seq (true , true , true , false , false , false , false , false)
+      expected := Seq (true , false , false , false , true , false , false , true)
     )
   )
 
