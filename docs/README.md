@@ -17,7 +17,7 @@ The fairness tiles are defined in [package tile][package-tile]
 [package tool][package-tool] [(Scala translation)][package-tool-scala].
 
 
-### Resource Allocation Scenarios
+## Resource Allocation Scenarios
 
 These are some of the implemented fairness tiles for resource allocation scenarios:
 
@@ -39,59 +39,23 @@ and the equity tile
 with [EquityPipelineSpec][equity-pipeline-spec].
 
 
-#### Equality
+### Example of Equality
 
 ```mermaid
-graph LR;
-all-actor --> received;
-received --> all-equal;
+graph LR
+  all-actor(all-actor) --> received
+  received(received) --> all-equal(all-equal)
 ```
 
 
-#### Equity
+### Example of Equity
 
 ```mermaid
-graph LR;
-all-actor --> received;
-all-actor --> needed;
-received --> all-at-least;
-needed -->  all-at-least;
-```
-
-
-### Scoring Scenarios
-
-These are some of the implemented fairness tiles for scoring scenarios:
-
-| Tile                                               | Class                                          |
-|:---------------------------------------------------|:-----------------------------------------------|
-| all-actor <sub>*(a0), (a1), (a2)*</sub>            | [AllActorTripleTile][all-actor-triple-tile]    |
-| <sub>*(a)*</sub> prediction <sub>*(m)*</sub>       | [PredictionPTile][prediction-p-tile]           |
-| <sub>*(a)*</sub> result <sub>*(m)*</sub>           | [ResultPTile][result-p-tile]                   |
-| <sub>*(m0), (m1)*</sub> false-pos <sub>*(m)*</sub> | [FalsePosTile][false-pos-tile]                 |
-| <sub>*(a)*</sub> with <sub>*(m)*</sub>             | [WithPTile][with-p-tile]                       |
-| <sub>*(m0), (m1)*</sub> correlation <sub>*m*</sub> | [CorrelationTile][correlation-tile]            |
-| <sub>*m*</sub> decision <sub>*b*</sub>             | [DecisionTile][decision-tile]                  |
-| unbiasedness <sub>*b*</sub>                        | [UnbiasednessPipeline][unbiassedness-pipeline] |
-
-A specific scenario is given as an example in
-[ScoringScenarioExample][scoring-scenario-example]. This scenario is used to test the
-scoring scenario tile (unbiasedness with respect to falsepositives) with
-[UnbiasednessPipelineSpec][unbiassedness-pipeline-spec].
-
-
-#### Unbiasedness
-
-```mermaid
-graph LR;
-all-actor --> prediction;
-all-actor --> result;
-all-actor --> with;
-prediction --> false-pos;
-result --> false-pos;
-with --> correlation;
-false-pos --> correlation;
-correlation --> decision;
+graph LR
+  all-actor(all-actor) --> received
+  all-actor --> needed
+  received(received) --> all-at-least(all-at-least)
+  needed(needed) -->  all-at-least
 ```
 
 
@@ -107,6 +71,12 @@ are:
 | <sub>*(&alpha;0),(&alpha;1)*</sub> zip <sub>*(&alpha;0, &alpha;1)*</sub> | [ZipTile][zip-tile]                     |
 | <sub>*(&alpha;0, &alpha;1)*</sub> unzip-0 <sub>*(&alpha;0)*</sub>        | [UnzipPairFstTile][unzip-pair-fst-tile] |
 | <sub>*(&alpha;0, &alpha;1)*</sub> unzip-1 <sub>*(&alpha;1)*</sub>        | [UnzipPairSndTile][unzip-pair-snd-tile] |
+
+
+### More examples
+
+* [Child Care Subsidy][ccs-example]
+* [Scoring Example][scoring-example]
 
 
 ## Author
@@ -130,14 +100,6 @@ are:
 [all-at-least-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllAtLeastTile.soda
 [equality-pipeline]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/EqualityPipeline.soda
 [equity-pipeline]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/EquityPipeline.soda
-[all-actor-triple-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllActorTripleTile.soda
-[prediction-p-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/PredictionPTile.soda
-[result-p-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ResultPTile.soda
-[false-pos-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/FalsePosTile.soda
-[with-p-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/WithPTile.soda
-[correlation-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/CorrelationTile.soda
-[decision-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/DecisionTile.soda
-[unbiassedness-pipeline]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/UnbiasednessPipeline.soda
 [attribute-p-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AttributePTile.soda
 [sigma-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/SigmaTile.soda
 [zip-tile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ZipTile.soda
@@ -146,8 +108,8 @@ are:
 [resource-allocation-scenario-example]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/ResourceAllocationScenarioExample.soda
 [equality-pipeline-spec]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EqualityPipelineSpec.soda
 [equity-pipeline-spec]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EquityPipelineSpec.soda
-[scoring-scenario-example]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/ScoringScenarioExample.soda
-[unbiassedness-pipeline-spec]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/UnbiasednessPipelineSpec.soda
+[ccs-example]: ccs_example.html
+[scoring-example]: scoring_example.html
 
 <script>
   window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
