@@ -11,9 +11,9 @@ These are some of the implemented fairness tiles for scoring scenarios:
 |:---------------------------------------------------|:---------------------------------------------|
 | all-actor <sub>*(a0), (a1), (a2)*</sub>            | [AllActorTripleTile][AllActorTripleTile]     |
 | <sub>*(a)*</sub> prediction <sub>*(m)*</sub>       | [PredictionPTile][PredictionPTile]           |
-| <sub>*(a)*</sub> result <sub>*(m)*</sub>           | [ResultPTile][ResultPTile]                   |
+| <sub>*(a)*</sub> result <sub>*(m)*</sub>           | [AttributePTile][AttributePTile]             |
 | <sub>*(m0), (m1)*</sub> false-pos <sub>*(m)*</sub> | [FalsePosTile][FalsePosTile]                 |
-| <sub>*(a)*</sub> with <sub>*(m)*</sub>             | [WithPTile][WithPTile]                       |
+| <sub>*(a)*</sub> with <sub>*(m)*</sub>             | [AttributePTile][AttributePTile]             |
 | <sub>*(m0), (m1)*</sub> correlation <sub>*m*</sub> | [CorrelationTile][CorrelationTile]           |
 | <sub>*m*</sub> decision <sub>*b*</sub>             | [DecisionTile][DecisionTile]                 |
 | unbiasedness <sub>*b*</sub>                        | [UnbiasednessPipeline][UnbiasednessPipeline] |
@@ -40,9 +40,8 @@ graph LR
 
 [AllActorTripleTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllActorTripleTile.soda
 [PredictionPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/PredictionPTile.soda
-[ResultPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ResultPTile.soda
+[AttributePTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AttributePTile.soda
 [FalsePosTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/FalsePosTile.soda
-[WithPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/WithPTile.soda
 [CorrelationTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/CorrelationTile.soda
 [DecisionTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/DecisionTile.soda
 [UnbiasednessPipeline]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/UnbiasednessPipeline.soda
