@@ -680,35 +680,6 @@ object ReceivedSigmaPTile {
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AttributePTile
-*/
-
-/**
- * This tile is a particular case of an 'AttributePTile', where the attribute is the 'result'.
- * This tile is used to contrast obtained results to predicted results.
- */
-
-trait ResultPTile
-{
-
-  def   p : Actor => Measure
-
-  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    AttributePTile .mk (p) .apply (message)
-
-}
-
-case class ResultPTile_ (p : Actor => Measure) extends ResultPTile
-
-object ResultPTile {
-  def mk (p : Actor => Measure) : ResultPTile =
-    ResultPTile_ (p)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
@@ -909,34 +880,6 @@ case class UnzipTripleTrdTile_ () extends UnzipTripleTrdTile
 object UnzipTripleTrdTile {
   def mk : UnzipTripleTrdTile =
     UnzipTripleTrdTile_ ()
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AttributePTile
-*/
-
-/**
- * This tile is a particular case of a 'AttributePTile', that projects given property.
- */
-
-trait WithPTile
-{
-
-  def   p : Actor => Measure
-
-  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
-    AttributePTile .mk (p) .apply (message)
-
-}
-
-case class WithPTile_ (p : Actor => Measure) extends WithPTile
-
-object WithPTile {
-  def mk (p : Actor => Measure) : WithPTile =
-    WithPTile_ (p)
 }
 
 

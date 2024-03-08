@@ -28,14 +28,12 @@ import   soda.tiles.fairness.tile.FalsePosTile
 import   soda.tiles.fairness.tile.NeededPTile
 import   soda.tiles.fairness.tile.PredictionPTile
 import   soda.tiles.fairness.tile.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.ResultPTile
 import   soda.tiles.fairness.tile.SigmaTile
 import   soda.tiles.fairness.tile.UnzipPairFstTile
 import   soda.tiles.fairness.tile.UnzipPairSndTile
 import   soda.tiles.fairness.tile.UnzipTripleFstTile
 import   soda.tiles.fairness.tile.UnzipTripleSndTile
 import   soda.tiles.fairness.tile.UnzipTripleTrdTile
-import   soda.tiles.fairness.tile.WithPTile
 import   soda.tiles.fairness.tile.ZipTile
 
 
@@ -190,9 +188,9 @@ trait UnbiasednessPipeline
 
   lazy val prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 
-  lazy val result_p_tile = ResultPTile .mk (p1_result)
+  lazy val result_p_tile = AttributePTile .mk (p1_result)
 
-  lazy val with_p_tile = WithPTile .mk (p2_with_p)
+  lazy val with_p_tile = AttributePTile .mk (p2_with_p)
 
   lazy val false_pos_tile = FalsePosTile .mk
 

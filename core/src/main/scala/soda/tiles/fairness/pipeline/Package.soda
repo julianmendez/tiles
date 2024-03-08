@@ -29,13 +29,11 @@ import
   soda.tiles.fairness.tile.NeededPTile
   soda.tiles.fairness.tile.PredictionPTile
   soda.tiles.fairness.tile.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.ResultPTile
   soda.tiles.fairness.tile.SigmaTile
   soda.tiles.fairness.tile.UnzipPairFstTile
   soda.tiles.fairness.tile.UnzipPairSndTile
   soda.tiles.fairness.tile.UnzipTripleFstTile
   soda.tiles.fairness.tile.UnzipTripleSndTile
   soda.tiles.fairness.tile.UnzipTripleTrdTile
-  soda.tiles.fairness.tile.WithPTile
   soda.tiles.fairness.tile.ZipTile
 
