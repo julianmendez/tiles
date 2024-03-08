@@ -27,14 +27,12 @@ import   soda.tiles.fairness.tile.MapPTile
 import   soda.tiles.fairness.tile.NeededPTile
 import   soda.tiles.fairness.tile.PredictionPTile
 import   soda.tiles.fairness.tile.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.ResultPTile
 import   soda.tiles.fairness.tile.SigmaTile
 import   soda.tiles.fairness.tile.UnzipPairFstTile
 import   soda.tiles.fairness.tile.UnzipPairSndTile
 import   soda.tiles.fairness.tile.UnzipTripleFstTile
 import   soda.tiles.fairness.tile.UnzipTripleSndTile
 import   soda.tiles.fairness.tile.UnzipTripleTrdTile
-import   soda.tiles.fairness.tile.WithPTile
 import   soda.tiles.fairness.tile.ZipTile
 import   soda.tiles.fairness.pipeline.EqualityPipeline
 import   soda.tiles.fairness.pipeline.EquityPipeline
