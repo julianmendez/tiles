@@ -30,10 +30,10 @@ scoring scenario tile (unbiasedness with respect to falsepositives) with
 graph LR
   all-actor(all-actor) --> prediction
   all-actor --> result
-  all-actor --> with
+  all-actor --> with-p
   prediction(prediction) --> false-pos
   result(result) --> false-pos
-  with(with) --> correlation
+  with-p(with) --> correlation
   false-pos(false-pos) --> correlation
   correlation(correlation) --> decision(decision)
 ```
