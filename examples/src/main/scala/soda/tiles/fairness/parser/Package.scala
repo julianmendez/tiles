@@ -122,16 +122,18 @@ trait YamlParser
       case otherwise => None
     }
 
-  def get_as_seq (elem : Any) : Seq [Tuple2 [String, Any] ] =
+  def get_as_seq (elem : Any) : Seq [Tuple2 [String, Seq [Tuple2 [String, String] ] ] ] =
     elem match  {
       case e : Seq [Any] => e .flatMap ( x => parse_record (x) )
       case otherwise => Seq ()
     }
 
-  def parse_record_list (parts : Seq [Any] ) : Seq [Seq [Tuple2 [String, Any] ] ] =
+  def parse_record_list (parts : Seq [Any] )
+      : Seq [Seq [Tuple2 [String, Seq [Tuple2 [String, String] ] ] ] ] =
     parts .map ( elem => get_as_seq (elem) )
 
-  def parse (reader : Reader) : Seq [Seq [Tuple2 [String, Any] ] ] =
+  def parse (reader : Reader)
+      : Seq [Seq [Tuple2 [String, Seq [Tuple2 [String, String] ] ] ] ] =
     parse_record_list (GenericYamlParser .mk .parse (reader) )
 
 }
