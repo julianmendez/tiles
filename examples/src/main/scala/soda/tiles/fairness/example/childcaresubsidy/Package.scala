@@ -42,6 +42,178 @@ import   soda.tiles.fairness.pipeline.UnbiasednessPipeline
 
 
 
+trait CcsAcromagatInstance
+{
+
+  def   actors : Seq [String]
+  def   resources : Seq [String]
+  def   outcome : Seq [Tuple2 [String, String] ]
+  def   actor_children_map : Map [Actor, Measure]
+  def   actor_adults_map : Map [Actor, Measure]
+  def   actor_income_map : Map [Actor, Measure]
+  def   resource_value_map : Map [Resource, Measure]
+  def   pipelines : Seq [String]
+
+  private def _add_value_to (value : Int) (m : Measure) : Measure =
+    m match  {
+      case Some (other_value) => Some (value + other_value)
+      case None => None
+    }
+
+  def measure_sum (a : Measure) (b : Measure) : Measure =
+    a match  {
+      case Some (value) => _add_value_to (value) (b)
+      case None => None
+    }
+
+  def get_or_else [A ] (map : Map [A, Measure] ) (key : A) (default : Measure) : Measure =
+    map .get (key) match  {
+      case Some (value) => value
+      case None => default
+    }
+
+  def actor_children (actor : Actor) : Measure =
+    get_or_else [Actor] (actor_children_map) (actor) (Some (-1) )
+
+  def actor_adults (actor : Actor) : Measure =
+    get_or_else [Actor] (actor_adults_map) (actor) (Some (-1) )
+
+  def actor_income (actor : Actor) : Measure =
+    get_or_else [Actor] (actor_income_map) (actor) (Some (-1) )
+
+  def resource_value (resource : Resource) : Measure =
+    get_or_else [Resource] (resource_value_map) (resource) (Some (-1) )
+
+  lazy val context = "ChildCareSubsidy"
+
+}
+
+case class CcsAcromagatInstance_ (actors : Seq [String], resources : Seq [String], outcome : Seq [Tuple2 [String, String] ], actor_children_map : Map [Actor, Measure], actor_adults_map : Map [Actor, Measure], actor_income_map : Map [Actor, Measure], resource_value_map : Map [Resource, Measure], pipelines : Seq [String]) extends CcsAcromagatInstance
+
+object CcsAcromagatInstance {
+  def mk (actors : Seq [String]) (resources : Seq [String]) (outcome : Seq [Tuple2 [String, String] ]) (actor_children_map : Map [Actor, Measure]) (actor_adults_map : Map [Actor, Measure]) (actor_income_map : Map [Actor, Measure]) (resource_value_map : Map [Resource, Measure]) (pipelines : Seq [String]) : CcsAcromagatInstance =
+    CcsAcromagatInstance_ (actors, resources, outcome, actor_children_map, actor_adults_map, actor_income_map, resource_value_map, pipelines)
+}
+
+
+trait CcsAcromagatInstanceBuilder
+{
+
+
+
+  import   soda.tiles.fairness.parser.YamlParser
+  import   java.io.BufferedReader
+  import   java.io.Reader
+
+  lazy val actors_key = "actors"
+
+  lazy val resources_key = "resources"
+
+  lazy val outcome_key = "outcome"
+
+  lazy val actor_children_key = "actor_children"
+
+  lazy val actor_adults_key = "actor_adults"
+
+  lazy val actor_income_key = "actor_income"
+
+  lazy val resource_value_key = "resource_value"
+
+  lazy val pipelines_key = "pipelines"
+
+  def to_measure (s : String) : Measure =
+    s .toIntOption
+
+  private def _get_actors (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Seq [String] =
+    m .getOrElse (actors_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSeq
+
+  private def _get_resources (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Seq [String] =
+    m .getOrElse (resources_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSeq
+
+  private def _get_outcome (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Seq [Tuple2 [String, String] ] =
+    m .getOrElse (outcome_key , None)
+      .iterator
+      .toSeq
+
+  private def _get_actor_children_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Actor, Measure] =
+    m .getOrElse (actor_children_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  private def _get_actor_adults_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Actor, Measure] =
+    m .getOrElse (actor_adults_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  private def _get_actor_income_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Actor, Measure] =
+    m .getOrElse (actor_income_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  private def _get_resource_value_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Resource, Measure] =
+    m .getOrElse (resource_value_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  private def _get_pipelines (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Seq [String] =
+    m .getOrElse (pipelines_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSeq
+
+  private def _build_from_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Option [CcsAcromagatInstance] =
+    Some (
+      CcsAcromagatInstance .mk (
+        _get_actors (m) ) (
+        _get_resources (m) ) (
+        _get_outcome (m) ) (
+        _get_actor_children_map (m) ) (
+        _get_actor_adults_map (m) ) (
+        _get_actor_income_map (m) ) (
+        _get_resource_value_map (m) ) (
+        _get_pipelines (m)
+      )
+    )
+
+  def build (s : Seq [Seq [Tuple2 [String, Seq [Tuple2 [String, String] ] ] ] ] )
+      : Option [CcsAcromagatInstance] =
+    s match  {
+      case a +: __soda__as => _build_from_map (a .toMap)
+      case otherwise => None
+    }
+
+  def from_yaml_content (reader : Reader) : Option [CcsAcromagatInstance] =
+     build (YamlParser .mk .parse (reader) )
+
+}
+
+case class CcsAcromagatInstanceBuilder_ () extends CcsAcromagatInstanceBuilder
+
+object CcsAcromagatInstanceBuilder {
+  def mk : CcsAcromagatInstanceBuilder =
+    CcsAcromagatInstanceBuilder_ ()
+}
+
+
 trait CcsNoSubsidyPipeline
 {
 
