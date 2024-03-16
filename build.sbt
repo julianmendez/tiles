@@ -78,6 +78,7 @@ lazy val root =
     .dependsOn(docs, core, examples)
     .settings(
       commonSettings,
+      assembly / mainClass := Some("soda.tiles.fairness.example.main.EntryPoint"),
       assembly / assemblyJarName := "tiles-" + version.value + ".jar"
     )
 
