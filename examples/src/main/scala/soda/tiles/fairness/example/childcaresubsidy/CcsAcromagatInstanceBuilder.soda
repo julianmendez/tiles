@@ -4,7 +4,7 @@ class CcsAcromagatInstanceBuilder
   abstract
 
   import
-    soda.tiles.fairness.parser.YamlParser
+    soda.tiles.fairness.example.parser.YamlParser
     java.io.BufferedReader
     java.io.Reader
 

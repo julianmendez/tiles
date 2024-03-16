@@ -1,4 +1,4 @@
-package soda.tiles.fairness.parser
+package soda.tiles.fairness.example.parser
 
 import   org.scalatest.funsuite.AnyFunSuite
 import   org.scalatest.Assertion

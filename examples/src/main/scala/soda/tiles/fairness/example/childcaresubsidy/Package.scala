@@ -104,7 +104,7 @@ trait CcsAcromagatInstanceBuilder
 
 
 
-  import   soda.tiles.fairness.parser.YamlParser
+  import   soda.tiles.fairness.example.parser.YamlParser
   import   java.io.BufferedReader
   import   java.io.Reader
 

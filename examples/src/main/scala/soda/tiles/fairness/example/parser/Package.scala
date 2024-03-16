@@ -1,4 +1,4 @@
-package soda.tiles.fairness.parser
+package soda.tiles.fairness.example.parser
 
 /**
  * This is a generic YAML parser.
