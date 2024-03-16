@@ -1,0 +1,37 @@
+---
+# Tiles (https://julianmendez.github.io/tiles/)
+# This is an instance for a Child Care Subsidy pipeline.
+# This is a YAML file, and requires special attention regarding indentation and use of
+# colon (':').
+
+# Number of children in each family.
+actor_children:
+  family A: 2
+  family B: 3
+  family C: 1
+
+# Number of guardians in each family.
+actor_adults:
+  family A: 2
+  family B: 1
+  family C: 2
+
+# Total income in each family.
+actor_income:
+  family A: 5000
+  family B: 3000
+  family C: 800
+
+# The value of each resource.
+resource_value:
+  no subsidy 0: 0
+  subsidy 100: 100
+  subsidy 200: 200
+  subsidy 300: 300
+
+# The resources received by the family, checked by the pipeline.
+outcome:
+  family A: subsidy 200
+  family B: subsidy 300
+  family C: subsidy 100
+
