@@ -15,6 +15,8 @@ import Soda.tiles.fairness.tile.ZipTile
  */
 
 class CcsPerChildPipeline
+  extends
+    CcsPipeline
 
   abstract
     sigma : Measure -> Measure -> Measure
@@ -73,5 +75,7 @@ class CcsPerChildPipeline
       )
     )
 
-end
+  runner : TileMessage [Boolean] -> TileMessage [Boolean] =
+    lambda message --> apply (message)
 
+end

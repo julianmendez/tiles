@@ -28,24 +28,27 @@ class CcsAcromagatInstanceBuilder
     s .toIntOption
 
   _get_actors (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
-      : Seq [String] =
+      : Seq [Actor] =
     m .getOrElse (actors_key , None)
       .iterator
       .map (lambda pair --> pair ._1)
       .toSeq
 
   _get_resources (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
-      : Seq [String] =
+      : Seq [Resource] =
     m .getOrElse (resources_key , None)
       .iterator
       .map (lambda pair --> pair ._1)
       .toSeq
 
   _get_outcome (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
-      : Seq [Tuple2 [String] [String] ] =
-    m .getOrElse (outcome_key , None)
-      .iterator
-      .toSeq
+      : Outcome =
+    Outcome .mk (
+      m .getOrElse (outcome_key , None)
+        .iterator
+        .map(lambda pair --> Assignment .mk (pair._1) (pair ._2) )
+        .toSeq
+    )
 
   _get_actor_children_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
       : Map [Actor] [Measure] =
@@ -103,7 +106,7 @@ class CcsAcromagatInstanceBuilder
       case a +: as ==> _build_from_map (a .toMap)
       case otherwise ==> None
 
-  from_yaml_content (reader : Reader) : Option [CcsAcromagatInstance] =
+  from_yaml (reader : Reader) : Option [CcsAcromagatInstance] =
      build (YamlParser .mk .parse (reader) )
 
 end

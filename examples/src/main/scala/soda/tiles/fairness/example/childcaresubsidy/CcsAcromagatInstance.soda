@@ -2,9 +2,9 @@
 class CcsAcromagatInstance
 
   abstract
-    actors : Seq [String]
-    resources : Seq [String]
-    outcome : Seq [Tuple2 [String] [String] ]
+    actors : Seq [Actor]
+    resources : Seq [Resource]
+    outcome : Outcome
     actor_children_map : Map [Actor] [Measure]
     actor_adults_map : Map [Actor] [Measure]
     actor_income_map : Map [Actor] [Measure]
@@ -39,6 +39,9 @@ class CcsAcromagatInstance
     get_or_else [Resource] (resource_value_map) (resource) (Some (-1) )
 
   context = "ChildCareSubsidy"
+
+  initial_message : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome) (true)
 
 end
 

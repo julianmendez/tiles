@@ -45,9 +45,9 @@ import   soda.tiles.fairness.pipeline.UnbiasednessPipeline
 trait CcsAcromagatInstance
 {
 
-  def   actors : Seq [String]
-  def   resources : Seq [String]
-  def   outcome : Seq [Tuple2 [String, String] ]
+  def   actors : Seq [Actor]
+  def   resources : Seq [Resource]
+  def   outcome : Outcome
   def   actor_children_map : Map [Actor, Measure]
   def   actor_adults_map : Map [Actor, Measure]
   def   actor_income_map : Map [Actor, Measure]
@@ -86,12 +86,15 @@ trait CcsAcromagatInstance
 
   lazy val context = "ChildCareSubsidy"
 
+  lazy val initial_message : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome) (true)
+
 }
 
-case class CcsAcromagatInstance_ (actors : Seq [String], resources : Seq [String], outcome : Seq [Tuple2 [String, String] ], actor_children_map : Map [Actor, Measure], actor_adults_map : Map [Actor, Measure], actor_income_map : Map [Actor, Measure], resource_value_map : Map [Resource, Measure], pipelines : Seq [String]) extends CcsAcromagatInstance
+case class CcsAcromagatInstance_ (actors : Seq [Actor], resources : Seq [Resource], outcome : Outcome, actor_children_map : Map [Actor, Measure], actor_adults_map : Map [Actor, Measure], actor_income_map : Map [Actor, Measure], resource_value_map : Map [Resource, Measure], pipelines : Seq [String]) extends CcsAcromagatInstance
 
 object CcsAcromagatInstance {
-  def mk (actors : Seq [String]) (resources : Seq [String]) (outcome : Seq [Tuple2 [String, String] ]) (actor_children_map : Map [Actor, Measure]) (actor_adults_map : Map [Actor, Measure]) (actor_income_map : Map [Actor, Measure]) (resource_value_map : Map [Resource, Measure]) (pipelines : Seq [String]) : CcsAcromagatInstance =
+  def mk (actors : Seq [Actor]) (resources : Seq [Resource]) (outcome : Outcome) (actor_children_map : Map [Actor, Measure]) (actor_adults_map : Map [Actor, Measure]) (actor_income_map : Map [Actor, Measure]) (resource_value_map : Map [Resource, Measure]) (pipelines : Seq [String]) : CcsAcromagatInstance =
     CcsAcromagatInstance_ (actors, resources, outcome, actor_children_map, actor_adults_map, actor_income_map, resource_value_map, pipelines)
 }
 
@@ -125,24 +128,27 @@ trait CcsAcromagatInstanceBuilder
     s .toIntOption
 
   private def _get_actors (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Seq [String] =
+      : Seq [Actor] =
     m .getOrElse (actors_key , None)
       .iterator
       .map ( pair => pair ._1)
       .toSeq
 
   private def _get_resources (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Seq [String] =
+      : Seq [Resource] =
     m .getOrElse (resources_key , None)
       .iterator
       .map ( pair => pair ._1)
       .toSeq
 
   private def _get_outcome (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Seq [Tuple2 [String, String] ] =
-    m .getOrElse (outcome_key , None)
-      .iterator
-      .toSeq
+      : Outcome =
+    Outcome .mk (
+      m .getOrElse (outcome_key , None)
+        .iterator
+        .map( pair => Assignment .mk (pair._1) (pair ._2) )
+        .toSeq
+    )
 
   private def _get_actor_children_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
       : Map [Actor, Measure] =
@@ -201,7 +207,7 @@ trait CcsAcromagatInstanceBuilder
       case otherwise => None
     }
 
-  def from_yaml_content (reader : Reader) : Option [CcsAcromagatInstance] =
+  def from_yaml (reader : Reader) : Option [CcsAcromagatInstance] =
      build (YamlParser .mk .parse (reader) )
 
 }
@@ -215,6 +221,8 @@ object CcsAcromagatInstanceBuilder {
 
 
 trait CcsNoSubsidyPipeline
+  extends
+    CcsPipeline
 {
 
   def   sigma : Measure => Measure => Measure
@@ -238,6 +246,9 @@ trait CcsNoSubsidyPipeline
         all_actor_tile .apply (message)
       )
     )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
+     message => apply (message)
 
 }
 
@@ -266,6 +277,8 @@ import Soda.tiles.fairness.tile.ZipTile
  */
 
 trait CcsPerChildPipeline
+  extends
+    CcsPipeline
 {
 
   def   sigma : Measure => Measure => Measure
@@ -326,6 +339,9 @@ trait CcsPerChildPipeline
       )
     )
 
+  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
+     message => apply (message)
+
 }
 
 case class CcsPerChildPipeline_ (sigma : Measure => Measure => Measure, children : Actor => Measure, utility : Resource => Measure) extends CcsPerChildPipeline
@@ -337,6 +353,8 @@ object CcsPerChildPipeline {
 
 
 trait CcsPerFamilyPipeline
+  extends
+    CcsPipeline
 {
 
   def   sigma : Measure => Measure => Measure
@@ -355,6 +373,9 @@ trait CcsPerFamilyPipeline
       )
     )
 
+  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
+     message => apply (message)
+
 }
 
 case class CcsPerFamilyPipeline_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure) extends CcsPerFamilyPipeline
@@ -365,7 +386,59 @@ object CcsPerFamilyPipeline {
 }
 
 
+trait CcsPipeline
+{
+
+  def   runner : TileMessage [Boolean] => TileMessage [Boolean]
+
+  def run (initial : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    runner (initial)
+
+}
+
+case class CcsPipeline_ (runner : TileMessage [Boolean] => TileMessage [Boolean]) extends CcsPipeline
+
+object CcsPipeline {
+  def mk (runner : TileMessage [Boolean] => TileMessage [Boolean]) : CcsPipeline =
+    CcsPipeline_ (runner)
+}
+
+
+trait CcsPipelineFactory
+{
+
+
+
+  def get_pipeline (name : String) (m : CcsAcromagatInstance) : Option [CcsPipeline] =
+    if ( name == "CcsNoSubsidyPipeline"
+    ) Some (
+      CcsNoSubsidyPipeline .mk (m .measure_sum) (m .resource_value) )
+    else if ( name == "CcsPerChildPipeline"
+    ) Some (
+      CcsPerChildPipeline .mk (m .measure_sum) (m .actor_children) (m .resource_value) )
+    else if ( name == "CcsPerFamilyPipeline"
+    ) Some (
+      CcsPerFamilyPipeline .mk (m .measure_sum) (m .resource_value) )
+    else if ( name == "CcsSingleGuardianPipeline"
+    ) Some (
+      CcsSingleGuardianPipeline .mk (m .measure_sum) (m .actor_adults) (m .resource_value) )
+    else None
+
+}
+
+case class CcsPipelineFactory_ () extends CcsPipelineFactory
+
+object CcsPipelineFactory {
+  def mk : CcsPipelineFactory =
+    CcsPipelineFactory_ ()
+}
+
+
+
+
 trait CcsSingleGuardianPipeline
+  extends
+    CcsPipeline
 {
 
   def   sigma : Measure => Measure => Measure
@@ -437,6 +510,9 @@ trait CcsSingleGuardianPipeline
         get_branch_1 (all_actor_pair_tile .apply (message) )
       )
     )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
+     message => apply (message)
 
 }
 
