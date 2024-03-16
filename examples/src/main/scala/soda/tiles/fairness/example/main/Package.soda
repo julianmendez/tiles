@@ -1,0 +1,13 @@
+package soda.tiles.fairness.example.main
+
+/*
+ * This package is for the main class.
+ * This is the entry point when the application is executed from a terminal.
+ */
+
+import
+  soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstance
+  soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstanceBuilder
+  soda.tiles.fairness.example.childcaresubsidy.CcsPipelineFactory
+  java.io.FileReader
+

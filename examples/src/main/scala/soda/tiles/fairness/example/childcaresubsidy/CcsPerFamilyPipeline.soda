@@ -1,5 +1,7 @@
 
 class CcsPerFamilyPipeline
+  extends
+    CcsPipeline
 
   abstract
     sigma : Measure -> Measure -> Measure
@@ -17,5 +19,8 @@ class CcsPerFamilyPipeline
         all_actor_tile .apply (message)
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Boolean] =
+    lambda message --> apply (message)
 
 end

@@ -108,8 +108,8 @@ are:
 [ResourceAllocationScenarioExample]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/ResourceAllocationScenarioExample.soda
 [EqualityPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EqualityPipelineSpec.soda
 [EquityPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EquityPipelineSpec.soda
-[ccs-example]: ccs_example.html
-[scoring-example]: scoring_example.html
+[ccs-example]: https://julianmendez.github.io/tiles/ccs_example.html
+[scoring-example]: https://julianmendez.github.io/tiles/scoring_example.html
 
 <script>
   window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
