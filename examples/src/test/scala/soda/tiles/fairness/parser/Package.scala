@@ -17,6 +17,21 @@ trait Example0Instance
 
   lazy val instance = Seq (
     Seq (
+      Tuple2 ("actors" ,
+        Seq (
+          Tuple2 ("family A" , ".") ,
+          Tuple2 ("family B" , ".") ,
+          Tuple2 ("family C" , ".")
+        )
+      ) ,
+      Tuple2 ("resources" ,
+        Seq (
+          Tuple2 ("no subsidy 0" , ".") ,
+          Tuple2 ("subsidy 100" , ".") ,
+          Tuple2 ("subsidy 200" , ".") ,
+          Tuple2 ("subsidy 300" , ".")
+        )
+      ) ,
       Tuple2 ("actor_children" ,
         Seq (
           Tuple2 ("family A" , "2") ,
@@ -51,6 +66,14 @@ trait Example0Instance
           Tuple2 ("family A" , "subsidy 200") ,
           Tuple2 ("family B" , "subsidy 300") ,
           Tuple2 ("family C" , "subsidy 100") ,
+        )
+      ) ,
+      Tuple2 ("pipelines" ,
+        Seq (
+          Tuple2 ("CcsNoSubsidyPipeline" , ".") ,
+          Tuple2 ("CcsPerChildPipeline" , ".") ,
+          Tuple2 ("CcsPerFamilyPipeline" , ".") ,
+          Tuple2 ("CcsSingleGuardianPipeline" , ".")
         )
       )
     )
