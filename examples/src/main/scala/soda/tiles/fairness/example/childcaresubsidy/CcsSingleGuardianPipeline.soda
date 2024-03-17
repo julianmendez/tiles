@@ -1,5 +1,7 @@
 
 class CcsSingleGuardianPipeline
+  extends
+    CcsPipeline
 
   abstract
     sigma : Measure -> Measure -> Measure
@@ -70,5 +72,8 @@ class CcsSingleGuardianPipeline
         get_branch_1 (all_actor_pair_tile .apply (message) )
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Boolean] =
+    lambda message --> apply (message)
 
 end

@@ -1,5 +1,7 @@
 
 class CcsNoSubsidyPipeline
+  extends
+    CcsPipeline
 
   abstract
     sigma : Measure -> Measure -> Measure
@@ -22,5 +24,8 @@ class CcsNoSubsidyPipeline
         all_actor_tile .apply (message)
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Boolean] =
+    lambda message --> apply (message)
 
 end

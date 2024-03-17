@@ -61,6 +61,12 @@ lazy val examples =
     .dependsOn(core)
     .settings(
       commonSettings,
+      /**
+       * YAML 1.2 parser
+       * [[https://bitbucket.org/asomov/snakeyaml-engine]]
+       * [[https://repo1.maven.org/maven2/org/snakeyaml/snakeyaml-engine/]]
+       */
+      libraryDependencies += "org.snakeyaml" % "snakeyaml-engine" % "2.7",
       assembly / assemblyJarName := "examples-" + version.value + ".jar"
     )
 
@@ -72,6 +78,7 @@ lazy val root =
     .dependsOn(docs, core, examples)
     .settings(
       commonSettings,
+      assembly / mainClass := Some("soda.tiles.fairness.example.main.EntryPoint"),
       assembly / assemblyJarName := "tiles-" + version.value + ".jar"
     )
 

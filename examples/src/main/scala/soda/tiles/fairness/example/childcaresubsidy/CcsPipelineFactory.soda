@@ -1,0 +1,23 @@
+
+class CcsPipelineFactory
+
+  abstract
+
+  get_pipeline (name : String) (m : CcsAcromagatInstance) : Option [CcsPipeline] =
+    if name == "CcsNoSubsidyPipeline"
+    then Some (
+      CcsNoSubsidyPipeline .mk (m .measure_sum) (m .resource_value) )
+    else if name == "CcsPerChildPipeline"
+    then Some (
+      CcsPerChildPipeline .mk (m .measure_sum) (m .actor_children) (m .resource_value) )
+    else if name == "CcsPerFamilyPipeline"
+    then Some (
+      CcsPerFamilyPipeline .mk (m .measure_sum) (m .resource_value) )
+    else if name == "CcsSingleGuardianPipeline"
+    then Some (
+      CcsSingleGuardianPipeline .mk (m .measure_sum) (m .actor_adults) (m .resource_value) )
+    else None
+
+end
+
+

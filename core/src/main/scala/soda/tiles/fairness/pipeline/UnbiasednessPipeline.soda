@@ -37,9 +37,9 @@ class UnbiasednessPipeline
 
   prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 
-  result_p_tile = ResultPTile .mk (p1_result)
+  result_p_tile = AttributePTile .mk (p1_result)
 
-  with_p_tile = WithPTile .mk (p2_with_p)
+  with_p_tile = AttributePTile .mk (p2_with_p)
 
   false_pos_tile = FalsePosTile .mk
 

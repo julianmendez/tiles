@@ -1,0 +1,113 @@
+
+class CcsAcromagatInstanceBuilder
+
+  abstract
+
+  import
+    soda.tiles.fairness.example.parser.YamlParser
+    java.io.BufferedReader
+    java.io.Reader
+
+  actors_key = "actors"
+
+  resources_key = "resources"
+
+  outcome_key = "outcome"
+
+  actor_children_key = "actor_children"
+
+  actor_adults_key = "actor_adults"
+
+  actor_income_key = "actor_income"
+
+  resource_value_key = "resource_value"
+
+  pipelines_key = "pipelines"
+
+  to_measure (s : String) : Measure =
+    s .toIntOption
+
+  _get_actors (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Seq [Actor] =
+    m .getOrElse (actors_key , None)
+      .iterator
+      .map (lambda pair --> pair ._1)
+      .toSeq
+
+  _get_resources (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Seq [Resource] =
+    m .getOrElse (resources_key , None)
+      .iterator
+      .map (lambda pair --> pair ._1)
+      .toSeq
+
+  _get_outcome (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Outcome =
+    Outcome .mk (
+      m .getOrElse (outcome_key , None)
+        .iterator
+        .map(lambda pair --> Assignment .mk (pair._1) (pair ._2) )
+        .toSeq
+    )
+
+  _get_actor_children_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Map [Actor] [Measure] =
+    m .getOrElse (actor_children_key , None)
+      .iterator
+      .map (lambda pair --> Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  _get_actor_adults_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Map [Actor] [Measure] =
+    m .getOrElse (actor_adults_key , None)
+      .iterator
+      .map (lambda pair --> Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  _get_actor_income_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Map [Actor] [Measure] =
+    m .getOrElse (actor_income_key , None)
+      .iterator
+      .map (lambda pair --> Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  _get_resource_value_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Map [Resource] [Measure] =
+    m .getOrElse (resource_value_key , None)
+      .iterator
+      .map (lambda pair --> Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  _get_pipelines (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Seq [String] =
+    m .getOrElse (pipelines_key , None)
+      .iterator
+      .map (lambda pair --> pair ._1)
+      .toSeq
+
+  _build_from_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Option [CcsAcromagatInstance] =
+    Some (
+      CcsAcromagatInstance .mk (
+        _get_actors (m) ) (
+        _get_resources (m) ) (
+        _get_outcome (m) ) (
+        _get_actor_children_map (m) ) (
+        _get_actor_adults_map (m) ) (
+        _get_actor_income_map (m) ) (
+        _get_resource_value_map (m) ) (
+        _get_pipelines (m)
+      )
+    )
+
+  build (s : Seq [Seq [Tuple2 [String] [Seq [Tuple2 [String] [String] ] ] ] ] )
+      : Option [CcsAcromagatInstance] =
+    match s
+      case a +: as ==> _build_from_map (a .toMap)
+      case otherwise ==> None
+
+  from_yaml (reader : Reader) : Option [CcsAcromagatInstance] =
+     build (YamlParser .mk .parse (reader) )
+
+end
+
