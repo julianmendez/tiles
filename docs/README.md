@@ -17,6 +17,15 @@ The fairness tiles are defined in [package tile][package-tile]
 [package tool][package-tool] [(Scala translation)][package-tool-scala].
 
 
+## Example
+
+This project includes an executable example of [Child Care Subsidy][ccs-example] pipelines.
+The script `makeall.sh` creates the file `tiles`, which is an executable JAR file that can be
+directly executed in Linux. Its input is a [YAML][yaml] configuration file, like the
+[configuration file][test-yaml-conf] provided for the unit tests. For more details, see the
+[Child Care Subsidy example][ccs-example].
+
+
 ## Resource Allocation Scenarios
 
 These are some of the implemented fairness tiles for resource allocation scenarios:
@@ -75,7 +84,6 @@ are:
 
 ### More examples
 
-* [Child Care Subsidy][ccs-example]
 * [Scoring Example][scoring-example]
 
 
@@ -89,6 +97,7 @@ are:
 [release-notes]: https://julianmendez.github.io/tiles/RELEASE-NOTES.html
 [soda]: https://github.com/julianmendez/soda
 [scala]: https://scala-lang.org
+[yaml]: https://yaml.org
 [package-tile]: https://github.com/julianmendez/tiles/tree/master/core/src/main/scala/soda/tiles/fairness/tile
 [package-tile-scala]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/Package.scala
 [package-tool]: https://github.com/julianmendez/tiles/tree/master/core/src/main/scala/soda/tiles/fairness/tool
@@ -109,6 +118,7 @@ are:
 [EqualityPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EqualityPipelineSpec.soda
 [EquityPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EquityPipelineSpec.soda
 [ccs-example]: https://julianmendez.github.io/tiles/ccs_example.html
+[test-yaml-conf]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/resources/example/example0.yaml
 [scoring-example]: https://julianmendez.github.io/tiles/scoring_example.html
 
 <script>
