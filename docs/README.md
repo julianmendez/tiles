@@ -17,6 +17,20 @@ The fairness tiles are defined in [package tile][package-tile]
 [package tool][package-tool] [(Scala translation)][package-tool-scala].
 
 
+## Publications
+
+* <a id="MeKaAlDi2024"></a>
+Julian Alfredo Mendez, Timotheus Kampik, Andrea Aler Tubella, and Virginia Dignum. **A Clearer View on Fairness: Visual and Formal Representation for Comparative Analysis**. In Florian Westphal, Einav Peretz-Andersson, Maria Riveiro, Kerstin Bach, and Fredrik Heintz, editors, *14th Scandinavian Conference on Artificial Intelligence, SCAI 2024*, pages 112-120, Jönköping, Sweden, June 2024.
+ &nbsp; DOI:[10.3384/ecp208013](https://doi.org/10.3384/ecp208013)
+ &nbsp; [Abstract](https://ecp.ep.liu.se/index.php/sais/article/view/1005)
+ &nbsp; [PDF](https://ecp.ep.liu.se/index.php/sais/article/view/1005/913)
+ &nbsp; [Implementation](https://github.com/julianmendez/tiles)
+* <a id="Me2023"></a>
+Julian Alfredo Mendez.
+**Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**.
+arXiv DOI:[10.48550/arXiv.2310.01961](https://doi.org/10.48550/arXiv.2310.01961)
+
+
 ## Example
 
 This project includes an executable example of [Child Care Subsidy][ccs-example] pipelines.
