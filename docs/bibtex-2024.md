@@ -3,7 +3,7 @@
 ```bibtex
 @inproceedings{Mendez.Kampik.Aler.Dignum-2024-SCAI,
     author = {Mendez, Julian Alfredo and Kampik, Timotheus and Aler Tubella, Andrea and Dignum, Virginia},
-    title = {{A Clearer View on Fairness: Visual and Formal Representation for Comparative Analysis}},
+    title = { {A Clearer View on Fairness: Visual and Formal Representation for Comparative Analysis} },
     booktitle = {14th Scandinavian Conference on Artificial Intelligence, SCAI 2024},
     year = {2024},
     month = {June},
@@ -12,7 +12,7 @@
     organization = {Swedish Artificial Intelligence Society},
     doi = {10.3384/ecp208013},
     url = {https://ecp.ep.liu.se/index.php/sais/article/view/1005/913},
-    note = {\url{https://doi.org/10.3384/ecp208013}},
+    note = { \url{https://doi.org/10.3384/ecp208013} },
     abstract = {
         The opaque nature of machine learning systems has raised concerns about whether these systems can guarantee fairness. Furthermore, ensuring fair decision making requires the consideration of multiple perspectives on fairness.
         At the moment, there is no agreement on the definitions of fairness, achieving shared interpretations is difficult, and there is no unified formal language to describe them. Current definitions are implicit in the operationalization of systems, making their comparison difficult.
