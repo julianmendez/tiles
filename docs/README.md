@@ -113,12 +113,12 @@ are:
 
 [tiles-doi]: https://doi.org/10.3384/ecp208013
 [tiles-abstract]: https://ecp.ep.liu.se/index.php/sais/article/view/1005
-[tiles-bibtex]: https://github.com/julianmendez/tiles/bibtex-2024.html
+[tiles-bibtex]: https://julianmendez.github.io/tiles/bibtex-2024.html
 [tiles-pdf]: https://ecp.ep.liu.se/index.php/sais/article/view/1005/913
 [tiles-impl]: https://github.com/julianmendez/tiles
 [soda-doi]: https://doi.org/10.48550/arXiv.2310.01961
 [soda-abstract]: https://arxiv.org/abs/2310.01961
-[soda-bibtex]: https://github.com/julianmendez/soda/bibtex-2023.html
+[soda-bibtex]: https://julianmendez.github.io/soda/bibtex-2023.html
 [soda-pdf]: https://arxiv.org/pdf/2310.01961
 [soda-impl]: https://github.com/julianmendez/soda
 [author]: https://julianmendez.github.io
