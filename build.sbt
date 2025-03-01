@@ -68,7 +68,7 @@ lazy val examples =
        * [[https://bitbucket.org/asomov/snakeyaml-engine]]
        * [[https://repo1.maven.org/maven2/org/snakeyaml/snakeyaml-engine/]]
        */
-      libraryDependencies += "org.snakeyaml" % "snakeyaml-engine" % "2.8",
+      libraryDependencies += "org.snakeyaml" % "snakeyaml-engine" % "2.9",
       assembly / assemblyJarName := "examples-" + version.value + ".jar"
     )
 
