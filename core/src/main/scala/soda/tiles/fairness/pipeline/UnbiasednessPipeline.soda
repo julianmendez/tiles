@@ -25,15 +25,19 @@ class UnbiasednessPipeline
     p2_with_p : Actor -> Measure
     p3_acceptable_bias : Measure
 
+  all_actor_tile = AllActorTile .mk
+
   all_actor_triple_tile = AllActorTripleTile .mk
 
-  unzip_fst_tile = UnzipTripleFstTile .mk
+  triple_fst_tile = ProjectionTripleFstTile .mk
 
-  unzip_snd_tile = UnzipTripleSndTile .mk
+  triple_snd_tile = ProjectionTripleSndTile .mk
 
-  unzip_trd_tile = UnzipTripleTrdTile .mk
+  triple_trd_tile = ProjectionTripleTrdTile .mk
 
-  zip_tile = ZipTile .mk
+  zip_pair_tile = ZipPairTile .mk
+
+  zip_triple_tile = ZipTripleTile .mk
 
   prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 
@@ -47,38 +51,24 @@ class UnbiasednessPipeline
 
   decision_tile = DecisionTile .mk (p3_acceptable_bias)
 
-  get_prediction (message : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    prediction_p_tile .apply (unzip_fst_tile .apply (message) )
-
-  get_result (message : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    result_p_tile .apply (unzip_snd_tile .apply (message) )
-
-  get_with_p (message : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    with_p_tile .apply (unzip_trd_tile .apply (message) )
-
-  get_false_pos (prediction : TileMessage [Seq [Measure] ] ) (
-      result : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
-    false_pos_tile .apply (zip_tile .apply (prediction) (result) )
-
-  get_correlation (false_pos : TileMessage [Seq [Measure] ] ) (
-      with_p : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
-    correlation_tile .apply (zip_tile .apply (false_pos) (with_p) )
-
-  get_correlation_plumbing (message : TileMessage [Seq [TileTriple [Actor] [Actor] [Actor] ] ] )
+  get_correlation_plumbing (message0 : TileMessage [Seq [Actor] ] )
+    (message1 : TileMessage [Seq [Actor] ] ) (message2 : TileMessage [Seq [Actor] ] )
       : TileMessage [Measure] =
-    get_correlation (
-      get_false_pos (get_prediction (message) ) (get_result (message) )
-    ) (get_with_p (message) )
+    correlation_tile .apply (
+      false_pos_tile .apply (prediction_p_tile .apply (message0) ) (result_p_tile .apply (message1) )
+    ) (with_p_tile .apply (message2) )
 
-  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+  apply_on_triple (triple : TileMessage [TileTriple [Seq [Actor] ] [Seq [Actor] ] [Seq [Actor] ] ] )
+      : TileMessage [Boolean] =
     decision_tile .apply (
       get_correlation_plumbing (
-        all_actor_triple_tile .apply (message)
-      )
+        triple_fst_tile .apply (triple) ) (
+        triple_snd_tile .apply (triple) ) (
+        triple_trd_tile .apply (triple) )
     )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    apply_on_triple (all_actor_triple_tile .apply (message) )
 
 end
 

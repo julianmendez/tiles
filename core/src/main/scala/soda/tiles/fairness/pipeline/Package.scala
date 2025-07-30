@@ -27,6 +27,11 @@ import   soda.tiles.fairness.tile.DecisionTile
 import   soda.tiles.fairness.tile.FalsePosTile
 import   soda.tiles.fairness.tile.NeededPTile
 import   soda.tiles.fairness.tile.PredictionPTile
+import   soda.tiles.fairness.tile.ProjectionPairFstTile
+import   soda.tiles.fairness.tile.ProjectionPairSndTile
+import   soda.tiles.fairness.tile.ProjectionTripleFstTile
+import   soda.tiles.fairness.tile.ProjectionTripleSndTile
+import   soda.tiles.fairness.tile.ProjectionTripleTrdTile
 import   soda.tiles.fairness.tile.ReceivedSigmaPTile
 import   soda.tiles.fairness.tile.SigmaTile
 import   soda.tiles.fairness.tile.UnzipPairFstTile
@@ -34,7 +39,8 @@ import   soda.tiles.fairness.tile.UnzipPairSndTile
 import   soda.tiles.fairness.tile.UnzipTripleFstTile
 import   soda.tiles.fairness.tile.UnzipTripleSndTile
 import   soda.tiles.fairness.tile.UnzipTripleTrdTile
-import   soda.tiles.fairness.tile.ZipTile
+import   soda.tiles.fairness.tile.ZipPairTile
+import   soda.tiles.fairness.tile.ZipTripleTile
 
 
 
@@ -113,30 +119,19 @@ trait EquityPipeline
 
   lazy val all_actor_pair_tile = AllActorPairTile .mk
 
-  lazy val unzip_fst_tile = UnzipPairFstTile .mk
+  lazy val pair_fst_tile = ProjectionPairFstTile .mk
 
-  lazy val unzip_snd_tile = UnzipPairSndTile .mk
+  lazy val pair_snd_tile = ProjectionPairSndTile .mk
 
-  lazy val zip_tile = ZipTile .mk
-
-  def get_branch_0 (message : TileMessage [Seq [TilePair [Actor, Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    received_sigma_p_tile .apply (unzip_fst_tile .apply (message) )
-
-  def get_branch_1 (message : TileMessage [Seq [TilePair [Actor, Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    needed_p_tile .apply (unzip_snd_tile .apply (message) )
-
-  def zip_branches (message : TileMessage [Seq [TilePair [Actor, Actor] ] ] )
-      : TileMessage [Seq [TilePair [Measure, Measure] ] ] =
-    zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
+  def apply_on_pair (pair : TileMessage [TilePair [Seq [Actor] , Seq [Actor] ] ] ) : TileMessage [Boolean] =
+    at_least_tile .apply (
+      received_sigma_p_tile .apply (pair_fst_tile (pair) )
+    ) (
+      needed_p_tile .apply (pair_snd_tile (pair) )
+    )
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    at_least_tile .apply (
-      zip_branches (
-        all_actor_pair_tile .apply (message)
-      )
-    )
+    apply_on_pair (all_actor_pair_tile .apply (message) )
 
 }
 
@@ -176,15 +171,19 @@ trait UnbiasednessPipeline
   def   p2_with_p : Actor => Measure
   def   p3_acceptable_bias : Measure
 
+  lazy val all_actor_tile = AllActorTile .mk
+
   lazy val all_actor_triple_tile = AllActorTripleTile .mk
 
-  lazy val unzip_fst_tile = UnzipTripleFstTile .mk
+  lazy val triple_fst_tile = ProjectionTripleFstTile .mk
 
-  lazy val unzip_snd_tile = UnzipTripleSndTile .mk
+  lazy val triple_snd_tile = ProjectionTripleSndTile .mk
 
-  lazy val unzip_trd_tile = UnzipTripleTrdTile .mk
+  lazy val triple_trd_tile = ProjectionTripleTrdTile .mk
 
-  lazy val zip_tile = ZipTile .mk
+  lazy val zip_pair_tile = ZipPairTile .mk
+
+  lazy val zip_triple_tile = ZipTripleTile .mk
 
   lazy val prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 
@@ -198,38 +197,24 @@ trait UnbiasednessPipeline
 
   lazy val decision_tile = DecisionTile .mk (p3_acceptable_bias)
 
-  def get_prediction (message : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    prediction_p_tile .apply (unzip_fst_tile .apply (message) )
-
-  def get_result (message : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    result_p_tile .apply (unzip_snd_tile .apply (message) )
-
-  def get_with_p (message : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    with_p_tile .apply (unzip_trd_tile .apply (message) )
-
-  def get_false_pos (prediction : TileMessage [Seq [Measure] ] ) (
-      result : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
-    false_pos_tile .apply (zip_tile .apply (prediction) (result) )
-
-  def get_correlation (false_pos : TileMessage [Seq [Measure] ] ) (
-      with_p : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
-    correlation_tile .apply (zip_tile .apply (false_pos) (with_p) )
-
-  def get_correlation_plumbing (message : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] )
+  def get_correlation_plumbing (message0 : TileMessage [Seq [Actor] ] )
+    (message1 : TileMessage [Seq [Actor] ] ) (message2 : TileMessage [Seq [Actor] ] )
       : TileMessage [Measure] =
-    get_correlation (
-      get_false_pos (get_prediction (message) ) (get_result (message) )
-    ) (get_with_p (message) )
+    correlation_tile .apply (
+      false_pos_tile .apply (prediction_p_tile .apply (message0) ) (result_p_tile .apply (message1) )
+    ) (with_p_tile .apply (message2) )
 
-  def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+  def apply_on_triple (triple : TileMessage [TileTriple [Seq [Actor] , Seq [Actor] , Seq [Actor] ] ] )
+      : TileMessage [Boolean] =
     decision_tile .apply (
       get_correlation_plumbing (
-        all_actor_triple_tile .apply (message)
-      )
+        triple_fst_tile .apply (triple) ) (
+        triple_snd_tile .apply (triple) ) (
+        triple_trd_tile .apply (triple) )
     )
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    apply_on_triple (all_actor_triple_tile .apply (message) )
 
 }
 

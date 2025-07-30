@@ -28,6 +28,11 @@ import
   soda.tiles.fairness.tile.FalsePosTile
   soda.tiles.fairness.tile.NeededPTile
   soda.tiles.fairness.tile.PredictionPTile
+  soda.tiles.fairness.tile.ProjectionPairFstTile
+  soda.tiles.fairness.tile.ProjectionPairSndTile
+  soda.tiles.fairness.tile.ProjectionTripleFstTile
+  soda.tiles.fairness.tile.ProjectionTripleSndTile
+  soda.tiles.fairness.tile.ProjectionTripleTrdTile
   soda.tiles.fairness.tile.ReceivedSigmaPTile
   soda.tiles.fairness.tile.SigmaTile
   soda.tiles.fairness.tile.UnzipPairFstTile
@@ -35,5 +40,6 @@ import
   soda.tiles.fairness.tile.UnzipTripleFstTile
   soda.tiles.fairness.tile.UnzipTripleSndTile
   soda.tiles.fairness.tile.UnzipTripleTrdTile
-  soda.tiles.fairness.tile.ZipTile
+  soda.tiles.fairness.tile.ZipPairTile
+  soda.tiles.fairness.tile.ZipTripleTile
 

@@ -9,7 +9,7 @@ import Soda.tiles.fairness.tool.TileMessage
  * sequences.
  */
 
-class ZipTile
+class ZipPairTile
 
   abstract
 
@@ -17,7 +17,7 @@ class ZipTile
       : Seq [TilePair [A] [B] ] =
     list0
       .zip (list1)
-      .map (lambda pair --> TilePair_ [A] [B] (pair ._1 , pair._2) )
+      .map (lambda pair --> TilePair .mk [A] [B] (pair ._1) (pair ._2) )
 
   apply [A : Type] [B : Type] (message0 : TileMessage [Seq [A] ] )
       (message1 : TileMessage [Seq [B] ] ) : TileMessage [Seq [TilePair [A] [B] ] ] =

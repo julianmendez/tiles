@@ -29,30 +29,19 @@ class EquityPipeline
 
   all_actor_pair_tile = AllActorPairTile .mk
 
-  unzip_fst_tile = UnzipPairFstTile .mk
+  pair_fst_tile = ProjectionPairFstTile .mk
 
-  unzip_snd_tile = UnzipPairSndTile .mk
+  pair_snd_tile = ProjectionPairSndTile .mk
 
-  zip_tile = ZipTile .mk
-
-  get_branch_0 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    received_sigma_p_tile .apply (unzip_fst_tile .apply (message) )
-
-  get_branch_1 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    needed_p_tile .apply (unzip_snd_tile .apply (message) )
-
-  zip_branches (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
-      : TileMessage [Seq [TilePair [Measure] [Measure] ] ] =
-    zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
+  apply_on_pair (pair : TileMessage [TilePair [Seq [Actor] ] [Seq [Actor] ] ] ) : TileMessage [Boolean] =
+    at_least_tile .apply (
+      received_sigma_p_tile .apply (pair_fst_tile (pair) )
+    ) (
+      needed_p_tile .apply (pair_snd_tile (pair) )
+    )
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    at_least_tile .apply (
-      zip_branches (
-        all_actor_pair_tile .apply (message)
-      )
-    )
+    apply_on_pair (all_actor_pair_tile .apply (message) )
 
 end
 

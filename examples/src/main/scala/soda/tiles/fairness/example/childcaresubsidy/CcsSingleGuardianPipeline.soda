@@ -23,16 +23,16 @@ class CcsSingleGuardianPipeline
 
   all_actor_pair_tile = AllActorPairTile .mk
 
-  unzip_fst_tile = UnzipPairFstTile .mk
+  pair_fst_tile = ProjectionPairFstTile .mk
 
-  unzip_snd_tile = UnzipPairSndTile .mk
+  pair_snd_tile = ProjectionPairSndTile .mk
 
   and_combination (b0 : Boolean) (b1 : Boolean) : Boolean =
     b0 and b1
 
   and_tile = CombineBooleanTile .mk (and_combination)
 
-  atomic_zip_tile = AtomicZipTile .mk
+  pairing_tile = TuplingPairTile .mk
 
   condition_0 (a : Actor) : Boolean =
     adults (a) .getOrElse (0) == 1
@@ -44,34 +44,37 @@ class CcsSingleGuardianPipeline
 
   filter_actor_tile_1 = FilterActorTile .mk (condition_1)
 
-  get_branch_0 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+  get_branch_0 (message : TileMessage [Seq [Actor] ] )
       : TileMessage [Boolean] =
     all_equal_tile .apply (
       received_sigma_p_tile .apply (
         filter_actor_tile_0 .apply (
-          unzip_fst_tile .apply (message)
+          message
         )
       )
     )
 
-  get_branch_1 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
+  get_branch_1 (message : TileMessage [Seq [Actor] ] )
       : TileMessage [Boolean] =
     all_satisfy_p_tile .apply (
       received_sigma_p_tile .apply (
         filter_actor_tile_1 .apply (
-          unzip_snd_tile .apply (message)
+          message
         )
       )
     )
 
-  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+  apply_on_actors (message : TileMessage [TilePair [Seq [Actor] ] [Seq [Actor] ] ] ) : TileMessage [Boolean] =
     and_tile .apply (
-      atomic_zip_tile .apply (
-        get_branch_0 (all_actor_pair_tile .apply (message) )
+      pairing_tile .apply (
+        get_branch_0 (pair_fst_tile .apply (message) )
       ) (
-        get_branch_1 (all_actor_pair_tile .apply (message) )
+        get_branch_1 (pair_snd_tile .apply (message) )
       )
     )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    apply_on_actors (all_actor_pair_tile .apply (message) )
 
   runner : TileMessage [Boolean] -> TileMessage [Boolean] =
     lambda message --> apply (message)

@@ -1,0 +1,20 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns the second element of a triple.
+ */
+
+class ProjectionTripleSndTile
+
+  abstract
+
+  apply [A : Type] [B : Type] [C : Type] (message : TileMessage [TileTriple [A] [B] [C] ] )
+      : TileMessage [B] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      message .contents .snd)
+
+end
+

@@ -15,6 +15,8 @@ class CorrelationTile
 
   _percentage_constant : Float = 100.0
 
+  zip_tile = ZipPairTile .mk
+
   get_coefficient (xlist : Seq [Float] ) (ylist : Seq [Float] ) : Float =
     (Pearson .mk (xlist) (ylist) ) .coefficient
 
@@ -35,10 +37,15 @@ class CorrelationTile
   process_tuples (lists : Seq [TilePair [Measure] [Measure] ] ) : Measure =
     to_measure (get_coefficient (get_fst_list (lists) ) (get_snd_list (lists) ) )
 
-  apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
+  apply_zipped (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
     : TileMessage [Measure] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       process_tuples (message .contents)
+    )
+
+  apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
+    apply_zipped (
+      zip_tile .apply [Measure] [Measure] (message0) (message1)
     )
 
 end
