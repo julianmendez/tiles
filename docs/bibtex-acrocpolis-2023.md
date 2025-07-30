@@ -1,4 +1,3 @@
-
 ```bibtex
 @inproceedings{AlerTubella.et.al-2023-FAccT,
     author = {Aler Tubella, Andrea and Coelho Mollo, Dimitri and Dahlgren Lindstr\"{o}m, Adam and Devinney, Hannah and Dignum, Virginia and Ericson, Petter and Jonsson, Anna and Kampik, Timotheus and Lenaerts, Tom and Mendez, Julian Alfredo and Nieves, Juan Carlos},

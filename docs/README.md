@@ -20,21 +20,24 @@ The fairness tiles are defined in [package tile][package-tile]
 ## Publications
 
 * <a id="MeKaAlDi2024"></a>
-Julian Alfredo Mendez, Timotheus Kampik, Andrea Aler Tubella, and Virginia Dignum. **A Clearer View on Fairness: Visual and Formal Representation for Comparative Analysis**. In Florian Westphal, Einav Peretz-Andersson, Maria Riveiro, Kerstin Bach, and Fredrik Heintz, editors, *14th Scandinavian Conference on Artificial Intelligence, SCAI 2024*, pages 112-120. Swedish Artificial Intelligence Society, June 2024.
- &nbsp; DOI:[10.3384/ecp208013][tiles-doi]
- &nbsp; [Abstract][tiles-abstract]
- &nbsp; [BibTeX][tiles-bibtex]
- &nbsp; [PDF][tiles-pdf]
- &nbsp; [Implementation][tiles-impl]
+  Julian Alfredo Mendez, Timotheus Kampik, Andrea Aler Tubella, and Virginia Dignum. **A Clearer View on Fairness:
+  Visual and Formal Representation for Comparative Analysis**. In Florian Westphal, Einav Peretz-Andersson, Maria
+  Riveiro, Kerstin Bach, and Fredrik Heintz, editors, *14th Scandinavian Conference on Artificial Intelligence, SCAI
+  2024*, pages 112-120. Swedish Artificial Intelligence Society, June 2024.
+  &nbsp; DOI:[10.3384/ecp208013][tiles-doi]
+  &nbsp; [Abstract][tiles-abstract]
+  &nbsp; [BibTeX][tiles-bibtex]
+  &nbsp; [PDF][tiles-pdf]
+  &nbsp; [Implementation][tiles-impl]
 * <a id="Me2023"></a>
-Julian Alfredo Mendez.
-**Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**.
-arXiv
- &nbsp; DOI:[10.48550/arXiv.2310.01961][soda-doi]
- &nbsp; [Abstract][soda-abstract]
- &nbsp; [BibTeX][soda-bibtex]
- &nbsp; [PDF][soda-pdf]
- &nbsp; [Implementation][soda-impl]
+  Julian Alfredo Mendez.
+  **Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**.
+  arXiv
+  &nbsp; DOI:[10.48550/arXiv.2310.01961][soda-doi]
+  &nbsp; [Abstract][soda-abstract]
+  &nbsp; [BibTeX][soda-bibtex]
+  &nbsp; [PDF][soda-pdf]
+  &nbsp; [Implementation][soda-impl]
 
 
 ## Example
@@ -112,43 +115,81 @@ are:
 [Julian Alfredo Mendez][author]
 
 [tiles-doi]: https://doi.org/10.3384/ecp208013
+
 [tiles-abstract]: https://ecp.ep.liu.se/index.php/sais/article/view/1005
+
 [tiles-bibtex]: https://julianmendez.github.io/tiles/bibtex-2024.html
+
 [tiles-pdf]: https://ecp.ep.liu.se/index.php/sais/article/view/1005/913
+
 [tiles-impl]: https://github.com/julianmendez/tiles
+
 [soda-doi]: https://doi.org/10.48550/arXiv.2310.01961
+
 [soda-abstract]: https://arxiv.org/abs/2310.01961
+
 [soda-bibtex]: https://julianmendez.github.io/soda/bibtex-2023.html
+
 [soda-pdf]: https://arxiv.org/pdf/2310.01961
+
 [soda-impl]: https://github.com/julianmendez/soda
+
 [author]: https://julianmendez.github.io
+
 [license]: https://www.apache.org/licenses/LICENSE-2.0.txt
+
 [build-status]: https://github.com/julianmendez/tiles/actions
+
 [release-notes]: https://julianmendez.github.io/tiles/RELEASE-NOTES.html
+
 [soda]: https://github.com/julianmendez/soda
+
 [scala]: https://scala-lang.org
+
 [yaml]: https://yaml.org
+
 [package-tile]: https://github.com/julianmendez/tiles/tree/master/core/src/main/scala/soda/tiles/fairness/tile
+
 [package-tile-scala]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/Package.scala
+
 [package-tool]: https://github.com/julianmendez/tiles/tree/master/core/src/main/scala/soda/tiles/fairness/tool
+
 [package-tool-scala]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tool/Package.scala
+
 [AllActorTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllActorTile.soda
+
 [ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ReceivedSigmaPTile.soda
+
 [AllEqualTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllEqualTile.soda
+
 [NeededPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/NeededPTile.soda
+
 [AllAtLeastTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllAtLeastTile.soda
+
 [EqualityPipeline]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/EqualityPipeline.soda
+
 [EquityPipeline]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/EquityPipeline.soda
+
 [AttributePTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AttributePTile.soda
+
 [SigmaTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/SigmaTile.soda
+
 [ZipTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ZipTile.soda
+
 [UnzipPairFstTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/UnzipPairFstTile.soda
+
 [UnzipPairSndTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/UnzipPairSndTile.soda
+
 [ResourceAllocationScenarioExample]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/ResourceAllocationScenarioExample.soda
+
 [EqualityPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EqualityPipelineSpec.soda
+
 [EquityPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/EquityPipelineSpec.soda
+
 [ccs-example]: https://julianmendez.github.io/tiles/ccs_example.html
+
 [test-yaml-conf]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/resources/example/example0.yaml
+
 [scoring-example]: https://julianmendez.github.io/tiles/scoring_example.html
 
 <script>
