@@ -96,13 +96,13 @@ graph LR
 The auxiliary tiles are used in the construction of other tiles. Some of the auxiliary tiles
 are:
 
-| Tile                                                                     | Class                                |
-|:-------------------------------------------------------------------------|:-------------------------------------|
-| <sub>*(a)*</sub> attribute <sub>*(m)*</sub>                              | [AttributePTile][AttributePTile]     |
-| <sub>*(m0), (m1)*</sub> &sigma; <sub>*(m)*</sub>                         | [SigmaTile][SigmaTile]               |
-| <sub>*(&alpha;0),(&alpha;1)*</sub> zip <sub>*(&alpha;0, &alpha;1)*</sub> | [ZipTile][ZipTile]                   |
-| <sub>*(&alpha;0, &alpha;1)*</sub> unzip-0 <sub>*(&alpha;0)*</sub>        | [UnzipPairFstTile][UnzipPairFstTile] |
-| <sub>*(&alpha;0, &alpha;1)*</sub> unzip-1 <sub>*(&alpha;1)*</sub>        | [UnzipPairSndTile][UnzipPairSndTile] |
+| Tile                                                                        | Class                                |
+|:----------------------------------------------------------------------------|:-------------------------------------|
+| <sub>*(a)*</sub> attribute <sub>*(m)*</sub>                                 | [AttributePTile][AttributePTile]     |
+| <sub>*(m0), (m1)*</sub> &sigma; <sub>*(m)*</sub>                            | [SigmaTile][SigmaTile]               |
+| <sub>*(&alpha;0), (&alpha;1)*</sub> zip <sub>*(⟨&alpha;0, &alpha;1⟩)*</sub> | [ZipTile][ZipTile]                   |
+| <sub>*(⟨&alpha;0, &alpha;1⟩)*</sub> unzip-0 <sub>*(&alpha;0)*</sub>         | [UnzipPairFstTile][UnzipPairFstTile] |
+| <sub>*(⟨&alpha;0, &alpha;1⟩)*</sub> unzip-1 <sub>*(&alpha;1)*</sub>         | [UnzipPairSndTile][UnzipPairSndTile] |
 
 
 ### More examples

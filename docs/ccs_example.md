@@ -86,8 +86,8 @@ their own section (`pipelines`).
 | <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [AttributePTile][AttributePTile]         |
 | <sub>*(a)*</sub> p ? <sub>*(a)*</sub>               | [FilterActorTile][FilterActorTile]       |
 | <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |
-| <sub>*(m0), (m1)*</sub> f (m0,m1) <sub>*(m)*</sub>  | [SigmaTile][SigmaTile]                   |
-| <sub>*b0, b1*</sub> f (b0,b1) <sub>*b*</sub>        | [CombineBooleanTile][CombineBooleanTile] |
+| <sub>*(m0), (m1)*</sub> f (m0, m1) <sub>*(m)*</sub> | [SigmaTile][SigmaTile]                   |
+| <sub>*b0, b1*</sub> f (b0, b1) <sub>*b*</sub>       | [CombineBooleanTile][CombineBooleanTile] |
 
 
 ### No Child Care Subsidy
