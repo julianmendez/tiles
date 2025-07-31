@@ -11,6 +11,7 @@ import
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.Outcome
   soda.tiles.fairness.tool.Pearson
+  soda.tiles.fairness.tool.PearsonMod
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder

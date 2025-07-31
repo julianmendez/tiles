@@ -213,6 +213,8 @@ case class ScoringToolSpec ()
 
   lazy val instance_1 : Pearson = Pearson .mk (example_xlist_1) (example_ylist_1)
 
+  lazy val pearson_mod : PearsonMod = PearsonMod .mk
+
   private lazy val _mt : MathTool = MathTool .mk
 
   private lazy val _mc : ScoringCategory = ScoringCategory .mk
@@ -249,7 +251,7 @@ case class ScoringToolSpec ()
 
   test ("coefficient") (
     check (
-      obtained = (instance_2 .coefficient >= 0.529808) && (instance_2 .coefficient < 0.529809)
+      obtained = (pearson_mod .coefficient (instance_2) >= 0.529808) && (pearson_mod .coefficient (instance_2) < 0.529809)
     ) (
       expected = true
     )

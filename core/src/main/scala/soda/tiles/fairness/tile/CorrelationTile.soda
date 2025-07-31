@@ -22,7 +22,7 @@ class CorrelationTile
   zip_tile = ZipPairTile .mk
 
   get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Number =
-    (Pearson .mk (xlist) (ylist) ) .coefficient
+    PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )
 
   to_double (m : Measure) : Number =
     if (m == _measure_zero)

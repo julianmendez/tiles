@@ -10,6 +10,7 @@ import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.Pearson
+import   soda.tiles.fairness.tool.PearsonMod
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
@@ -348,7 +349,7 @@ trait CorrelationTile
   lazy val zip_tile = ZipPairTile .mk
 
   def get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Number =
-    (Pearson .mk (xlist) (ylist) ) .coefficient
+    PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )
 
   def to_double (m : Measure) : Number =
     if ( (m == _measure_zero)

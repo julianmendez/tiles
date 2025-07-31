@@ -12,6 +12,8 @@ class ScoringToolSpec ()
 
   instance_1 : Pearson = Pearson .mk (example_xlist_1) (example_ylist_1)
 
+  pearson_mod : PearsonMod = PearsonMod .mk
+
   _mt : MathTool = MathTool .mk
 
   _mc : ScoringCategory = ScoringCategory .mk
@@ -49,7 +51,7 @@ class ScoringToolSpec ()
 
   test ("coefficient") (
     check (
-      obtained := (instance_2 .coefficient >= 0.529808) and (instance_2 .coefficient < 0.529809)
+      obtained := (pearson_mod .coefficient (instance_2) >= 0.529808) and (pearson_mod .coefficient (instance_2) < 0.529809)
     ) (
       expected := true
     )

@@ -117,23 +117,20 @@ object Comparator {
 
 /*
 directive lean
-import Batteries.Data.Rat
 import Soda.tiles.fairness.tool.TileMessage
+import Batteries.Lean.Float
 */
 
 /*
 directive lean
-notation "Number" => Rat
+notation "Number" => Float
+def as_number (x : Int) : Number := Int.divFloat (x) (1)
+def as_pair (x : Prod (Number) (Number) ) : TilePair (Number) (Number) := TilePair.mk (x.fst) (x.snd)
 */
 
 type Number = Double
-
-/*
-directive lean
-def as_Number (x : Number) : Number := x
-*/
-
-def as_Number (x : Int) : Number = x
+def as_number (x : Int) : Number = x.toDouble
+def as_pair (x : Tuple2 [Number, Number] ) : TilePair [Number, Number] = TilePair.mk [Number, Number] (x._1) (x._2)
 
 /**
  * This class contains helper functions for mathematical calculations.
@@ -164,7 +161,7 @@ trait MathTool
     _tailrec_foldl [Number, Number] (seq) (_sum_init) (_sum_next)
 
   def average (seq : Seq [Number] ) : Number =
-    sum (seq) / as_Number (seq .length)
+    sum (seq) / as_number (seq .length)
 
 }
 
@@ -189,11 +186,25 @@ trait Pearson
   def   xlist : Seq [Number]
   def   ylist : Seq [Number]
 
+}
+
+case class Pearson_ (xlist : Seq [Number], ylist : Seq [Number]) extends Pearson
+
+object Pearson {
+  def mk (xlist : Seq [Number]) (ylist : Seq [Number]) : Pearson =
+    Pearson_ (xlist, ylist)
+}
+
+trait PearsonMod
+{
+
+
+
   private lazy val _mm : MathTool = MathTool .mk
 
 /*
   directive lean
-  notation "Math.sqrt" => Number.sqrt
+  notation "Math.sqrt" => Float.sqrt
   notation "_mm.average" => MathTool.average
   notation "_mm.sum" => MathTool.sum
   notation "_mm.squared" => MathTool.squared
@@ -208,33 +219,33 @@ trait Pearson
   private def _sqrt_sum_squared_diff (seq : Seq [Number] ) : Number =
     Math.sqrt (sum_squared_diff (seq) )
 
-  private lazy val _denominator : Number =
-    _sqrt_sum_squared_diff (xlist) * _sqrt_sum_squared_diff (ylist)
+  private def _denominator (m : Pearson) : Number =
+    _sqrt_sum_squared_diff (m .xlist) * _sqrt_sum_squared_diff (m .ylist)
 
   private def _multip (x_i : Number) (y_i : Number) (x_average : Number) (y_average : Number) : Number =
     (x_i - x_average) * (y_i - y_average)
 
-  private def _numerator_with (pair_list : Seq [Tuple2 [Number, Number] ] ) (x_average : Number)
+  private def _numerator_with (pair_list : Seq [TilePair [Number, Number] ] ) (x_average : Number)
       (y_average : Number) : Number =
     _mm .sum (pair_list .map ( pair =>
-      _multip (pair ._1) (pair ._2) (x_average) (y_average) ) )
+      _multip (pair .fst) (pair .snd) (x_average) (y_average) ) )
 
-  private lazy val _x_y_together : Seq [Tuple2 [Number, Number] ] =
-    xlist .zip (ylist)
+  private def _x_y_together (m : Pearson) : Seq [TilePair [Number, Number] ] =
+    (m .xlist .zip (m .ylist) ) .map ( elem => as_pair (elem) )
 
-  private lazy val _numerator : Number =
-    _numerator_with (_x_y_together) (_mm .average (xlist) ) (_mm .average (ylist) )
+  private def _numerator (m : Pearson) : Number =
+    _numerator_with (_x_y_together (m) ) (_mm .average (m .xlist) ) (_mm .average (m .ylist) )
 
-  lazy val coefficient : Number =
-    _numerator / _denominator
+  def coefficient (m : Pearson) : Number =
+    _numerator (m) / _denominator (m)
 
 }
 
-case class Pearson_ (xlist : Seq [Number], ylist : Seq [Number]) extends Pearson
+case class PearsonMod_ () extends PearsonMod
 
-object Pearson {
-  def mk (xlist : Seq [Number]) (ylist : Seq [Number]) : Pearson =
-    Pearson_ (xlist, ylist)
+object PearsonMod {
+  def mk : PearsonMod =
+    PearsonMod_ ()
 }
 
 trait ScoringCategory
