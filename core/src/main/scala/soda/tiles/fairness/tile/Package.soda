@@ -18,4 +18,5 @@ import
   soda.tiles.fairness.tool.TilePair_
   soda.tiles.fairness.tool.TileTriple
   soda.tiles.fairness.tool.TileTriple_
+  soda.tiles.fairness.tool.Number
 

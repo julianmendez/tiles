@@ -17,6 +17,7 @@ import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.TileTriple
 import   soda.tiles.fairness.tool.TileTriple_
+import   soda.tiles.fairness.tool.Number
 
 
 
@@ -325,7 +326,10 @@ object CombineBooleanTile {
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tool.ScoringTool
 */
+
+import soda.tiles.fairness.tool.Number
 
 /**
  * This tile computes the Pearson correlation, and for that, takes two sequences of measures,
@@ -339,25 +343,25 @@ trait CorrelationTile
 
   private lazy val _measure_zero : Measure = Some (0)
 
-  private lazy val _percentage_constant : Float = 100.0
+  private lazy val _percentage_constant : Number = 100.0
 
   lazy val zip_tile = ZipPairTile .mk
 
-  def get_coefficient (xlist : Seq [Float] ) (ylist : Seq [Float] ) : Float =
+  def get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Number =
     (Pearson .mk (xlist) (ylist) ) .coefficient
 
-  def to_double (m : Measure) : Float =
+  def to_double (m : Measure) : Number =
     if ( (m == _measure_zero)
     ) 0.0
     else 1.0
 
-  def to_measure (d : Float) : Measure =
+  def to_measure (d : Number) : Measure =
     Some ( (d * _percentage_constant) .intValue)
 
-  def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Float] =
+  def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Number] =
     lists .map ( pair => to_double (pair .fst) )
 
-  def get_snd_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Float] =
+  def get_snd_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Number] =
     lists .map ( pair => to_double (pair .snd) )
 
   def process_tuples (lists : Seq [TilePair [Measure, Measure] ] ) : Measure =

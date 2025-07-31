@@ -207,9 +207,9 @@ case class ScoringToolSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val example_xlist_1 : Seq [Float] = Seq (1 , 3 , 5 , 8)
+  lazy val example_xlist_1 : Seq [Number] = Seq (1 , 3 , 5 , 8)
 
-  lazy val example_ylist_1 : Seq [Float] = Seq (1 , 3 , 5 , 8)
+  lazy val example_ylist_1 : Seq [Number] = Seq (1 , 3 , 5 , 8)
 
   lazy val instance_1 : Pearson = Pearson .mk (example_xlist_1) (example_ylist_1)
 
@@ -241,9 +241,9 @@ case class ScoringToolSpec ()
     )
   )
 
-  lazy val example_xlist_2 : Seq [Float] = Seq (43 , 21 , 25 , 42 , 57 , 59)
+  lazy val example_xlist_2 : Seq [Number] = Seq (43 , 21 , 25 , 42 , 57 , 59)
 
-  lazy val example_ylist_2 : Seq [Float] = Seq (99 , 65 , 79 , 75 , 87 , 81)
+  lazy val example_ylist_2 : Seq [Number] = Seq (99 , 65 , 79 , 75 , 87 , 81)
 
   lazy val instance_2 : Pearson = Pearson .mk (example_xlist_2) (example_ylist_2)
 
