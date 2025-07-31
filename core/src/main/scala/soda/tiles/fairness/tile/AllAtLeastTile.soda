@@ -13,7 +13,9 @@ class AllAtLeastTile
 
   abstract
 
-  apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
+  zip_tile = ZipPairTile .mk
+
+  apply_zipped (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
     : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
@@ -22,6 +24,11 @@ class AllAtLeastTile
             .compareMeasure (pair .fst) (pair .snd) ) >= 0 )
         .forall (lambda e --> e)
       )
+    )
+
+  apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
+    apply_zipped (
+      zip_tile .apply [Measure] [Measure] (message0) (message1)
     )
 
 end

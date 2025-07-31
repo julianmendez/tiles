@@ -207,11 +207,13 @@ case class ScoringToolSpec ()
   def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
     assert (obtained == expected)
 
-  lazy val example_xlist_1 : Seq [Float] = Seq (1 , 3 , 5 , 8)
+  lazy val example_xlist_1 : Seq [Number] = Seq (1 , 3 , 5 , 8)
 
-  lazy val example_ylist_1 : Seq [Float] = Seq (1 , 3 , 5 , 8)
+  lazy val example_ylist_1 : Seq [Number] = Seq (1 , 3 , 5 , 8)
 
   lazy val instance_1 : Pearson = Pearson .mk (example_xlist_1) (example_ylist_1)
+
+  lazy val pearson_mod : PearsonMod = PearsonMod .mk
 
   private lazy val _mt : MathTool = MathTool .mk
 
@@ -241,15 +243,15 @@ case class ScoringToolSpec ()
     )
   )
 
-  lazy val example_xlist_2 : Seq [Float] = Seq (43 , 21 , 25 , 42 , 57 , 59)
+  lazy val example_xlist_2 : Seq [Number] = Seq (43 , 21 , 25 , 42 , 57 , 59)
 
-  lazy val example_ylist_2 : Seq [Float] = Seq (99 , 65 , 79 , 75 , 87 , 81)
+  lazy val example_ylist_2 : Seq [Number] = Seq (99 , 65 , 79 , 75 , 87 , 81)
 
   lazy val instance_2 : Pearson = Pearson .mk (example_xlist_2) (example_ylist_2)
 
   test ("coefficient") (
     check (
-      obtained = (instance_2 .coefficient >= 0.529808) && (instance_2 .coefficient < 0.529809)
+      obtained = (pearson_mod .coefficient (instance_2) >= 0.529808) && (pearson_mod .coefficient (instance_2) < 0.529809)
     ) (
       expected = true
     )

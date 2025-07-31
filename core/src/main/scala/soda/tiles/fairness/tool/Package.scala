@@ -118,7 +118,19 @@ object Comparator {
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
+import Batteries.Lean.Float
 */
+
+/*
+directive lean
+notation "Number" => Float
+def as_number (x : Int) : Number := Int.divFloat (x) (1)
+def as_pair (x : Prod (Number) (Number) ) : TilePair (Number) (Number) := TilePair.mk (x.fst) (x.snd)
+*/
+
+type Number = Double
+def as_number (x : Int) : Number = x.toDouble
+def as_pair (x : Tuple2 [Number, Number] ) : TilePair [Number, Number] = TilePair.mk [Number, Number] (x._1) (x._2)
 
 /**
  * This class contains helper functions for mathematical calculations.
@@ -137,19 +149,19 @@ trait MathTool
         _tailrec_foldl [A, B] (tail) (next (current) (head) ) (next)
     }
 
-  def squared (x : Float) : Float =
+  def squared (x : Number) : Number =
     x * x
 
-  private lazy val _sum_init : Float = 0
+  private lazy val _sum_init : Number = 0
 
-  private def _sum_next (accum : Float) (elem : Float) : Float =
+  private def _sum_next (accum : Number) (elem : Number) : Number =
     accum + elem
 
-  def sum (seq : Seq [Float] ) : Float =
-    _tailrec_foldl [Float, Float] (seq) (_sum_init) (_sum_next)
+  def sum (seq : Seq [Number] ) : Number =
+    _tailrec_foldl [Number, Number] (seq) (_sum_init) (_sum_next)
 
-  def average (seq : Seq [Float] ) : Float =
-    sum (seq) / seq .length .toFloat
+  def average (seq : Seq [Number] ) : Number =
+    sum (seq) / as_number (seq .length)
 
 }
 
@@ -171,8 +183,22 @@ object MathTool {
 trait Pearson
 {
 
-  def   xlist : Seq [Float]
-  def   ylist : Seq [Float]
+  def   xlist : Seq [Number]
+  def   ylist : Seq [Number]
+
+}
+
+case class Pearson_ (xlist : Seq [Number], ylist : Seq [Number]) extends Pearson
+
+object Pearson {
+  def mk (xlist : Seq [Number]) (ylist : Seq [Number]) : Pearson =
+    Pearson_ (xlist, ylist)
+}
+
+trait PearsonMod
+{
+
+
 
   private lazy val _mm : MathTool = MathTool .mk
 
@@ -184,49 +210,42 @@ trait Pearson
   notation "_mm.squared" => MathTool.squared
 */
 
-  def _to_Float (d : Double) : Float = d .toFloat
-
-/*
-  directive lean
-  def _to_Float (x : Float) : Float := x
-*/
-
-  private def _sum_squared_diff_with (seq : Seq [Float] ) (x_average : Float) : Float =
+  private def _sum_squared_diff_with (seq : Seq [Number] ) (x_average : Number) : Number =
     _mm .sum (seq .map ( x_i => _mm .squared (x_i - x_average) ) )
 
-  def sum_squared_diff (seq : Seq [Float] ) : Float =
+  def sum_squared_diff (seq : Seq [Number] ) : Number =
     _sum_squared_diff_with (seq) (_mm .average (seq) )
 
-  private def _sqrt_sum_squared_diff (seq : Seq [Float] ) : Float =
-    _to_Float ( Math.sqrt (sum_squared_diff (seq) ) )
+  private def _sqrt_sum_squared_diff (seq : Seq [Number] ) : Number =
+    Math.sqrt (sum_squared_diff (seq) )
 
-  private lazy val _denominator : Float =
-    _sqrt_sum_squared_diff (xlist) * _sqrt_sum_squared_diff (ylist)
+  private def _denominator (m : Pearson) : Number =
+    _sqrt_sum_squared_diff (m .xlist) * _sqrt_sum_squared_diff (m .ylist)
 
-  private def _multip (x_i : Float) (y_i : Float) (x_average : Float) (y_average : Float) : Float =
+  private def _multip (x_i : Number) (y_i : Number) (x_average : Number) (y_average : Number) : Number =
     (x_i - x_average) * (y_i - y_average)
 
-  private def _numerator_with (pair_list : Seq [Tuple2 [Float, Float] ] ) (x_average : Float)
-      (y_average : Float) : Float =
+  private def _numerator_with (pair_list : Seq [TilePair [Number, Number] ] ) (x_average : Number)
+      (y_average : Number) : Number =
     _mm .sum (pair_list .map ( pair =>
-      _multip (pair ._1) (pair ._2) (x_average) (y_average) ) )
+      _multip (pair .fst) (pair .snd) (x_average) (y_average) ) )
 
-  private lazy val _x_y_together : Seq [Tuple2 [Float, Float] ] =
-    xlist .zip (ylist)
+  private def _x_y_together (m : Pearson) : Seq [TilePair [Number, Number] ] =
+    (m .xlist .zip (m .ylist) ) .map ( elem => as_pair (elem) )
 
-  private lazy val _numerator : Float =
-    _numerator_with (_x_y_together) (_mm .average (xlist) ) (_mm .average (ylist) )
+  private def _numerator (m : Pearson) : Number =
+    _numerator_with (_x_y_together (m) ) (_mm .average (m .xlist) ) (_mm .average (m .ylist) )
 
-  lazy val coefficient : Float =
-    _numerator / _denominator
+  def coefficient (m : Pearson) : Number =
+    _numerator (m) / _denominator (m)
 
 }
 
-case class Pearson_ (xlist : Seq [Float], ylist : Seq [Float]) extends Pearson
+case class PearsonMod_ () extends PearsonMod
 
-object Pearson {
-  def mk (xlist : Seq [Float]) (ylist : Seq [Float]) : Pearson =
-    Pearson_ (xlist, ylist)
+object PearsonMod {
+  def mk : PearsonMod =
+    PearsonMod_ ()
 }
 
 trait ScoringCategory
@@ -250,7 +269,7 @@ trait ScoringCategory
 
   lazy val strong_negative_correlation : Int = 7
 
-  def categorize (x : Float) : Int =
+  def categorize (x : Number) : Int =
     if ( (x > 0.5) && (x <= 1.0) ) strong_positive_correlation
     else if ( (x > 0.3) && (x <= 0.5) ) moderate_positive_correlation
     else if ( (x > 0) && (x <= 0.3) ) weak_positive_correlation

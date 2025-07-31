@@ -10,6 +10,7 @@ import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.Pearson
+import   soda.tiles.fairness.tool.PearsonMod
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
@@ -17,6 +18,7 @@ import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.TileTriple
 import   soda.tiles.fairness.tool.TileTriple_
+import   soda.tiles.fairness.tool.Number
 
 
 
@@ -37,14 +39,12 @@ trait AllActorPairTile
 
 
 
-  def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor, Actor] ] ] =
-    TileMessageBuilder .mk .build (
-      message .context) (message .outcome) ( ( (message .outcome) .assignments)
-        .map ( assignment => assignment .actor)
-        .distinct
-        .sorted
-        .map ( actor => TilePair .mk (actor) (actor) )
-    )
+  lazy val zip_tile = TuplingPairTile .mk
+
+  lazy val all_actor_tile = AllActorTile .mk
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [TilePair [Seq [Actor] , Seq [Actor] ] ] =
+    zip_tile .apply (all_actor_tile (message) ) (all_actor_tile (message) )
 
 }
 
@@ -70,12 +70,15 @@ trait AllActorTile
 
 
 
-  def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Actor] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+  def all_actors [A ] (message : TileMessage [A] ) : Seq [Actor] =
       ( (message .outcome) .assignments)
         .map ( assignment => assignment .actor)
         .distinct
         .sorted
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Actor] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      all_actors [Boolean] (message)
     )
 
 }
@@ -103,15 +106,12 @@ trait AllActorTripleTile
 
 
 
-  def apply (message : TileMessage [Boolean] )
-      : TileMessage [Seq [TileTriple [Actor, Actor, Actor] ] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .outcome) .assignments)
-        .map ( assignment => assignment .actor)
-        .distinct
-        .sorted
-        .map ( actor => TileTriple .mk (actor) (actor) (actor) )
-    )
+  lazy val zip_tile = TuplingTripleTile .mk
+
+  lazy val all_actor_tile = AllActorTile .mk
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [TileTriple [Seq [Actor] , Seq [Actor] , Seq [Actor] ] ] =
+    zip_tile .apply (all_actor_tile (message) ) (all_actor_tile (message) ) (all_actor_tile (message) )
 
 }
 
@@ -139,7 +139,9 @@ trait AllAtLeastTile
 
 
 
-  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
+  lazy val zip_tile = ZipPairTile .mk
+
+  def apply_zipped (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
     : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
@@ -148,6 +150,11 @@ trait AllAtLeastTile
             .compareMeasure (pair .fst) (pair .snd) ) >= 0 )
         .forall ( e => e)
       )
+    )
+
+  def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
+    apply_zipped (
+      zip_tile .apply [Measure, Measure] (message0) (message1)
     )
 
 }
@@ -260,36 +267,6 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile connects two elements and returns a pair.
- */
-
-trait AtomicZipTile
-{
-
-
-
-  def apply [A , B ] (message0 : TileMessage [A] )
-      (message1 : TileMessage [B] ) : TileMessage [TilePair [A, B] ] =
-    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
-      TilePair .mk (message0 .contents) (message1 .contents)
-    )
-
-}
-
-case class AtomicZipTile_ () extends AtomicZipTile
-
-object AtomicZipTile {
-  def mk : AtomicZipTile =
-    AtomicZipTile_ ()
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
  * This tile takes a sequence of actors as input and returns the sequence of measures, such
  * that, each position in the output sequence is the application of a function on the
  * corresponding actor in the input.
@@ -350,7 +327,10 @@ object CombineBooleanTile {
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tool.ScoringTool
 */
+
+import soda.tiles.fairness.tool.Number
 
 /**
  * This tile computes the Pearson correlation, and for that, takes two sequences of measures,
@@ -364,32 +344,39 @@ trait CorrelationTile
 
   private lazy val _measure_zero : Measure = Some (0)
 
-  private lazy val _percentage_constant : Float = 100.0
+  private lazy val _percentage_constant : Number = 100.0
 
-  def get_coefficient (xlist : Seq [Float] ) (ylist : Seq [Float] ) : Float =
-    (Pearson .mk (xlist) (ylist) ) .coefficient
+  lazy val zip_tile = ZipPairTile .mk
 
-  def to_double (m : Measure) : Float =
+  def get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Number =
+    PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )
+
+  def to_double (m : Measure) : Number =
     if ( (m == _measure_zero)
     ) 0.0
     else 1.0
 
-  def to_measure (d : Float) : Measure =
+  def to_measure (d : Number) : Measure =
     Some ( (d * _percentage_constant) .intValue)
 
-  def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Float] =
+  def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Number] =
     lists .map ( pair => to_double (pair .fst) )
 
-  def get_snd_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Float] =
+  def get_snd_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Number] =
     lists .map ( pair => to_double (pair .snd) )
 
   def process_tuples (lists : Seq [TilePair [Measure, Measure] ] ) : Measure =
     to_measure (get_coefficient (get_fst_list (lists) ) (get_snd_list (lists) ) )
 
-  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
+  def apply_zipped (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
     : TileMessage [Measure] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       process_tuples (message .contents)
+    )
+
+  def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
+    apply_zipped (
+      zip_tile .apply [Measure, Measure] (message0) (message1)
     )
 
 }
@@ -461,9 +448,9 @@ trait FalsePosTile
     ) _measure_one
     else _measure_zero
 
-  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
+  def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
       : TileMessage [Seq [Measure] ] =
-    SigmaTile .mk (sigma) .apply (message)
+    SigmaTile .mk (sigma) .apply (message0) (message1)
 
 }
 
@@ -636,6 +623,151 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
+ * This tile returns the first element of a pair.
+ */
+
+trait ProjectionPairFstTile
+{
+
+
+
+  def apply [A , B ] (message : TileMessage [TilePair [A, B] ] )
+      : TileMessage [A] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      message .contents .fst)
+
+}
+
+case class ProjectionPairFstTile_ () extends ProjectionPairFstTile
+
+object ProjectionPairFstTile {
+  def mk : ProjectionPairFstTile =
+    ProjectionPairFstTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile returns the second element of a pair.
+ */
+
+trait ProjectionPairSndTile
+{
+
+
+
+  def apply [A , B ] (message : TileMessage [TilePair [A, B] ] )
+      : TileMessage [B] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      message .contents .snd)
+
+}
+
+case class ProjectionPairSndTile_ () extends ProjectionPairSndTile
+
+object ProjectionPairSndTile {
+  def mk : ProjectionPairSndTile =
+    ProjectionPairSndTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile returns the first element of a triple.
+ */
+
+trait ProjectionTripleFstTile
+{
+
+
+
+  def apply [A , B , C ] (message : TileMessage [TileTriple [A, B, C] ] )
+      : TileMessage [A] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      message .contents .fst)
+
+}
+
+case class ProjectionTripleFstTile_ () extends ProjectionTripleFstTile
+
+object ProjectionTripleFstTile {
+  def mk : ProjectionTripleFstTile =
+    ProjectionTripleFstTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile returns the second element of a triple.
+ */
+
+trait ProjectionTripleSndTile
+{
+
+
+
+  def apply [A , B , C ] (message : TileMessage [TileTriple [A, B, C] ] )
+      : TileMessage [B] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      message .contents .snd)
+
+}
+
+case class ProjectionTripleSndTile_ () extends ProjectionTripleSndTile
+
+object ProjectionTripleSndTile {
+  def mk : ProjectionTripleSndTile =
+    ProjectionTripleSndTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile returns the third element of a triple.
+ */
+
+trait ProjectionTripleTrdTile
+{
+
+
+
+  def apply [A , B , C ] (message : TileMessage [TileTriple [A, B, C] ] )
+      : TileMessage [C] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      message .contents .trd)
+
+}
+
+case class ProjectionTripleTrdTile_ () extends ProjectionTripleTrdTile
+
+object ProjectionTripleTrdTile {
+  def mk : ProjectionTripleTrdTile =
+    ProjectionTripleTrdTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
  * This tile takes a sequence of actors as input and returns a sequence containing, for each
  * actor in the input sequence, a measure amounting the value of all the resources given to that
  * actor. This tile requires a function to count multiple resources, and another function that
@@ -693,11 +825,19 @@ trait SigmaTile
 
   def   sigma : Measure => Measure => Measure
 
-  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
-    : TileMessage [Seq [Measure] ] =
+  lazy val zip_tile = ZipPairTile .mk
+
+  def apply_zipped (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
+      : TileMessage [Seq [Measure] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       (message .contents)
         .map ( pair => sigma (pair .fst) (pair .snd) )
+    )
+
+  def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
+      : TileMessage [Seq [Measure] ] =
+    apply_zipped (
+      zip_tile .apply (message0) (message1)
     )
 
 }
@@ -707,6 +847,67 @@ case class SigmaTile_ (sigma : Measure => Measure => Measure) extends SigmaTile
 object SigmaTile {
   def mk (sigma : Measure => Measure => Measure) : SigmaTile =
     SigmaTile_ (sigma)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile connects two elements and returns a pair.
+ */
+
+trait TuplingPairTile
+{
+
+
+
+  def apply [A , B ] (message0 : TileMessage [A] )
+      (message1 : TileMessage [B] ) : TileMessage [TilePair [A, B] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      TilePair .mk [A, B] (message0 .contents) (message1 .contents)
+    )
+
+}
+
+case class TuplingPairTile_ () extends TuplingPairTile
+
+object TuplingPairTile {
+  def mk : TuplingPairTile =
+    TuplingPairTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile connects three elements and returns a triple.
+ */
+
+trait TuplingTripleTile
+{
+
+
+
+  def apply [A , B , C ] (message0 : TileMessage [A] )
+    (message1 : TileMessage [B] ) (message2 : TileMessage [C] )
+      : TileMessage [TileTriple [A, B, C] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      TileTriple .mk [A, B, C] (message0 .contents) (message1 .contents) (message2 .contents)
+    )
+
+}
+
+case class TuplingTripleTile_ () extends TuplingTripleTile
+
+object TuplingTripleTile {
+  def mk : TuplingTripleTile =
+    TuplingTripleTile_ ()
 }
 
 
@@ -894,7 +1095,7 @@ import Soda.tiles.fairness.tool.TileMessage
  * sequences.
  */
 
-trait ZipTile
+trait ZipPairTile
 {
 
 
@@ -903,7 +1104,7 @@ trait ZipTile
       : Seq [TilePair [A, B] ] =
     list0
       .zip (list1)
-      .map ( pair => TilePair_ [A, B] (pair ._1 , pair._2) )
+      .map ( pair => TilePair .mk [A, B] (pair ._1) (pair ._2) )
 
   def apply [A , B ] (message0 : TileMessage [Seq [A] ] )
       (message1 : TileMessage [Seq [B] ] ) : TileMessage [Seq [TilePair [A, B] ] ] =
@@ -913,10 +1114,50 @@ trait ZipTile
 
 }
 
-case class ZipTile_ () extends ZipTile
+case class ZipPairTile_ () extends ZipPairTile
 
-object ZipTile {
-  def mk : ZipTile =
-    ZipTile_ ()
+object ZipPairTile {
+  def mk : ZipPairTile =
+    ZipPairTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile connects three sequences and returns a sequence of triples, such that for each
+ * position in both sequences, it has a triple with elements for the corresponding input
+ * sequences.
+ */
+
+trait ZipTripleTile
+{
+
+
+
+  def zip_lists [A , B , C ] (list0 : Seq [A] ) (list1 : Seq [B] ) (list2 : Seq [C] )
+      : Seq [TileTriple [A, B, C] ] =
+    list0
+      .zip (list1)
+      .zip (list2)
+      .map ( triple => TileTriple .mk [A, B, C] (triple ._1 ._1) (triple ._1 ._2) (triple ._2) )
+
+  def apply [A , B , C ] (message0 : TileMessage [Seq [A] ] )
+    (message1 : TileMessage [Seq [B] ] ) (message2 : TileMessage [Seq [C] ] )
+      : TileMessage [Seq [TileTriple [A, B, C] ] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      zip_lists (message0 .contents) (message1 .contents) (message2 .contents)
+    )
+
+}
+
+case class ZipTripleTile_ () extends ZipTripleTile
+
+object ZipTripleTile {
+  def mk : ZipTripleTile =
+    ZipTripleTile_ ()
 }
 

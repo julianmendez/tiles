@@ -11,7 +11,7 @@ IFS=$'\n'
 # This is changed to support spaces in file names.
 
 
-pathToSodaDir="tiles/src/main/scala/soda/tiles/fairness"
+pathToSodaDir="core/src/main/scala/soda/tiles/fairness"
 pathToLeanDir="Soda/tiles/fairness"
 
 
@@ -32,6 +32,12 @@ for package in ${packages}; do
   done
 
 done
+
+# This updates elan
+elan self update
+
+# This updates lake
+lake update
 
 
 IFS="$oldIFS"

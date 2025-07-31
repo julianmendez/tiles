@@ -12,14 +12,12 @@ class AllActorPairTile
 
   abstract
 
-  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Actor] [Actor] ] ] =
-    TileMessageBuilder .mk .build (
-      message .context) (message .outcome) ( ( (message .outcome) .assignments)
-        .map (lambda assignment --> assignment .actor)
-        .distinct
-        .sorted
-        .map (lambda actor --> TilePair .mk (actor) (actor) )
-    )
+  zip_tile = TuplingPairTile .mk
+
+  all_actor_tile = AllActorTile .mk
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [TilePair [Seq [Actor] ] [Seq [Actor] ] ] =
+    zip_tile .apply (all_actor_tile (message) ) (all_actor_tile (message) )
 
 end
 

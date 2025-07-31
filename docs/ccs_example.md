@@ -69,7 +69,7 @@ pipelines:
 
 This example is modeled with Tiles, where each actor is a family. The families (`actors`)
 and subsidies (`resources`) have identifiers. In addition, the resources have some value (
-`resource_value`). The assignments (`outcome`) relate actors with resources.  Some of the
+`resource_value`). The assignments (`outcome`) relate actors with resources. Some of the
 properties that each family has are: number of adults in the family (`actor_adults`) and
 number of children in the family (`actor_children`). All the pipelines to be tested have
 their own section (`pipelines`).
@@ -86,8 +86,8 @@ their own section (`pipelines`).
 | <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [AttributePTile][AttributePTile]         |
 | <sub>*(a)*</sub> p ? <sub>*(a)*</sub>               | [FilterActorTile][FilterActorTile]       |
 | <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |
-| <sub>*(m0), (m1)*</sub> f (m0,m1) <sub>*(m)*</sub>  | [SigmaTile][SigmaTile]                   |
-| <sub>*b0, b1*</sub> f (b0,b1) <sub>*b*</sub>  | [CombineBooleanTile][CombineBooleanTile]          |
+| <sub>*(m0), (m1)*</sub> f (m0, m1) <sub>*(m)*</sub> | [SigmaTile][SigmaTile]                   |
+| <sub>*b0, b1*</sub> f (b0, b1) <sub>*b*</sub>       | [CombineBooleanTile][CombineBooleanTile] |
 
 
 ### No Child Care Subsidy
@@ -146,20 +146,35 @@ graph LR
 ```
 
 [yaml]: https://yaml.org
+
 [AllActorTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllActorTile.soda
+
 [ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ReceivedSigmaPTile.soda
+
 [AllSatisfyPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllSatisfyPTile.soda
+
 [AllEqualTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllEqualTile.soda
+
 [AttributePTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AttributePTile.soda
+
 [FilterActorTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/FilterActorTile.soda
+
 [AllAtLeastTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllAtLeastTile.soda
+
 [SigmaTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/SigmaTile.soda
+
 [CombineBooleanTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/CombineBooleanTile.soda
+
 [CcsSingleGuardianPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/childcaresubsidy/CcsSingleGuardianPipeline.soda
+
 [CcsNoSubsidyPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/childcaresubsidy/CcsNoSubsidyPipeline.soda
+
 [CcsPerChildPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/childcaresubsidy/CcsPerChildPipeline.soda
+
 [CcsPerFamilyPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/childcaresubsidy/CcsPerFamilyPipeline.soda
+
 [test-yaml-conf]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/resources/example/example0.yaml
+
 [australian-conditions]: https://www.servicesaustralia.gov.au/how-much-child-care-subsidy-you-can-get?context=41186
 
 <script>

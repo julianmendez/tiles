@@ -1,6 +1,17 @@
 
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
+import Batteries.Lean.Float
+
+directive lean
+notation "Number" => Float
+def as_number (x : Int) : Number := Int.divFloat (x) (1)
+def as_pair (x : Prod (Number) (Number) ) : TilePair (Number) (Number) := TilePair.mk (x.fst) (x.snd)
+
+directive scala
+type Number = Double
+def as_number (x : Int) : Number = x.toDouble
+def as_pair (x : Tuple2 [Number, Number] ) : TilePair [Number, Number] = TilePair.mk [Number, Number] (x._1) (x._2)
 
 /**
  * This class contains helper functions for mathematical calculations.
@@ -17,19 +28,19 @@ class MathTool
       case (head) +: (tail) ==>
         _tailrec_foldl [A] [B] (tail) (next (current) (head) ) (next)
 
-  squared (x : Float) : Float =
+  squared (x : Number) : Number =
     x * x
 
-  _sum_init : Float = 0
+  _sum_init : Number = 0
 
-  _sum_next (accum : Float) (elem : Float) : Float =
+  _sum_next (accum : Number) (elem : Number) : Number =
     accum + elem
 
-  sum (seq : Seq [Float] ) : Float =
-    _tailrec_foldl [Float] [Float] (seq) (_sum_init) (_sum_next)
+  sum (seq : Seq [Number] ) : Number =
+    _tailrec_foldl [Number] [Number] (seq) (_sum_init) (_sum_next)
 
-  average (seq : Seq [Float] ) : Float =
-    sum (seq) / seq .length .toFloat
+  average (seq : Seq [Number] ) : Number =
+    sum (seq) / as_number (seq .length)
 
 end
 
@@ -45,8 +56,14 @@ end
 class Pearson
 
   abstract
-    xlist : Seq [Float]
-    ylist : Seq [Float]
+    xlist : Seq [Number]
+    ylist : Seq [Number]
+
+end
+
+class PearsonMod
+
+  abstract
 
   _mm : MathTool = MathTool .mk
 
@@ -56,40 +73,34 @@ class Pearson
   notation "_mm.sum" => MathTool.sum
   notation "_mm.squared" => MathTool.squared
 
-  directive scala
-  def _to_Float (d : Double) : Float = d .toFloat
-
-  directive lean
-  def _to_Float (x : Float) : Float := x
-
-  _sum_squared_diff_with (seq : Seq [Float] ) (x_average : Float) : Float =
+  _sum_squared_diff_with (seq : Seq [Number] ) (x_average : Number) : Number =
     _mm .sum (seq .map (lambda x_i --> _mm .squared (x_i - x_average) ) )
 
-  sum_squared_diff (seq : Seq [Float] ) : Float =
+  sum_squared_diff (seq : Seq [Number] ) : Number =
     _sum_squared_diff_with (seq) (_mm .average (seq) )
 
-  _sqrt_sum_squared_diff (seq : Seq [Float] ) : Float =
-    _to_Float ( Math.sqrt (sum_squared_diff (seq) ) )
+  _sqrt_sum_squared_diff (seq : Seq [Number] ) : Number =
+    Math.sqrt (sum_squared_diff (seq) )
 
-  _denominator : Float =
-    _sqrt_sum_squared_diff (xlist) * _sqrt_sum_squared_diff (ylist)
+  _denominator (m : Pearson) : Number =
+    _sqrt_sum_squared_diff (m .xlist) * _sqrt_sum_squared_diff (m .ylist)
 
-  _multip (x_i : Float) (y_i : Float) (x_average : Float) (y_average : Float) : Float =
+  _multip (x_i : Number) (y_i : Number) (x_average : Number) (y_average : Number) : Number =
     (x_i - x_average) * (y_i - y_average)
 
-  _numerator_with (pair_list : Seq [Tuple2 [Float] [Float] ] ) (x_average : Float)
-      (y_average : Float) : Float =
+  _numerator_with (pair_list : Seq [TilePair [Number] [Number] ] ) (x_average : Number)
+      (y_average : Number) : Number =
     _mm .sum (pair_list .map (lambda pair -->
-      _multip (pair ._1) (pair ._2) (x_average) (y_average) ) )
+      _multip (pair .fst) (pair .snd) (x_average) (y_average) ) )
 
-  _x_y_together : Seq [Tuple2 [Float] [Float] ] =
-    xlist .zip (ylist)
+  _x_y_together (m : Pearson) : Seq [TilePair [Number] [Number] ] =
+    (m .xlist .zip (m .ylist) ) .map (lambda elem --> as_pair (elem) )
 
-  _numerator : Float =
-    _numerator_with (_x_y_together) (_mm .average (xlist) ) (_mm .average (ylist) )
+  _numerator (m : Pearson) : Number =
+    _numerator_with (_x_y_together (m) ) (_mm .average (m .xlist) ) (_mm .average (m .ylist) )
 
-  coefficient : Float =
-    _numerator / _denominator
+  coefficient (m : Pearson) : Number =
+    _numerator (m) / _denominator (m)
 
 end
 
@@ -114,7 +125,7 @@ class ScoringCategory
 
   strong_negative_correlation : Int = 7
 
-  categorize (x : Float) : Int =
+  categorize (x : Number) : Int =
     if (x > 0.5) and (x <= 1.0) then strong_positive_correlation
     else if (x > 0.3) and (x <= 0.5) then moderate_positive_correlation
     else if (x > 0) and (x <= 0.3) then weak_positive_correlation

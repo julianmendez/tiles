@@ -11,12 +11,15 @@ class AllActorTile
 
   abstract
 
-  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Actor] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+  all_actors [A : Type] (message : TileMessage [A] ) : Seq [Actor] =
       ( (message .outcome) .assignments)
         .map (lambda assignment --> assignment .actor)
         .distinct
         .sorted
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Actor] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      all_actors [Boolean] (message)
     )
 
 end

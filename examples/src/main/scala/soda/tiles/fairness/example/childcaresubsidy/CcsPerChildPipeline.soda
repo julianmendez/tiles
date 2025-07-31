@@ -6,7 +6,7 @@ import Soda.tiles.fairness.tile.NeededPTile
 import Soda.tiles.fairness.tile.ReceivedSigmaPTile
 import Soda.tiles.fairness.tile.UnzipPairFstTile
 import Soda.tiles.fairness.tile.UnzipPairSndTile
-import Soda.tiles.fairness.tile.ZipTile
+import Soda.tiles.fairness.tile.ZipPairTile
 
 
 /**
@@ -48,32 +48,22 @@ class CcsPerChildPipeline
 
   division_tile = SigmaTile .mk (division)
 
-  unzip_fst_tile = UnzipPairFstTile .mk
+  pair_fst_tile = ProjectionPairFstTile .mk
 
-  unzip_snd_tile = UnzipPairSndTile .mk
+  pair_snd_tile = ProjectionPairSndTile .mk
 
-  zip_tile = ZipTile .mk
-
-  get_branch_0 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    received_sigma_p_tile .apply (unzip_fst_tile .apply (message) )
-
-  get_branch_1 (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    children_tile .apply (unzip_snd_tile .apply (message) )
-
-  zip_branches (message : TileMessage [Seq [TilePair [Actor] [Actor] ] ] )
-      : TileMessage [Seq [TilePair [Measure] [Measure] ] ] =
-    zip_tile .apply (get_branch_0 (message) ) (get_branch_1 (message) )
-
-  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+  apply_on_actors (pair : TileMessage [TilePair [Seq [Actor] ] [Seq [Actor] ] ] )
+      : TileMessage [Boolean] =
     all_equal_tile .apply (
       division_tile .apply (
-        zip_branches (
-          all_actor_pair_tile .apply (message)
-        )
+        received_sigma_p_tile .apply (pair_fst_tile .apply (pair) )
+      ) (
+        children_tile .apply (pair_snd_tile .apply (pair) )
       )
     )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    apply_on_actors (all_actor_pair_tile .apply (message) )
 
   runner : TileMessage [Boolean] -> TileMessage [Boolean] =
     lambda message --> apply (message)
