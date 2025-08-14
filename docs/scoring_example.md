@@ -9,7 +9,7 @@ These are some of the implemented fairness tiles for scoring scenarios:
 
 | Tile                                               | Class                                        |
 |:---------------------------------------------------|:---------------------------------------------|
-| all-actor <sub>*(a0), (a1), (a2)*</sub>            | [AllActorTripleTile][AllActorTripleTile]     |
+| all-agent <sub>*(a0), (a1), (a2)*</sub>            | [AllAgentTripleTile][AllAgentTripleTile]     |
 | <sub>*(a)*</sub> prediction <sub>*(m)*</sub>       | [PredictionPTile][PredictionPTile]           |
 | <sub>*(a)*</sub> result <sub>*(m)*</sub>           | [AttributePTile][AttributePTile]             |
 | <sub>*(m0), (m1)*</sub> false-pos <sub>*(m)*</sub> | [FalsePosTile][FalsePosTile]                 |
@@ -28,9 +28,9 @@ scoring scenario tile (unbiasedness with respect to falsepositives) with
 
 ```mermaid
 graph LR
-  all-actor(all-actor) --> prediction
-  all-actor --> result
-  all-actor --> with-p
+  all-agent(all-agent) --> prediction
+  all-agent --> result
+  all-agent --> with-p
   prediction(prediction) --> false-pos
   result(result) --> false-pos
   with-p(with) --> correlation
@@ -38,7 +38,7 @@ graph LR
   correlation(correlation) --> decision(decision)
 ```
 
-[AllActorTripleTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllActorTripleTile.soda
+[AllAgentTripleTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllAgentTripleTile.soda
 
 [PredictionPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/PredictionPTile.soda
 

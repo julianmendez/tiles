@@ -17,7 +17,7 @@ trait Example0Instance
 
   lazy val instance = Seq (
     Seq (
-      Tuple2 ("actors" ,
+      Tuple2 ("agents" ,
         Seq (
           Tuple2 ("family A" , ".") ,
           Tuple2 ("family B" , ".") ,
@@ -32,21 +32,21 @@ trait Example0Instance
           Tuple2 ("subsidy 300" , ".")
         )
       ) ,
-      Tuple2 ("actor_children" ,
+      Tuple2 ("agent_children" ,
         Seq (
           Tuple2 ("family A" , "2") ,
           Tuple2 ("family B" , "3") ,
           Tuple2 ("family C" , "1")
         )
       ) ,
-      Tuple2 ("actor_adults" ,
+      Tuple2 ("agent_adults" ,
         Seq (
           Tuple2 ("family A" , "2") ,
           Tuple2 ("family B" , "1") ,
           Tuple2 ("family C" , "2")
         )
       ) ,
-      Tuple2 ("actor_income" ,
+      Tuple2 ("agent_income" ,
         Seq (
           Tuple2 ("family A" , "5000") ,
           Tuple2 ("family B" , "3000") ,

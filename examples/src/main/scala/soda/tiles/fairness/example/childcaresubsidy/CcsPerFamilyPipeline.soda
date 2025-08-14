@@ -11,12 +11,12 @@ class CcsPerFamilyPipeline
 
   received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
 
-  all_actor_tile = AllActorTile .mk
+  all_agent_tile = AllAgentTile .mk
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     all_equal_tile .apply (
       received_sigma_p_tile .apply (
-        all_actor_tile .apply (message)
+        all_agent_tile .apply (message)
       )
     )
 

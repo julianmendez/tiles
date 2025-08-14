@@ -1,0 +1,22 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns a possibly empty sequence of agents that satisfy a given property.
+ */
+
+class FilterAgentTile
+
+  abstract
+    p : Agent -> Boolean
+
+  apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Agent] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .filter (lambda agent --> p (agent) ) )
+    )
+
+end
+

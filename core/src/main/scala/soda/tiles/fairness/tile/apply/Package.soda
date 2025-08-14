@@ -5,7 +5,7 @@ package soda.tiles.fairness.tile.apply
  */
 
 import
-  soda.tiles.fairness.tool.Actor
+  soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Assignment
   soda.tiles.fairness.tool.Comparator
   soda.tiles.fairness.tool.Measure

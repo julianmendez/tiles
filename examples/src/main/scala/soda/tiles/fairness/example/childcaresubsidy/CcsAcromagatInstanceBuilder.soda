@@ -8,17 +8,17 @@ class CcsAcromagatInstanceBuilder
     java.io.BufferedReader
     java.io.Reader
 
-  actors_key = "actors"
+  agents_key = "agents"
 
   resources_key = "resources"
 
   outcome_key = "outcome"
 
-  actor_children_key = "actor_children"
+  agent_children_key = "agent_children"
 
-  actor_adults_key = "actor_adults"
+  agent_adults_key = "agent_adults"
 
-  actor_income_key = "actor_income"
+  agent_income_key = "agent_income"
 
   resource_value_key = "resource_value"
 
@@ -27,9 +27,9 @@ class CcsAcromagatInstanceBuilder
   to_measure (s : String) : Measure =
     s .toIntOption
 
-  _get_actors (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
-      : Seq [Actor] =
-    m .getOrElse (actors_key , None)
+  _get_agents (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Seq [Agent] =
+    m .getOrElse (agents_key , None)
       .iterator
       .map (lambda pair --> pair ._1)
       .toSeq
@@ -50,23 +50,23 @@ class CcsAcromagatInstanceBuilder
         .toSeq
     )
 
-  _get_actor_children_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
-      : Map [Actor] [Measure] =
-    m .getOrElse (actor_children_key , None)
+  _get_agent_children_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Map [Agent] [Measure] =
+    m .getOrElse (agent_children_key , None)
       .iterator
       .map (lambda pair --> Tuple2 (pair ._1 , to_measure (pair ._2) ) )
       .toMap
 
-  _get_actor_adults_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
-      : Map [Actor] [Measure] =
-    m .getOrElse (actor_adults_key , None)
+  _get_agent_adults_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Map [Agent] [Measure] =
+    m .getOrElse (agent_adults_key , None)
       .iterator
       .map (lambda pair --> Tuple2 (pair ._1 , to_measure (pair ._2) ) )
       .toMap
 
-  _get_actor_income_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
-      : Map [Actor] [Measure] =
-    m .getOrElse (actor_income_key , None)
+  _get_agent_income_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
+      : Map [Agent] [Measure] =
+    m .getOrElse (agent_income_key , None)
       .iterator
       .map (lambda pair --> Tuple2 (pair ._1 , to_measure (pair ._2) ) )
       .toMap
@@ -89,12 +89,12 @@ class CcsAcromagatInstanceBuilder
       : Option [CcsAcromagatInstance] =
     Some (
       CcsAcromagatInstance .mk (
-        _get_actors (m) ) (
+        _get_agents (m) ) (
         _get_resources (m) ) (
         _get_outcome (m) ) (
-        _get_actor_children_map (m) ) (
-        _get_actor_adults_map (m) ) (
-        _get_actor_income_map (m) ) (
+        _get_agent_children_map (m) ) (
+        _get_agent_adults_map (m) ) (
+        _get_agent_income_map (m) ) (
         _get_resource_value_map (m) ) (
         _get_pipelines (m)
       )

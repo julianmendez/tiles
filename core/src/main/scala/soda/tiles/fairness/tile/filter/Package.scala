@@ -4,7 +4,7 @@ package soda.tiles.fairness.tile.filter
  * This package contains classes to model the tiles.
  */
 
-import   soda.tiles.fairness.tool.Actor
+import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
@@ -30,27 +30,27 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile returns a possibly empty sequence of actors that satisfy a given property.
+ * This tile returns a possibly empty sequence of agents that satisfy a given property.
  */
 
-trait FilterActorTile
+trait FilterAgentTile
 {
 
-  def   p : Actor => Boolean
+  def   p : Agent => Boolean
 
-  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Actor] ] =
+  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Agent] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
-        .filter ( actor => p (actor) ) )
+        .filter ( agent => p (agent) ) )
     )
 
 }
 
-case class FilterActorTile_ (p : Actor => Boolean) extends FilterActorTile
+case class FilterAgentTile_ (p : Agent => Boolean) extends FilterAgentTile
 
-object FilterActorTile {
-  def mk (p : Actor => Boolean) : FilterActorTile =
-    FilterActorTile_ (p)
+object FilterAgentTile {
+  def mk (p : Agent => Boolean) : FilterAgentTile =
+    FilterAgentTile_ (p)
 }
 
 

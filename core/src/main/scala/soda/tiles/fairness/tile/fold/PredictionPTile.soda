@@ -21,7 +21,7 @@ class PredictionPTile
     then m1
     else m0
 
-  apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+  apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
     (ReceivedSigmaPTile .mk (measure_or) (p) ) .apply (message)
 
 end

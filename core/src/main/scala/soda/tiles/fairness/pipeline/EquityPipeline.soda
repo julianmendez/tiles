@@ -10,7 +10,7 @@ import Soda.tiles.fairness.tile.ZipTile
 
 
 /**
- * This pipeline returns 'true' when all the actors in the input receive a resource that
+ * This pipeline returns 'true' when all the agents in the input receive a resource that
  * satisfies their needs, and 'false' otherwise.
  */
 
@@ -18,7 +18,7 @@ class EquityPipeline
 
   abstract
     sigma : Measure -> Measure -> Measure
-    p0_need : Actor -> Measure
+    p0_need : Agent -> Measure
     p1_utility : Resource -> Measure
 
   at_least_tile = AllAtLeastTile .mk
@@ -27,13 +27,13 @@ class EquityPipeline
 
   needed_p_tile = NeededPTile .mk (p0_need)
 
-  all_actor_pair_tile = AllActorPairTile .mk
+  all_agent_pair_tile = AllAgentPairTile .mk
 
   pair_fst_tile = ProjectionPairFstTile .mk
 
   pair_snd_tile = ProjectionPairSndTile .mk
 
-  apply_on_pair (pair : TileMessage [TilePair [Seq [Actor] ] [Seq [Actor] ] ] ) : TileMessage [Boolean] =
+  apply_on_pair (pair : TileMessage [TilePair [Seq [Agent] ] [Seq [Agent] ] ] ) : TileMessage [Boolean] =
     at_least_tile .apply (
       received_sigma_p_tile .apply (pair_fst_tile (pair) )
     ) (
@@ -41,7 +41,7 @@ class EquityPipeline
     )
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    apply_on_pair (all_actor_pair_tile .apply (message) )
+    apply_on_pair (all_agent_pair_tile .apply (message) )
 
 end
 

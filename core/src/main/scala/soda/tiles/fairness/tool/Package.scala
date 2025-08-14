@@ -15,7 +15,7 @@ import Soda.tiles.fairness.tool.StringComparator
 
 type Identifier = String
 
-type Actor = Identifier
+type Agent = Identifier
 
 type Resource = Identifier
 
@@ -26,16 +26,16 @@ type Measure = Option [Int]
 trait Assignment
 {
 
-  def   actor : Actor
+  def   agent : Agent
   def   resource : Resource
 
 }
 
-case class Assignment_ (actor : Actor, resource : Resource) extends Assignment
+case class Assignment_ (agent : Agent, resource : Resource) extends Assignment
 
 object Assignment {
-  def mk (actor : Actor) (resource : Resource) : Assignment =
-    Assignment_ (actor, resource)
+  def mk (agent : Agent) (resource : Resource) : Assignment =
+    Assignment_ (agent, resource)
 }
 
 trait Outcome
@@ -73,8 +73,8 @@ trait Comparator
   def compareIdentifier (identifier0 : Identifier) (identifier1 : Identifier) : Int =
     compareString (identifier0) (identifier1)
 
-  def compareActor (actor0 : Actor) (actor1 : Actor) : Int =
-    compareIdentifier (actor0) (actor1)
+  def compareAgent (agent0 : Agent) (agent1 : Agent) : Int =
+    compareIdentifier (agent0) (agent1)
 
   def compareResource (resource0 : Resource) (resource1 : Resource) : Int =
     compareIdentifier (resource0) (resource1)
@@ -101,9 +101,9 @@ trait Comparator
     }
 
   def compareAssignment (assignment0 : Assignment) (assignment1 : Assignment) : Int =
-    if ( assignment0 .actor == assignment1 .actor
+    if ( assignment0 .agent == assignment1 .agent
     ) compareResource (assignment0 .resource) (assignment1 .resource)
-    else compareActor (assignment0 .actor) (assignment1 .actor)
+    else compareAgent (assignment0 .agent) (assignment1 .agent)
 
 }
 

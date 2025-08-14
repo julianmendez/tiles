@@ -4,7 +4,7 @@ package soda.tiles.fairness.tile.fold
  * This package contains classes to model the tiles.
  */
 
-import   soda.tiles.fairness.tool.Actor
+import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
@@ -150,7 +150,7 @@ trait AllSatisfyPTile
   def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
-        .forall ( actor => p (actor) ) )
+        .forall ( agent => p (agent) ) )
     )
 
 }
@@ -186,7 +186,7 @@ trait PredictionPTile
     ) m1
     else m0
 
-  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
     (ReceivedSigmaPTile .mk (measure_or) (p) ) .apply (message)
 
 }
@@ -205,9 +205,9 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile takes a sequence of actors as input and returns a sequence containing, for each
- * actor in the input sequence, a measure amounting the value of all the resources given to that
- * actor. This tile requires a function to count multiple resources, and another function that
+ * This tile takes a sequence of agents as input and returns a sequence containing, for each
+ * agent in the input sequence, a measure amounting the value of all the resources given to that
+ * agent. This tile requires a function to count multiple resources, and another function that
  * informs the value of each resource.
  */
 
@@ -222,18 +222,18 @@ trait ReceivedSigmaPTile
 
   private lazy val _measure_zero : Measure = Some (0)
 
-  def get_assignment (assignments : Seq [Assignment] ) (a : Actor) : Option [Assignment] =
-    assignments . find ( assignment => (assignment .actor) == a)
+  def get_assignment (assignments : Seq [Assignment] ) (a : Agent) : Option [Assignment] =
+    assignments . find ( assignment => (assignment .agent) == a)
 
-  def get_measure (outcome : Outcome) (a : Actor) : Measure =
+  def get_measure (outcome : Outcome) (a : Agent) : Measure =
     (get_assignment (outcome .assignments) (a) )
       .map ( assignment => p (assignment .resource) )
       .foldLeft (_measure_zero) (_sigma2)
 
-  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
-        .map ( actor => get_measure (message .outcome) (actor) ) )
+        .map ( agent => get_measure (message .outcome) (agent) ) )
     )
 
 }

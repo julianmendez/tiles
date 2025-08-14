@@ -4,7 +4,7 @@ package soda.tiles.fairness.tile.apply
  * This package contains classes to model the tiles.
  */
 
-import   soda.tiles.fairness.tool.Actor
+import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure

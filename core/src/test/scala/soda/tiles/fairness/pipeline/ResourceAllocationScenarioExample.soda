@@ -24,16 +24,16 @@ class ResourceAllocationScenarioExample
 
   resource2 = "large box - 0.3 m"
 
-  actor0 = "Anna A"
+  agent0 = "Anna A"
 
-  actor1 = "Bob B"
+  agent1 = "Bob B"
 
-  actor2 = "Charlie C"
+  agent2 = "Charlie C"
 
-  actor_need_map : Map [Actor] [Measure] = Seq (
-    Tuple2 [Actor] [Measure] (actor0 , Some (30) ) ,
-    Tuple2 [Actor] [Measure] (actor1 , Some (10) ) ,
-    Tuple2 [Actor] [Measure] (actor2 , Some (0) )
+  agent_need_map : Map [Agent] [Measure] = Seq (
+    Tuple2 [Agent] [Measure] (agent0 , Some (30) ) ,
+    Tuple2 [Agent] [Measure] (agent1 , Some (10) ) ,
+    Tuple2 [Agent] [Measure] (agent2 , Some (0) )
   ) .toMap
 
   resource_height_map : Map [Resource] [Measure] = Seq (
@@ -42,8 +42,8 @@ class ResourceAllocationScenarioExample
     Tuple2 [Resource] [Measure] (resource2 , Some (30) )
   ) .toMap
 
-  actor_need (actor : Actor) : Measure =
-    actor_need_map .getOrElse (actor , Some (-1) )
+  agent_need (agent : Agent) : Measure =
+    agent_need_map .getOrElse (agent , Some (-1) )
 
   resource_height (resource : Resource) : Measure =
     resource_height_map .getOrElse (resource , Some (-1) )
@@ -53,36 +53,36 @@ class ResourceAllocationScenarioExample
   outcome0 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource0)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource0)
       )
     )
 
   outcome1 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource0) ,
-        Assignment .mk (actor1) (resource0) ,
-        Assignment .mk (actor2) (resource0)
+        Assignment .mk (agent0) (resource0) ,
+        Assignment .mk (agent1) (resource0) ,
+        Assignment .mk (agent2) (resource0)
       )
     )
 
   outcome2 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource1) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource1)
+        Assignment .mk (agent0) (resource1) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource1)
       )
     )
 
   outcome3 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource2) ,
-        Assignment .mk (actor2) (resource2)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource2) ,
+        Assignment .mk (agent2) (resource2)
       )
     )
 

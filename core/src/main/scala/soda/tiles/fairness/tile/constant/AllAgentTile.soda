@@ -1,0 +1,26 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns a sorted sequence of agents, where each agent occurs exactly once.
+ */
+
+class AllAgentTile
+
+  abstract
+
+  all_agents [A : Type] (message : TileMessage [A] ) : Seq [Agent] =
+      ( (message .outcome) .assignments)
+        .map (lambda assignment --> assignment .agent)
+        .distinct
+        .sorted
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Agent] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      all_agents [Boolean] (message)
+    )
+
+end
+

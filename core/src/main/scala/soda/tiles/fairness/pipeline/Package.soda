@@ -5,7 +5,7 @@ package soda.tiles.fairness.pipeline
  */
 
 import
-  soda.tiles.fairness.tool.Actor
+  soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Assignment
   soda.tiles.fairness.tool.Comparator
   soda.tiles.fairness.tool.Measure
@@ -16,9 +16,9 @@ import
   soda.tiles.fairness.tool.TileMessageBuilder
   soda.tiles.fairness.tool.TilePair
   soda.tiles.fairness.tool.TileTriple
-  soda.tiles.fairness.tile.constant.AllActorPairTile
-  soda.tiles.fairness.tile.constant.AllActorTile
-  soda.tiles.fairness.tile.constant.AllActorTripleTile
+  soda.tiles.fairness.tile.constant.AllAgentPairTile
+  soda.tiles.fairness.tile.constant.AllAgentTile
+  soda.tiles.fairness.tile.constant.AllAgentTripleTile
   soda.tiles.fairness.tile.fold.AllAtLeastTile
   soda.tiles.fairness.tile.fold.AllEqual1Tile
   soda.tiles.fairness.tile.fold.AllEqualTile

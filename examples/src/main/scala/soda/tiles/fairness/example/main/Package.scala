@@ -7,7 +7,7 @@ package soda.tiles.fairness.example.main
 
 import   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstance
 import   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstanceBuilder
-import   soda.tiles.fairness.example.childcaresubsidy.CcsPipelineFactory
+import   soda.tiles.fairness.example.childcaresubsidy.CcsPipelineFagenty
 import   java.io.FileReader
 
 
@@ -53,7 +53,7 @@ trait Main
 
   lazy val error_invalid_pipeline = "" +
     "ERROR: Invalid pipeline name. " +
-    "The factory of known pipelines does not contain the provided pipeline name"
+    "The fagenty of known pipelines does not contain the provided pipeline name"
 
   lazy val error_invalid_input_file = "" +
     "ERROR: Invalid input file. " +
@@ -62,7 +62,7 @@ trait Main
     "and a misspelled attribute name."
 
   private def _execute_and_report_pipeline (name : String) (input : CcsAcromagatInstance) : String =
-    CcsPipelineFactory .mk
+    CcsPipelineFagenty .mk
       .get_pipeline (name) (input)
       .map( pipeline =>
         name + ": " +

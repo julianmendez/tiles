@@ -2,12 +2,12 @@
 class CcsAcromagatInstance
 
   abstract
-    actors : Seq [Actor]
+    agents : Seq [Agent]
     resources : Seq [Resource]
     outcome : Outcome
-    actor_children_map : Map [Actor] [Measure]
-    actor_adults_map : Map [Actor] [Measure]
-    actor_income_map : Map [Actor] [Measure]
+    agent_children_map : Map [Agent] [Measure]
+    agent_adults_map : Map [Agent] [Measure]
+    agent_income_map : Map [Agent] [Measure]
     resource_value_map : Map [Resource] [Measure]
     pipelines : Seq [String]
 
@@ -26,14 +26,14 @@ class CcsAcromagatInstance
       case Some (value) ==> value
       case None ==> default
 
-  actor_children (actor : Actor) : Measure =
-    get_or_else [Actor] (actor_children_map) (actor) (Some (-1) )
+  agent_children (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_children_map) (agent) (Some (-1) )
 
-  actor_adults (actor : Actor) : Measure =
-    get_or_else [Actor] (actor_adults_map) (actor) (Some (-1) )
+  agent_adults (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_adults_map) (agent) (Some (-1) )
 
-  actor_income (actor : Actor) : Measure =
-    get_or_else [Actor] (actor_income_map) (actor) (Some (-1) )
+  agent_income (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_income_map) (agent) (Some (-1) )
 
   resource_value (resource : Resource) : Measure =
     get_or_else [Resource] (resource_value_map) (resource) (Some (-1) )

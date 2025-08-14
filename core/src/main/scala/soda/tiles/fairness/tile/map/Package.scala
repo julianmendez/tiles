@@ -4,7 +4,7 @@ package soda.tiles.fairness.tile.map
  * This package contains classes to model the tiles.
  */
 
-import   soda.tiles.fairness.tool.Actor
+import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
@@ -30,28 +30,28 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile takes a sequence of actors as input and returns the sequence of measures, such
+ * This tile takes a sequence of agents as input and returns the sequence of measures, such
  * that, each position in the output sequence is the application of a function on the
- * corresponding actor in the input.
+ * corresponding agent in the input.
  */
 
 trait AttributePTile
 {
 
-  def   p : Actor => Measure
+  def   p : Agent => Measure
 
-  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
-        .map ( actor => p (actor) ) )
+        .map ( agent => p (agent) ) )
     )
 
 }
 
-case class AttributePTile_ (p : Actor => Measure) extends AttributePTile
+case class AttributePTile_ (p : Agent => Measure) extends AttributePTile
 
 object AttributePTile {
-  def mk (p : Actor => Measure) : AttributePTile =
+  def mk (p : Agent => Measure) : AttributePTile =
     AttributePTile_ (p)
 }
 
@@ -100,17 +100,17 @@ import Soda.tiles.fairness.tile.AttributePTile
 trait NeededPTile
 {
 
-  def   p : Actor => Measure
+  def   p : Agent => Measure
 
-  def apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
     AttributePTile .mk (p) .apply (message)
 
 }
 
-case class NeededPTile_ (p : Actor => Measure) extends NeededPTile
+case class NeededPTile_ (p : Agent => Measure) extends NeededPTile
 
 object NeededPTile {
-  def mk (p : Actor => Measure) : NeededPTile =
+  def mk (p : Agent => Measure) : NeededPTile =
     NeededPTile_ (p)
 }
 

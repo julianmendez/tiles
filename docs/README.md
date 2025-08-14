@@ -55,7 +55,7 @@ These are some of the implemented fairness tiles for resource allocation scenari
 
 | Tile                                                | Class                                    |
 |:----------------------------------------------------|:-----------------------------------------|
-| all-actor <sub>*(a)*</sub>                          | [AllActorTile][AllActorTile]             |
+| all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             |
 | <sub>*(a)*</sub> received <sub>*(m)*</sub>          | [ReceivedSigmaPTile][ReceivedSigmaPTile] |
 | <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |
 | <sub>*(a)*</sub> needed <sub>*(m)*</sub>            | [NeededPTile][NeededPTile]               |
@@ -75,7 +75,7 @@ with [EquityPipelineSpec][EquityPipelineSpec].
 
 ```mermaid
 graph LR
-  all-actor(all-actor) --> received
+  all-agent(all-agent) --> received
   received(received) --> all-equal(all-equal)
 ```
 
@@ -84,8 +84,8 @@ graph LR
 
 ```mermaid
 graph LR
-  all-actor(all-actor) --> received
-  all-actor --> needed
+  all-agent(all-agent) --> received
+  all-agent --> needed
   received(received) --> all-at-least(all-at-least)
   needed(needed) -->  all-at-least
 ```
@@ -156,7 +156,7 @@ are:
 
 [package-tool-scala]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tool/Package.scala
 
-[AllActorTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllActorTile.soda
+[AllAgentTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllAgentTile.soda
 
 [ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ReceivedSigmaPTile.soda
 

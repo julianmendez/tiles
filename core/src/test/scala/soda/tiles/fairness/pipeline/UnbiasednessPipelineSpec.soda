@@ -18,11 +18,11 @@ class UnbiasednessPipelineSpec ()
 
   get_coefficient (message : TileMessage [Boolean] ) : TileMessage [Measure] =
     unbiasedness_pipeline .get_correlation_plumbing (
-      unbiasedness_pipeline .all_actor_tile .apply (message)
+      unbiasedness_pipeline .all_agent_tile .apply (message)
     ) (
-      unbiasedness_pipeline .all_actor_tile .apply (message)
+      unbiasedness_pipeline .all_agent_tile .apply (message)
     ) (
-      unbiasedness_pipeline .all_actor_tile .apply (message)
+      unbiasedness_pipeline .all_agent_tile .apply (message)
     )
 
 

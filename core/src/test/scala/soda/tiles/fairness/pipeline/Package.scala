@@ -5,7 +5,7 @@ package soda.tiles.fairness.pipeline
  */
 
 import   org.scalatest.funsuite.AnyFunSuite
-import   soda.tiles.fairness.tool.Actor
+import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Context
 import   soda.tiles.fairness.tool.Measure
@@ -74,7 +74,7 @@ case class EquityPipelineSpec ()
   lazy val example = ResourceAllocationScenarioExample .mk
 
   lazy val equity_pipeline =
-    EquityPipeline .mk (example .measure_sum) (example .actor_need) (example .resource_height)
+    EquityPipeline .mk (example .measure_sum) (example .agent_need) (example .resource_height)
 
   test ("equity on outcome 0") (
     check (
@@ -139,16 +139,16 @@ trait ResourceAllocationScenarioExample
 
   lazy val resource2 = "large box - 0.3 m"
 
-  lazy val actor0 = "Anna A"
+  lazy val agent0 = "Anna A"
 
-  lazy val actor1 = "Bob B"
+  lazy val agent1 = "Bob B"
 
-  lazy val actor2 = "Charlie C"
+  lazy val agent2 = "Charlie C"
 
-  lazy val actor_need_map : Map [Actor, Measure] = Seq (
-    Tuple2 [Actor, Measure] (actor0 , Some (30) ) ,
-    Tuple2 [Actor, Measure] (actor1 , Some (10) ) ,
-    Tuple2 [Actor, Measure] (actor2 , Some (0) )
+  lazy val agent_need_map : Map [Agent, Measure] = Seq (
+    Tuple2 [Agent, Measure] (agent0 , Some (30) ) ,
+    Tuple2 [Agent, Measure] (agent1 , Some (10) ) ,
+    Tuple2 [Agent, Measure] (agent2 , Some (0) )
   ) .toMap
 
   lazy val resource_height_map : Map [Resource, Measure] = Seq (
@@ -157,8 +157,8 @@ trait ResourceAllocationScenarioExample
     Tuple2 [Resource, Measure] (resource2 , Some (30) )
   ) .toMap
 
-  def actor_need (actor : Actor) : Measure =
-    actor_need_map .getOrElse (actor , Some (-1) )
+  def agent_need (agent : Agent) : Measure =
+    agent_need_map .getOrElse (agent , Some (-1) )
 
   def resource_height (resource : Resource) : Measure =
     resource_height_map .getOrElse (resource , Some (-1) )
@@ -168,36 +168,36 @@ trait ResourceAllocationScenarioExample
   lazy val outcome0 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource0)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource0)
       )
     )
 
   lazy val outcome1 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource0) ,
-        Assignment .mk (actor1) (resource0) ,
-        Assignment .mk (actor2) (resource0)
+        Assignment .mk (agent0) (resource0) ,
+        Assignment .mk (agent1) (resource0) ,
+        Assignment .mk (agent2) (resource0)
       )
     )
 
   lazy val outcome2 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource1) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource1)
+        Assignment .mk (agent0) (resource1) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource1)
       )
     )
 
   lazy val outcome3 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource2) ,
-        Assignment .mk (actor2) (resource2)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource2) ,
+        Assignment .mk (agent2) (resource2)
       )
     )
 
@@ -233,11 +233,11 @@ trait ScoringScenarioExample
 
 
 
-  lazy val actors : Seq [Actor] =
+  lazy val agents : Seq [Agent] =
     Seq (
       "Alice", "Benjamin", "Charlotte", "Daniel", "Emily", "Fiona", "George", "Hannah", "Isaac",
       "James", "Kevin", "Lily", "Matthew", "Natalie", "Olivia", "Quinn", "Peter", "Rachel",
-      "Sarah", "Timothy", "Ursula", "Victoria", "William", "Xavier", "Yasmine", "Zachary"
+      "Sarah", "Timothy", "Ursula", "Vigentia", "William", "Xavier", "Yasmine", "Zachary"
     )
 
   private lazy val _resource_zero : Resource = "0"
@@ -259,17 +259,17 @@ trait ScoringScenarioExample
     mod (x) (protected_attribute_modulus)
 
   lazy val protected_attribute : Seq [Measure] =
-    Random .mk .get_next_seq (seed_protected_attribute) (actors .length)
+    Random .mk .get_next_seq (seed_protected_attribute) (agents .length)
       .map ( x => Some ( as_protected_attribute (x .intValue) ) )
 
-  lazy val protected_attribute_map : Map [Actor, Measure] =
-    actors
+  lazy val protected_attribute_map : Map [Agent, Measure] =
+    agents
       .indices
       .map ( index =>
-        Tuple2 [Actor, Measure] (actors .apply (index) , protected_attribute .apply (index) ) )
+        Tuple2 [Agent, Measure] (agents .apply (index) , protected_attribute .apply (index) ) )
       .toMap
 
-  def protected_attribute_function (a : Actor) : Measure =
+  def protected_attribute_function (a : Agent) : Measure =
     protected_attribute_map .getOrElse (a , _measure_zero )
 
   lazy val seed_result : Long = 65535
@@ -298,7 +298,7 @@ trait ScoringScenarioExample
 
   lazy val result_values : Seq [Int] =
     Random .mk
-      .get_next_seq (seed_result) (actors .length)
+      .get_next_seq (seed_result) (agents .length)
       .map ( x => as_prediction ( (x .intValue) % prediction_modulus) )
 
   lazy val prediction_error : Int = 1
@@ -310,14 +310,14 @@ trait ScoringScenarioExample
   lazy val result : Seq [Measure] =
     result_values .map ( x => make_binary_measure (x) )
 
-  lazy val result_map : Map [Actor, Measure] =
-    actors
+  lazy val result_map : Map [Agent, Measure] =
+    agents
       .indices
       .map ( index =>
-        Tuple2 [Actor, Measure] (actors .apply (index) , result .apply (index) ) )
+        Tuple2 [Agent, Measure] (agents .apply (index) , result .apply (index) ) )
       .toMap
 
-  def result_function (a : Actor) : Measure =
+  def result_function (a : Agent) : Measure =
     result_map .getOrElse (a , _measure_zero )
 
   def add_attribute_bias (index : Int) (original : Int) : Int =
@@ -342,19 +342,19 @@ trait ScoringScenarioExample
 
   lazy val unbiased_outcome : Outcome =
     Outcome .mk (
-      actors
+      agents
         .indices
         .map ( index =>
-          Assignment .mk (actors .apply (index) ) (unbiased_prediction .apply (index) )
+          Assignment .mk (agents .apply (index) ) (unbiased_prediction .apply (index) )
         )
     )
 
   lazy val biased_outcome : Outcome =
     Outcome .mk (
-      actors
+      agents
         .indices
         .map ( index =>
-          Assignment .mk (actors .apply (index) ) (biased_prediction .apply (index) )
+          Assignment .mk (agents .apply (index) ) (biased_prediction .apply (index) )
         )
     )
 
@@ -401,11 +401,11 @@ case class UnbiasednessPipelineSpec ()
 
   def get_coefficient (message : TileMessage [Boolean] ) : TileMessage [Measure] =
     unbiasedness_pipeline .get_correlation_plumbing (
-      unbiasedness_pipeline .all_actor_tile .apply (message)
+      unbiasedness_pipeline .all_agent_tile .apply (message)
     ) (
-      unbiasedness_pipeline .all_actor_tile .apply (message)
+      unbiasedness_pipeline .all_agent_tile .apply (message)
     ) (
-      unbiasedness_pipeline .all_actor_tile .apply (message)
+      unbiasedness_pipeline .all_agent_tile .apply (message)
     )
 
   test ("unbiasedness on unbiased sample") (

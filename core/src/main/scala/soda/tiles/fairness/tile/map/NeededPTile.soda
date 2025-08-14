@@ -10,9 +10,9 @@ import Soda.tiles.fairness.tile.AttributePTile
 class NeededPTile
 
   abstract
-    p : Actor -> Measure
+    p : Agent -> Measure
 
-  apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+  apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
     AttributePTile .mk (p) .apply (message)
 
 end

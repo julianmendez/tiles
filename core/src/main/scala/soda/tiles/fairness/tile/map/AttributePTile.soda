@@ -3,20 +3,20 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
 /**
- * This tile takes a sequence of actors as input and returns the sequence of measures, such
+ * This tile takes a sequence of agents as input and returns the sequence of measures, such
  * that, each position in the output sequence is the application of a function on the
- * corresponding actor in the input.
+ * corresponding agent in the input.
  */
 
 class AttributePTile
 
   abstract
-    p : Actor -> Measure
+    p : Agent -> Measure
 
-  apply (message : TileMessage [Seq [Actor] ] ) : TileMessage [Seq [Measure] ] =
+  apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
-        .map (lambda actor --> p (actor) ) )
+        .map (lambda agent --> p (agent) ) )
     )
 
 end

@@ -24,8 +24,8 @@ shown below.
 ## Tiles (https://julianmendez.github.io/tiles/)
 
 
-## Actors for this scenario
-actors:
+## Agents for this scenario
+agents:
   family A: .
 
 
@@ -35,17 +35,17 @@ resources:
 
 
 ## Number of children in each family.
-actor_children:
+agent_children:
   family A: 2
 
 
 ## Number of guardians in each family.
-actor_adults:
+agent_adults:
   family A: 2
 
 
 ## Total income in each family.
-actor_income:
+agent_income:
   family A: 2000
 
 
@@ -67,11 +67,11 @@ pipelines:
   CcsSingleGuardianPipeline: .
 ```
 
-This example is modeled with Tiles, where each actor is a family. The families (`actors`)
+This example is modeled with Tiles, where each agent is a family. The families (`agents`)
 and subsidies (`resources`) have identifiers. In addition, the resources have some value (
-`resource_value`). The assignments (`outcome`) relate actors with resources. Some of the
-properties that each family has are: number of adults in the family (`actor_adults`) and
-number of children in the family (`actor_children`). All the pipelines to be tested have
+`resource_value`). The assignments (`outcome`) relate agents with resources. Some of the
+properties that each family has are: number of adults in the family (`agent_adults`) and
+number of children in the family (`agent_children`). All the pipelines to be tested have
 their own section (`pipelines`).
 
 
@@ -79,12 +79,12 @@ their own section (`pipelines`).
 
 | Tile                                                | Class                                    |
 |:----------------------------------------------------|:-----------------------------------------|
-| all-actor <sub>*(a)*</sub>                          | [AllActorTile][AllActorTile]             |
+| all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             |
 | <sub>*(a)*</sub> received <sub>*(m)*</sub>          | [ReceivedSigmaPTile][ReceivedSigmaPTile] |
 | <sub>*(m)*</sub> all-satisfy (p) <sub>*b*</sub>     | [AllSatisfyPTile][AllSatisfyPTile]       |
 | <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |
 | <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [AttributePTile][AttributePTile]         |
-| <sub>*(a)*</sub> p ? <sub>*(a)*</sub>               | [FilterActorTile][FilterActorTile]       |
+| <sub>*(a)*</sub> p ? <sub>*(a)*</sub>               | [FilterAgentTile][FilterAgentTile]       |
 | <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |
 | <sub>*(m0), (m1)*</sub> f (m0, m1) <sub>*(m)*</sub> | [SigmaTile][SigmaTile]                   |
 | <sub>*b0, b1*</sub> f (b0, b1) <sub>*b*</sub>       | [CombineBooleanTile][CombineBooleanTile] |
@@ -96,7 +96,7 @@ This is the [No Subsidy Pipeline][CcsNoSubsidyPipeline]. In this case, no subsid
 
 ```mermaid
 graph LR
-  all-actor(all-actor) --> received
+  all-agent(all-agent) --> received
   received(received) --> all-satisfy-0(all-satisfy m=0)
 ```
 
@@ -108,8 +108,8 @@ given to each family depends on the number of children in the family.
 
 ```mermaid
 graph LR
-  all-actor(all-actor) --> received
-  all-actor --> children
+  all-agent(all-agent) --> received
+  all-agent --> children
   received(received) --> m0/m1
   children(children) --> m0/m1
   m0/m1(m0 / m1) --> all-equal(all-equal)
@@ -123,7 +123,7 @@ given to each family is the same, regardless of the number of children in the fa
 
 ```mermaid
 graph LR
-  all-actor(all-actor) --> received
+  all-agent(all-agent) --> received
   received(received) --> all-equal(all-equal)
 ```
 
@@ -135,8 +135,8 @@ is only granted to families having a single guardian.
 
 ```mermaid
 graph LR
-  all-actor(all-actor) --> adults-1
-  all-actor --> adults-2
+  all-agent(all-agent) --> adults-1
+  all-agent --> adults-2
   adults-1(adults a0 = 1?) --> received-1
   adults-2(adults a1 > 1?) --> received-0
   received-1(received) --> all-equal
@@ -147,7 +147,7 @@ graph LR
 
 [yaml]: https://yaml.org
 
-[AllActorTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllActorTile.soda
+[AllAgentTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllAgentTile.soda
 
 [ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/ReceivedSigmaPTile.soda
 
@@ -157,7 +157,7 @@ graph LR
 
 [AttributePTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AttributePTile.soda
 
-[FilterActorTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/FilterActorTile.soda
+[FilterAgentTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/FilterAgentTile.soda
 
 [AllAtLeastTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllAtLeastTile.soda
 

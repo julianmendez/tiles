@@ -1,7 +1,7 @@
 
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AllActorTripleTile
+import Soda.tiles.fairness.tile.AllAgentTripleTile
 import Soda.tiles.fairness.tile.CorrelationTile
 import Soda.tiles.fairness.tile.DecisionTile
 import Soda.tiles.fairness.tile.FalsePosTile
@@ -21,13 +21,13 @@ class UnbiasednessPipeline
 
   abstract
     p0_evaluation : Resource -> Measure
-    p1_result : Actor -> Measure
-    p2_with_p : Actor -> Measure
+    p1_result : Agent -> Measure
+    p2_with_p : Agent -> Measure
     p3_acceptable_bias : Measure
 
-  all_actor_tile = AllActorTile .mk
+  all_agent_tile = AllAgentTile .mk
 
-  all_actor_triple_tile = AllActorTripleTile .mk
+  all_agent_triple_tile = AllAgentTripleTile .mk
 
   triple_fst_tile = ProjectionTripleFstTile .mk
 
@@ -51,14 +51,14 @@ class UnbiasednessPipeline
 
   decision_tile = DecisionTile .mk (p3_acceptable_bias)
 
-  get_correlation_plumbing (message0 : TileMessage [Seq [Actor] ] )
-    (message1 : TileMessage [Seq [Actor] ] ) (message2 : TileMessage [Seq [Actor] ] )
+  get_correlation_plumbing (message0 : TileMessage [Seq [Agent] ] )
+    (message1 : TileMessage [Seq [Agent] ] ) (message2 : TileMessage [Seq [Agent] ] )
       : TileMessage [Measure] =
     correlation_tile .apply (
       false_pos_tile .apply (prediction_p_tile .apply (message0) ) (result_p_tile .apply (message1) )
     ) (with_p_tile .apply (message2) )
 
-  apply_on_triple (triple : TileMessage [TileTriple [Seq [Actor] ] [Seq [Actor] ] [Seq [Actor] ] ] )
+  apply_on_triple (triple : TileMessage [TileTriple [Seq [Agent] ] [Seq [Agent] ] [Seq [Agent] ] ] )
       : TileMessage [Boolean] =
     decision_tile .apply (
       get_correlation_plumbing (
@@ -68,7 +68,7 @@ class UnbiasednessPipeline
     )
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    apply_on_triple (all_actor_triple_tile .apply (message) )
+    apply_on_triple (all_agent_triple_tile .apply (message) )
 
 end
 

@@ -15,7 +15,7 @@ class AllSatisfyPTile
   apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
-        .forall (lambda actor --> p (actor) ) )
+        .forall (lambda agent --> p (agent) ) )
     )
 
 end
