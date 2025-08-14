@@ -1,0 +1,103 @@
+package soda.tiles.fairness.tile.zip
+
+/*
+ * This package contains classes to model the tiles.
+ */
+
+import   soda.tiles.fairness.tool.Actor
+import   soda.tiles.fairness.tool.Assignment
+import   soda.tiles.fairness.tool.Comparator
+import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.Outcome
+import   soda.tiles.fairness.tool.Pearson
+import   soda.tiles.fairness.tool.PearsonMod
+import   soda.tiles.fairness.tool.Resource
+import   soda.tiles.fairness.tool.TileMessage
+import   soda.tiles.fairness.tool.TileMessageBuilder
+import   soda.tiles.fairness.tool.TilePair
+import   soda.tiles.fairness.tool.TilePair_
+import   soda.tiles.fairness.tool.TileTriple
+import   soda.tiles.fairness.tool.TileTriple_
+import   soda.tiles.fairness.tool.Number
+
+
+
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile connects two sequences and returns a sequence of pairs, such that for each
+ * position in both sequences, it has a pair with elements for the corresponding input
+ * sequences.
+ */
+
+trait ZipPairTile
+{
+
+
+
+  def zip_lists [A , B ] (list0 : Seq [A] ) (list1 : Seq [B] )
+      : Seq [TilePair [A, B] ] =
+    list0
+      .zip (list1)
+      .map ( pair => TilePair .mk [A, B] (pair ._1) (pair ._2) )
+
+  def apply [A , B ] (message0 : TileMessage [Seq [A] ] )
+      (message1 : TileMessage [Seq [B] ] ) : TileMessage [Seq [TilePair [A, B] ] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      zip_lists (message0 .contents) (message1 .contents)
+    )
+
+}
+
+case class ZipPairTile_ () extends ZipPairTile
+
+object ZipPairTile {
+  def mk : ZipPairTile =
+    ZipPairTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile connects three sequences and returns a sequence of triples, such that for each
+ * position in both sequences, it has a triple with elements for the corresponding input
+ * sequences.
+ */
+
+trait ZipTripleTile
+{
+
+
+
+  def zip_lists [A , B , C ] (list0 : Seq [A] ) (list1 : Seq [B] ) (list2 : Seq [C] )
+      : Seq [TileTriple [A, B, C] ] =
+    list0
+      .zip (list1)
+      .zip (list2)
+      .map ( triple => TileTriple .mk [A, B, C] (triple ._1 ._1) (triple ._1 ._2) (triple ._2) )
+
+  def apply [A , B , C ] (message0 : TileMessage [Seq [A] ] )
+    (message1 : TileMessage [Seq [B] ] ) (message2 : TileMessage [Seq [C] ] )
+      : TileMessage [Seq [TileTriple [A, B, C] ] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      zip_lists (message0 .contents) (message1 .contents) (message2 .contents)
+    )
+
+}
+
+case class ZipTripleTile_ () extends ZipTripleTile
+
+object ZipTripleTile {
+  def mk : ZipTripleTile =
+    ZipTripleTile_ ()
+}
+

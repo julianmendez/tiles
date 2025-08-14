@@ -1,4 +1,4 @@
-package soda.tiles.fairness.tile
+package soda.tiles.fairness.tile.fold
 
 /*
  * This package contains classes to model the tiles.
@@ -20,4 +20,5 @@ import
   soda.tiles.fairness.tool.TileTriple
   soda.tiles.fairness.tool.TileTriple_
   soda.tiles.fairness.tool.Number
+  soda.tiles.fairness.tile.zip.ZipPairTile
 
