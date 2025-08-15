@@ -98,7 +98,7 @@ are:
 
 | Tile                                                                        | Class                                |
 |:----------------------------------------------------------------------------|:-------------------------------------|
-| <sub>*(a)*</sub> attribute <sub>*(m)*</sub>                                 | [AttributePTile][AttributePTile]     |
+| <sub>*(a)*</sub> map <sub>*(m)*</sub>                                       | [MapTile][MapTile]                   |
 | <sub>*(m0), (m1)*</sub> &sigma; <sub>*(m)*</sub>                            | [SigmaTile][SigmaTile]               |
 | <sub>*(&alpha;0), (&alpha;1)*</sub> zip <sub>*(⟨&alpha;0, &alpha;1⟩)*</sub> | [ZipTile][ZipTile]                   |
 | <sub>*(⟨&alpha;0, &alpha;1⟩)*</sub> unzip-0 <sub>*(&alpha;0)*</sub>         | [UnzipPairFstTile][UnzipPairFstTile] |
@@ -170,7 +170,7 @@ are:
 
 [EquityPipeline]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/EquityPipeline.soda
 
-[AttributePTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AttributePTile.soda
+[MapTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/map/MapTile.soda
 
 [SigmaTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/SigmaTile.soda
 

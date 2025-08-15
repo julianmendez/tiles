@@ -19,7 +19,7 @@ import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.TileTriple
 import   soda.tiles.fairness.tool.TileTriple_
 import   soda.tiles.fairness.tool.Number
-import   soda.tiles.fairness.tile.map.AttributePTile
+import   soda.tiles.fairness.tile.map.MapTile
 
 
 

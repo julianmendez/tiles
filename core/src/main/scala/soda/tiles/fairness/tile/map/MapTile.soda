@@ -7,12 +7,12 @@ import Soda.tiles.fairness.tool.TileMessage
  * elements in the input, and return the result as output.
  */
 
-class MapPTile
+class MapTile [A: Type] [B : Type]
 
   abstract
-    p : Measure -> Measure
+    p : A -> B
 
-  apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
+  apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [B] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
         .map (lambda measure --> p (measure) ) )

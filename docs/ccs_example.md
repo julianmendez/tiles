@@ -83,7 +83,7 @@ their own section (`pipelines`).
 | <sub>*(a)*</sub> received <sub>*(m)*</sub>          | [ReceivedSigmaPTile][ReceivedSigmaPTile] |
 | <sub>*(m)*</sub> all-satisfy (p) <sub>*b*</sub>     | [AllSatisfyPTile][AllSatisfyPTile]       |
 | <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |
-| <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [AttributePTile][AttributePTile]         |
+| <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [MapTile][MapTile]                       |
 | <sub>*(a)*</sub> p ? <sub>*(a)*</sub>               | [FilterAgentTile][FilterAgentTile]       |
 | <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |
 | <sub>*(m0), (m1)*</sub> f (m0, m1) <sub>*(m)*</sub> | [SigmaTile][SigmaTile]                   |
@@ -155,7 +155,7 @@ graph LR
 
 [AllEqualTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AllEqualTile.soda
 
-[AttributePTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/AttributePTile.soda
+[MapTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/map/MapTile.soda
 
 [FilterAgentTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/FilterAgentTile.soda
 

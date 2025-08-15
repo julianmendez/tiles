@@ -15,7 +15,7 @@ import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
 import   soda.tiles.fairness.tile.fold.AllAtLeastTile
 import   soda.tiles.fairness.tile.fold.AllEqual1Tile
 import   soda.tiles.fairness.tile.fold.AllEqualTile
-import   soda.tiles.fairness.tile.map.AttributePTile
+import   soda.tiles.fairness.tile.map.MapTile
 import   soda.tiles.fairness.tile.specific.CorrelationTile
 import   soda.tiles.fairness.tile.apply.DecisionTile
 import   soda.tiles.fairness.tile.specific.FalsePosTile
@@ -294,7 +294,7 @@ trait CcsPerChildPipeline
 
   lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (utility)
 
-  lazy val children_tile = AttributePTile .mk (children)
+  lazy val children_tile = MapTile .mk [Agent, Measure] (children)
 
   lazy val all_agent_pair_tile = AllAgentPairTile .mk
 

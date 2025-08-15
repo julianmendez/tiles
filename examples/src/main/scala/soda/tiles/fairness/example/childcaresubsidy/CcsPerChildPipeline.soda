@@ -27,7 +27,7 @@ class CcsPerChildPipeline
 
   received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (utility)
 
-  children_tile = AttributePTile .mk (children)
+  children_tile = MapTile .mk [Agent] [Measure] (children)
 
   all_agent_pair_tile = AllAgentPairTile .mk
 

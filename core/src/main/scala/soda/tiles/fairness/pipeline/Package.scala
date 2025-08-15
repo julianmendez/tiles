@@ -21,7 +21,7 @@ import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
 import   soda.tiles.fairness.tile.fold.AllAtLeastTile
 import   soda.tiles.fairness.tile.fold.AllEqual1Tile
 import   soda.tiles.fairness.tile.fold.AllEqualTile
-import   soda.tiles.fairness.tile.map.AttributePTile
+import   soda.tiles.fairness.tile.map.MapTile
 import   soda.tiles.fairness.tile.specific.CorrelationTile
 import   soda.tiles.fairness.tile.apply.DecisionTile
 import   soda.tiles.fairness.tile.specific.FalsePosTile
@@ -187,9 +187,9 @@ trait UnbiasednessPipeline
 
   lazy val prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 
-  lazy val result_p_tile = AttributePTile .mk (p1_result)
+  lazy val result_p_tile = MapTile .mk [Agent, Measure] (p1_result)
 
-  lazy val with_p_tile = AttributePTile .mk (p2_with_p)
+  lazy val with_p_tile = MapTile .mk [Agent, Measure] (p2_with_p)
 
   lazy val false_pos_tile = FalsePosTile .mk
 

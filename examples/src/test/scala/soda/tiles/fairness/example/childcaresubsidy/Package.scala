@@ -20,7 +20,7 @@ import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
 import   soda.tiles.fairness.tile.fold.AllAtLeastTile
 import   soda.tiles.fairness.tile.fold.AllEqual1Tile
 import   soda.tiles.fairness.tile.fold.AllEqualTile
-import   soda.tiles.fairness.tile.map.AttributePTile
+import   soda.tiles.fairness.tile.map.MapTile
 import   soda.tiles.fairness.tile.specific.CorrelationTile
 import   soda.tiles.fairness.tile.apply.DecisionTile
 import   soda.tiles.fairness.tile.specific.FalsePosTile

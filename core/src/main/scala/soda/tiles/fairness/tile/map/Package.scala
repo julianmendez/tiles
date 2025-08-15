@@ -30,48 +30,16 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile takes a sequence of agents as input and returns the sequence of measures, such
- * that, each position in the output sequence is the application of a function on the
- * corresponding agent in the input.
- */
-
-trait AttributePTile
-{
-
-  def   p : Agent => Measure
-
-  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .map ( agent => p (agent) ) )
-    )
-
-}
-
-case class AttributePTile_ (p : Agent => Measure) extends AttributePTile
-
-object AttributePTile {
-  def mk (p : Agent => Measure) : AttributePTile =
-    AttributePTile_ (p)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
  * This tile takes a sequence of measures as input and applies a function to each of the
  * elements in the input, and return the result as output.
  */
 
-trait MapPTile
+trait MapTile [A, B ]
 {
 
-  def   p : Measure => Measure
+  def   p : A => B
 
-  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [B] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
         .map ( measure => p (measure) ) )
@@ -79,22 +47,22 @@ trait MapPTile
 
 }
 
-case class MapPTile_ (p : Measure => Measure) extends MapPTile
+case class MapTile_ [A, B] (p : A => B) extends MapTile [A, B]
 
-object MapPTile {
-  def mk (p : Measure => Measure) : MapPTile =
-    MapPTile_ (p)
+object MapTile {
+  def mk [A, B] (p : A => B) : MapTile [A, B] =
+    MapTile_ [A, B] (p)
 }
 
 
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AttributePTile
+import Soda.tiles.fairness.tile.map.MapTile
 */
 
 /**
- * This tile is a particular case of an 'AttributePTile', where the attribute is 'needed'.
+ * This tile is a particular case of an 'MapTile', where the attribute is 'needed'.
  */
 
 trait NeededPTile
@@ -103,7 +71,7 @@ trait NeededPTile
   def   p : Agent => Measure
 
   def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    AttributePTile .mk (p) .apply (message)
+    MapTile .mk [Agent, Measure] (p) .apply (message)
 
 }
 
