@@ -40,9 +40,9 @@ class CcsSingleGuardianPipeline
   condition_1 (a : Agent) : Boolean =
     adults (a) .getOrElse (0) > 1
 
-  filter_agent_tile_0 = FilterAgentTile .mk (condition_0)
+  filter_agent_tile_0 = FilterTile .mk [Agent] (condition_0)
 
-  filter_agent_tile_1 = FilterAgentTile .mk (condition_1)
+  filter_agent_tile_1 = FilterTile .mk [Agent] (condition_1)
 
   get_branch_0 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =

@@ -33,53 +33,23 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile returns a possibly empty sequence of agents that satisfy a given property.
  */
 
-trait FilterAgentTile
+trait FilterTile [A ]
 {
 
-  def   p : Agent => Boolean
+  def   p : A => Boolean
 
-  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Agent] ] =
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
-        .filter ( agent => p (agent) ) )
+        .filter ( elem => p (elem) ) )
     )
 
 }
 
-case class FilterAgentTile_ (p : Agent => Boolean) extends FilterAgentTile
+case class FilterTile_ [A] (p : A => Boolean) extends FilterTile [A]
 
-object FilterAgentTile {
-  def mk (p : Agent => Boolean) : FilterAgentTile =
-    FilterAgentTile_ (p)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile returns a possibly empty sequence of measures that satisfy a given property.
- */
-
-trait FilterMeasureTile
-{
-
-  def   p : Measure => Boolean
-
-  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .filter ( measure => p (measure) ) )
-    )
-
-}
-
-case class FilterMeasureTile_ (p : Measure => Boolean) extends FilterMeasureTile
-
-object FilterMeasureTile {
-  def mk (p : Measure => Boolean) : FilterMeasureTile =
-    FilterMeasureTile_ (p)
+object FilterTile {
+  def mk [A] (p : A => Boolean) : FilterTile [A] =
+    FilterTile_ [A] (p)
 }
 

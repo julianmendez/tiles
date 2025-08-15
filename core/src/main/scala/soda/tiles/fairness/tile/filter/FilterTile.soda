@@ -7,15 +7,15 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile returns a possibly empty sequence of agents that satisfy a given property.
  */
 
-class FilterAgentTile
+class FilterTile [A : Type]
 
   abstract
-    p : Agent -> Boolean
+    p : A -> Boolean
 
-  apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Agent] ] =
+  apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
-        .filter (lambda agent --> p (agent) ) )
+        .filter (lambda elem --> p (elem) ) )
     )
 
 end

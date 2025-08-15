@@ -38,7 +38,7 @@ import   soda.tiles.fairness.tile.zip.ZipTripleTile
 import   soda.tiles.fairness.tile.apply.TuplingPairTile
 import   soda.tiles.fairness.tile.apply.CombineBooleanTile
 import   soda.tiles.fairness.tile.fold.AllSatisfyPTile
-import   soda.tiles.fairness.tile.filter.FilterAgentTile
+import   soda.tiles.fairness.tile.filter.FilterTile
 import   soda.tiles.fairness.pipeline.EqualityPipeline
 import   soda.tiles.fairness.pipeline.EquityPipeline
 import   soda.tiles.fairness.pipeline.UnbiasednessPipeline
@@ -473,9 +473,9 @@ trait CcsSingleGuardianPipeline
   def condition_1 (a : Agent) : Boolean =
     adults (a) .getOrElse (0) > 1
 
-  lazy val filter_agent_tile_0 = FilterAgentTile .mk (condition_0)
+  lazy val filter_agent_tile_0 = FilterTile .mk [Agent] (condition_0)
 
-  lazy val filter_agent_tile_1 = FilterAgentTile .mk (condition_1)
+  lazy val filter_agent_tile_1 = FilterTile .mk [Agent] (condition_1)
 
   def get_branch_0 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =
