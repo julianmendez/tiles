@@ -136,12 +136,13 @@ trait UnzipPairFstTile
 
 
 
+  def get_fst [A , B ] (pair : TilePair [A, B] ) : A =
+    pair .fst
+
   def apply [A , B ] (message : TileMessage [Seq [TilePair [A, B] ] ] )
       : TileMessage [Seq [A] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map ( pair => pair .fst)
-    )
+    MapTile .mk [TilePair [A, B] , A] (get_fst)
+      .apply (message)
 
 }
 
@@ -168,12 +169,13 @@ trait UnzipPairSndTile
 
 
 
+  def get_snd [A , B ] (pair : TilePair [A, B] ) : B =
+    pair .snd
+
   def apply [A , B ] (message : TileMessage [Seq [TilePair [A, B] ] ] )
       : TileMessage [Seq [B] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map ( pair => pair .snd)
-    )
+    MapTile .mk [TilePair [A, B] , B] (get_snd)
+      .apply (message)
 
 }
 
@@ -192,7 +194,7 @@ import Soda.tiles.fairness.tool.TileMessage
 
 /**
  * This tile takes a sequence of triples (a, b, c), and returns a sequence with the first
- * component of each pair from the input.
+ * component of each triple from the input.
  */
 
 trait UnzipTripleFstTile
@@ -200,12 +202,13 @@ trait UnzipTripleFstTile
 
 
 
+  def get_fst [A , B , C ] (triple : TileTriple [A, B, C] ) : A =
+    triple .fst
+
   def apply [A , B , C ] (
       message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [A] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map ( triple => triple .fst)
-    )
+    MapTile .mk [TileTriple [A, B, C] , A] (get_fst)
+      .apply (message)
 
 }
 
@@ -224,7 +227,7 @@ import Soda.tiles.fairness.tool.TileMessage
 
 /**
  * This tile takes a sequence of triples (a, b, c), and returns a sequence with the second
- * component of each pair from the input.
+ * component of each triple from the input.
  */
 
 trait UnzipTripleSndTile
@@ -232,12 +235,13 @@ trait UnzipTripleSndTile
 
 
 
+  def get_snd [A , B , C ] (triple : TileTriple [A, B, C] ) : B =
+    triple .snd
+
   def apply [A , B , C ] (
       message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [B] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map ( triple => triple .snd)
-    )
+    MapTile .mk [TileTriple [A, B, C] , B] (get_snd)
+      .apply (message)
 
 }
 
@@ -256,7 +260,7 @@ import Soda.tiles.fairness.tool.TileMessage
 
 /**
  * This tile takes a sequence of triples (a, b, c), and returns a sequence with the third
- * component of each pair from the input.
+ * component of each triple from the input.
  */
 
 trait UnzipTripleTrdTile
@@ -264,12 +268,13 @@ trait UnzipTripleTrdTile
 
 
 
+  def get_trd [A , B , C ] (triple : TileTriple [A, B, C] ) : C =
+    triple .trd
+
   def apply [A , B , C ] (
       message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [C] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map ( triple => triple .trd)
-    )
+    MapTile .mk [TileTriple [A, B, C] , C] (get_trd)
+      .apply (message)
 
 }
 

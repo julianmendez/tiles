@@ -5,19 +5,20 @@ import Soda.tiles.fairness.tool.TileMessage
 
 /**
  * This tile takes a sequence of triples (a, b, c), and returns a sequence with the third
- * component of each pair from the input.
+ * component of each triple from the input.
  */
 
 class UnzipTripleTrdTile
 
   abstract
 
+  get_trd [A : Type] [B : Type] [C : Type] (triple : TileTriple [A] [B] [C] ) : C =
+    triple .trd
+
   apply [A : Type] [B : Type] [C : Type] (
       message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [C] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map (lambda triple --> triple .trd)
-    )
+    MapTile .mk [TileTriple [A] [B] [C] ] [C] (get_trd)
+      .apply (message)
 
 end
 

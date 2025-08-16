@@ -12,12 +12,13 @@ class UnzipPairSndTile
 
   abstract
 
+  get_snd [A : Type] [B : Type] (pair : TilePair [A] [B] ) : B =
+    pair .snd
+
   apply [A : Type] [B : Type] (message : TileMessage [Seq [TilePair [A] [B] ] ] )
       : TileMessage [Seq [B] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map (lambda pair --> pair .snd)
-    )
+    MapTile .mk [TilePair [A] [B] ] [B] (get_snd)
+      .apply (message)
 
 end
 
