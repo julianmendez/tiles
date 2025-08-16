@@ -26,7 +26,7 @@ import
   soda.tiles.fairness.tile.apply.DecisionTile
   soda.tiles.fairness.tile.specific.FalsePosTile
   soda.tiles.fairness.tile.map.NeededPTile
-  soda.tiles.fairness.tile.fold.PredictionPTile
+  soda.tiles.fairness.tile.specific.PredictionPTile
   soda.tiles.fairness.tile.apply.ProjectionPairFstTile
   soda.tiles.fairness.tile.apply.ProjectionPairSndTile
   soda.tiles.fairness.tile.apply.ProjectionTripleFstTile

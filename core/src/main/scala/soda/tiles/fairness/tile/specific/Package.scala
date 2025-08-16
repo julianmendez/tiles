@@ -130,3 +130,39 @@ object FalsePosTile {
     FalsePosTile_ ()
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+*/
+
+/**
+ * This tile is a particular case of a 'ReceivedSigmaPTile' where the resource is a prediction
+ * score.
+ */
+
+trait PredictionPTile
+{
+
+  def   p : Resource => Measure
+
+  private lazy val _measure_zero : Measure = Some (0)
+
+  def measure_or (m0 : Measure) (m1 : Measure) : Measure =
+    if ( (m0 == _measure_zero)
+    ) m1
+    else m0
+
+  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
+    (ReceivedSigmaPTile .mk (measure_or) (p) ) .apply (message)
+
+}
+
+case class PredictionPTile_ (p : Resource => Measure) extends PredictionPTile
+
+object PredictionPTile {
+  def mk (p : Resource => Measure) : PredictionPTile =
+    PredictionPTile_ (p)
+}
+
