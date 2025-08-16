@@ -35,7 +35,7 @@ import   soda.tiles.fairness.tile.map.UnzipTripleSndTile
 import   soda.tiles.fairness.tile.map.UnzipTripleTrdTile
 import   soda.tiles.fairness.tile.zip.ZipPairTile
 import   soda.tiles.fairness.tile.zip.ZipTripleTile
-import   soda.tiles.fairness.tile.apply.TuplingPairTile
+import   soda.tiles.fairness.tile.constant.TuplingPairTile
 import   soda.tiles.fairness.tile.apply.CombineBooleanTile
 import   soda.tiles.fairness.tile.fold.ForallTile
 import   soda.tiles.fairness.tile.filter.FilterTile

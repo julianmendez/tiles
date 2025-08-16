@@ -19,8 +19,8 @@ import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.TileTriple
 import   soda.tiles.fairness.tool.TileTriple_
 import   soda.tiles.fairness.tool.Number
-import   soda.tiles.fairness.tile.apply.TuplingPairTile
-import   soda.tiles.fairness.tile.apply.TuplingTripleTile
+import   soda.tiles.fairness.tile.constant.TuplingPairTile
+import   soda.tiles.fairness.tile.constant.TuplingTripleTile
 import   soda.tiles.fairness.tile.zip.ZipPairTile
 
 /*
@@ -119,5 +119,66 @@ case class AllAgentTripleTile_ () extends AllAgentTripleTile
 object AllAgentTripleTile {
   def mk : AllAgentTripleTile =
     AllAgentTripleTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile connects two elements and returns a pair.
+ */
+
+trait TuplingPairTile
+{
+
+
+
+  def apply [A , B ] (message0 : TileMessage [A] )
+      (message1 : TileMessage [B] ) : TileMessage [TilePair [A, B] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      TilePair .mk [A, B] (message0 .contents) (message1 .contents)
+    )
+
+}
+
+case class TuplingPairTile_ () extends TuplingPairTile
+
+object TuplingPairTile {
+  def mk : TuplingPairTile =
+    TuplingPairTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile connects three elements and returns a triple.
+ */
+
+trait TuplingTripleTile
+{
+
+
+
+  def apply [A , B , C ] (message0 : TileMessage [A] )
+    (message1 : TileMessage [B] ) (message2 : TileMessage [C] )
+      : TileMessage [TileTriple [A, B, C] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      TileTriple .mk [A, B, C] (message0 .contents) (message1 .contents) (message2 .contents)
+    )
+
+}
+
+case class TuplingTripleTile_ () extends TuplingTripleTile
+
+object TuplingTripleTile {
+  def mk : TuplingTripleTile =
+    TuplingTripleTile_ ()
 }
 
