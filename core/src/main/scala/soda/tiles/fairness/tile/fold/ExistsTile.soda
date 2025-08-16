@@ -1,0 +1,22 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile takes a sequence of elements and returns 'true' when at least one element in the input
+ * satisfies a property.
+ */
+
+class ExistsTile [A]
+
+  abstract
+    p : A -> Boolean
+
+  apply (message : TileMessage [Seq [A] ] ) : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .exists (lambda elem --> p (elem) ) )
+    )
+
+end
+

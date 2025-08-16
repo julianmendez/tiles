@@ -138,6 +138,37 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
+ * This tile takes a sequence of elements and returns 'true' when at least one element in the input
+ * satisfies a property.
+ */
+
+trait ExistsTile [A]
+{
+
+  def   p : A => Boolean
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( (message .contents)
+        .exists ( elem => p (elem) ) )
+    )
+
+}
+
+case class ExistsTile_ [A] (p : A => Boolean) extends ExistsTile [A]
+
+object ExistsTile {
+  def mk [A] (p : A => Boolean) : ExistsTile [A] =
+    ExistsTile_ [A] (p)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
  * This tile takes a sequence of elements and returns 'true' when all the elements in the input
  * satisfy a property.
  */
