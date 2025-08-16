@@ -14,23 +14,15 @@ IFS=$'\n'
 pathToSodaDir="core/src/main/scala/soda/tiles/fairness"
 pathToLeanDir="Soda/tiles/fairness"
 
+files=$(find "${pathToSodaDir}" -type f -name "*.soda")
 
-# This translates all Soda files into Lean
-packages=$(ls "${pathToSodaDir}")
+for file in ${files}; do
+  relPath="${file#${pathToSodaDir}/}"
+  dirPath="$(dirname "${relPath}")"
+  fileName="$(basename "${file}" .soda)"
 
-for package in ${packages}; do
-  files=$(ls "${pathToSodaDir}/${package}")
-  mkdir -p "${pathToLeanDir}/${package}"
-
-  for file in ${files}; do
-
-    if [ "${file: -5}" == ".soda" ]; then
-      fileName="${file%.*}"
-      soda lean "${pathToSodaDir}/${package}/${fileName}.soda" "${pathToLeanDir}/${package}/${fileName}.lean"
-    fi
-
-  done
-
+  mkdir -p "${pathToLeanDir}/${dirPath}"
+  soda lean "${file}" "${pathToLeanDir}/${dirPath}/${fileName}.lean"
 done
 
 # This updates elan
@@ -38,7 +30,6 @@ elan self update
 
 # This updates lake
 lake update
-
 
 IFS="$oldIFS"
 
