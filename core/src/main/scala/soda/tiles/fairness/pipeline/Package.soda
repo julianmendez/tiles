@@ -6,21 +6,15 @@ package soda.tiles.fairness.pipeline
 
 import
   soda.tiles.fairness.tool.Agent
-  soda.tiles.fairness.tool.Assignment
-  soda.tiles.fairness.tool.Comparator
   soda.tiles.fairness.tool.Measure
-  soda.tiles.fairness.tool.Outcome
-  soda.tiles.fairness.tool.Pearson
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
-  soda.tiles.fairness.tool.TileMessageBuilder
   soda.tiles.fairness.tool.TilePair
   soda.tiles.fairness.tool.TileTriple
   soda.tiles.fairness.tile.constant.AllAgentPairTile
   soda.tiles.fairness.tile.constant.AllAgentTile
   soda.tiles.fairness.tile.constant.AllAgentTripleTile
   soda.tiles.fairness.tile.fold.AllAtLeastTile
-  soda.tiles.fairness.tile.fold.AllEqual1Tile
   soda.tiles.fairness.tile.fold.AllEqualTile
   soda.tiles.fairness.tile.core.MapTile
   soda.tiles.fairness.tile.specific.CorrelationTile
@@ -34,12 +28,6 @@ import
   soda.tiles.fairness.tile.apply.ProjectionTripleSndTile
   soda.tiles.fairness.tile.apply.ProjectionTripleTrdTile
   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.zip.ZipSigmaTile
-  soda.tiles.fairness.tile.map.UnzipPairFstTile
-  soda.tiles.fairness.tile.map.UnzipPairSndTile
-  soda.tiles.fairness.tile.map.UnzipTripleFstTile
-  soda.tiles.fairness.tile.map.UnzipTripleSndTile
-  soda.tiles.fairness.tile.map.UnzipTripleTrdTile
   soda.tiles.fairness.tile.zip.ZipPairTile
   soda.tiles.fairness.tile.zip.ZipTripleTile
 

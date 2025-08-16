@@ -7,46 +7,11 @@ package soda.tiles.fairness.example.childcaresubsidy
 import   org.scalatest.funsuite.AnyFunSuite
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
-import   soda.tiles.fairness.tool.Context
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
-import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tile.constant.AllAgentPairTile
-import   soda.tiles.fairness.tile.constant.AllAgentTile
-import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
-import   soda.tiles.fairness.tile.fold.AllAtLeastTile
-import   soda.tiles.fairness.tile.fold.AllEqual1Tile
-import   soda.tiles.fairness.tile.fold.AllEqualTile
-import   soda.tiles.fairness.tile.core.MapTile
-import   soda.tiles.fairness.tile.specific.CorrelationTile
-import   soda.tiles.fairness.tile.apply.DecisionTile
-import   soda.tiles.fairness.tile.specific.FalsePosTile
-import   soda.tiles.fairness.tile.map.NeededPTile
-import   soda.tiles.fairness.tile.specific.PredictionPTile
-import   soda.tiles.fairness.tile.apply.ProjectionPairFstTile
-import   soda.tiles.fairness.tile.apply.ProjectionPairSndTile
-import   soda.tiles.fairness.tile.apply.ProjectionTripleFstTile
-import   soda.tiles.fairness.tile.apply.ProjectionTripleSndTile
-import   soda.tiles.fairness.tile.apply.ProjectionTripleTrdTile
-import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.zip.ZipSigmaTile
-import   soda.tiles.fairness.tile.map.UnzipPairFstTile
-import   soda.tiles.fairness.tile.map.UnzipPairSndTile
-import   soda.tiles.fairness.tile.map.UnzipTripleFstTile
-import   soda.tiles.fairness.tile.map.UnzipTripleSndTile
-import   soda.tiles.fairness.tile.map.UnzipTripleTrdTile
-import   soda.tiles.fairness.tile.zip.ZipPairTile
-import   soda.tiles.fairness.tile.zip.ZipTripleTile
-import   soda.tiles.fairness.tile.constant.TuplingPairTile
-import   soda.tiles.fairness.tile.apply.CombineBooleanTile
-import   soda.tiles.fairness.tile.fold.ForallTile
-import   soda.tiles.fairness.tile.core.FilterTile
-import   soda.tiles.fairness.pipeline.EqualityPipeline
-import   soda.tiles.fairness.pipeline.EquityPipeline
-import   soda.tiles.fairness.pipeline.UnbiasednessPipeline
 
 
 

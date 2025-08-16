@@ -5,20 +5,13 @@ package soda.tiles.fairness.tile.specific
  */
 
 import   soda.tiles.fairness.tool.Agent
-import   soda.tiles.fairness.tool.Assignment
-import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
-import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.Pearson
 import   soda.tiles.fairness.tool.PearsonMod
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.TilePair_
-import   soda.tiles.fairness.tool.TileTriple
-import   soda.tiles.fairness.tool.TileTriple_
-import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tile.zip.ZipSigmaTile
 import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
 import   soda.tiles.fairness.tile.zip.ZipPairTile
