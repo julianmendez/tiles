@@ -19,43 +19,13 @@ import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.TileTriple
 import   soda.tiles.fairness.tool.TileTriple_
 import   soda.tiles.fairness.tool.Number
+import   soda.tiles.fairness.tile.core.MapTile
 import   soda.tiles.fairness.tile.zip.ZipPairTile
 
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile takes a sequence of measures as input and applies a function to each of the
- * elements in the input, and return the result as output.
- */
-
-trait MapTile [A, B ]
-{
-
-  def   p : A => B
-
-  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [B] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .map ( measure => p (measure) ) )
-    )
-
-}
-
-case class MapTile_ [A, B] (p : A => B) extends MapTile [A, B]
-
-object MapTile {
-  def mk [A, B] (p : A => B) : MapTile [A, B] =
-    MapTile_ [A, B] (p)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.map.MapTile
+import Soda.tiles.fairness.tile.core.MapTile
 */
 
 /**

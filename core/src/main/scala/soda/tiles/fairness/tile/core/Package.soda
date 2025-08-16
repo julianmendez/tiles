@@ -1,4 +1,4 @@
-package soda.tiles.fairness.tile.filter
+package soda.tiles.fairness.tile.core
 
 /*
  * This package contains classes to model the tiles.

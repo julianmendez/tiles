@@ -15,7 +15,7 @@ import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
 import   soda.tiles.fairness.tile.fold.AllAtLeastTile
 import   soda.tiles.fairness.tile.fold.AllEqual1Tile
 import   soda.tiles.fairness.tile.fold.AllEqualTile
-import   soda.tiles.fairness.tile.map.MapTile
+import   soda.tiles.fairness.tile.core.MapTile
 import   soda.tiles.fairness.tile.specific.CorrelationTile
 import   soda.tiles.fairness.tile.apply.DecisionTile
 import   soda.tiles.fairness.tile.specific.FalsePosTile
@@ -38,7 +38,7 @@ import   soda.tiles.fairness.tile.zip.ZipTripleTile
 import   soda.tiles.fairness.tile.constant.TuplingPairTile
 import   soda.tiles.fairness.tile.apply.CombineBooleanTile
 import   soda.tiles.fairness.tile.fold.ForallTile
-import   soda.tiles.fairness.tile.filter.FilterTile
+import   soda.tiles.fairness.tile.core.FilterTile
 import   soda.tiles.fairness.pipeline.EqualityPipeline
 import   soda.tiles.fairness.pipeline.EquityPipeline
 import   soda.tiles.fairness.pipeline.UnbiasednessPipeline

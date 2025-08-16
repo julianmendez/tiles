@@ -21,7 +21,7 @@ import
   soda.tiles.fairness.tile.fold.AllAtLeastTile
   soda.tiles.fairness.tile.fold.AllEqual1Tile
   soda.tiles.fairness.tile.fold.AllEqualTile
-  soda.tiles.fairness.tile.map.MapTile
+  soda.tiles.fairness.tile.core.MapTile
   soda.tiles.fairness.tile.specific.CorrelationTile
   soda.tiles.fairness.tile.apply.DecisionTile
   soda.tiles.fairness.tile.specific.FalsePosTile
@@ -44,7 +44,7 @@ import
   soda.tiles.fairness.tile.constant.TuplingPairTile
   soda.tiles.fairness.tile.apply.CombineBooleanTile
   soda.tiles.fairness.tile.fold.ForallTile
-  soda.tiles.fairness.tile.filter.FilterTile
+  soda.tiles.fairness.tile.core.FilterTile
   soda.tiles.fairness.pipeline.EqualityPipeline
   soda.tiles.fairness.pipeline.EquityPipeline
   soda.tiles.fairness.pipeline.UnbiasednessPipeline
