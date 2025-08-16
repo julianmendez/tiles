@@ -12,14 +12,14 @@ class CcsNoSubsidyPipeline
       case Some (0) ==> true
       case otherwise ==> false
 
-  all_satisfy_p_tile = AllSatisfyPTile .mk (is_equals_0)
+  forall_tile = ForallTile .mk [Measure] (is_equals_0)
 
   received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
 
   all_agent_tile = AllAgentTile .mk
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    all_satisfy_p_tile .apply (
+    forall_tile .apply (
       received_sigma_p_tile .apply (
         all_agent_tile .apply (message)
       )

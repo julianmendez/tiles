@@ -138,28 +138,28 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile takes a sequence of measures and returns 'true' when all the elements in the input
+ * This tile takes a sequence of elements and returns 'true' when all the elements in the input
  * satisfy a property.
  */
 
-trait AllSatisfyPTile
+trait ForallTile [A]
 {
 
-  def   p : Measure => Boolean
+  def   p : A => Boolean
 
-  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       ( (message .contents)
-        .forall ( agent => p (agent) ) )
+        .forall ( elem => p (elem) ) )
     )
 
 }
 
-case class AllSatisfyPTile_ (p : Measure => Boolean) extends AllSatisfyPTile
+case class ForallTile_ [A] (p : A => Boolean) extends ForallTile [A]
 
-object AllSatisfyPTile {
-  def mk (p : Measure => Boolean) : AllSatisfyPTile =
-    AllSatisfyPTile_ (p)
+object ForallTile {
+  def mk [A] (p : A => Boolean) : ForallTile [A] =
+    ForallTile_ [A] (p)
 }
 
 

@@ -42,7 +42,7 @@ import   soda.tiles.fairness.tile.zip.ZipPairTile
 import   soda.tiles.fairness.tile.zip.ZipTripleTile
 import   soda.tiles.fairness.tile.apply.TuplingPairTile
 import   soda.tiles.fairness.tile.apply.CombineBooleanTile
-import   soda.tiles.fairness.tile.fold.AllSatisfyPTile
+import   soda.tiles.fairness.tile.fold.ForallTile
 import   soda.tiles.fairness.tile.filter.FilterTile
 import   soda.tiles.fairness.pipeline.EqualityPipeline
 import   soda.tiles.fairness.pipeline.EquityPipeline

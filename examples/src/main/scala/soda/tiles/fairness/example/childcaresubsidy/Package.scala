@@ -37,7 +37,7 @@ import   soda.tiles.fairness.tile.zip.ZipPairTile
 import   soda.tiles.fairness.tile.zip.ZipTripleTile
 import   soda.tiles.fairness.tile.apply.TuplingPairTile
 import   soda.tiles.fairness.tile.apply.CombineBooleanTile
-import   soda.tiles.fairness.tile.fold.AllSatisfyPTile
+import   soda.tiles.fairness.tile.fold.ForallTile
 import   soda.tiles.fairness.tile.filter.FilterTile
 import   soda.tiles.fairness.pipeline.EqualityPipeline
 import   soda.tiles.fairness.pipeline.EquityPipeline
@@ -239,14 +239,14 @@ trait CcsNoSubsidyPipeline
       case otherwise => false
     }
 
-  lazy val all_satisfy_p_tile = AllSatisfyPTile .mk (is_equals_0)
+  lazy val forall_tile = ForallTile .mk [Measure] (is_equals_0)
 
   lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
 
   lazy val all_agent_tile = AllAgentTile .mk
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    all_satisfy_p_tile .apply (
+    forall_tile .apply (
       received_sigma_p_tile .apply (
         all_agent_tile .apply (message)
       )
@@ -446,7 +446,7 @@ trait CcsSingleGuardianPipeline
       case otherwise => false
     }
 
-  lazy val all_satisfy_p_tile = AllSatisfyPTile .mk (is_equals_0)
+  lazy val forall_tile = ForallTile .mk [Measure] (is_equals_0)
 
   lazy val all_equal_tile = AllEqualTile .mk
 
@@ -489,7 +489,7 @@ trait CcsSingleGuardianPipeline
 
   def get_branch_1 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =
-    all_satisfy_p_tile .apply (
+    forall_tile .apply (
       received_sigma_p_tile .apply (
         filter_agent_tile_1 .apply (
           message

@@ -13,7 +13,7 @@ class CcsSingleGuardianPipeline
       case Some (0) ==> true
       case otherwise ==> false
 
-  all_satisfy_p_tile = AllSatisfyPTile .mk (is_equals_0)
+  forall_tile = ForallTile .mk [Measure] (is_equals_0)
 
   all_equal_tile = AllEqualTile .mk
 
@@ -56,7 +56,7 @@ class CcsSingleGuardianPipeline
 
   get_branch_1 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =
-    all_satisfy_p_tile .apply (
+    forall_tile .apply (
       received_sigma_p_tile .apply (
         filter_agent_tile_1 .apply (
           message

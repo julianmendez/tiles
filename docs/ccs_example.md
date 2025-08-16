@@ -81,7 +81,7 @@ their own section (`pipelines`).
 |:----------------------------------------------------|:-----------------------------------------|
 | all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             |
 | <sub>*(a)*</sub> received <sub>*(m)*</sub>          | [ReceivedSigmaPTile][ReceivedSigmaPTile] |
-| <sub>*(m)*</sub> all-satisfy (p) <sub>*b*</sub>     | [AllSatisfyPTile][AllSatisfyPTile]       |
+| <sub>*(m)*</sub> forall (p) <sub>*b*</sub>          | [ForallTile][ForallTile]                 |
 | <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |
 | <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [MapTile][MapTile]                       |
 | <sub>*(a)*</sub> p ? <sub>*(a)*</sub>               | [FilterAgentTile][FilterAgentTile]       |
@@ -97,7 +97,7 @@ This is the [No Subsidy Pipeline][CcsNoSubsidyPipeline]. In this case, no subsid
 ```mermaid
 graph LR
   all-agent(all-agent) --> received
-  received(received) --> all-satisfy-0(all-satisfy m=0)
+  received(received) --> forall-0(forall m=0)
 ```
 
 
@@ -151,7 +151,7 @@ graph LR
 
 [ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/ReceivedSigmaPTile.soda
 
-[AllSatisfyPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/AllSatisfyPTile.soda
+[ForallTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/ForallTile.soda
 
 [AllEqualTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/AllEqualTile.soda
 
