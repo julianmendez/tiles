@@ -11,10 +11,13 @@ class ProjectionTripleSndTile
 
   abstract
 
+  get_snd [A : Type] [B : Type] [C : Type] (triple : TileTriple [A] [B] [C] ) : B =
+    triple .snd
+
   apply [A : Type] [B : Type] [C : Type] (message : TileMessage [TileTriple [A] [B] [C] ] )
       : TileMessage [B] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .snd)
+    ApplyTile .mk [TileTriple [A] [B] [C] ] [B] (get_snd)
+      .apply (message)
 
 end
 

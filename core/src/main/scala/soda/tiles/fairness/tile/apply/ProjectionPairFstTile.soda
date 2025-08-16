@@ -11,10 +11,12 @@ class ProjectionPairFstTile
 
   abstract
 
-  apply [A : Type] [B : Type] (message : TileMessage [TilePair [A] [B] ] )
-      : TileMessage [A] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .fst)
+  get_fst [A : Type] [B : Type] (pair : TilePair [A] [B] ) : A =
+    pair .fst
+
+  apply [A : Type] [B : Type] (message : TileMessage [TilePair [A] [B] ] ) : TileMessage [A] =
+    ApplyTile .mk [TilePair [A] [B] ] [A] (get_fst)
+      .apply (message)
 
 end
 

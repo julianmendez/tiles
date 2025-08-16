@@ -11,10 +11,12 @@ class ProjectionPairSndTile
 
   abstract
 
-  apply [A : Type] [B : Type] (message : TileMessage [TilePair [A] [B] ] )
-      : TileMessage [B] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .snd)
+  get_snd [A : Type] [B : Type] (pair : TilePair [A] [B] ) : B =
+    pair .snd
+
+  apply [A : Type] [B : Type] (message : TileMessage [TilePair [A] [B] ] ) : TileMessage [B] =
+    ApplyTile .mk [TilePair [A] [B] ] [B] (get_snd)
+      .apply (message)
 
 end
 

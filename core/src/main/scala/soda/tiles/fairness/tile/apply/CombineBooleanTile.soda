@@ -12,10 +12,13 @@ class CombineBooleanTile
   abstract
     combine : Boolean -> Boolean -> Boolean
 
-  apply (message : TileMessage [TilePair [Boolean] [Boolean] ] )
-      : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      combine (message .contents .fst) (message .contents .snd)
-    )
+  combine_pair (pair : TilePair [Boolean] [Boolean] ) : Boolean =
+    combine (pair .fst) (pair .snd)
+
+  apply_tile = ApplyTile .mk [TilePair [Boolean] [Boolean] ] [Boolean] (combine_pair)
+
+  apply (message : TileMessage [TilePair [Boolean] [Boolean] ] ) : TileMessage [Boolean] =
+    apply_tile .apply (message)
 
 end
+

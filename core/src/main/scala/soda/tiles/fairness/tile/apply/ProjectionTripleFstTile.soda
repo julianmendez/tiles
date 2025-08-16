@@ -11,10 +11,13 @@ class ProjectionTripleFstTile
 
   abstract
 
+  get_fst [A : Type] [B : Type] [C : Type] (triple : TileTriple [A] [B] [C] ) : A =
+    triple .fst
+
   apply [A : Type] [B : Type] [C : Type] (message : TileMessage [TileTriple [A] [B] [C] ] )
       : TileMessage [A] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .fst)
+    ApplyTile .mk [TileTriple [A] [B] [C] ] [A] (get_fst)
+      .apply (message)
 
 end
 

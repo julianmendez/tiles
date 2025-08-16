@@ -31,6 +31,35 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
+ * This tile takes applies a function to an input, and returns the result as output.
+ */
+
+trait ApplyTile [A, B ]
+{
+
+  def   p : A => B
+
+  def apply (message : TileMessage [A] ) : TileMessage [B] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( p (message .contents) )
+    )
+
+}
+
+case class ApplyTile_ [A, B] (p : A => B) extends ApplyTile [A, B]
+
+object ApplyTile {
+  def mk [A, B] (p : A => B) : ApplyTile [A, B] =
+    ApplyTile_ [A, B] (p)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
  * This tile takes a pair of boolean as input and returns a boolean according to the provided
  * function.
  */
@@ -40,11 +69,13 @@ trait CombineBooleanTile
 
   def   combine : Boolean => Boolean => Boolean
 
-  def apply (message : TileMessage [TilePair [Boolean, Boolean] ] )
-      : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      combine (message .contents .fst) (message .contents .snd)
-    )
+  def combine_pair (pair : TilePair [Boolean, Boolean] ) : Boolean =
+    combine (pair .fst) (pair .snd)
+
+  lazy val apply_tile = ApplyTile .mk [TilePair [Boolean, Boolean] , Boolean] (combine_pair)
+
+  def apply (message : TileMessage [TilePair [Boolean, Boolean] ] ) : TileMessage [Boolean] =
+    apply_tile .apply (message)
 
 }
 
@@ -75,10 +106,10 @@ trait DecisionTile
     ( Comparator .mk
        .compareMeasure (m) (maximum_acceptable_bias_percentage) ) <= 0
 
+  lazy val apply_tile = ApplyTile .mk [Measure, Boolean] (to_boolean)
+
   def apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      to_boolean (message .contents)
-    )
+    apply_tile .apply (message)
 
 }
 
@@ -104,10 +135,12 @@ trait ProjectionPairFstTile
 
 
 
-  def apply [A , B ] (message : TileMessage [TilePair [A, B] ] )
-      : TileMessage [A] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .fst)
+  def get_fst [A , B ] (pair : TilePair [A, B] ) : A =
+    pair .fst
+
+  def apply [A , B ] (message : TileMessage [TilePair [A, B] ] ) : TileMessage [A] =
+    ApplyTile .mk [TilePair [A, B] , A] (get_fst)
+      .apply (message)
 
 }
 
@@ -133,10 +166,12 @@ trait ProjectionPairSndTile
 
 
 
-  def apply [A , B ] (message : TileMessage [TilePair [A, B] ] )
-      : TileMessage [B] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .snd)
+  def get_snd [A , B ] (pair : TilePair [A, B] ) : B =
+    pair .snd
+
+  def apply [A , B ] (message : TileMessage [TilePair [A, B] ] ) : TileMessage [B] =
+    ApplyTile .mk [TilePair [A, B] , B] (get_snd)
+      .apply (message)
 
 }
 
@@ -162,10 +197,13 @@ trait ProjectionTripleFstTile
 
 
 
+  def get_fst [A , B , C ] (triple : TileTriple [A, B, C] ) : A =
+    triple .fst
+
   def apply [A , B , C ] (message : TileMessage [TileTriple [A, B, C] ] )
       : TileMessage [A] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .fst)
+    ApplyTile .mk [TileTriple [A, B, C] , A] (get_fst)
+      .apply (message)
 
 }
 
@@ -191,10 +229,13 @@ trait ProjectionTripleSndTile
 
 
 
+  def get_snd [A , B , C ] (triple : TileTriple [A, B, C] ) : B =
+    triple .snd
+
   def apply [A , B , C ] (message : TileMessage [TileTriple [A, B, C] ] )
       : TileMessage [B] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .snd)
+    ApplyTile .mk [TileTriple [A, B, C] , B] (get_snd)
+      .apply (message)
 
 }
 
@@ -220,10 +261,13 @@ trait ProjectionTripleTrdTile
 
 
 
+  def get_trd [A , B , C ] (triple : TileTriple [A, B, C] ) : C =
+    triple .trd
+
   def apply [A , B , C ] (message : TileMessage [TileTriple [A, B, C] ] )
       : TileMessage [C] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .trd)
+    ApplyTile .mk [TileTriple [A, B, C] , C] (get_trd)
+      .apply (message)
 
 }
 

@@ -1,0 +1,20 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile takes applies a function to an input, and returns the result as output.
+ */
+
+class ApplyTile [A: Type] [B : Type]
+
+  abstract
+    p : A -> B
+
+  apply (message : TileMessage [A] ) : TileMessage [B] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      ( p (message .contents) )
+    )
+
+end
+

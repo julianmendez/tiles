@@ -11,10 +11,13 @@ class ProjectionTripleTrdTile
 
   abstract
 
+  get_trd [A : Type] [B : Type] [C : Type] (triple : TileTriple [A] [B] [C] ) : C =
+    triple .trd
+
   apply [A : Type] [B : Type] [C : Type] (message : TileMessage [TileTriple [A] [B] [C] ] )
       : TileMessage [C] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      message .contents .trd)
+    ApplyTile .mk [TileTriple [A] [B] [C] ] [C] (get_trd)
+      .apply (message)
 
 end
 
