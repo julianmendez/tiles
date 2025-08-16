@@ -19,7 +19,7 @@ import   soda.tiles.fairness.tool.TilePair_
 import   soda.tiles.fairness.tool.TileTriple
 import   soda.tiles.fairness.tool.TileTriple_
 import   soda.tiles.fairness.tool.Number
-import   soda.tiles.fairness.tile.map.SigmaTile
+import   soda.tiles.fairness.tile.zip.ZipSigmaTile
 import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
 import   soda.tiles.fairness.tile.zip.ZipPairTile
 
@@ -95,7 +95,7 @@ object CorrelationTile {
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.SigmaTile
+import Soda.tiles.fairness.tile.zip.ZipSigmaTile
 */
 
 /**
@@ -119,7 +119,7 @@ trait FalsePosTile
 
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
       : TileMessage [Seq [Measure] ] =
-    SigmaTile .mk (sigma) .apply (message0) (message1)
+    ZipSigmaTile .mk (sigma) .apply (message0) (message1)
 
 }
 

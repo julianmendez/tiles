@@ -46,7 +46,7 @@ class CcsPerChildPipeline
       case Some (val0) ==> _division_with (val0) (m1)
       case None ==> None
 
-  division_tile = SigmaTile .mk (division)
+  division_tile = ZipSigmaTile .mk (division)
 
   pair_fst_tile = ProjectionPairFstTile .mk
 

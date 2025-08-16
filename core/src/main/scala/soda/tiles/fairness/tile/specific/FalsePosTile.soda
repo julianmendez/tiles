@@ -1,7 +1,7 @@
 
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.SigmaTile
+import Soda.tiles.fairness.tile.zip.ZipSigmaTile
 
 /**
  * This tiles takes a sequence of pairs of measures (m0, m1), and returns a sequence, which
@@ -23,7 +23,7 @@ class FalsePosTile
 
   apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
       : TileMessage [Seq [Measure] ] =
-    SigmaTile .mk (sigma) .apply (message0) (message1)
+    ZipSigmaTile .mk (sigma) .apply (message0) (message1)
 
 end
 

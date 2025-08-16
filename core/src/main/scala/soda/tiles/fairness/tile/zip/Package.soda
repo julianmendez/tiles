@@ -20,4 +20,4 @@ import
   soda.tiles.fairness.tool.TileTriple
   soda.tiles.fairness.tool.TileTriple_
   soda.tiles.fairness.tool.Number
-
+  soda.tiles.fairness.tile.map.SigmaTile

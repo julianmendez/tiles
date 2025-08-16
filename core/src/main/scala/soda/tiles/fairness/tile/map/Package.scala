@@ -86,7 +86,7 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile takes a sequence of pair of measures as input, and returns a sequence such that,
+ * This tile takes a sequence of pairs of measures as input, and returns a sequence such that,
  * for each pair (m0, m1) in the input, is m = sigma (m0, m1), where sigma is a given function
  * to combine measures.
  */
@@ -96,19 +96,11 @@ trait SigmaTile
 
   def   sigma : Measure => Measure => Measure
 
-  lazy val zip_tile = ZipPairTile .mk
-
-  def apply_zipped (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
+  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
       : TileMessage [Seq [Measure] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
       (message .contents)
         .map ( pair => sigma (pair .fst) (pair .snd) )
-    )
-
-  def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
-      : TileMessage [Seq [Measure] ] =
-    apply_zipped (
-      zip_tile .apply (message0) (message1)
     )
 
 }
