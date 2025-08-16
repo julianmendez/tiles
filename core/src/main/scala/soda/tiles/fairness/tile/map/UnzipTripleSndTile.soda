@@ -8,19 +8,15 @@ import Soda.tiles.fairness.tool.TileMessage
  * component of each pair from the input.
  */
 
-
 class UnzipTripleSndTile
 
   abstract
 
-  unzip_snd_list [A : Type] [B : Type] [C : Type] (
-      list : Seq [TileTriple [A] [B] [C] ] ) : Seq [B] =
-    list .map (lambda triple --> triple .snd)
-
   apply [A : Type] [B : Type] [C : Type] (
       message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [B] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      unzip_snd_list (message .contents)
+      (message .contents)
+        .map (lambda triple --> triple .snd)
     )
 
 end

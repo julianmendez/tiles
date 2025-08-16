@@ -12,14 +12,11 @@ class UnzipTripleTrdTile
 
   abstract
 
-  unzip_trd_list [A : Type] [B : Type] [C : Type] (
-      list : Seq [TileTriple [A] [B] [C] ] ) : Seq [C] =
-    list .map (lambda triple --> triple .trd)
-
   apply [A : Type] [B : Type] [C : Type] (
       message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [C] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      unzip_trd_list (message .contents)
+      (message .contents)
+        .map (lambda triple --> triple .trd)
     )
 
 end

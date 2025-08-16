@@ -136,13 +136,11 @@ trait UnzipPairFstTile
 
 
 
-  def unzip_fst_list [A , B ] (list : Seq [TilePair [A, B] ] ) : Seq [A] =
-    list .map ( pair => pair .fst)
-
   def apply [A , B ] (message : TileMessage [Seq [TilePair [A, B] ] ] )
       : TileMessage [Seq [A] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      unzip_fst_list (message .contents)
+      (message .contents)
+        .map ( pair => pair .fst)
     )
 
 }
@@ -170,13 +168,11 @@ trait UnzipPairSndTile
 
 
 
-  def unzip_snd_list [A , B ] (list : Seq [TilePair [A, B] ] ) : Seq [B] =
-    list .map ( pair => pair .snd)
-
   def apply [A , B ] (message : TileMessage [Seq [TilePair [A, B] ] ] )
       : TileMessage [Seq [B] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      unzip_snd_list (message .contents)
+      (message .contents)
+        .map ( pair => pair .snd)
     )
 
 }
@@ -204,14 +200,11 @@ trait UnzipTripleFstTile
 
 
 
-  def unzip_fst_list [A , B , C ] (
-      list : Seq [TileTriple [A, B, C] ] ) : Seq [A] =
-    list .map ( triple => triple .fst)
-
   def apply [A , B , C ] (
       message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [A] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      unzip_fst_list (message .contents)
+      (message .contents)
+        .map ( triple => triple .fst)
     )
 
 }
@@ -239,14 +232,11 @@ trait UnzipTripleSndTile
 
 
 
-  def unzip_snd_list [A , B , C ] (
-      list : Seq [TileTriple [A, B, C] ] ) : Seq [B] =
-    list .map ( triple => triple .snd)
-
   def apply [A , B , C ] (
       message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [B] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      unzip_snd_list (message .contents)
+      (message .contents)
+        .map ( triple => triple .snd)
     )
 
 }
@@ -274,14 +264,11 @@ trait UnzipTripleTrdTile
 
 
 
-  def unzip_trd_list [A , B , C ] (
-      list : Seq [TileTriple [A, B, C] ] ) : Seq [C] =
-    list .map ( triple => triple .trd)
-
   def apply [A , B , C ] (
       message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [C] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      unzip_trd_list (message .contents)
+      (message .contents)
+        .map ( triple => triple .trd)
     )
 
 }
