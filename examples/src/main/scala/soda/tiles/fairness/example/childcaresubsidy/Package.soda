@@ -28,7 +28,7 @@ import
   soda.tiles.fairness.tile.apply.ProjectionTripleSndTile
   soda.tiles.fairness.tile.apply.ProjectionTripleTrdTile
   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.fold.SigmaTile
+  soda.tiles.fairness.tile.map.SigmaTile
   soda.tiles.fairness.tile.map.UnzipPairFstTile
   soda.tiles.fairness.tile.map.UnzipPairSndTile
   soda.tiles.fairness.tile.map.UnzipTripleFstTile
