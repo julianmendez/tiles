@@ -1,0 +1,71 @@
+
+class CrossTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained: A) (expected: A): org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message [A : Type] (seq: Seq [A] ) : TileMessage [Seq [A] ] =
+    TileMessageBuilder
+      .mk
+      .build(scenario.context)(scenario.outcome0)(seq)
+
+  test ("cross on two empty sequences returns empty sequence") (
+    check (
+      obtained := CrossTile .mk
+        .apply (mk_tile_message (Seq [Int] () ) ) (mk_tile_message (Seq [String] () ) )
+        .contents
+    ) (
+      expected := Seq [TilePair [Int] [String] ] ()
+    )
+  )
+
+  test ("cross on empty first sequence returns empty sequence") (
+    check (
+      obtained := CrossTile .mk
+        .apply (mk_tile_message (Seq [Int] () ) ) (mk_tile_message (Seq [String] ("a" , "b") ) )
+        .contents
+    ) (
+      expected := Seq [TilePair [Int] [String] ] ()
+    )
+  )
+
+  test ("cross on empty second sequence returns empty sequence") (
+    check (
+      obtained := CrossTile .mk
+        .apply (mk_tile_message (Seq [Int] (1 , 2) ) ) (mk_tile_message (Seq [String] () ) )
+        .contents
+    ) (
+      expected := Seq [TilePair [Int] [String] ] ()
+    )
+  )
+
+  test ("cross on single-element sequences") (
+    check (
+      obtained := CrossTile .mk
+        .apply (mk_tile_message (Seq [Int] (1) ) ) (mk_tile_message (Seq [String] ("a") ) )
+        .contents
+    ) (
+      expected := Seq (TilePair .mk (1) ("a") )
+    )
+  )
+
+  test ("cross on multi-element sequences") (
+    check (
+      obtained := CrossTile .mk
+        .apply (mk_tile_message (Seq [Int] (1 , 2) ) ) (mk_tile_message (Seq [String] ("a" , "b") ) )
+        .contents
+    ) (
+      expected := Seq(
+        TilePair .mk (1) ("a") ,
+        TilePair .mk (1) ("b") ,
+        TilePair .mk (2) ("a") ,
+        TilePair .mk (2) ("b")
+      )
+    )
+  )
+
+end
