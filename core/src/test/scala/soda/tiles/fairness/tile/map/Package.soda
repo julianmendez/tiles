@@ -1,0 +1,12 @@
+package soda.tiles.fairness.tile.map
+
+/*
+ * This package contains tests for tiles related to fold.
+ */
+
+import
+  org.scalatest.funsuite.AnyFunSuite
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+  soda.tiles.fairness.tile.scenario.ScenarioExample
+

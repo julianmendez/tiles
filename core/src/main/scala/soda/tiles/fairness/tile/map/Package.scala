@@ -19,6 +19,36 @@ import   soda.tiles.fairness.tile.core.MapTile
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This takes a transformation function and applies it to each element of the sequence,
+ * producing a new sequence with the transformed elements, preserving the original order.
+ */
+
+trait MapTile [A , B ]
+{
+
+  def   phi : A => B
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [B] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      (message .contents) .map (phi)
+    )
+
+}
+
+case class MapTile_ [A, B] (phi : A => B) extends MapTile [A, B]
+
+object MapTile {
+  def mk [A, B] (phi : A => B) : MapTile [A, B] =
+    MapTile_ [A, B] (phi)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.core.MapTile
 */
 

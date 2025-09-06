@@ -1,0 +1,20 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This takes a transformation function and applies it to each element of the sequence,
+ * producing a new sequence with the transformed elements, preserving the original order.
+ */
+
+class MapTile [A : Type] [B : Type]
+
+  abstract
+    phi : A -> B
+
+  apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [B] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      (message .contents) .map (phi)
+    )
+
+end
