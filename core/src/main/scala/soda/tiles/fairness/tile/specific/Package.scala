@@ -14,7 +14,7 @@ import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tile.zip.ZipSigmaTile
 import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.zip.ZipPairTile
+import   soda.tiles.fairness.tile.zip.ZipTile
 
 
 
@@ -42,7 +42,7 @@ trait CorrelationTile
 
   private lazy val _percentage_constant : Number = 100.0
 
-  lazy val zip_tile = ZipPairTile .mk
+  lazy val zip_tile = ZipTile .mk
 
   def get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Number =
     PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )

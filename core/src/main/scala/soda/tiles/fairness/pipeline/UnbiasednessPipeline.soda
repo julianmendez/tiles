@@ -35,7 +35,7 @@ class UnbiasednessPipeline
 
   triple_trd_tile = ProjectionTripleTrdTile .mk
 
-  zip_pair_tile = ZipPairTile .mk
+  zip_pair_tile = ZipTile .mk
 
   zip_triple_tile = ZipTripleTile .mk
 

@@ -17,12 +17,48 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
+ * This tile takes two sequences of measures as input, and returns a sequence such that,
+ * for each pair (m0, m1) in the input, is m = sigma (m0, m1), where sigma is a given function
+ * to combine measures.
+ */
+
+trait ZipSigmaTile
+{
+
+  def   sigma : Measure => Measure => Measure
+
+  lazy val zip_tile = ZipTile .mk
+
+  lazy val sigma_tile = SigmaTile .mk (sigma)
+
+  def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
+      : TileMessage [Seq [Measure] ] =
+    sigma_tile .apply (
+      zip_tile .apply (message0) (message1)
+    )
+
+}
+
+case class ZipSigmaTile_ (sigma : Measure => Measure => Measure) extends ZipSigmaTile
+
+object ZipSigmaTile {
+  def mk (sigma : Measure => Measure => Measure) : ZipSigmaTile =
+    ZipSigmaTile_ (sigma)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
  * This tile connects two sequences and returns a sequence of pairs, such that for each
  * position in both sequences, it has a pair with elements for the corresponding input
  * sequences.
  */
 
-trait ZipPairTile
+trait ZipTile
 {
 
 
@@ -41,47 +77,11 @@ trait ZipPairTile
 
 }
 
-case class ZipPairTile_ () extends ZipPairTile
+case class ZipTile_ () extends ZipTile
 
-object ZipPairTile {
-  def mk : ZipPairTile =
-    ZipPairTile_ ()
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile takes two sequences of measures as input, and returns a sequence such that,
- * for each pair (m0, m1) in the input, is m = sigma (m0, m1), where sigma is a given function
- * to combine measures.
- */
-
-trait ZipSigmaTile
-{
-
-  def   sigma : Measure => Measure => Measure
-
-  lazy val zip_tile = ZipPairTile .mk
-
-  lazy val sigma_tile = SigmaTile .mk (sigma)
-
-  def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
-      : TileMessage [Seq [Measure] ] =
-    sigma_tile .apply (
-      zip_tile .apply (message0) (message1)
-    )
-
-}
-
-case class ZipSigmaTile_ (sigma : Measure => Measure => Measure) extends ZipSigmaTile
-
-object ZipSigmaTile {
-  def mk (sigma : Measure => Measure => Measure) : ZipSigmaTile =
-    ZipSigmaTile_ (sigma)
+object ZipTile {
+  def mk : ZipTile =
+    ZipTile_ ()
 }
 
 

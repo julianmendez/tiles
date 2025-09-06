@@ -13,7 +13,7 @@ import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tile.zip.ZipPairTile
+import   soda.tiles.fairness.tile.zip.ZipTile
 
 
 
@@ -35,7 +35,7 @@ trait AllAtLeastTile
 
 
 
-  lazy val zip_tile = ZipPairTile .mk
+  lazy val zip_tile = ZipTile .mk
 
   def apply_zipped (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
     : TileMessage [Boolean] =

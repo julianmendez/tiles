@@ -13,7 +13,7 @@ class AllAtLeastTile
 
   abstract
 
-  zip_tile = ZipPairTile .mk
+  zip_tile = ZipTile .mk
 
   apply_zipped (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
     : TileMessage [Boolean] =

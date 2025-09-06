@@ -19,7 +19,7 @@ class CorrelationTile
 
   _percentage_constant : Number = 100.0
 
-  zip_tile = ZipPairTile .mk
+  zip_tile = ZipTile .mk
 
   get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Number =
     PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )

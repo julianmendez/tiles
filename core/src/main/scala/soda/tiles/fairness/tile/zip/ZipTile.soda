@@ -9,7 +9,7 @@ import Soda.tiles.fairness.tool.TileMessage
  * sequences.
  */
 
-class ZipPairTile
+class ZipTile
 
   abstract
 

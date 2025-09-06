@@ -251,7 +251,7 @@ import Soda.tiles.fairness.tile.NeededPTile
 import Soda.tiles.fairness.tile.ReceivedSigmaPTile
 import Soda.tiles.fairness.tile.UnzipPairFstTile
 import Soda.tiles.fairness.tile.UnzipPairSndTile
-import Soda.tiles.fairness.tile.ZipPairTile
+import Soda.tiles.fairness.tile.ZipTile
 */
 
 /**
