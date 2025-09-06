@@ -1,0 +1,10 @@
+package soda.tiles.fairness.tile.distinct
+
+/*
+ * This package contains classes to model the tiles.
+ */
+
+import
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+
