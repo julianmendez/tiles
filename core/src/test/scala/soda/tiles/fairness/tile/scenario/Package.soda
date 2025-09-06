@@ -1,0 +1,10 @@
+package soda.tiles.fairness.tile.scenario
+
+/*
+ * This package contains scenarios for testing.
+ */
+
+import
+  org.scalatest.funsuite.AnyFunSuite
+  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tool.Outcome
