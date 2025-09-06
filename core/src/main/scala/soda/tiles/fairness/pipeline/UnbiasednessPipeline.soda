@@ -37,8 +37,6 @@ class UnbiasednessPipeline
 
   zip_pair_tile = ZipTile .mk
 
-  zip_triple_tile = ZipTripleTile .mk
-
   prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 
   result_p_tile = MapTile .mk [Agent] [Measure] (p1_result)

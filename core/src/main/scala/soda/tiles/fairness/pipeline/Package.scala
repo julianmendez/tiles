@@ -28,7 +28,6 @@ import   soda.tiles.fairness.tile.apply.ProjectionTripleSndTile
 import   soda.tiles.fairness.tile.apply.ProjectionTripleTrdTile
 import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
 import   soda.tiles.fairness.tile.zip.ZipTile
-import   soda.tiles.fairness.tile.zip.ZipTripleTile
 
 
 
@@ -170,8 +169,6 @@ trait UnbiasednessPipeline
   lazy val triple_trd_tile = ProjectionTripleTrdTile .mk
 
   lazy val zip_pair_tile = ZipTile .mk
-
-  lazy val zip_triple_tile = ZipTripleTile .mk
 
   lazy val prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 
