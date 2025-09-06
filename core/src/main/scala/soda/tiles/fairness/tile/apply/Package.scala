@@ -7,12 +7,43 @@ package soda.tiles.fairness.tile.apply
 import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.TileMessage
+import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.TileTriple
 import   soda.tiles.fairness.tile.core.ApplyTile
 
 
 
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This takes a transformation function and applies it to a single element,
+ * producing a TileMessage with the transformed element.
+ */
+
+trait ApplyTile [A , B ]
+{
+
+  def   phi : A => B
+
+  def apply (message : TileMessage [A] ) : TileMessage [B] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      phi (message .contents)
+    )
+
+}
+
+case class ApplyTile_ [A, B] (phi : A => B) extends ApplyTile [A, B]
+
+object ApplyTile {
+  def mk [A, B] (phi : A => B) : ApplyTile [A, B] =
+    ApplyTile_ [A, B] (phi)
+}
 
 
 /*
