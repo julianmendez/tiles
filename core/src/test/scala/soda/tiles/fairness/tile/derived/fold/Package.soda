@@ -1,0 +1,16 @@
+package soda.tiles.fairness.tile.derived.fold
+
+/*
+ * This package contains tests for derived tiles.
+ */
+
+import
+  org.scalatest.funsuite.AnyFunSuite
+  soda.tiles.fairness.tile.primitive.ScenarioExample
+  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+  soda.tiles.fairness.tool.TilePair
+

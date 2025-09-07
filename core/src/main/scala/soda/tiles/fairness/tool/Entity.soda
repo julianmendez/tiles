@@ -17,6 +17,31 @@ class Context = Identifier
 
 class Measure = Option [Int]
 
+class MeasureMod
+
+  abstract
+
+  zero : Measure = Some (0)
+
+  one : Measure = Some (1)
+
+  is_equals_0 (measure : Measure) : Boolean =
+    match measure
+      case Some (0) ==> true
+      case otherwise ==> false
+
+  add_value_to (value : Int) (m : Measure) : Measure =
+    match m
+      case Some (other_value) ==> Some (value + other_value)
+      case None ==> None
+
+  plus (a : Measure) (b : Measure) : Measure =
+    match a
+      case Some (value) ==> add_value_to (value) (b)
+      case None ==> None
+
+end
+
 
 class Assignment
 

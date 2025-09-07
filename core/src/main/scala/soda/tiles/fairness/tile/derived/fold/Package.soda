@@ -1,0 +1,17 @@
+package soda.tiles.fairness.tile.derived.fold
+
+/*
+ * This package contains classes to model the tiles.
+ */
+
+import
+  soda.tiles.fairness.tile.primitive.FoldTile
+  soda.tiles.fairness.tile.primitive.MapTile
+  soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.MeasureMod
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+  soda.tiles.fairness.tool.TilePair
+  soda.tiles.fairness.tool.TileTriple
+

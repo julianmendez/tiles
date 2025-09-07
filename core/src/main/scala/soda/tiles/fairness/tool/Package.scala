@@ -23,6 +23,42 @@ type Context = Identifier
 
 type Measure = Option [Int]
 
+trait MeasureMod
+{
+
+
+
+  lazy val zero : Measure = Some (0)
+
+  lazy val one : Measure = Some (1)
+
+  def is_equals_0 (measure : Measure) : Boolean =
+    measure match  {
+      case Some (0) => true
+      case otherwise => false
+    }
+
+  def add_value_to (value : Int) (m : Measure) : Measure =
+    m match  {
+      case Some (other_value) => Some (value + other_value)
+      case None => None
+    }
+
+  def plus (a : Measure) (b : Measure) : Measure =
+    a match  {
+      case Some (value) => add_value_to (value) (b)
+      case None => None
+    }
+
+}
+
+case class MeasureMod_ () extends MeasureMod
+
+object MeasureMod {
+  def mk : MeasureMod =
+    MeasureMod_ ()
+}
+
 trait Assignment
 {
 
