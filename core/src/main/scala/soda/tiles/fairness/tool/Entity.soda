@@ -17,6 +17,7 @@ class Context = Identifier
 
 class Measure = Option [Int]
 
+
 class MeasureMod
 
   abstract
@@ -56,6 +57,22 @@ class Outcome
 
   abstract
     assignments : Seq [Assignment]
+
+end
+
+
+class OutcomeMod
+
+  abstract
+
+  get_assignments (outcome : Outcome) (a : Agent) : Seq [Assignment] =
+    outcome
+      .assignments
+      .filter (lambda assignment --> assignment .agent == a)
+
+  get_resources (outcome : Outcome) (a : Agent) : Seq [Resource] =
+    get_assignments (outcome) (a)
+      .map (lambda assignment --> assignment .resource)
 
 end
 

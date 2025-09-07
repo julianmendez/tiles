@@ -1,0 +1,29 @@
+
+/**
+ * This tile takes a sequence of agents as input and returns a sequence containing, for each
+ * agent in the input sequence, a measure amounting the value of all the resources given to that
+ * agent. This tile requires a utility function that informs the value of each resource.
+ */
+
+class AccumulatesTile
+
+  abstract
+    utility : Resource -> Measure
+
+  zero : Measure = MeasureMod .mk .zero
+
+  plus (m0 : Measure , m1 : Measure) : Measure =
+    MeasureMod .mk .plus (m0) (m1)
+
+  get_accumulated (outcome : Outcome) (a : Agent) : Measure =
+    OutcomeMod .mk
+      .get_resources (outcome) (a)
+      .map (lambda resource --> utility (resource) )
+      .foldLeft (zero) (plus)
+
+  apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
+    MapTile .mk [Agent] [Measure] (lambda agent --> get_accumulated (message .outcome) (agent) )
+      .apply (message)
+
+end
+

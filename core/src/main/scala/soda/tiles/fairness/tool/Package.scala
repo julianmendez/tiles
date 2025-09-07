@@ -88,6 +88,29 @@ object Outcome {
     Outcome_ (assignments)
 }
 
+trait OutcomeMod
+{
+
+
+
+  def get_assignments (outcome : Outcome) (a : Agent) : Seq [Assignment] =
+    outcome
+      .assignments
+      .filter ( assignment => assignment .agent == a)
+
+  def get_resources (outcome : Outcome) (a : Agent) : Seq [Resource] =
+    get_assignments (outcome) (a)
+      .map ( assignment => assignment .resource)
+
+}
+
+case class OutcomeMod_ () extends OutcomeMod
+
+object OutcomeMod {
+  def mk : OutcomeMod =
+    OutcomeMod_ ()
+}
+
 /**
  * This class contains functions to compare different types of objects.
  */

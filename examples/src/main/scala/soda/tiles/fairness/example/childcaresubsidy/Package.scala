@@ -37,18 +37,6 @@ trait CcsAcromagatInstance
   def   resource_value_map : Map [Resource, Measure]
   def   pipelines : Seq [String]
 
-  private def _add_value_to (value : Int) (m : Measure) : Measure =
-    m match  {
-      case Some (other_value) => Some (value + other_value)
-      case None => None
-    }
-
-  def measure_sum (a : Measure) (b : Measure) : Measure =
-    a match  {
-      case Some (value) => _add_value_to (value) (b)
-      case None => None
-    }
-
   def get_or_else [A ] (map : Map [A, Measure] ) (key : A) (default : Measure) : Measure =
     map .get (key) match  {
       case Some (value) => value
@@ -208,8 +196,7 @@ trait CcsNoSubsidyPipeline
     CcsPipeline
 {
 
-  def   sigma : Measure => Measure => Measure
-  def   p_utility : Resource => Measure
+  def   utility : Resource => Measure
 
   def is_equals_0 (measure : Measure) : Boolean =
     measure match  {
@@ -219,13 +206,13 @@ trait CcsNoSubsidyPipeline
 
   lazy val forall_tile = ForallTile .mk [Measure] (is_equals_0)
 
-  lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+  lazy val accumulates_tile = AccumulatesTile .mk (utility)
 
   lazy val all_agent_tile = AllAgentTile .mk
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     forall_tile .apply (
-      received_sigma_p_tile .apply (
+      accumulates_tile .apply (
         all_agent_tile .apply (message)
       )
     )
@@ -235,11 +222,11 @@ trait CcsNoSubsidyPipeline
 
 }
 
-case class CcsNoSubsidyPipeline_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure) extends CcsNoSubsidyPipeline
+case class CcsNoSubsidyPipeline_ (utility : Resource => Measure) extends CcsNoSubsidyPipeline
 
 object CcsNoSubsidyPipeline {
-  def mk (sigma : Measure => Measure => Measure) (p_utility : Resource => Measure) : CcsNoSubsidyPipeline =
-    CcsNoSubsidyPipeline_ (sigma, p_utility)
+  def mk (utility : Resource => Measure) : CcsNoSubsidyPipeline =
+    CcsNoSubsidyPipeline_ (utility)
 }
 
 
@@ -264,13 +251,12 @@ trait CcsPerChildPipeline
     CcsPipeline
 {
 
-  def   sigma : Measure => Measure => Measure
   def   children : Agent => Measure
   def   utility : Resource => Measure
 
   lazy val all_equal_tile = AllEqualTile .mk
 
-  lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (utility)
+  lazy val accumulates_tile = AccumulatesTile .mk (utility)
 
   lazy val children_tile = MapTile .mk [Agent, Measure] (children)
 
@@ -303,7 +289,7 @@ trait CcsPerChildPipeline
       : TileMessage [Boolean] =
     all_equal_tile .apply (
       division_tile .apply (
-        received_sigma_p_tile .apply (pair_fst_tile .apply (pair) )
+        accumulates_tile .apply (pair_fst_tile .apply (pair) )
       ) (
         children_tile .apply (pair_snd_tile .apply (pair) )
       )
@@ -317,11 +303,11 @@ trait CcsPerChildPipeline
 
 }
 
-case class CcsPerChildPipeline_ (sigma : Measure => Measure => Measure, children : Agent => Measure, utility : Resource => Measure) extends CcsPerChildPipeline
+case class CcsPerChildPipeline_ (children : Agent => Measure, utility : Resource => Measure) extends CcsPerChildPipeline
 
 object CcsPerChildPipeline {
-  def mk (sigma : Measure => Measure => Measure) (children : Agent => Measure) (utility : Resource => Measure) : CcsPerChildPipeline =
-    CcsPerChildPipeline_ (sigma, children, utility)
+  def mk (children : Agent => Measure) (utility : Resource => Measure) : CcsPerChildPipeline =
+    CcsPerChildPipeline_ (children, utility)
 }
 
 
@@ -330,18 +316,17 @@ trait CcsPerFamilyPipeline
     CcsPipeline
 {
 
-  def   sigma : Measure => Measure => Measure
-  def   p_utility : Resource => Measure
+  def   utility : Resource => Measure
 
   lazy val all_equal_tile = AllEqualTile .mk
 
-  lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+  lazy val accumulates_tile = AccumulatesTile .mk (utility)
 
   lazy val all_agent_tile = AllAgentTile .mk
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     all_equal_tile .apply (
-      received_sigma_p_tile .apply (
+      accumulates_tile .apply (
         all_agent_tile .apply (message)
       )
     )
@@ -351,11 +336,11 @@ trait CcsPerFamilyPipeline
 
 }
 
-case class CcsPerFamilyPipeline_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure) extends CcsPerFamilyPipeline
+case class CcsPerFamilyPipeline_ (utility : Resource => Measure) extends CcsPerFamilyPipeline
 
 object CcsPerFamilyPipeline {
-  def mk (sigma : Measure => Measure => Measure) (p_utility : Resource => Measure) : CcsPerFamilyPipeline =
-    CcsPerFamilyPipeline_ (sigma, p_utility)
+  def mk (utility : Resource => Measure) : CcsPerFamilyPipeline =
+    CcsPerFamilyPipeline_ (utility)
 }
 
 
@@ -385,16 +370,16 @@ trait CcsPipelineFactory
   def get_pipeline (name : String) (m : CcsAcromagatInstance) : Option [CcsPipeline] =
     if ( name == "CcsNoSubsidyPipeline"
     ) Some (
-      CcsNoSubsidyPipeline .mk (m .measure_sum) (m .resource_value) )
+      CcsNoSubsidyPipeline .mk (m .resource_value) )
     else if ( name == "CcsPerChildPipeline"
     ) Some (
-      CcsPerChildPipeline .mk (m .measure_sum) (m .agent_children) (m .resource_value) )
+      CcsPerChildPipeline .mk (m .agent_children) (m .resource_value) )
     else if ( name == "CcsPerFamilyPipeline"
     ) Some (
-      CcsPerFamilyPipeline .mk (m .measure_sum) (m .resource_value) )
+      CcsPerFamilyPipeline .mk (m .resource_value) )
     else if ( name == "CcsSingleGuardianPipeline"
     ) Some (
-      CcsSingleGuardianPipeline .mk (m .measure_sum) (m .agent_adults) (m .resource_value) )
+      CcsSingleGuardianPipeline .mk (m .agent_adults) (m .resource_value) )
     else None
 
 }
@@ -414,8 +399,7 @@ trait CcsSingleGuardianPipeline
     CcsPipeline
 {
 
-  def   sigma : Measure => Measure => Measure
-  def   p_utility : Resource => Measure
+  def   utility : Resource => Measure
   def   adults : Agent => Measure
 
   def is_equals_0 (measure : Measure) : Boolean =
@@ -428,7 +412,7 @@ trait CcsSingleGuardianPipeline
 
   lazy val all_equal_tile = AllEqualTile .mk
 
-  lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+  lazy val accumulates_tile = AccumulatesTile .mk (sigma) (utility)
 
   lazy val all_agent_tile = AllAgentTile .mk
 
@@ -458,7 +442,7 @@ trait CcsSingleGuardianPipeline
   def get_branch_0 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =
     all_equal_tile .apply (
-      received_sigma_p_tile .apply (
+      accumulates_tile .apply (
         filter_agent_tile_0 .apply (
           message
         )
@@ -468,7 +452,7 @@ trait CcsSingleGuardianPipeline
   def get_branch_1 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =
     forall_tile .apply (
-      received_sigma_p_tile .apply (
+      accumulates_tile .apply (
         filter_agent_tile_1 .apply (
           message
         )
@@ -492,10 +476,10 @@ trait CcsSingleGuardianPipeline
 
 }
 
-case class CcsSingleGuardianPipeline_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure, adults : Agent => Measure) extends CcsSingleGuardianPipeline
+case class CcsSingleGuardianPipeline_ (utility : Resource => Measure, adults : Agent => Measure) extends CcsSingleGuardianPipeline
 
 object CcsSingleGuardianPipeline {
-  def mk (sigma : Measure => Measure => Measure) (p_utility : Resource => Measure) (adults : Agent => Measure) : CcsSingleGuardianPipeline =
-    CcsSingleGuardianPipeline_ (sigma, p_utility, adults)
+  def mk (utility : Resource => Measure) (adults : Agent => Measure) : CcsSingleGuardianPipeline =
+    CcsSingleGuardianPipeline_ (utility, adults)
 }
 

@@ -6,12 +6,15 @@ package soda.tiles.fairness.tile.composite
 
 import
   soda.tiles.fairness.tile.derived.map.SigmaTile
+  soda.tiles.fairness.tile.primitive.MapTile
   soda.tiles.fairness.tile.primitive.ZipTile
   soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Assignment
   soda.tiles.fairness.tool.Comparator
   soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.MeasureMod
   soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.OutcomeMod
   soda.tiles.fairness.tool.Pearson
   soda.tiles.fairness.tool.PearsonMod
   soda.tiles.fairness.tool.Resource

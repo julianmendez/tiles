@@ -4,8 +4,7 @@ class CcsSingleGuardianPipeline
     CcsPipeline
 
   abstract
-    sigma : Measure -> Measure -> Measure
-    p_utility : Resource -> Measure
+    utility : Resource -> Measure
     adults : Agent -> Measure
 
   is_equals_0 (measure : Measure) : Boolean =
@@ -17,7 +16,7 @@ class CcsSingleGuardianPipeline
 
   all_equal_tile = AllEqualTile .mk
 
-  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+  accumulates_tile = AccumulatesTile .mk (sigma) (utility)
 
   all_agent_tile = AllAgentTile .mk
 
@@ -47,7 +46,7 @@ class CcsSingleGuardianPipeline
   get_branch_0 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =
     all_equal_tile .apply (
-      received_sigma_p_tile .apply (
+      accumulates_tile .apply (
         filter_agent_tile_0 .apply (
           message
         )
@@ -57,7 +56,7 @@ class CcsSingleGuardianPipeline
   get_branch_1 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =
     forall_tile .apply (
-      received_sigma_p_tile .apply (
+      accumulates_tile .apply (
         filter_agent_tile_1 .apply (
           message
         )

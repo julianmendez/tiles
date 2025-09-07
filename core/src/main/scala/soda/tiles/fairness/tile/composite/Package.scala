@@ -5,12 +5,15 @@ package soda.tiles.fairness.tile.composite
  */
 
 import   soda.tiles.fairness.tile.derived.map.SigmaTile
+import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Outcome
+import   soda.tiles.fairness.tool.OutcomeMod
 import   soda.tiles.fairness.tool.Pearson
 import   soda.tiles.fairness.tool.PearsonMod
 import   soda.tiles.fairness.tool.Resource
@@ -20,6 +23,42 @@ import   soda.tiles.fairness.tool.TilePair
 
 
 
+
+
+/**
+ * This tile takes a sequence of agents as input and returns a sequence containing, for each
+ * agent in the input sequence, a measure amounting the value of all the resources given to that
+ * agent. This tile requires a utility function that informs the value of each resource.
+ */
+
+trait AccumulatesTile
+{
+
+  def   utility : Resource => Measure
+
+  lazy val zero : Measure = MeasureMod .mk .zero
+
+  def plus (m0 : Measure , m1 : Measure) : Measure =
+    MeasureMod .mk .plus (m0) (m1)
+
+  def get_accumulated (outcome : Outcome) (a : Agent) : Measure =
+    OutcomeMod .mk
+      .get_resources (outcome) (a)
+      .map ( resource => utility (resource) )
+      .foldLeft (zero) (plus)
+
+  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
+    MapTile .mk [Agent, Measure] ( agent => get_accumulated (message .outcome) (agent) )
+      .apply (message)
+
+}
+
+case class AccumulatesTile_ (utility : Resource => Measure) extends AccumulatesTile
+
+object AccumulatesTile {
+  def mk (utility : Resource => Measure) : AccumulatesTile =
+    AccumulatesTile_ (utility)
+}
 
 
 /*
@@ -305,15 +344,23 @@ trait PredictionPTile
 
   def   p : Resource => Measure
 
-  private lazy val _measure_zero : Measure = Some (0)
+  lazy val zero : Measure = MeasureMod .mk .zero
 
-  def measure_or (m0 : Measure) (m1 : Measure) : Measure =
-    if ( (m0 == _measure_zero)
-    ) m1
-    else m0
+  lazy val one : Measure = MeasureMod .mk .one
+
+  def normalize (m : Measure) : Measure =
+    if ( (m == zero)
+    ) zero
+    else one
+
+  lazy val map_tile = MapTile .mk [Measure, Measure] (normalize)
+
+  lazy val accumulates_tile = AccumulatesTile .mk (p)
 
   def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    (ReceivedSigmaPTile .mk (measure_or) (p) ) .apply (message)
+    map_tile .apply (
+      accumulates_tile .apply (message)
+    )
 
 }
 
@@ -322,53 +369,6 @@ case class PredictionPTile_ (p : Resource => Measure) extends PredictionPTile
 object PredictionPTile {
   def mk (p : Resource => Measure) : PredictionPTile =
     PredictionPTile_ (p)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile takes a sequence of agents as input and returns a sequence containing, for each
- * agent in the input sequence, a measure amounting the value of all the resources given to that
- * agent. This tile requires a function to count multiple resources, and another function that
- * informs the value of each resource.
- */
-
-trait ReceivedSigmaPTile
-{
-
-  def   sigma : Measure => Measure => Measure
-  def   p : Resource => Measure
-
-  private def _sigma2 (m0 : Measure , m1 : Measure) : Measure =
-    sigma (m0) (m1)
-
-  private lazy val _measure_zero : Measure = Some (0)
-
-  def get_assignment (assignments : Seq [Assignment] ) (a : Agent) : Option [Assignment] =
-    assignments . find ( assignment => (assignment .agent) == a)
-
-  def get_measure (outcome : Outcome) (a : Agent) : Measure =
-    (get_assignment (outcome .assignments) (a) )
-      .map ( assignment => p (assignment .resource) )
-      .foldLeft (_measure_zero) (_sigma2)
-
-  def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .map ( agent => get_measure (message .outcome) (agent) ) )
-    )
-
-}
-
-case class ReceivedSigmaPTile_ (sigma : Measure => Measure => Measure, p : Resource => Measure) extends ReceivedSigmaPTile
-
-object ReceivedSigmaPTile {
-  def mk (sigma : Measure => Measure => Measure) (p : Resource => Measure) : ReceivedSigmaPTile =
-    ReceivedSigmaPTile_ (sigma, p)
 }
 
 

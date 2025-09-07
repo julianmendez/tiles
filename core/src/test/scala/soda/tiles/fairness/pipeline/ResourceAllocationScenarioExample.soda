@@ -8,16 +8,6 @@ class ResourceAllocationScenarioExample
 
   abstract
 
-  _add_value_to (value : Int) (m : Measure) : Measure =
-    match m
-      case Some (other_value) ==> Some (value + other_value)
-      case None ==> None
-
-  measure_sum (a : Measure) (b : Measure) : Measure =
-    match a
-      case Some (value) ==> _add_value_to (value) (b)
-      case None ==> None
-
   resource0 = "small box - 0.1 m"
 
   resource1 = "medium box - 0.2 m"

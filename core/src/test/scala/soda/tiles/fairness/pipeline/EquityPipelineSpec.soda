@@ -9,7 +9,7 @@ class EquityPipelineSpec ()
   example = ResourceAllocationScenarioExample .mk
 
   equity_pipeline =
-    EquityPipeline .mk (example .measure_sum) (example .agent_need) (example .resource_height)
+    EquityPipeline .mk (example .agent_need) (example .resource_height)
 
   test ("equity on outcome 0") (
     check (

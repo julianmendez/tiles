@@ -28,7 +28,7 @@ case class EqualityPipelineSpec ()
 
   lazy val example = ResourceAllocationScenarioExample .mk
 
-  lazy val equality_pipeline = EqualityPipeline .mk (example .measure_sum) (example .resource_height)
+  lazy val equality_pipeline = EqualityPipeline .mk (example .resource_height)
 
   test ("equality on outcome 0") (
     check (
@@ -76,7 +76,7 @@ case class EquityPipelineSpec ()
   lazy val example = ResourceAllocationScenarioExample .mk
 
   lazy val equity_pipeline =
-    EquityPipeline .mk (example .measure_sum) (example .agent_need) (example .resource_height)
+    EquityPipeline .mk (example .agent_need) (example .resource_height)
 
   test ("equity on outcome 0") (
     check (
@@ -122,18 +122,6 @@ trait ResourceAllocationScenarioExample
 {
 
 
-
-  private def _add_value_to (value : Int) (m : Measure) : Measure =
-    m match  {
-      case Some (other_value) => Some (value + other_value)
-      case None => None
-    }
-
-  def measure_sum (a : Measure) (b : Measure) : Measure =
-    a match  {
-      case Some (value) => _add_value_to (value) (b)
-      case None => None
-    }
 
   lazy val resource0 = "small box - 0.1 m"
 

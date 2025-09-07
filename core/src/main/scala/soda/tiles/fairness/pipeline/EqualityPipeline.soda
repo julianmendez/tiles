@@ -13,18 +13,17 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 class EqualityPipeline
 
   abstract
-    sigma : Measure -> Measure -> Measure
-    p_utility : Resource -> Measure
+    utility : Resource -> Measure
 
   all_equal_tile = AllEqualTile .mk
 
-  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+  accumulates_tile = AccumulatesTile .mk (utility)
 
   all_agent_tile = AllAgentTile .mk
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     all_equal_tile .apply (
-      received_sigma_p_tile .apply (
+      accumulates_tile .apply (
         all_agent_tile .apply (message)
       )
     )

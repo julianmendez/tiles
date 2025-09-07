@@ -11,16 +11,6 @@ class CcsAcromagatInstance
     resource_value_map : Map [Resource] [Measure]
     pipelines : Seq [String]
 
-  _add_value_to (value : Int) (m : Measure) : Measure =
-    match m
-      case Some (other_value) ==> Some (value + other_value)
-      case None ==> None
-
-  measure_sum (a : Measure) (b : Measure) : Measure =
-    match a
-      case Some (value) ==> _add_value_to (value) (b)
-      case None ==> None
-
   get_or_else [A : Type] (map : Map [A] [Measure] ) (key : A) (default : Measure) : Measure =
     match map .get (key)
       case Some (value) ==> value

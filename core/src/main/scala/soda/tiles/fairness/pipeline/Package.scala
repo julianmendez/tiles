@@ -4,12 +4,12 @@ package soda.tiles.fairness.pipeline
  * This package contains classes to model the tiles.
  */
 
+import   soda.tiles.fairness.tile.composite.AccumulatesTile
 import   soda.tiles.fairness.tile.composite.AllAtLeastTile
 import   soda.tiles.fairness.tile.composite.AllEqualTile
 import   soda.tiles.fairness.tile.composite.CorrelationTile
 import   soda.tiles.fairness.tile.composite.FalsePosTile
 import   soda.tiles.fairness.tile.composite.PredictionPTile
-import   soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 import   soda.tiles.fairness.tile.constant.AllAgentPairTile
 import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
@@ -50,29 +50,28 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 trait EqualityPipeline
 {
 
-  def   sigma : Measure => Measure => Measure
-  def   p_utility : Resource => Measure
+  def   utility : Resource => Measure
 
   lazy val all_equal_tile = AllEqualTile .mk
 
-  lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+  lazy val accumulates_tile = AccumulatesTile .mk (utility)
 
   lazy val all_agent_tile = AllAgentTile .mk
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     all_equal_tile .apply (
-      received_sigma_p_tile .apply (
+      accumulates_tile .apply (
         all_agent_tile .apply (message)
       )
     )
 
 }
 
-case class EqualityPipeline_ (sigma : Measure => Measure => Measure, p_utility : Resource => Measure) extends EqualityPipeline
+case class EqualityPipeline_ (utility : Resource => Measure) extends EqualityPipeline
 
 object EqualityPipeline {
-  def mk (sigma : Measure => Measure => Measure) (p_utility : Resource => Measure) : EqualityPipeline =
-    EqualityPipeline_ (sigma, p_utility)
+  def mk (utility : Resource => Measure) : EqualityPipeline =
+    EqualityPipeline_ (utility)
 }
 
 
@@ -95,15 +94,14 @@ import Soda.tiles.fairness.tile.primitive.ZipTile
 trait EquityPipeline
 {
 
-  def   sigma : Measure => Measure => Measure
-  def   p0_need : Agent => Measure
-  def   p1_utility : Resource => Measure
+  def   need : Agent => Measure
+  def   utility : Resource => Measure
 
   lazy val at_least_tile = AllAtLeastTile .mk
 
-  lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p1_utility)
+  lazy val accumulates_tile = AccumulatesTile .mk (utility)
 
-  lazy val needs_tile = NeedsTile .mk (p0_need)
+  lazy val needs_tile = NeedsTile .mk (need)
 
   lazy val all_agent_pair_tile = AllAgentPairTile .mk
 
@@ -113,7 +111,7 @@ trait EquityPipeline
 
   def apply_on_pair (pair : TileMessage [TilePair [Seq [Agent] , Seq [Agent] ] ] ) : TileMessage [Boolean] =
     at_least_tile .apply (
-      received_sigma_p_tile .apply (pair_fst_tile (pair) )
+      accumulates_tile .apply (pair_fst_tile (pair) )
     ) (
       needs_tile .apply (pair_snd_tile (pair) )
     )
@@ -123,11 +121,11 @@ trait EquityPipeline
 
 }
 
-case class EquityPipeline_ (sigma : Measure => Measure => Measure, p0_need : Agent => Measure, p1_utility : Resource => Measure) extends EquityPipeline
+case class EquityPipeline_ (need : Agent => Measure, utility : Resource => Measure) extends EquityPipeline
 
 object EquityPipeline {
-  def mk (sigma : Measure => Measure => Measure) (p0_need : Agent => Measure) (p1_utility : Resource => Measure) : EquityPipeline =
-    EquityPipeline_ (sigma, p0_need, p1_utility)
+  def mk (need : Agent => Measure) (utility : Resource => Measure) : EquityPipeline =
+    EquityPipeline_ (need, utility)
 }
 
 

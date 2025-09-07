@@ -18,3 +18,4 @@ class MapTile [A : Type] [B : Type]
     )
 
 end
+

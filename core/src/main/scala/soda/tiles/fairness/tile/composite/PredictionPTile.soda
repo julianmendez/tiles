@@ -14,15 +14,23 @@ class PredictionPTile
   abstract
     p : Resource -> Measure
 
-  _measure_zero : Measure = Some (0)
+  zero : Measure = MeasureMod .mk .zero
 
-  measure_or (m0 : Measure) (m1 : Measure) : Measure =
-    if (m0 == _measure_zero)
-    then m1
-    else m0
+  one : Measure = MeasureMod .mk .one
+
+  normalize (m : Measure) : Measure =
+    if (m == zero)
+    then zero
+    else one
+
+  map_tile = MapTile .mk [Measure] [Measure] (normalize)
+
+  accumulates_tile = AccumulatesTile .mk (p)
 
   apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    (ReceivedSigmaPTile .mk (measure_or) (p) ) .apply (message)
+    map_tile .apply (
+      accumulates_tile .apply (message)
+    )
 
 end
 

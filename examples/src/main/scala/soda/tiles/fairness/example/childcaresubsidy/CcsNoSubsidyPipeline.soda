@@ -4,8 +4,7 @@ class CcsNoSubsidyPipeline
     CcsPipeline
 
   abstract
-    sigma : Measure -> Measure -> Measure
-    p_utility : Resource -> Measure
+    utility : Resource -> Measure
 
   is_equals_0 (measure : Measure) : Boolean =
     match measure
@@ -14,13 +13,13 @@ class CcsNoSubsidyPipeline
 
   forall_tile = ForallTile .mk [Measure] (is_equals_0)
 
-  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+  accumulates_tile = AccumulatesTile .mk (utility)
 
   all_agent_tile = AllAgentTile .mk
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     forall_tile .apply (
-      received_sigma_p_tile .apply (
+      accumulates_tile .apply (
         all_agent_tile .apply (message)
       )
     )

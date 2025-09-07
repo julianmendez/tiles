@@ -17,15 +17,14 @@ import Soda.tiles.fairness.tile.primitive.ZipTile
 class EquityPipeline
 
   abstract
-    sigma : Measure -> Measure -> Measure
-    p0_need : Agent -> Measure
-    p1_utility : Resource -> Measure
+    need : Agent -> Measure
+    utility : Resource -> Measure
 
   at_least_tile = AllAtLeastTile .mk
 
-  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p1_utility)
+  accumulates_tile = AccumulatesTile .mk (utility)
 
-  needs_tile = NeedsTile .mk (p0_need)
+  needs_tile = NeedsTile .mk (need)
 
   all_agent_pair_tile = AllAgentPairTile .mk
 
@@ -35,7 +34,7 @@ class EquityPipeline
 
   apply_on_pair (pair : TileMessage [TilePair [Seq [Agent] ] [Seq [Agent] ] ] ) : TileMessage [Boolean] =
     at_least_tile .apply (
-      received_sigma_p_tile .apply (pair_fst_tile (pair) )
+      accumulates_tile .apply (pair_fst_tile (pair) )
     ) (
       needs_tile .apply (pair_snd_tile (pair) )
     )
