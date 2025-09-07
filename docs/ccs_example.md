@@ -77,17 +77,17 @@ their own section (`pipelines`).
 
 ### Tiles used
 
-| Tile                                                | Class                                    |
-|:----------------------------------------------------|:-----------------------------------------|
-| all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             |
-| <sub>*(a)*</sub> received <sub>*(m)*</sub>          | [ReceivedSigmaPTile][ReceivedSigmaPTile] |
-| <sub>*(m)*</sub> forall (p) <sub>*b*</sub>          | [ForallTile][ForallTile]                 |
-| <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |
-| <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [MapTile][MapTile]                       |
-| <sub>*(a)*</sub> p ? <sub>*(a)*</sub>               | [FilterAgentTile][FilterAgentTile]       |
-| <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |
-| <sub>*(m0), (m1)*</sub> f (m0, m1) <sub>*(m)*</sub> | [SigmaTile][SigmaTile]                   |
-| <sub>*b0, b1*</sub> f (b0, b1) <sub>*b*</sub>       | [CombineBooleanTile][CombineBooleanTile] |
+| Tile                                                | Class                                    | Formerly  |
+|:----------------------------------------------------|:-----------------------------------------|:----------|
+| all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             | all-actor |
+| <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>       | [ReceivedSigmaPTile][ReceivedSigmaPTile] | received  |
+| <sub>*(m)*</sub> forall (p) <sub>*b*</sub>          | [ForallTile][ForallTile]                 |           |
+| <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |           |
+| <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [MapTile][MapTile]                       |           |
+| <sub>*(a)*</sub> p ? <sub>*(a)*</sub>               | [FilterTile][FilterTile]                 |           |
+| <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |           |
+| <sub>*(m0), (m1)*</sub> f (m0, m1) <sub>*(m)*</sub> | [SigmaTile][SigmaTile]                   |           |
+| <sub>*b0, b1*</sub> f (b0, b1) <sub>*b*</sub>       | [CombineBooleanTile][CombineBooleanTile] |           |
 
 
 ### No Child Care Subsidy
@@ -96,8 +96,8 @@ This is the [No Subsidy Pipeline][CcsNoSubsidyPipeline]. In this case, no subsid
 
 ```mermaid
 graph LR
-  all-agent(all-agent) --> received
-  received(received) --> forall-0(forall m=0)
+  all-agent(all-agent) --> accumulates
+  accumulates(accumulates) --> forall-0(forall m=0)
 ```
 
 
@@ -108,11 +108,11 @@ given to each family depends on the number of children in the family.
 
 ```mermaid
 graph LR
-  all-agent(all-agent) --> received
+  all-agent(all-agent) --> accumulates
   all-agent --> children
-  received(received) --> m0/m1
-  children(children) --> m0/m1
-  m0/m1(m0 / m1) --> all-equal(all-equal)
+  accumulates(accumulates) --> map-m0/m1
+  children(children) --> map-m0/m1
+  map-m0/m1(m0 / m1) --> all-equal(all-equal)
 ```
 
 
@@ -123,8 +123,8 @@ given to each family is the same, regardless of the number of children in the fa
 
 ```mermaid
 graph LR
-  all-agent(all-agent) --> received
-  received(received) --> all-equal(all-equal)
+  all-agent(all-agent) --> accumulates
+  accumulates(accumulates) --> all-equal(all-equal)
 ```
 
 
@@ -137,10 +137,10 @@ is only granted to families having a single guardian.
 graph LR
   all-agent(all-agent) --> adults-1
   all-agent --> adults-2
-  adults-1(adults a0 = 1?) --> received-1
-  adults-2(adults a1 > 1?) --> received-0
-  received-1(received) --> all-equal
-  received-0(received) --> all-satisfy-0
+  adults-1(adults a0 = 1?) --> accumulates-1
+  adults-2(adults a1 > 1?) --> accumulates-0
+  accumulates-1(accumulates) --> all-equal
+  accumulates-0(accumulates) --> all-satisfy-0
   all-equal(all-equal) --> and(and)
   all-satisfy-0(all-satisfy m=0) --> and
 ```
@@ -149,21 +149,21 @@ graph LR
 
 [AllAgentTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/constant/AllAgentTile.soda
 
-[ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/ReceivedSigmaPTile.soda
+[ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/ReceivedSigmaPTile.soda
 
-[ForallTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/ForallTile.soda
+[ForallTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/ForallTile.soda
 
-[AllEqualTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/AllEqualTile.soda
+[AllEqualTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/AllEqualTile.soda
 
-[MapTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/map/MapTile.soda
+[MapTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/MapTile.soda
 
-[FilterTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/filter/FilterTile.soda
+[FilterTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/FilterTile.soda
 
-[AllAtLeastTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/AllAtLeastTile.soda
+[AllAtLeastTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/AllAtLeastTile.soda
 
-[SigmaTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/SigmaTile.soda
+[SigmaTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/SigmaTile.soda
 
-[CombineBooleanTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/apply/CombineBooleanTile.soda
+[CombineBooleanTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/apply/CombineBooleanTile.soda
 
 [CcsSingleGuardianPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/childcaresubsidy/CcsSingleGuardianPipeline.soda
 

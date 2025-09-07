@@ -53,15 +53,15 @@ directly executed in Linux. Its input is a [YAML][yaml] configuration file, like
 
 These are some of the implemented fairness tiles for resource allocation scenarios:
 
-| Tile                                                | Class                                    |
-|:----------------------------------------------------|:-----------------------------------------|
-| all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             |
-| <sub>*(a)*</sub> received <sub>*(m)*</sub>          | [ReceivedSigmaPTile][ReceivedSigmaPTile] |
-| <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |
-| <sub>*(a)*</sub> needed <sub>*(m)*</sub>            | [NeededPTile][NeededPTile]               |
-| <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |
-| equality <sub>*b*</sub>                             | [EqualityPipeline][EqualityPipeline]     |
-| equity <sub>*b*</sub>                               | [EquityPipeline][EquityPipeline]         |
+| Tile                                                | Class                                    | Formerly  |
+|:----------------------------------------------------|:-----------------------------------------|:----------|
+| all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             | all-actor |
+| <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>       | [ReceivedSigmaPTile][ReceivedSigmaPTile] | received  |
+| <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |           |
+| <sub>*(a)*</sub> needs <sub>*(m)*</sub>             | [NeededPTile][NeededPTile]               | needed    |
+| <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |           |
+| equality <sub>*b*</sub>                             | [EqualityPipeline][EqualityPipeline]     |           |
+| equity <sub>*b*</sub>                               | [EquityPipeline][EquityPipeline]         |           |
 
 A specific scenario is given as an example
 in [ResourceAllocationScenarioExample][ResourceAllocationScenarioExample].
@@ -75,8 +75,8 @@ with [EquityPipelineSpec][EquityPipelineSpec].
 
 ```mermaid
 graph LR
-  all-agent(all-agent) --> received
-  received(received) --> all-equal(all-equal)
+  all-agent(all-agent) --> accumulates
+  accumulates(accumulates) --> all-equal(all-equal)
 ```
 
 
@@ -84,10 +84,10 @@ graph LR
 
 ```mermaid
 graph LR
-  all-agent(all-agent) --> received
-  all-agent --> needed
-  received(received) --> all-at-least(all-at-least)
-  needed(needed) -->  all-at-least
+  all-agent(all-agent) --> accumulates
+  all-agent --> needs
+  accumulates(accumulates) --> all-at-least(all-at-least)
+  needs(needs) -->  all-at-least
 ```
 
 
@@ -158,27 +158,27 @@ are:
 
 [AllAgentTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/constant/AllAgentTile.soda
 
-[ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/ReceivedSigmaPTile.soda
+[ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/fold/ReceivedSigmaPTile.soda
 
-[AllEqualTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/AllEqualTile.soda
+[AllEqualTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/fold/AllEqualTile.soda
 
-[NeededPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/map/NeededPTile.soda
+[NeededPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/map/NeededPTile.soda
 
-[AllAtLeastTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/AllAtLeastTile.soda
+[AllAtLeastTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/fold/AllAtLeastTile.soda
 
 [EqualityPipeline]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/EqualityPipeline.soda
 
 [EquityPipeline]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/pipeline/EquityPipeline.soda
 
-[MapTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/map/MapTile.soda
+[MapTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/MapTile.soda
 
-[SigmaTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/fold/SigmaTile.soda
+[SigmaTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/fold/SigmaTile.soda
 
-[ZipTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/zip/ZipTile.soda
+[ZipTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/ZipTile.soda
 
-[UnzipPairFstTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/map/UnzipPairFstTile.soda
+[UnzipPairFstTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/map/UnzipPairFstTile.soda
 
-[UnzipPairSndTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/map/UnzipPairSndTile.soda
+[UnzipPairSndTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/map/UnzipPairSndTile.soda
 
 [ResourceAllocationScenarioExample]: https://github.com/julianmendez/tiles/blob/master/core/src/test/scala/soda/tiles/fairness/pipeline/ResourceAllocationScenarioExample.soda
 
