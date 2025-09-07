@@ -1,5 +1,17 @@
 package soda.tiles.fairness.example.childcaresubsidy
 
+import   soda.tiles.fairness.tile.constant.AllAgentPairTile
+import   soda.tiles.fairness.tile.constant.AllAgentTile
+import   soda.tiles.fairness.tile.constant.TuplingPairTile
+import   soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
+import   soda.tiles.fairness.tile.derived.fold.AllEqualTile
+import   soda.tiles.fairness.tile.derived.fold.ForallTile
+import   soda.tiles.fairness.tile.derived.fold.ReceivedSigmaPTile
+import   soda.tiles.fairness.tile.derived.zip.ZipSigmaTile
+import   soda.tiles.fairness.tile.primitive.FilterTile
+import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Measure
@@ -8,18 +20,6 @@ import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tile.constant.AllAgentPairTile
-import   soda.tiles.fairness.tile.constant.AllAgentTile
-import   soda.tiles.fairness.tile.fold.AllEqualTile
-import   soda.tiles.fairness.tile.core.MapTile
-import   soda.tiles.fairness.tile.apply.ProjectionPairFstTile
-import   soda.tiles.fairness.tile.apply.ProjectionPairSndTile
-import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.zip.ZipSigmaTile
-import   soda.tiles.fairness.tile.constant.TuplingPairTile
-import   soda.tiles.fairness.tile.apply.CombineBooleanTile
-import   soda.tiles.fairness.tile.fold.ForallTile
-import   soda.tiles.fairness.tile.core.FilterTile
 
 
 

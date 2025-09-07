@@ -1,25 +1,21 @@
-package soda.tiles.fairness.tile.map
+package soda.tiles.fairness.tile.derived.map
 
 /*
  * This package contains classes to model the tiles.
  */
 
+import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.TileTriple
-import   soda.tiles.fairness.tile.core.MapTile
-
-
-
-
 
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.core.MapTile
+import soda.tiles.fairness.tile.primitive.MapTile
 */
 
 /**

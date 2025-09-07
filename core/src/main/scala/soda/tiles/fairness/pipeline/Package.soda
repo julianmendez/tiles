@@ -5,28 +5,28 @@ package soda.tiles.fairness.pipeline
  */
 
 import
+  soda.tiles.fairness.tile.composite.CorrelationTile
+  soda.tiles.fairness.tile.composite.FalsePosTile
+  soda.tiles.fairness.tile.composite.PredictionPTile
+  soda.tiles.fairness.tile.constant.AllAgentPairTile
+  soda.tiles.fairness.tile.constant.AllAgentTile
+  soda.tiles.fairness.tile.constant.AllAgentTripleTile
+  soda.tiles.fairness.tile.derived.apply.DecisionTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionTripleFstTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionTripleSndTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionTripleTrdTile
+  soda.tiles.fairness.tile.derived.fold.AllAtLeastTile
+  soda.tiles.fairness.tile.derived.fold.AllEqualTile
+  soda.tiles.fairness.tile.derived.fold.ReceivedSigmaPTile
+  soda.tiles.fairness.tile.derived.map.NeededPTile
+  soda.tiles.fairness.tile.primitive.MapTile
+  soda.tiles.fairness.tile.primitive.ZipTile
   soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TilePair
   soda.tiles.fairness.tool.TileTriple
-  soda.tiles.fairness.tile.constant.AllAgentPairTile
-  soda.tiles.fairness.tile.constant.AllAgentTile
-  soda.tiles.fairness.tile.constant.AllAgentTripleTile
-  soda.tiles.fairness.tile.fold.AllAtLeastTile
-  soda.tiles.fairness.tile.fold.AllEqualTile
-  soda.tiles.fairness.tile.core.MapTile
-  soda.tiles.fairness.tile.specific.CorrelationTile
-  soda.tiles.fairness.tile.apply.DecisionTile
-  soda.tiles.fairness.tile.specific.FalsePosTile
-  soda.tiles.fairness.tile.map.NeededPTile
-  soda.tiles.fairness.tile.specific.PredictionPTile
-  soda.tiles.fairness.tile.apply.ProjectionPairFstTile
-  soda.tiles.fairness.tile.apply.ProjectionPairSndTile
-  soda.tiles.fairness.tile.apply.ProjectionTripleFstTile
-  soda.tiles.fairness.tile.apply.ProjectionTripleSndTile
-  soda.tiles.fairness.tile.apply.ProjectionTripleTrdTile
-  soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.core.ZipTile
 

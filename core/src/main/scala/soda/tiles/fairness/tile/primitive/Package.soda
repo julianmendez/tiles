@@ -1,0 +1,11 @@
+package soda.tiles.fairness.tile.primitive
+
+/*
+ * This package contains classes to model the primitive tiles.
+ */
+
+import
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+  soda.tiles.fairness.tool.TilePair
+

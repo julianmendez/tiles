@@ -7,14 +7,16 @@ package soda.tiles.fairness.pipeline
 import   org.scalatest.funsuite.AnyFunSuite
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
-import   soda.tiles.fairness.tool.Context
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Outcome
+import   soda.tiles.fairness.tool.Random
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
-import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.Random
+
+
+
+
 
 case class EqualityPipelineSpec ()
   extends

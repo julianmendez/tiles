@@ -1,9 +1,12 @@
-package soda.tiles.fairness.tile.specific
+package soda.tiles.fairness.tile.composite
 
 /*
  * This package contains classes to model the tiles.
  */
 
+import   soda.tiles.fairness.tile.derived.fold.ReceivedSigmaPTile
+import   soda.tiles.fairness.tile.derived.zip.ZipSigmaTile
+import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Pearson
@@ -12,9 +15,6 @@ import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tile.zip.ZipSigmaTile
-import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.core.ZipTile
 
 
 
@@ -88,7 +88,7 @@ object CorrelationTile {
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.zip.ZipSigmaTile
+import soda.tiles.fairness.tile.derived.zip.ZipSigmaTile
 */
 
 /**

@@ -1,16 +1,13 @@
-package soda.tiles.fairness.tile.zip
+package soda.tiles.fairness.tile.derived.zip
 
 /*
  * This package contains classes to model the tiles.
  */
 
-import   soda.tiles.fairness.tile.core.ZipTile
-import   soda.tiles.fairness.tile.map.SigmaTile
+import   soda.tiles.fairness.tile.derived.map.SigmaTile
+import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.TileMessage
-import   soda.tiles.fairness.tool.TileMessageBuilder
-import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.TileTriple
 
 
 

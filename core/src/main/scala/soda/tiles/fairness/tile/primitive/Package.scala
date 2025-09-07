@@ -1,16 +1,12 @@
-package soda.tiles.fairness.tile.core
+package soda.tiles.fairness.tile.primitive
 
 /*
- * This package contains classes to model the core tiles.
+ * This package contains classes to model the primitive tiles.
  */
 
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
-import   soda.tiles.fairness.tool.Measure
-import   soda.tiles.fairness.tool.TileMessage
-import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.TileTriple
 
 
 
@@ -67,13 +63,13 @@ trait CrossTile
     list0
       .flatMap ( a =>
         list1
-          .map ( b => TilePair.mk [A, B] (a) (b) )
+          .map ( b => TilePair .mk [A, B] (a) (b) )
       )
 
   def apply [A , B ] (message0 : TileMessage [Seq [A] ] ) (message1 : TileMessage [Seq [B] ] )
       : TileMessage [Seq [TilePair [A, B] ] ] =
-    TileMessageBuilder.mk.build (message0.context) (message0.outcome) (
-      cross_lists (message0.contents) (message1.contents)
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      cross_lists (message0 .contents) (message1 .contents)
     )
 
 }

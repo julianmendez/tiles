@@ -4,30 +4,30 @@ package soda.tiles.fairness.pipeline
  * This package contains classes to model the tiles.
  */
 
+import   soda.tiles.fairness.tile.composite.CorrelationTile
+import   soda.tiles.fairness.tile.composite.FalsePosTile
+import   soda.tiles.fairness.tile.composite.PredictionPTile
+import   soda.tiles.fairness.tile.constant.AllAgentPairTile
+import   soda.tiles.fairness.tile.constant.AllAgentTile
+import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
+import   soda.tiles.fairness.tile.derived.apply.DecisionTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleFstTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleSndTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleTrdTile
+import   soda.tiles.fairness.tile.derived.fold.AllAtLeastTile
+import   soda.tiles.fairness.tile.derived.fold.AllEqualTile
+import   soda.tiles.fairness.tile.derived.fold.ReceivedSigmaPTile
+import   soda.tiles.fairness.tile.derived.map.NeededPTile
+import   soda.tiles.fairness.tile.primitive.MapTile
+import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.TileTriple
-import   soda.tiles.fairness.tile.constant.AllAgentPairTile
-import   soda.tiles.fairness.tile.constant.AllAgentTile
-import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
-import   soda.tiles.fairness.tile.fold.AllAtLeastTile
-import   soda.tiles.fairness.tile.fold.AllEqualTile
-import   soda.tiles.fairness.tile.core.MapTile
-import   soda.tiles.fairness.tile.specific.CorrelationTile
-import   soda.tiles.fairness.tile.apply.DecisionTile
-import   soda.tiles.fairness.tile.specific.FalsePosTile
-import   soda.tiles.fairness.tile.map.NeededPTile
-import   soda.tiles.fairness.tile.specific.PredictionPTile
-import   soda.tiles.fairness.tile.apply.ProjectionPairFstTile
-import   soda.tiles.fairness.tile.apply.ProjectionPairSndTile
-import   soda.tiles.fairness.tile.apply.ProjectionTripleFstTile
-import   soda.tiles.fairness.tile.apply.ProjectionTripleSndTile
-import   soda.tiles.fairness.tile.apply.ProjectionTripleTrdTile
-import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.core.ZipTile
 
 
 

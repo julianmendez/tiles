@@ -17,13 +17,13 @@ class CrossTile
     list0
       .flatMap (lambda a -->
         list1
-          .map (lambda b --> TilePair.mk [A] [B] (a) (b) )
+          .map (lambda b --> TilePair .mk [A] [B] (a) (b) )
       )
 
   apply [A : Type] [B : Type] (message0 : TileMessage [Seq [A] ] ) (message1 : TileMessage [Seq [B] ] )
       : TileMessage [Seq [TilePair [A] [B] ] ] =
-    TileMessageBuilder.mk.build (message0.context) (message0.outcome) (
-      cross_lists (message0.contents) (message1.contents)
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      cross_lists (message0 .contents) (message1 .contents)
     )
 
 end

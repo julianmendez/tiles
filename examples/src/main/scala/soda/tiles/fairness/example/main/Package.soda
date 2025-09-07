@@ -6,8 +6,8 @@ package soda.tiles.fairness.example.main
  */
 
 import
+  java.io.FileReader
   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstance
   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstanceBuilder
   soda.tiles.fairness.example.childcaresubsidy.CcsPipelineFagenty
-  java.io.FileReader
 

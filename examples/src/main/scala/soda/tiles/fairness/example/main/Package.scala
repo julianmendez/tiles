@@ -5,10 +5,10 @@ package soda.tiles.fairness.example.main
  * This is the entry point when the application is executed from a terminal.
  */
 
+import   java.io.FileReader
 import   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstance
 import   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstanceBuilder
 import   soda.tiles.fairness.example.childcaresubsidy.CcsPipelineFagenty
-import   java.io.FileReader
 
 
 

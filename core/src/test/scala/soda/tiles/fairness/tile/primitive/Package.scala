@@ -1,7 +1,7 @@
-package soda.tiles.fairness.tile.core
+package soda.tiles.fairness.tile.primitive
 
 /*
- * This package contains tests for the core tiles.
+ * This package contains tests for the primitive tiles.
  */
 
 import   org.scalatest.funsuite.AnyFunSuite
@@ -9,14 +9,7 @@ import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
-import   soda.tiles.fairness.tool.TileMessage
-import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.TileTriple
-
-
-
-
 
 trait SquareApplyTile
   extends

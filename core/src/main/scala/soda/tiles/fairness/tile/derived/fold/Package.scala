@@ -1,9 +1,10 @@
-package soda.tiles.fairness.tile.fold
+package soda.tiles.fairness.tile.derived.fold
 
 /*
  * This package contains classes to model the tiles.
  */
 
+import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Comparator
@@ -13,7 +14,6 @@ import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tile.core.ZipTile
 
 
 
