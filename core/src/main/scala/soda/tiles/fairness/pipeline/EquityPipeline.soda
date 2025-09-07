@@ -1,12 +1,12 @@
 
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AtLeastTile
-import Soda.tiles.fairness.tile.NeededPTile
-import Soda.tiles.fairness.tile.ReceivedSigmaPTile
-import Soda.tiles.fairness.tile.UnzipPairFstTile
-import Soda.tiles.fairness.tile.UnzipPairSndTile
-import Soda.tiles.fairness.tile.ZipTile
+import Soda.tiles.fairness.tile.composite.AtLeastTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.derived.map.NeedsTile
+import Soda.tiles.fairness.tile.derived.map.UnzipPairFstTile
+import Soda.tiles.fairness.tile.derived.map.UnzipPairSndTile
+import Soda.tiles.fairness.tile.primitive.ZipTile
 
 
 /**
@@ -25,7 +25,7 @@ class EquityPipeline
 
   received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p1_utility)
 
-  needed_p_tile = NeededPTile .mk (p0_need)
+  needs_tile = NeedsTile .mk (p0_need)
 
   all_agent_pair_tile = AllAgentPairTile .mk
 
@@ -37,7 +37,7 @@ class EquityPipeline
     at_least_tile .apply (
       received_sigma_p_tile .apply (pair_fst_tile (pair) )
     ) (
-      needed_p_tile .apply (pair_snd_tile (pair) )
+      needs_tile .apply (pair_snd_tile (pair) )
     )
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =

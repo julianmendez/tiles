@@ -7,10 +7,10 @@ import
   soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
-  soda.tiles.fairness.tile.derived.fold.AllEqualTile
-  soda.tiles.fairness.tile.derived.fold.ForallTile
-  soda.tiles.fairness.tile.derived.fold.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.derived.zip.ZipSigmaTile
+  soda.tiles.fairness.tile.composite.AllEqualTile
+  soda.tiles.fairness.tile.composite.ForallTile
+  soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+  soda.tiles.fairness.tile.composite.ZipSigmaTile
   soda.tiles.fairness.tile.primitive.FilterTile
   soda.tiles.fairness.tile.primitive.MapTile
   soda.tiles.fairness.tool.Agent

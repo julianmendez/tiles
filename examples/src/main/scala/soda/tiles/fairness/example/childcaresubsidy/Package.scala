@@ -6,10 +6,10 @@ import   soda.tiles.fairness.tile.constant.TuplingPairTile
 import   soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
-import   soda.tiles.fairness.tile.derived.fold.AllEqualTile
-import   soda.tiles.fairness.tile.derived.fold.ForallTile
-import   soda.tiles.fairness.tile.derived.fold.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.derived.zip.ZipSigmaTile
+import   soda.tiles.fairness.tile.composite.AllEqualTile
+import   soda.tiles.fairness.tile.composite.ForallTile
+import   soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+import   soda.tiles.fairness.tile.composite.ZipSigmaTile
 import   soda.tiles.fairness.tile.primitive.FilterTile
 import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tool.Agent

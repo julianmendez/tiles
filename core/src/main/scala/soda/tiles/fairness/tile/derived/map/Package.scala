@@ -22,54 +22,24 @@ import soda.tiles.fairness.tile.primitive.MapTile
  * This tile is a particular case of an 'MapTile', where the attribute is 'needed'.
  */
 
-trait NeededPTile
+trait NeedsTile
 {
 
-  def   p : Agent => Measure
+  def   q : Agent => Measure
+
+  lazy val map_file = MapTile .mk [Agent, Measure] (q)
 
   def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    MapTile .mk [Agent, Measure] (p) .apply (message)
+    map_file
+      .apply (message)
 
 }
 
-case class NeededPTile_ (p : Agent => Measure) extends NeededPTile
+case class NeedsTile_ (q : Agent => Measure) extends NeedsTile
 
-object NeededPTile {
-  def mk (p : Agent => Measure) : NeededPTile =
-    NeededPTile_ (p)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile takes a sequence of pairs of measures as input, and returns a sequence such that,
- * for each pair (m0, m1) in the input, is m = sigma (m0, m1), where sigma is a given function
- * to combine measures.
- */
-
-trait SigmaTile
-{
-
-  def   sigma : Measure => Measure => Measure
-
-  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map ( pair => sigma (pair .fst) (pair .snd) )
-    )
-
-}
-
-case class SigmaTile_ (sigma : Measure => Measure => Measure) extends SigmaTile
-
-object SigmaTile {
-  def mk (sigma : Measure => Measure => Measure) : SigmaTile =
-    SigmaTile_ (sigma)
+object NeedsTile {
+  def mk (q : Agent => Measure) : NeedsTile =
+    NeedsTile_ (q)
 }
 
 

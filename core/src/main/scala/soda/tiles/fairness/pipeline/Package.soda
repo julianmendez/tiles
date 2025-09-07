@@ -5,9 +5,12 @@ package soda.tiles.fairness.pipeline
  */
 
 import
+  soda.tiles.fairness.tile.composite.AllAtLeastTile
+  soda.tiles.fairness.tile.composite.AllEqualTile
   soda.tiles.fairness.tile.composite.CorrelationTile
   soda.tiles.fairness.tile.composite.FalsePosTile
   soda.tiles.fairness.tile.composite.PredictionPTile
+  soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
   soda.tiles.fairness.tile.constant.AllAgentPairTile
   soda.tiles.fairness.tile.constant.AllAgentTile
   soda.tiles.fairness.tile.constant.AllAgentTripleTile
@@ -17,13 +20,11 @@ import
   soda.tiles.fairness.tile.derived.apply.ProjectionTripleFstTile
   soda.tiles.fairness.tile.derived.apply.ProjectionTripleSndTile
   soda.tiles.fairness.tile.derived.apply.ProjectionTripleTrdTile
-  soda.tiles.fairness.tile.derived.fold.AllAtLeastTile
-  soda.tiles.fairness.tile.derived.fold.AllEqualTile
-  soda.tiles.fairness.tile.derived.fold.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.derived.map.NeededPTile
+  soda.tiles.fairness.tile.derived.map.NeedsTile
   soda.tiles.fairness.tile.primitive.MapTile
   soda.tiles.fairness.tile.primitive.ZipTile
   soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.Comparator
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage

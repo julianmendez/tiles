@@ -4,9 +4,12 @@ package soda.tiles.fairness.pipeline
  * This package contains classes to model the tiles.
  */
 
+import   soda.tiles.fairness.tile.composite.AllAtLeastTile
+import   soda.tiles.fairness.tile.composite.AllEqualTile
 import   soda.tiles.fairness.tile.composite.CorrelationTile
 import   soda.tiles.fairness.tile.composite.FalsePosTile
 import   soda.tiles.fairness.tile.composite.PredictionPTile
+import   soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 import   soda.tiles.fairness.tile.constant.AllAgentPairTile
 import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
@@ -16,13 +19,11 @@ import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleFstTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleSndTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleTrdTile
-import   soda.tiles.fairness.tile.derived.fold.AllAtLeastTile
-import   soda.tiles.fairness.tile.derived.fold.AllEqualTile
-import   soda.tiles.fairness.tile.derived.fold.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.derived.map.NeededPTile
+import   soda.tiles.fairness.tile.derived.map.NeedsTile
 import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
+import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
@@ -37,8 +38,8 @@ import   soda.tiles.fairness.tool.TileTriple
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AllAgentTile
-import Soda.tiles.fairness.tile.AllEqualTile
-import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 */
 
 /**
@@ -78,12 +79,12 @@ object EqualityPipeline {
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AtLeastTile
-import Soda.tiles.fairness.tile.NeededPTile
-import Soda.tiles.fairness.tile.ReceivedSigmaPTile
-import Soda.tiles.fairness.tile.UnzipPairFstTile
-import Soda.tiles.fairness.tile.UnzipPairSndTile
-import Soda.tiles.fairness.tile.ZipTile
+import Soda.tiles.fairness.tile.composite.AtLeastTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.derived.map.NeedsTile
+import Soda.tiles.fairness.tile.derived.map.UnzipPairFstTile
+import Soda.tiles.fairness.tile.derived.map.UnzipPairSndTile
+import Soda.tiles.fairness.tile.primitive.ZipTile
 */
 
 /**
@@ -102,7 +103,7 @@ trait EquityPipeline
 
   lazy val received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p1_utility)
 
-  lazy val needed_p_tile = NeededPTile .mk (p0_need)
+  lazy val needs_tile = NeedsTile .mk (p0_need)
 
   lazy val all_agent_pair_tile = AllAgentPairTile .mk
 
@@ -114,7 +115,7 @@ trait EquityPipeline
     at_least_tile .apply (
       received_sigma_p_tile .apply (pair_fst_tile (pair) )
     ) (
-      needed_p_tile .apply (pair_snd_tile (pair) )
+      needs_tile .apply (pair_snd_tile (pair) )
     )
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
@@ -138,7 +139,6 @@ import Soda.tiles.fairness.tile.CorrelationTile
 import Soda.tiles.fairness.tile.DecisionTile
 import Soda.tiles.fairness.tile.FalsePosTile
 import Soda.tiles.fairness.tile.PredictionPTile
-import Soda.tiles.fairness.tile.ResultPTile
 import Soda.tiles.fairness.tile.UnzipTripleFstTile
 import Soda.tiles.fairness.tile.UnzipTripleSndTile
 import Soda.tiles.fairness.tile.UnzipTripleTrdTile

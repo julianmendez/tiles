@@ -7,13 +7,16 @@ import soda.tiles.fairness.tile.primitive.MapTile
  * This tile is a particular case of an 'MapTile', where the attribute is 'needed'.
  */
 
-class NeededPTile
+class NeedsTile
 
   abstract
-    p : Agent -> Measure
+    q : Agent -> Measure
+
+  map_file = MapTile .mk [Agent] [Measure] (q)
 
   apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    MapTile .mk [Agent] [Measure] (p) .apply (message)
+    map_file
+      .apply (message)
 
 end
 

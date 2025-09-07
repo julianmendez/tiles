@@ -2,8 +2,8 @@
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AllAgentTile
-import Soda.tiles.fairness.tile.AllEqualTile
-import Soda.tiles.fairness.tile.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 
 /**
  * This pipeline returns 'true' when all the agents in the input receive a resource of the

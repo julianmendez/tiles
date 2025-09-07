@@ -6,7 +6,6 @@ import Soda.tiles.fairness.tile.CorrelationTile
 import Soda.tiles.fairness.tile.DecisionTile
 import Soda.tiles.fairness.tile.FalsePosTile
 import Soda.tiles.fairness.tile.PredictionPTile
-import Soda.tiles.fairness.tile.ResultPTile
 import Soda.tiles.fairness.tile.UnzipTripleFstTile
 import Soda.tiles.fairness.tile.UnzipTripleSndTile
 import Soda.tiles.fairness.tile.UnzipTripleTrdTile

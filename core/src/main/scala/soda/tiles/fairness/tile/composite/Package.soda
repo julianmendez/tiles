@@ -5,11 +5,14 @@ package soda.tiles.fairness.tile.composite
  */
 
 import
-  soda.tiles.fairness.tile.derived.fold.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.derived.zip.ZipSigmaTile
+  soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+  soda.tiles.fairness.tile.composite.ZipSigmaTile
   soda.tiles.fairness.tile.primitive.ZipTile
   soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tool.Comparator
   soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.Outcome
   soda.tiles.fairness.tool.Pearson
   soda.tiles.fairness.tool.PearsonMod
   soda.tiles.fairness.tool.Resource
