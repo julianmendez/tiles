@@ -6,9 +6,9 @@ import   soda.tiles.fairness.tile.constant.TuplingPairTile
 import   soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
+import   soda.tiles.fairness.tile.composite.AccumulatesTile
 import   soda.tiles.fairness.tile.composite.AllEqualTile
 import   soda.tiles.fairness.tile.composite.ForallTile
-import   soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 import   soda.tiles.fairness.tile.composite.ZipSigmaTile
 import   soda.tiles.fairness.tile.primitive.FilterTile
 import   soda.tiles.fairness.tile.primitive.MapTile
@@ -412,7 +412,7 @@ trait CcsSingleGuardianPipeline
 
   lazy val all_equal_tile = AllEqualTile .mk
 
-  lazy val accumulates_tile = AccumulatesTile .mk (sigma) (utility)
+  lazy val accumulates_tile = AccumulatesTile .mk (utility)
 
   lazy val all_agent_tile = AllAgentTile .mk
 

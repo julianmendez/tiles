@@ -30,7 +30,7 @@ case class CcsNoSubsidyPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val no_subsidy_pipeline =
-    CcsNoSubsidyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+    CcsNoSubsidyPipeline .mk (_mm .resource_value)
 
   test ("no subsidy on all outcomes") (
     check (
@@ -59,7 +59,7 @@ case class CcsPerChildPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val per_child_pipeline =
-    CcsPerChildPipeline .mk (_mm .measure_sum) (_mm .agent_children) (_mm .resource_value)
+    CcsPerChildPipeline .mk (_mm .agent_children) (_mm .resource_value)
 
   test ("per child on all outcomes") (
     check (
@@ -88,7 +88,7 @@ case class CcsPerFamilyPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val per_family_pipeline =
-    CcsPerFamilyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+    CcsPerFamilyPipeline .mk (_mm .resource_value)
 
   test ("per family on all outcomes") (
     check (
@@ -117,7 +117,7 @@ case class CcsSingleGuardianPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val single_guardian_pipeline =
-    CcsSingleGuardianPipeline .mk (_mm .measure_sum) (_mm .resource_value) (_mm .agent_adults)
+    CcsSingleGuardianPipeline .mk (_mm .resource_value) (_mm .agent_adults)
 
   test ("single guardian on all outcomes") (
     check (

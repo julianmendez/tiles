@@ -11,7 +11,7 @@ class CcsPerChildPipelineSpec ()
   all_cases = _mm .all_cases
 
   per_child_pipeline =
-    CcsPerChildPipeline .mk (_mm .measure_sum) (_mm .agent_children) (_mm .resource_value)
+    CcsPerChildPipeline .mk (_mm .agent_children) (_mm .resource_value)
 
   test ("per child on all outcomes") (
     check (

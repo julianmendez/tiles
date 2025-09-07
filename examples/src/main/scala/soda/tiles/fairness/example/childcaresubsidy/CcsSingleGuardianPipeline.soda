@@ -16,7 +16,7 @@ class CcsSingleGuardianPipeline
 
   all_equal_tile = AllEqualTile .mk
 
-  accumulates_tile = AccumulatesTile .mk (sigma) (utility)
+  accumulates_tile = AccumulatesTile .mk (utility)
 
   all_agent_tile = AllAgentTile .mk
 
