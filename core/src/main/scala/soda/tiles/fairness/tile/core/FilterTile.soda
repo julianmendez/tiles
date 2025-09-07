@@ -2,20 +2,19 @@
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
-
 /**
- * This tile returns a possibly empty sequence of agents that satisfy a given property.
+ * This takes a condition (predicate) and passes through only those elements that satisfy it, discarding all others
+ * while preserving the original order.
  */
 
 class FilterTile [A : Type]
 
   abstract
-    p : A -> Boolean
+    phi : A -> Boolean
 
   apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .filter (lambda elem --> p (elem) ) )
+      (message .contents) .filter (phi)
     )
 
 end

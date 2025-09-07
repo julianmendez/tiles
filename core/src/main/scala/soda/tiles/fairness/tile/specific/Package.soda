@@ -15,5 +15,5 @@ import
   soda.tiles.fairness.tool.TilePair
   soda.tiles.fairness.tile.zip.ZipSigmaTile
   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.zip.ZipTile
+  soda.tiles.fairness.tile.core.ZipTile
 

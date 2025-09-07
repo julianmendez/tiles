@@ -14,7 +14,7 @@ import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tile.zip.ZipSigmaTile
 import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.zip.ZipTile
+import   soda.tiles.fairness.tile.core.ZipTile
 
 
 

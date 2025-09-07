@@ -4,12 +4,17 @@ package soda.tiles.fairness.tile.zip
  * This package contains classes to model the tiles.
  */
 
+import   soda.tiles.fairness.tile.core.ZipTile
+import   soda.tiles.fairness.tile.map.SigmaTile
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
 import   soda.tiles.fairness.tool.TileTriple
-import   soda.tiles.fairness.tile.map.SigmaTile
+
+
+
+
 
 /*
 directive lean
@@ -44,43 +49,5 @@ case class ZipSigmaTile_ (sigma : Measure => Measure => Measure) extends ZipSigm
 object ZipSigmaTile {
   def mk (sigma : Measure => Measure => Measure) : ZipSigmaTile =
     ZipSigmaTile_ (sigma)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile connects two sequences and returns a sequence of pairs, such that for each
- * position in both sequences, it has a pair with elements for the corresponding input
- * sequences.
- */
-
-trait ZipTile
-{
-
-
-
-  def zip_lists [A , B ] (list0 : Seq [A] ) (list1 : Seq [B] )
-      : Seq [TilePair [A, B] ] =
-    list0
-      .zip (list1)
-      .map ( pair => TilePair .mk [A, B] (pair ._1) (pair ._2) )
-
-  def apply [A , B ] (message0 : TileMessage [Seq [A] ] )
-      (message1 : TileMessage [Seq [B] ] ) : TileMessage [Seq [TilePair [A, B] ] ] =
-    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
-      zip_lists (message0 .contents) (message1 .contents)
-    )
-
-}
-
-case class ZipTile_ () extends ZipTile
-
-object ZipTile {
-  def mk : ZipTile =
-    ZipTile_ ()
 }
 

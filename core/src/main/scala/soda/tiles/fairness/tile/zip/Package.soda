@@ -5,9 +5,11 @@ package soda.tiles.fairness.tile.zip
  */
 
 import
+  soda.tiles.fairness.tile.core.ZipTile
+  soda.tiles.fairness.tile.map.SigmaTile
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder
   soda.tiles.fairness.tool.TilePair
   soda.tiles.fairness.tool.TileTriple
-  soda.tiles.fairness.tile.map.SigmaTile
+

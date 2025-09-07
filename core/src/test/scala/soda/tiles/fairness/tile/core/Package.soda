@@ -1,17 +1,17 @@
-package soda.tiles.fairness.tile.zip
+package soda.tiles.fairness.tile.core
 
 /*
- * This package contains tests for tiles related to zip.
+ * This package contains tests for the core tiles.
  */
 
 import
   org.scalatest.funsuite.AnyFunSuite
+  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tool.Outcome
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder
-  soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder
   soda.tiles.fairness.tool.TilePair
   soda.tiles.fairness.tool.TileTriple
-  soda.tiles.fairness.tile.map.SigmaTile
-  soda.tiles.fairness.tile.scenario.ScenarioExample
+

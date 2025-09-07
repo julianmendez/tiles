@@ -3,20 +3,18 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
 /**
- * This tile takes a sequence of measures as input and applies a function to each of the
- * elements in the input, and return the result as output.
+ * This takes a transformation function and applies it to each element of the sequence,
+ * producing a new sequence with the transformed elements, preserving the original order.
  */
 
-class MapTile [A: Type] [B : Type]
+class MapTile [A : Type] [B : Type]
 
   abstract
-    p : A -> B
+    phi : A -> B
 
   apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [B] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .map (lambda measure --> p (measure) ) )
+      (message .contents) .map (phi)
     )
 
 end
-

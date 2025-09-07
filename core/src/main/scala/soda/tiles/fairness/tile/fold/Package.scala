@@ -13,7 +13,7 @@ import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tile.zip.ZipTile
+import   soda.tiles.fairness.tile.core.ZipTile
 
 
 
@@ -154,47 +154,6 @@ case class ExistsTile_ [A] (p : A => Boolean) extends ExistsTile [A]
 object ExistsTile {
   def mk [A] (p : A => Boolean) : ExistsTile [A] =
     ExistsTile_ [A] (p)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This takes a sequence, a starting value, and a function, then processes the sequence from left to right,
- * combining elements into a single result step by step.
- */
-
-trait FoldTile [A , B ]
-{
-
-  def   z : B
-  def   phi : B => A => B
-
-  private def _tailrec_foldl (sequence : Seq [A] ) (current : B) (next : B => A => B) : B =
-    sequence match  {
-      case Nil => current
-      case (head) +: (tail) =>
-        _tailrec_foldl (tail) (next (current) (head) ) (next)
-    }
-
-  def foldl (sequence : Seq [A] ) (initial : B) (next : B => A => B) : B =
-    _tailrec_foldl (sequence) (initial) (next)
-
-  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [B] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (foldl (message .contents) (z) (phi) )
-    )
-
-}
-
-case class FoldTile_ [A, B] (z : B, phi : B => A => B) extends FoldTile [A, B]
-
-object FoldTile {
-  def mk [A, B] (z : B) (phi : B => A => B) : FoldTile [A, B] =
-    FoldTile_ [A, B] (z, phi)
 }
 
 

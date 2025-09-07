@@ -3,18 +3,18 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 
 /**
- * This tile takes applies a function to an input, and returns the result as output.
+ * This takes a transformation function and applies it to a single element,
+ * producing a TileMessage with the transformed element.
  */
 
-class ApplyTile [A: Type] [B : Type]
+class ApplyTile [A : Type] [B : Type]
 
   abstract
-    p : A -> B
+    phi : A -> B
 
   apply (message : TileMessage [A] ) : TileMessage [B] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( p (message .contents) )
+      phi (message .contents)
     )
 
 end
-

@@ -22,36 +22,6 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This takes a transformation function and applies it to a single element,
- * producing a TileMessage with the transformed element.
- */
-
-trait ApplyTile [A , B ]
-{
-
-  def   phi : A => B
-
-  def apply (message : TileMessage [A] ) : TileMessage [B] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      phi (message .contents)
-    )
-
-}
-
-case class ApplyTile_ [A, B] (phi : A => B) extends ApplyTile [A, B]
-
-object ApplyTile {
-  def mk [A, B] (phi : A => B) : ApplyTile [A, B] =
-    ApplyTile_ [A, B] (phi)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
  * This tile takes a pair of boolean as input and returns a boolean according to the provided
  * function.
  */

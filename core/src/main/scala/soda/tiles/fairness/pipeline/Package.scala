@@ -27,7 +27,7 @@ import   soda.tiles.fairness.tile.apply.ProjectionTripleFstTile
 import   soda.tiles.fairness.tile.apply.ProjectionTripleSndTile
 import   soda.tiles.fairness.tile.apply.ProjectionTripleTrdTile
 import   soda.tiles.fairness.tile.fold.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.zip.ZipTile
+import   soda.tiles.fairness.tile.core.ZipTile
 
 
 
