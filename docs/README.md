@@ -58,7 +58,7 @@ These are some of the implemented fairness tiles for resource allocation scenari
 | all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]         | all-actor |
 | <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>       | [AccumulatesTile][AccumulatesTile]   | received  |
 | <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]         |           |
-| <sub>*(a)*</sub> needs <sub>*(m)*</sub>             | [NeededPTile][NeededPTile]           | needed    |
+| <sub>*(a)*</sub> needs <sub>*(m)*</sub>             | [NeedsTile][NeedsTile]               | needed    |
 | <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]     |           |
 | equality <sub>*b*</sub>                             | [EqualityPipeline][EqualityPipeline] |           |
 | equity <sub>*b*</sub>                               | [EquityPipeline][EquityPipeline]     |           |
