@@ -227,7 +227,7 @@ trait ScoringScenarioExample
     Seq (
       "Alice", "Benjamin", "Charlotte", "Daniel", "Emily", "Fiona", "George", "Hannah", "Isaac",
       "James", "Kevin", "Lily", "Matthew", "Natalie", "Olivia", "Quinn", "Peter", "Rachel",
-      "Sarah", "Timothy", "Ursula", "Vigentia", "William", "Xavier", "Yasmine", "Zachary"
+      "Sarah", "Timothy", "Ursula", "Victoria", "William", "Xavier", "Yasmine", "Zachary"
     )
 
   private lazy val _resource_zero : Resource = "0"

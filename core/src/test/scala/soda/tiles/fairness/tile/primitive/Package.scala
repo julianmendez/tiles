@@ -437,11 +437,23 @@ trait ScenarioExample
 
   lazy val resource2 = "large box - 0.3 m"
 
+  lazy val resource3 = "10"
+
+  lazy val resource4 = "20"
+
+  lazy val resource5 = "30"
+
+  lazy val resource6 = "40"
+
   lazy val agent0 = "Anna A"
 
   lazy val agent1 = "Bob B"
 
   lazy val agent2 = "Charlie C"
+
+  lazy val agent3 = "David D"
+
+  lazy val agent4 = "Eva E"
 
   lazy val outcome0 : Outcome =
     Outcome .mk (
@@ -449,6 +461,16 @@ trait ScenarioExample
         Assignment .mk (agent0) (resource2) ,
         Assignment .mk (agent1) (resource1) ,
         Assignment .mk (agent2) (resource0)
+      )
+    )
+
+  lazy val outcome1 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource3) ,
+        Assignment .mk (agent1) (resource4) ,
+        Assignment .mk (agent2) (resource5) ,
+        Assignment .mk (agent0) (resource6)
       )
     )
 

@@ -1,0 +1,19 @@
+package soda.tiles.fairness.tile.composite
+
+/*
+ * This package contains tests for derived tiles.
+ */
+
+import
+  org.scalatest.funsuite.AnyFunSuite
+  soda.tiles.fairness.tile.primitive.ScenarioExample
+  soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.OutcomeMod
+  soda.tiles.fairness.tool.Resource
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+  soda.tiles.fairness.tool.TilePair
+
