@@ -39,21 +39,15 @@ trait AllAtLeastTile
 
 
 
+  def compare (pair : TilePair [Measure, Measure] ) : Boolean =
+    ( (Comparator .mk .compareMeasure (pair .fst) (pair .snd) ) >= 0 )
+
   lazy val zip_tile = ZipTile .mk
 
-  def apply_zipped (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
-    : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .map ( pair =>
-          (Comparator .mk
-            .compareMeasure (pair .fst) (pair .snd) ) >= 0 )
-        .forall ( e => e)
-      )
-    )
+  lazy val forall_tile = ForallTile .mk [TilePair [Measure, Measure] ] (compare)
 
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
-    apply_zipped (
+    forall_tile (
       zip_tile .apply [Measure, Measure] (message0) (message1)
     )
 
