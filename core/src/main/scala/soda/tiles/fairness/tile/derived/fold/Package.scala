@@ -18,6 +18,40 @@ import   soda.tiles.fairness.tool.TileTriple
 
 
 
+/**
+ * This processes a sequence of measures and returns a pair, which has the sum on the first component and
+ * the number of elements on the second component.
+ */
+
+trait SumCountTile
+{
+
+  lazy val zero : Measure = MeasureMod .mk .zero
+
+  lazy val one : Measure = MeasureMod .mk .one
+
+  lazy val pair_zero : TilePair [Measure, Measure] =
+    TilePair .mk (zero) (zero)
+
+  def combine (acc : TilePair [Measure, Measure] ) (elem : Measure)
+      : TilePair [Measure, Measure] =
+    TilePair .mk (MeasureMod .mk .plus (acc .fst) (elem) ) (MeasureMod .mk .plus (acc .snd) (one) )
+
+  lazy val fold_tile = FoldTile .mk (pair_zero) (combine)
+
+  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [TilePair [Measure, Measure] ] =
+    fold_tile .apply (message)
+
+}
+
+case class SumCountTile_ () extends SumCountTile
+
+object SumCountTile {
+  def mk : SumCountTile =
+    SumCountTile_ ()
+}
+
+
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
@@ -25,7 +59,7 @@ import Soda.tiles.fairness.tool.TileMessage
 
 /**
  * This takes a sequence, a starting value, and a function, then processes the sequence from left to right,
- * combining elements into a single result step by step.
+ * adding elements into a single result step by step.
  */
 
 trait SumPhiTile [A ]
@@ -33,12 +67,12 @@ trait SumPhiTile [A ]
 
   def   phi : A => Measure
 
-  lazy val measure_zero : Measure = Some (0)
+  lazy val zero : Measure = MeasureMod .mk .zero
 
   def combine (acc : Measure) (elem : A) : Measure =
     MeasureMod .mk .plus (acc) (phi (elem) )
 
-  lazy val fold_tile = FoldTile .mk (measure_zero) (combine)
+  lazy val fold_tile = FoldTile .mk (zero) (combine)
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Measure] =
     fold_tile

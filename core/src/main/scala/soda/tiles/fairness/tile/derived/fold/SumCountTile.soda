@@ -1,0 +1,26 @@
+
+/**
+ * This processes a sequence of measures and returns a pair, which has the sum on the first component and
+ * the number of elements on the second component.
+ */
+
+class SumCountTile
+
+  zero : Measure = MeasureMod .mk .zero
+
+  one : Measure = MeasureMod .mk .one
+
+  pair_zero : TilePair [Measure] [Measure] =
+    TilePair .mk (zero) (zero)
+
+  combine (acc : TilePair [Measure] [Measure] ) (elem : Measure)
+      : TilePair [Measure] [Measure] =
+    TilePair .mk (MeasureMod .mk .plus (acc .fst) (elem) ) (MeasureMod .mk .plus (acc .snd) (one) )
+
+  fold_tile = FoldTile .mk (pair_zero) (combine)
+
+  apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [TilePair [Measure] [Measure] ] =
+    fold_tile .apply (message)
+
+end
+
