@@ -80,7 +80,7 @@ their own section (`pipelines`).
 | Tile                                                | Class                                    | Formerly  |
 |:----------------------------------------------------|:-----------------------------------------|:----------|
 | all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             | all-actor |
-| <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>       | [ReceivedSigmaPTile][ReceivedSigmaPTile] | received  |
+| <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>       | [AccumulatesTile][AccumulatesTile]       | received  |
 | <sub>*(m)*</sub> forall (p) <sub>*b*</sub>          | [ForallTile][ForallTile]                 |           |
 | <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |           |
 | <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [MapTile][MapTile]                       |           |
@@ -149,7 +149,7 @@ graph LR
 
 [AllAgentTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/constant/AllAgentTile.soda
 
-[ReceivedSigmaPTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/ReceivedSigmaPTile.soda
+[AccumulatesTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/AccumulatesTile.soda
 
 [ForallTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/ForallTile.soda
 
