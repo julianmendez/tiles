@@ -14,12 +14,15 @@ class SigmaTile
   abstract
     sigma : Measure -> Measure -> Measure
 
+  combine (pair : TilePair [Measure] [Measure] ) : Measure =
+    sigma (pair .fst) (pair .snd)
+
+  map_tile = MapTile .mk [TilePair [Measure] [Measure] ] [Measure] (combine)
+
   apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
       : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map (lambda pair --> sigma (pair .fst) (pair .snd) )
-    )
+    map_tile
+      .apply (message)
 
 end
 

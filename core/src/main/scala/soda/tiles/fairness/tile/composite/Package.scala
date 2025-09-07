@@ -4,8 +4,7 @@ package soda.tiles.fairness.tile.composite
  * This package contains classes to model the tiles.
  */
 
-import   soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.composite.ZipSigmaTile
+import   soda.tiles.fairness.tile.derived.map.SigmaTile
 import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
@@ -370,39 +369,6 @@ case class ReceivedSigmaPTile_ (sigma : Measure => Measure => Measure, p : Resou
 object ReceivedSigmaPTile {
   def mk (sigma : Measure => Measure => Measure) (p : Resource => Measure) : ReceivedSigmaPTile =
     ReceivedSigmaPTile_ (sigma, p)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile takes a sequence of pairs of measures as input, and returns a sequence such that,
- * for each pair (m0, m1) in the input, is m = sigma (m0, m1), where sigma is a given function
- * to combine measures.
- */
-
-trait SigmaTile
-{
-
-  def   sigma : Measure => Measure => Measure
-
-  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents)
-        .map ( pair => sigma (pair .fst) (pair .snd) )
-    )
-
-}
-
-case class SigmaTile_ (sigma : Measure => Measure => Measure) extends SigmaTile
-
-object SigmaTile {
-  def mk (sigma : Measure => Measure => Measure) : SigmaTile =
-    SigmaTile_ (sigma)
 }
 
 

@@ -49,6 +49,42 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
+ * This tile takes a sequence of pairs of measures as input, and returns a sequence such that,
+ * for each pair (m0, m1) in the input, is m = sigma (m0, m1), where sigma is a given function
+ * to combine measures.
+ */
+
+trait SigmaTile
+{
+
+  def   sigma : Measure => Measure => Measure
+
+  def combine (pair : TilePair [Measure, Measure] ) : Measure =
+    sigma (pair .fst) (pair .snd)
+
+  lazy val map_tile = MapTile .mk [TilePair [Measure, Measure] , Measure] (combine)
+
+  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
+      : TileMessage [Seq [Measure] ] =
+    map_tile
+      .apply (message)
+
+}
+
+case class SigmaTile_ (sigma : Measure => Measure => Measure) extends SigmaTile
+
+object SigmaTile {
+  def mk (sigma : Measure => Measure => Measure) : SigmaTile =
+    SigmaTile_ (sigma)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
  * This tile takes a sequence of pairs (a, b), and returns a sequence with the first
  * component of each pair from the input.
  */
