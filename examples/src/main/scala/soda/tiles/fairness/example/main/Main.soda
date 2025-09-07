@@ -10,7 +10,7 @@ class Main
   help = "" +
     "\nTiles" +
     "\n" +
-    "\nCopyright 2023--2024 Julian Alfredo Mendez" +
+    "\nCopyright 2023--2025 Julian Alfredo Mendez" +
     "\n" +
     "\nhttps://github.com/julianmendez/tiles" +
     "\n" +
@@ -37,7 +37,7 @@ class Main
 
   error_invalid_pipeline = "" +
     "ERROR: Invalid pipeline name. " +
-    "The fagenty of known pipelines does not contain the provided pipeline name"
+    "The factory of known pipelines does not contain the provided pipeline name"
 
   error_invalid_input_file = "" +
     "ERROR: Invalid input file. " +
@@ -46,7 +46,7 @@ class Main
     "and a misspelled attribute name."
 
   _execute_and_report_pipeline (name : String) (input : CcsAcromagatInstance) : String =
-    CcsPipelineFagenty .mk
+    CcsPipelineFactory .mk
       .get_pipeline (name) (input)
       .map(lambda pipeline -->
         name + ": " +

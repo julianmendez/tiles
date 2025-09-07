@@ -377,7 +377,7 @@ object CcsPipeline {
 }
 
 
-trait CcsPipelineFagenty
+trait CcsPipelineFactory
 {
 
 
@@ -399,11 +399,11 @@ trait CcsPipelineFagenty
 
 }
 
-case class CcsPipelineFagenty_ () extends CcsPipelineFagenty
+case class CcsPipelineFactory_ () extends CcsPipelineFactory
 
-object CcsPipelineFagenty {
-  def mk : CcsPipelineFagenty =
-    CcsPipelineFagenty_ ()
+object CcsPipelineFactory {
+  def mk : CcsPipelineFactory =
+    CcsPipelineFactory_ ()
 }
 
 

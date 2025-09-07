@@ -9,5 +9,5 @@ import
   java.io.FileReader
   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstance
   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstanceBuilder
-  soda.tiles.fairness.example.childcaresubsidy.CcsPipelineFagenty
+  soda.tiles.fairness.example.childcaresubsidy.CcsPipelineFactory
 
