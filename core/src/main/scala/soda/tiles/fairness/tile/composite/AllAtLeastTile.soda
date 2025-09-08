@@ -21,8 +21,10 @@ class AllAtLeastTile
   forall_tile = ForallTile .mk [TilePair [Measure] [Measure] ] (compare)
 
   apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
-    forall_tile (
-      zip_tile .apply [Measure] [Measure] (message0) (message1)
+    forall_tile .apply (
+      zip_tile .apply [Measure] [Measure] (message0) (
+        message1
+      )
     )
 
 end

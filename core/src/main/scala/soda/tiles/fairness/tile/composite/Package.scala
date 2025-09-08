@@ -49,9 +49,13 @@ trait AccumulatesTile
       .map ( resource => utility (resource) )
       .foldLeft (zero) (plus)
 
+  def map_tile (outcome : Outcome) : MapTile [Agent, Measure] =
+    MapTile .mk [Agent, Measure] ( agent => get_accumulated (outcome) (agent) )
+
   def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    MapTile .mk [Agent, Measure] ( agent => get_accumulated (message .outcome) (agent) )
-      .apply (message)
+    map_tile (message .outcome) .apply (
+      message
+    )
 
 }
 
@@ -87,8 +91,10 @@ trait AllAtLeastTile
   lazy val forall_tile = ForallTile .mk [TilePair [Measure, Measure] ] (compare)
 
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
-    forall_tile (
-      zip_tile .apply [Measure, Measure] (message0) (message1)
+    forall_tile .apply (
+      zip_tile .apply [Measure, Measure] (message0) (
+        message1
+      )
     )
 
 }
@@ -406,7 +412,9 @@ trait PredictionPTile
 
   def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
     map_tile .apply (
-      accumulates_tile .apply (message)
+      accumulates_tile .apply (
+        message
+      )
     )
 
 }

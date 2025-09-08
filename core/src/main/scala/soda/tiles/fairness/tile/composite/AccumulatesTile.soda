@@ -21,9 +21,13 @@ class AccumulatesTile
       .map (lambda resource --> utility (resource) )
       .foldLeft (zero) (plus)
 
+  map_tile (outcome : Outcome) : MapTile [Agent] [Measure] =
+    MapTile .mk [Agent] [Measure] (lambda agent --> get_accumulated (outcome) (agent) )
+
   apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    MapTile .mk [Agent] [Measure] (lambda agent --> get_accumulated (message .outcome) (agent) )
-      .apply (message)
+    map_tile (message .outcome) .apply (
+      message
+    )
 
 end
 

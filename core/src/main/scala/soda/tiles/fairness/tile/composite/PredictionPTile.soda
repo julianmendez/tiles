@@ -29,7 +29,9 @@ class PredictionPTile
 
   apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
     map_tile .apply (
-      accumulates_tile .apply (message)
+      accumulates_tile .apply (
+        message
+      )
     )
 
 end

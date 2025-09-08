@@ -61,7 +61,9 @@ trait EqualityPipeline
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     all_equal_tile .apply (
       accumulates_tile .apply (
-        all_agent_tile .apply (message)
+        all_agent_tile .apply (
+          message
+        )
       )
     )
 
