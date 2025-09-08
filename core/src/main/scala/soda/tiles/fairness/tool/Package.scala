@@ -50,6 +50,23 @@ trait MeasureMod
       case None => None
     }
 
+  private def _divide_integers (a : Int) (b : Int) : Measure =
+    if ( b == 0
+    ) None
+    else Some (a / b)
+
+  def divide_by (a : Measure) (b : Int) : Measure =
+    a match  {
+      case Some (value) => _divide_integers (value) (b)
+      case None => None
+    }
+
+  def divide (a : Measure) (b : Measure) : Measure =
+    b match  {
+      case Some (value) => divide_by (a) (value)
+      case None => None
+    }
+
 }
 
 case class MeasureMod_ () extends MeasureMod

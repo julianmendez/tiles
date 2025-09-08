@@ -10,6 +10,115 @@ import   org.scalatest.funsuite.AnyFunSuite
 
 
 
+case class MeasureModSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val mod = MeasureMod .mk
+
+  test ("zero should be Some (0)") (
+    check(
+      obtained = mod .zero
+    ) (
+      expected = Some (0)
+    )
+  )
+
+  test ("one should be Some (1)") (
+    check(
+      obtained = mod .one
+    ) (
+      expected = Some (1)
+    )
+  )
+
+  test ("is_equals_0 should return true for Some (0)") (
+    check(
+      obtained = mod .is_equals_0 (Some (0) )
+    ) (
+      expected = true
+    )
+  )
+
+  test ("is_equals_0 should return false for Some (5)") (
+    check(
+      obtained = mod .is_equals_0 (Some (5) )
+    ) (
+      expected = false
+    )
+  )
+
+  test ("add_value_to should add correctly when Measure is Some") (
+    check(
+      obtained = mod .add_value_to (3) (Some (7) )
+    ) (
+      expected = Some (10)
+    )
+  )
+
+  test ("add_value_to should return None when Measure is None") (
+    check(
+      obtained = mod .add_value_to (3) (None)
+    ) (
+      expected = None
+    )
+  )
+
+  test ("plus should sum two Some values") (
+    check(
+      obtained = mod .plus(Some (4) ) (Some (6) )
+    ) (
+      expected = Some (10)
+    )
+  )
+
+  test ("plus should return None if first argument is None") (
+    check(
+      obtained = mod .plus(None) (Some (6) )
+    ) (
+      expected = None
+    )
+  )
+
+  test ("divide_by should divide correctly") (
+    check(
+      obtained = mod .divide_by (Some (10) ) (2)
+    ) (
+      expected = Some (5)
+    )
+  )
+
+  test ("divide_by should return None when dividing by zero") (
+    check(
+      obtained = mod .divide_by (Some (10) ) (0)
+    ) (
+      expected = None
+    )
+  )
+
+  test ("divide should divide two Measures") (
+    check(
+      obtained = mod .divide (Some (10) ) (Some (2) )
+    ) (
+      expected = Some (5)
+    )
+  )
+
+  test ("divide should return None if divisor is None") (
+    check(
+      obtained = mod .divide (Some (10) ) (None)
+    ) (
+      expected = None
+    )
+  )
+
+}
+
+
 trait RandomNumberGenerator
 {
 

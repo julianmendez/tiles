@@ -41,6 +41,21 @@ class MeasureMod
       case Some (value) ==> add_value_to (value) (b)
       case None ==> None
 
+  _divide_integers (a : Int) (b : Int) : Measure =
+    if b == 0
+    then None
+    else Some (a / b)
+
+  divide_by (a : Measure) (b : Int) : Measure =
+    match a
+      case Some (value) ==> _divide_integers (value) (b)
+      case None ==> None
+
+  divide (a : Measure) (b : Measure) : Measure =
+    match b
+      case Some (value) ==> divide_by (a) (value)
+      case None ==> None
+
 end
 
 
