@@ -29,12 +29,12 @@ trait AllAgentPairTile
 
 
 
-  lazy val zip_tile = TuplingPairTile .mk
+  lazy val tupling_tile = TuplingPairTile .mk [Seq [Agent] , Seq [Agent] ]
 
   lazy val all_agent_tile = AllAgentTile .mk
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [TilePair [Seq [Agent] , Seq [Agent] ] ] =
-    zip_tile .apply (all_agent_tile (message) ) (all_agent_tile (message) )
+    tupling_tile .apply (all_agent_tile (message) ) (all_agent_tile (message) )
 
 }
 
@@ -96,12 +96,12 @@ trait AllAgentTripleTile
 
 
 
-  lazy val zip_tile = TuplingTripleTile .mk
+  lazy val tupling_tile = TuplingTripleTile .mk [Seq [Agent] , Seq [Agent] , Seq [Agent] ]
 
   lazy val all_agent_tile = AllAgentTile .mk
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [TileTriple [Seq [Agent] , Seq [Agent] , Seq [Agent] ] ] =
-    zip_tile .apply (all_agent_tile (message) ) (all_agent_tile (message) ) (all_agent_tile (message) )
+    tupling_tile .apply (all_agent_tile (message) ) (all_agent_tile (message) ) (all_agent_tile (message) )
 
 }
 
@@ -122,12 +122,12 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile connects two elements and returns a pair.
  */
 
-trait TuplingPairTile
+trait TuplingPairTile [A , B ]
 {
 
 
 
-  def apply [A , B ] (message0 : TileMessage [A] )
+  def apply (message0 : TileMessage [A] )
       (message1 : TileMessage [B] ) : TileMessage [TilePair [A, B] ] =
     TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
       TilePair .mk [A, B] (message0 .contents) (message1 .contents)
@@ -135,11 +135,11 @@ trait TuplingPairTile
 
 }
 
-case class TuplingPairTile_ () extends TuplingPairTile
+case class TuplingPairTile_ [A, B] () extends TuplingPairTile [A, B]
 
 object TuplingPairTile {
-  def mk : TuplingPairTile =
-    TuplingPairTile_ ()
+  def mk [A, B] : TuplingPairTile [A, B] =
+    TuplingPairTile_ [A, B] ()
 }
 
 
@@ -152,13 +152,12 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile connects three elements and returns a triple.
  */
 
-trait TuplingTripleTile
+trait TuplingTripleTile [A , B , C ]
 {
 
 
 
-  def apply [A , B , C ] (message0 : TileMessage [A] )
-    (message1 : TileMessage [B] ) (message2 : TileMessage [C] )
+  def apply (message0 : TileMessage [A] ) (message1 : TileMessage [B] ) (message2 : TileMessage [C] )
       : TileMessage [TileTriple [A, B, C] ] =
     TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
       TileTriple .mk [A, B, C] (message0 .contents) (message1 .contents) (message2 .contents)
@@ -166,10 +165,10 @@ trait TuplingTripleTile
 
 }
 
-case class TuplingTripleTile_ () extends TuplingTripleTile
+case class TuplingTripleTile_ [A, B, C] () extends TuplingTripleTile [A, B, C]
 
 object TuplingTripleTile {
-  def mk : TuplingTripleTile =
-    TuplingTripleTile_ ()
+  def mk [A, B, C] : TuplingTripleTile [A, B, C] =
+    TuplingTripleTile_ [A, B, C] ()
 }
 

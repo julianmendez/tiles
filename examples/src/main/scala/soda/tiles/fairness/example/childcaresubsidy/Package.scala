@@ -426,7 +426,7 @@ trait CcsSingleGuardianPipeline
 
   lazy val and_tile = CombineBooleanTile .mk (and_combination)
 
-  lazy val pairing_tile = TuplingPairTile .mk
+  lazy val tupling_tile = TuplingPairTile .mk [Boolean, Boolean]
 
   def condition_0 (a : Agent) : Boolean =
     adults (a) .getOrElse (0) == 1
@@ -460,7 +460,7 @@ trait CcsSingleGuardianPipeline
 
   def apply_on_agents (message : TileMessage [TilePair [Seq [Agent] , Seq [Agent] ] ] ) : TileMessage [Boolean] =
     and_tile .apply (
-      pairing_tile .apply (
+      tupling_tile .apply (
         get_branch_0 (pair_fst_tile .apply (message) )
       ) (
         get_branch_1 (pair_snd_tile .apply (message) )

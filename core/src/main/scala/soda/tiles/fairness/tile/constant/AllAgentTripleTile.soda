@@ -12,12 +12,12 @@ class AllAgentTripleTile
 
   abstract
 
-  zip_tile = TuplingTripleTile .mk
+  tupling_tile = TuplingTripleTile .mk [Seq [Agent] ] [Seq [Agent] ] [Seq [Agent] ]
 
   all_agent_tile = AllAgentTile .mk
 
   apply (message : TileMessage [Boolean] ) : TileMessage [TileTriple [Seq [Agent] ] [Seq [Agent] ] [Seq [Agent] ] ] =
-    zip_tile .apply (all_agent_tile (message) ) (all_agent_tile (message) ) (all_agent_tile (message) )
+    tupling_tile .apply (all_agent_tile (message) ) (all_agent_tile (message) ) (all_agent_tile (message) )
 
 end
 
