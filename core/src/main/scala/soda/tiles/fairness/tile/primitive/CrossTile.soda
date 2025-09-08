@@ -8,11 +8,11 @@ import Soda.tiles.fairness.tool.TileMessage
  * element of the second sequence (Cartesian product).
  */
 
-class CrossTile
+class CrossTile [A : Type] [B : Type]
 
   abstract
 
-  cross_lists [A : Type] [B : Type] (list0 : Seq [A] ) (list1 : Seq [B] )
+  cross_lists (list0 : Seq [A] ) (list1 : Seq [B] )
       : Seq [TilePair [A] [B] ] =
     list0
       .flatMap (lambda a -->
@@ -20,7 +20,7 @@ class CrossTile
           .map (lambda b --> TilePair .mk [A] [B] (a) (b) )
       )
 
-  apply [A : Type] [B : Type] (message0 : TileMessage [Seq [A] ] ) (message1 : TileMessage [Seq [B] ] )
+  apply (message0 : TileMessage [Seq [A] ] ) (message1 : TileMessage [Seq [B] ] )
       : TileMessage [Seq [TilePair [A] [B] ] ] =
     TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
       cross_lists (message0 .contents) (message1 .contents)

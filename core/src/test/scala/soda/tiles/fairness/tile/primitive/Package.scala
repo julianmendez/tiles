@@ -95,7 +95,7 @@ case class CrossTileSpec ()
 
   test ("cross on two empty sequences returns empty sequence") (
     check (
-      obtained = CrossTile .mk
+      obtained = CrossTile .mk [Int, String]
         .apply (mk_tile_message (Seq [Int] () ) ) (mk_tile_message (Seq [String] () ) )
         .contents
     ) (
@@ -105,7 +105,7 @@ case class CrossTileSpec ()
 
   test ("cross on empty first sequence returns empty sequence") (
     check (
-      obtained = CrossTile .mk
+      obtained = CrossTile .mk [Int, String]
         .apply (mk_tile_message (Seq [Int] () ) ) (mk_tile_message (Seq [String] ("a" , "b") ) )
         .contents
     ) (
@@ -115,7 +115,7 @@ case class CrossTileSpec ()
 
   test ("cross on empty second sequence returns empty sequence") (
     check (
-      obtained = CrossTile .mk
+      obtained = CrossTile .mk [Int, String]
         .apply (mk_tile_message (Seq [Int] (1 , 2) ) ) (mk_tile_message (Seq [String] () ) )
         .contents
     ) (
@@ -125,7 +125,7 @@ case class CrossTileSpec ()
 
   test ("cross on single-element sequences") (
     check (
-      obtained = CrossTile .mk
+      obtained = CrossTile .mk [Int, String]
         .apply (mk_tile_message (Seq [Int] (1) ) ) (mk_tile_message (Seq [String] ("a") ) )
         .contents
     ) (
@@ -135,7 +135,7 @@ case class CrossTileSpec ()
 
   test ("cross on multi-element sequences") (
     check (
-      obtained = CrossTile .mk
+      obtained = CrossTile .mk [Int, String]
         .apply (mk_tile_message (Seq [Int] (1 , 2) ) ) (mk_tile_message (Seq [String] ("a" , "b") ) )
         .contents
     ) (
