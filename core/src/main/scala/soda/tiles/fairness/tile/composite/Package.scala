@@ -86,13 +86,13 @@ trait AllAtLeastTile
   def compare (pair : TilePair [Measure, Measure] ) : Boolean =
     ( (Comparator .mk .compareMeasure (pair .fst) (pair .snd) ) >= 0 )
 
-  lazy val zip_tile = ZipTile .mk
+  lazy val zip_tile = ZipTile .mk [Measure, Measure]
 
   lazy val forall_tile = ForallTile .mk [TilePair [Measure, Measure] ] (compare)
 
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
     forall_tile .apply (
-      zip_tile .apply [Measure, Measure] (message0) (
+      zip_tile .apply (message0) (
         message1
       )
     )
@@ -237,7 +237,7 @@ trait CorrelationTile
 
   private lazy val _percentage_constant : Number = 100.0
 
-  lazy val zip_tile = ZipTile .mk
+  lazy val zip_tile = ZipTile .mk [Measure, Measure]
 
   def get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Number =
     PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )
@@ -267,7 +267,7 @@ trait CorrelationTile
 
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
     apply_zipped (
-      zip_tile .apply [Measure, Measure] (message0) (message1)
+      zip_tile .apply (message0) (message1)
     )
 
 }
@@ -443,7 +443,7 @@ trait ZipSigmaTile
 
   def   sigma : Measure => Measure => Measure
 
-  lazy val zip_tile = ZipTile .mk
+  lazy val zip_tile = ZipTile .mk [Measure, Measure]
 
   lazy val sigma_tile = SigmaTile .mk (sigma)
 

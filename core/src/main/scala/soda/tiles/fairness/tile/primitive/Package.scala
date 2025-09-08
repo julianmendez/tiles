@@ -224,29 +224,29 @@ import Soda.tiles.fairness.tool.TileMessage
  * sequences.
  */
 
-trait ZipTile
+trait ZipTile [A , B ]
 {
 
 
 
-  def zip_lists [A , B ] (list0 : Seq [A] ) (list1 : Seq [B] )
+  def zip_lists (list0 : Seq [A] ) (list1 : Seq [B] )
       : Seq [TilePair [A, B] ] =
     list0
       .zip (list1)
       .map ( pair => TilePair .mk [A, B] (pair ._1) (pair ._2) )
 
-  def apply [A , B ] (message0 : TileMessage [Seq [A] ] )
-      (message1 : TileMessage [Seq [B] ] ) : TileMessage [Seq [TilePair [A, B] ] ] =
+  def apply (message0 : TileMessage [Seq [A] ] ) (message1 : TileMessage [Seq [B] ] )
+      : TileMessage [Seq [TilePair [A, B] ] ] =
     TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
       zip_lists (message0 .contents) (message1 .contents)
     )
 
 }
 
-case class ZipTile_ () extends ZipTile
+case class ZipTile_ [A, B] () extends ZipTile [A, B]
 
 object ZipTile {
-  def mk : ZipTile =
-    ZipTile_ ()
+  def mk [A, B] : ZipTile [A, B] =
+    ZipTile_ [A, B] ()
 }
 

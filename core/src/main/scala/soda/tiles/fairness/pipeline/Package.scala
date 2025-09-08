@@ -85,7 +85,6 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 import Soda.tiles.fairness.tile.derived.map.NeedsTile
 import Soda.tiles.fairness.tile.derived.map.UnzipPairFstTile
 import Soda.tiles.fairness.tile.derived.map.UnzipPairSndTile
-import Soda.tiles.fairness.tile.primitive.ZipTile
 */
 
 /**
@@ -143,7 +142,6 @@ import Soda.tiles.fairness.tile.UnzipTripleFstTile
 import Soda.tiles.fairness.tile.UnzipTripleSndTile
 import Soda.tiles.fairness.tile.UnzipTripleTrdTile
 import Soda.tiles.fairness.tile.WithPTile
-import Soda.tiles.fairness.tile.ZipTile
 */
 
 /**
@@ -167,8 +165,6 @@ trait UnbiasednessPipeline
   lazy val triple_snd_tile = ProjectionTripleSndTile .mk
 
   lazy val triple_trd_tile = ProjectionTripleTrdTile .mk
-
-  lazy val zip_pair_tile = ZipTile .mk
 
   lazy val prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 

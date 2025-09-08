@@ -19,7 +19,7 @@ class CorrelationTile
 
   _percentage_constant : Number = 100.0
 
-  zip_tile = ZipTile .mk
+  zip_tile = ZipTile .mk [Measure] [Measure]
 
   get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Number =
     PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )
@@ -49,7 +49,7 @@ class CorrelationTile
 
   apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
     apply_zipped (
-      zip_tile .apply [Measure] [Measure] (message0) (message1)
+      zip_tile .apply (message0) (message1)
     )
 
 end

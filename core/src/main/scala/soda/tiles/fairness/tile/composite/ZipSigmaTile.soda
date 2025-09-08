@@ -14,7 +14,7 @@ class ZipSigmaTile
   abstract
     sigma : Measure -> Measure -> Measure
 
-  zip_tile = ZipTile .mk
+  zip_tile = ZipTile .mk [Measure] [Measure]
 
   sigma_tile = SigmaTile .mk (sigma)
 

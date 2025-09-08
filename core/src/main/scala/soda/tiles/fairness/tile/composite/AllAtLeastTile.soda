@@ -16,13 +16,13 @@ class AllAtLeastTile
   compare (pair : TilePair [Measure] [Measure] ) : Boolean =
     ( (Comparator .mk .compareMeasure (pair .fst) (pair .snd) ) >= 0 )
 
-  zip_tile = ZipTile .mk
+  zip_tile = ZipTile .mk [Measure] [Measure]
 
   forall_tile = ForallTile .mk [TilePair [Measure] [Measure] ] (compare)
 
   apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
     forall_tile .apply (
-      zip_tile .apply [Measure] [Measure] (message0) (
+      zip_tile .apply (message0) (
         message1
       )
     )

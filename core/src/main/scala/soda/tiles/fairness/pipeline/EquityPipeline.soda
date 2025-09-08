@@ -6,7 +6,6 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 import Soda.tiles.fairness.tile.derived.map.NeedsTile
 import Soda.tiles.fairness.tile.derived.map.UnzipPairFstTile
 import Soda.tiles.fairness.tile.derived.map.UnzipPairSndTile
-import Soda.tiles.fairness.tile.primitive.ZipTile
 
 
 /**

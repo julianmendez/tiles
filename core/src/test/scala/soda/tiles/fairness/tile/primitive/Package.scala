@@ -501,7 +501,7 @@ case class ZipTileSpec ()
 
   test ("zip on two empty sequences returns empty sequence") (
     check (
-      obtained = ZipTile .mk
+      obtained = ZipTile .mk [Int, String]
         .apply (mk_tile_message (Seq [Int] () ) ) (mk_tile_message (Seq [String] () ) )
         .contents
     ) (
@@ -511,7 +511,7 @@ case class ZipTileSpec ()
 
   test ("zip on sequences of equal length") (
     check (
-      obtained = ZipTile .mk
+      obtained = ZipTile .mk [Int, String]
         .apply (mk_tile_message (Seq [Int] (1 , 2 , 3) ) ) (mk_tile_message (Seq [String] ("a" , "b" , "c") ) )
         .contents
     ) (
@@ -525,7 +525,7 @@ case class ZipTileSpec ()
 
   test ("zip truncates to the shorter sequence (first shorter)") (
     check (
-      obtained = ZipTile .mk
+      obtained = ZipTile .mk [Int, String]
         .apply (mk_tile_message (Seq [Int] (1 , 2) ) ) (mk_tile_message (Seq [String] ("a" , "b" , "c") ) )
         .contents
     ) (
@@ -538,7 +538,7 @@ case class ZipTileSpec ()
 
   test ("zip truncates to the shorter sequence (second shorter)") (
     check (
-      obtained = ZipTile .mk
+      obtained = ZipTile .mk [Int, String]
         .apply (mk_tile_message (Seq [Int] (1 , 2 , 3) ) ) (mk_tile_message (Seq [String] ("a") ) )
         .contents
     ) (
