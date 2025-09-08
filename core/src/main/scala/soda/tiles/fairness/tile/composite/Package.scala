@@ -5,6 +5,8 @@ package soda.tiles.fairness.tile.composite
  */
 
 import   soda.tiles.fairness.tile.derived.map.SigmaTile
+import   soda.tiles.fairness.tile.derived.fold.SumCountTile
+import   soda.tiles.fairness.tile.primitive.ApplyTile
 import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
@@ -159,6 +161,51 @@ case class AllEqualTile_ () extends AllEqualTile
 object AllEqualTile {
   def mk : AllEqualTile =
     AllEqualTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile takes a sequence of measures and returns the average of all of them, or 0 if the sequence is empty.
+ */
+
+trait AverageTile
+{
+
+
+
+  lazy val zero = MeasureMod .mk .zero
+
+  def apply_function_with (m0 : Measure) (m1 : Measure) : Measure =
+    if ( m1 == zero
+    ) zero
+    else MeasureMod .mk .divide (m0) (m1)
+
+  def apply_function (pair : TilePair [Measure, Measure] ) : Measure =
+    apply_function_with (pair .fst) (pair .snd)
+
+  lazy val apply_tile = ApplyTile .mk [TilePair [Measure, Measure] , Measure] (apply_function)
+
+  lazy val sum_count_tile = SumCountTile .mk
+
+  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
+    apply_tile .apply (
+      sum_count_tile .apply (
+        message
+      )
+    )
+
+}
+
+case class AverageTile_ () extends AverageTile
+
+object AverageTile {
+  def mk : AverageTile =
+    AverageTile_ ()
 }
 
 

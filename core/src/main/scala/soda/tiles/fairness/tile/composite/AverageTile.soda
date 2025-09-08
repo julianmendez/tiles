@@ -1,0 +1,35 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile takes a sequence of measures and returns the average of all of them, or 0 if the sequence is empty.
+ */
+
+class AverageTile
+
+  abstract
+
+  zero = MeasureMod .mk .zero
+
+  apply_function_with (m0 : Measure) (m1 : Measure) : Measure =
+    if m1 == zero
+    then zero
+    else MeasureMod .mk .divide (m0) (m1)
+
+  apply_function (pair : TilePair [Measure] [Measure] ) : Measure =
+    apply_function_with (pair .fst) (pair .snd)
+
+  apply_tile = ApplyTile .mk [TilePair [Measure] [Measure] ] [Measure] (apply_function)
+
+  sum_count_tile = SumCountTile .mk
+
+  apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
+    apply_tile .apply (
+      sum_count_tile .apply (
+        message
+      )
+    )
+
+end
+

@@ -6,6 +6,8 @@ package soda.tiles.fairness.tile.composite
 
 import
   soda.tiles.fairness.tile.derived.map.SigmaTile
+  soda.tiles.fairness.tile.derived.fold.SumCountTile
+  soda.tiles.fairness.tile.primitive.ApplyTile
   soda.tiles.fairness.tile.primitive.MapTile
   soda.tiles.fairness.tile.primitive.ZipTile
   soda.tiles.fairness.tool.Agent
