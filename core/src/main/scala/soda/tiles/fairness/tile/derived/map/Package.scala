@@ -89,26 +89,28 @@ import Soda.tiles.fairness.tool.TileMessage
  * component of each pair from the input.
  */
 
-trait UnzipPairFstTile
+trait UnzipPairFstTile [A , B ]
 {
 
 
 
-  def get_fst [A , B ] (pair : TilePair [A, B] ) : A =
+  def get_fst (pair : TilePair [A, B] ) : A =
     pair .fst
 
-  def apply [A , B ] (message : TileMessage [Seq [TilePair [A, B] ] ] )
-      : TileMessage [Seq [A] ] =
-    MapTile .mk [TilePair [A, B] , A] (get_fst)
-      .apply (message)
+  lazy val map_tile = MapTile .mk [TilePair [A, B] , A] (get_fst)
+
+  def apply (message : TileMessage [Seq [TilePair [A, B] ] ] ) : TileMessage [Seq [A] ] =
+    map_tile .apply (
+      message
+    )
 
 }
 
-case class UnzipPairFstTile_ () extends UnzipPairFstTile
+case class UnzipPairFstTile_ [A, B] () extends UnzipPairFstTile [A, B]
 
 object UnzipPairFstTile {
-  def mk : UnzipPairFstTile =
-    UnzipPairFstTile_ ()
+  def mk [A, B] : UnzipPairFstTile [A, B] =
+    UnzipPairFstTile_ [A, B] ()
 }
 
 
@@ -122,26 +124,28 @@ import Soda.tiles.fairness.tool.TileMessage
  * component of each pair from the input.
  */
 
-trait UnzipPairSndTile
+trait UnzipPairSndTile [A , B ]
 {
 
 
 
-  def get_snd [A , B ] (pair : TilePair [A, B] ) : B =
+  def get_snd (pair : TilePair [A, B] ) : B =
     pair .snd
 
-  def apply [A , B ] (message : TileMessage [Seq [TilePair [A, B] ] ] )
-      : TileMessage [Seq [B] ] =
-    MapTile .mk [TilePair [A, B] , B] (get_snd)
-      .apply (message)
+  lazy val map_tile = MapTile .mk [TilePair [A, B] , B] (get_snd)
+
+  def apply (message : TileMessage [Seq [TilePair [A, B] ] ] ) : TileMessage [Seq [B] ] =
+    map_tile .apply (
+      message
+    )
 
 }
 
-case class UnzipPairSndTile_ () extends UnzipPairSndTile
+case class UnzipPairSndTile_ [A, B] () extends UnzipPairSndTile [A, B]
 
 object UnzipPairSndTile {
-  def mk : UnzipPairSndTile =
-    UnzipPairSndTile_ ()
+  def mk [A, B] : UnzipPairSndTile [A, B] =
+    UnzipPairSndTile_ [A, B] ()
 }
 
 
@@ -155,26 +159,28 @@ import Soda.tiles.fairness.tool.TileMessage
  * component of each triple from the input.
  */
 
-trait UnzipTripleFstTile
+trait UnzipTripleFstTile [A , B , C ]
 {
 
 
 
-  def get_fst [A , B , C ] (triple : TileTriple [A, B, C] ) : A =
+  def get_fst  (triple : TileTriple [A, B, C] ) : A =
     triple .fst
 
-  def apply [A , B , C ] (
-      message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [A] ] =
-    MapTile .mk [TileTriple [A, B, C] , A] (get_fst)
-      .apply (message)
+  lazy val map_tile = MapTile .mk [TileTriple [A, B, C] , A] (get_fst)
+
+  def apply (message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [A] ] =
+    map_tile .apply (
+      message
+    )
 
 }
 
-case class UnzipTripleFstTile_ () extends UnzipTripleFstTile
+case class UnzipTripleFstTile_ [A, B, C] () extends UnzipTripleFstTile [A, B, C]
 
 object UnzipTripleFstTile {
-  def mk : UnzipTripleFstTile =
-    UnzipTripleFstTile_ ()
+  def mk [A, B, C] : UnzipTripleFstTile [A, B, C] =
+    UnzipTripleFstTile_ [A, B, C] ()
 }
 
 
@@ -188,26 +194,28 @@ import Soda.tiles.fairness.tool.TileMessage
  * component of each triple from the input.
  */
 
-trait UnzipTripleSndTile
+trait UnzipTripleSndTile [A , B , C ]
 {
 
 
 
-  def get_snd [A , B , C ] (triple : TileTriple [A, B, C] ) : B =
+  def get_snd (triple : TileTriple [A, B, C] ) : B =
     triple .snd
 
-  def apply [A , B , C ] (
-      message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [B] ] =
-    MapTile .mk [TileTriple [A, B, C] , B] (get_snd)
-      .apply (message)
+  lazy val map_tile = MapTile .mk [TileTriple [A, B, C] , B] (get_snd)
+
+  def apply (message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [B] ] =
+    map_tile .apply (
+      message
+    )
 
 }
 
-case class UnzipTripleSndTile_ () extends UnzipTripleSndTile
+case class UnzipTripleSndTile_ [A, B, C] () extends UnzipTripleSndTile [A, B, C]
 
 object UnzipTripleSndTile {
-  def mk : UnzipTripleSndTile =
-    UnzipTripleSndTile_ ()
+  def mk [A, B, C] : UnzipTripleSndTile [A, B, C] =
+    UnzipTripleSndTile_ [A, B, C] ()
 }
 
 
@@ -221,25 +229,27 @@ import Soda.tiles.fairness.tool.TileMessage
  * component of each triple from the input.
  */
 
-trait UnzipTripleTrdTile
+trait UnzipTripleTrdTile [A , B , C ]
 {
 
 
 
-  def get_trd [A , B , C ] (triple : TileTriple [A, B, C] ) : C =
+  def get_trd (triple : TileTriple [A, B, C] ) : C =
     triple .trd
 
-  def apply [A , B , C ] (
-      message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [C] ] =
-    MapTile .mk [TileTriple [A, B, C] , C] (get_trd)
-      .apply (message)
+  lazy val map_tile = MapTile .mk [TileTriple [A, B, C] , C] (get_trd)
+
+  def apply (message : TileMessage [Seq [TileTriple [A, B, C] ] ] ) : TileMessage [Seq [C] ] =
+    map_tile .apply (
+      message
+    )
 
 }
 
-case class UnzipTripleTrdTile_ () extends UnzipTripleTrdTile
+case class UnzipTripleTrdTile_ [A, B, C] () extends UnzipTripleTrdTile [A, B, C]
 
 object UnzipTripleTrdTile {
-  def mk : UnzipTripleTrdTile =
-    UnzipTripleTrdTile_ ()
+  def mk [A, B, C] : UnzipTripleTrdTile [A, B, C] =
+    UnzipTripleTrdTile_ [A, B, C] ()
 }
 

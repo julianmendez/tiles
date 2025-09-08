@@ -8,17 +8,19 @@ import Soda.tiles.fairness.tool.TileMessage
  * component of each pair from the input.
  */
 
-class UnzipPairSndTile
+class UnzipPairSndTile [A : Type] [B : Type]
 
   abstract
 
-  get_snd [A : Type] [B : Type] (pair : TilePair [A] [B] ) : B =
+  get_snd (pair : TilePair [A] [B] ) : B =
     pair .snd
 
-  apply [A : Type] [B : Type] (message : TileMessage [Seq [TilePair [A] [B] ] ] )
-      : TileMessage [Seq [B] ] =
-    MapTile .mk [TilePair [A] [B] ] [B] (get_snd)
-      .apply (message)
+  map_tile = MapTile .mk [TilePair [A] [B] ] [B] (get_snd)
+
+  apply (message : TileMessage [Seq [TilePair [A] [B] ] ] ) : TileMessage [Seq [B] ] =
+    map_tile .apply (
+      message
+    )
 
 end
 
