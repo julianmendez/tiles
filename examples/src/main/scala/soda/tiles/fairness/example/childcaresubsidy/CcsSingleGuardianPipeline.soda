@@ -22,9 +22,9 @@ class CcsSingleGuardianPipeline
 
   all_agent_pair_tile = AllAgentPairTile .mk
 
-  pair_fst_tile = ProjectionPairFstTile .mk
+  pair_fst_tile = ProjectionPairFstTile .mk [Seq [Agent] ] [Seq [Agent] ]
 
-  pair_snd_tile = ProjectionPairSndTile .mk
+  pair_snd_tile = ProjectionPairSndTile .mk [Seq [Agent] ] [Seq [Agent] ]
 
   and_combination (b0 : Boolean) (b1 : Boolean) : Boolean =
     b0 and b1

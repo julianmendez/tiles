@@ -27,11 +27,11 @@ class UnbiasednessPipeline
 
   all_agent_triple_tile = AllAgentTripleTile .mk
 
-  triple_fst_tile = ProjectionTripleFstTile .mk
+  triple_fst_tile = ProjectionTripleFstTile .mk [Seq [Agent] ] [Seq [Agent] ] [Seq [Agent] ]
 
-  triple_snd_tile = ProjectionTripleSndTile .mk
+  triple_snd_tile = ProjectionTripleSndTile .mk [Seq [Agent] ] [Seq [Agent] ] [Seq [Agent] ]
 
-  triple_trd_tile = ProjectionTripleTrdTile .mk
+  triple_trd_tile = ProjectionTripleTrdTile .mk [Seq [Agent] ] [Seq [Agent] ] [Seq [Agent] ]
 
   prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 

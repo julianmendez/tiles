@@ -106,9 +106,9 @@ trait EquityPipeline
 
   lazy val all_agent_pair_tile = AllAgentPairTile .mk
 
-  lazy val pair_fst_tile = ProjectionPairFstTile .mk
+  lazy val pair_fst_tile = ProjectionPairFstTile .mk [Seq [Agent] , Seq [Agent] ]
 
-  lazy val pair_snd_tile = ProjectionPairSndTile .mk
+  lazy val pair_snd_tile = ProjectionPairSndTile .mk [Seq [Agent] , Seq [Agent] ]
 
   def apply_on_pair (pair : TileMessage [TilePair [Seq [Agent] , Seq [Agent] ] ] ) : TileMessage [Boolean] =
     at_least_tile .apply (
@@ -160,11 +160,11 @@ trait UnbiasednessPipeline
 
   lazy val all_agent_triple_tile = AllAgentTripleTile .mk
 
-  lazy val triple_fst_tile = ProjectionTripleFstTile .mk
+  lazy val triple_fst_tile = ProjectionTripleFstTile .mk [Seq [Agent] , Seq [Agent] , Seq [Agent] ]
 
-  lazy val triple_snd_tile = ProjectionTripleSndTile .mk
+  lazy val triple_snd_tile = ProjectionTripleSndTile .mk [Seq [Agent] , Seq [Agent] , Seq [Agent] ]
 
-  lazy val triple_trd_tile = ProjectionTripleTrdTile .mk
+  lazy val triple_trd_tile = ProjectionTripleTrdTile .mk [Seq [Agent] , Seq [Agent] , Seq [Agent] ]
 
   lazy val prediction_p_tile = PredictionPTile .mk (p0_evaluation)
 

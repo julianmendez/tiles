@@ -7,16 +7,19 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile returns the second element of a pair.
  */
 
-class ProjectionPairSndTile
+class ProjectionPairSndTile [A : Type] [B : Type]
 
   abstract
 
-  get_snd [A : Type] [B : Type] (pair : TilePair [A] [B] ) : B =
+  get_snd (pair : TilePair [A] [B] ) : B =
     pair .snd
 
-  apply [A : Type] [B : Type] (message : TileMessage [TilePair [A] [B] ] ) : TileMessage [B] =
-    ApplyTile .mk [TilePair [A] [B] ] [B] (get_snd)
-      .apply (message)
+  apply_tile = ApplyTile .mk [TilePair [A] [B] ] [B] (get_snd)
+
+  apply (message : TileMessage [TilePair [A] [B] ] ) : TileMessage [B] =
+    apply_tile .apply (
+      message
+    )
 
 end
 

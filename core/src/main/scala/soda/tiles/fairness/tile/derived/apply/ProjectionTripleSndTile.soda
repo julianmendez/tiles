@@ -7,17 +7,19 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile returns the second element of a triple.
  */
 
-class ProjectionTripleSndTile
+class ProjectionTripleSndTile [A : Type] [B : Type] [C : Type]
 
   abstract
 
-  get_snd [A : Type] [B : Type] [C : Type] (triple : TileTriple [A] [B] [C] ) : B =
+  get_snd (triple : TileTriple [A] [B] [C] ) : B =
     triple .snd
 
-  apply [A : Type] [B : Type] [C : Type] (message : TileMessage [TileTriple [A] [B] [C] ] )
-      : TileMessage [B] =
-    ApplyTile .mk [TileTriple [A] [B] [C] ] [B] (get_snd)
-      .apply (message)
+  apply_tile = ApplyTile .mk [TileTriple [A] [B] [C] ] [B] (get_snd)
+
+  apply (message : TileMessage [TileTriple [A] [B] [C] ] ) : TileMessage [B] =
+    apply_tile .apply (
+      message
+    )
 
 end
 

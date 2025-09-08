@@ -46,9 +46,9 @@ class CcsPerChildPipeline
 
   division_tile = ZipSigmaTile .mk (division)
 
-  pair_fst_tile = ProjectionPairFstTile .mk
+  pair_fst_tile = ProjectionPairFstTile .mk [Seq [Agent] ] [Seq [Agent] ]
 
-  pair_snd_tile = ProjectionPairSndTile .mk
+  pair_snd_tile = ProjectionPairSndTile .mk [Seq [Agent] ] [Seq [Agent] ]
 
   apply_on_agents (pair : TileMessage [TilePair [Seq [Agent] ] [Seq [Agent] ] ] )
       : TileMessage [Boolean] =

@@ -91,25 +91,28 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile returns the first element of a pair.
  */
 
-trait ProjectionPairFstTile
+trait ProjectionPairFstTile [A , B ]
 {
 
 
 
-  def get_fst [A , B ] (pair : TilePair [A, B] ) : A =
+  def get_fst (pair : TilePair [A, B] ) : A =
     pair .fst
 
-  def apply [A , B ] (message : TileMessage [TilePair [A, B] ] ) : TileMessage [A] =
-    ApplyTile .mk [TilePair [A, B] , A] (get_fst)
-      .apply (message)
+  lazy val apply_tile = ApplyTile .mk [TilePair [A, B] , A] (get_fst)
+
+  def apply (message : TileMessage [TilePair [A, B] ] ) : TileMessage [A] =
+    apply_tile .apply (
+      message
+    )
 
 }
 
-case class ProjectionPairFstTile_ () extends ProjectionPairFstTile
+case class ProjectionPairFstTile_ [A, B] () extends ProjectionPairFstTile [A, B]
 
 object ProjectionPairFstTile {
-  def mk : ProjectionPairFstTile =
-    ProjectionPairFstTile_ ()
+  def mk [A, B] : ProjectionPairFstTile [A, B] =
+    ProjectionPairFstTile_ [A, B] ()
 }
 
 
@@ -122,25 +125,28 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile returns the second element of a pair.
  */
 
-trait ProjectionPairSndTile
+trait ProjectionPairSndTile [A , B ]
 {
 
 
 
-  def get_snd [A , B ] (pair : TilePair [A, B] ) : B =
+  def get_snd (pair : TilePair [A, B] ) : B =
     pair .snd
 
-  def apply [A , B ] (message : TileMessage [TilePair [A, B] ] ) : TileMessage [B] =
-    ApplyTile .mk [TilePair [A, B] , B] (get_snd)
-      .apply (message)
+  lazy val apply_tile = ApplyTile .mk [TilePair [A, B] , B] (get_snd)
+
+  def apply (message : TileMessage [TilePair [A, B] ] ) : TileMessage [B] =
+    apply_tile .apply (
+      message
+    )
 
 }
 
-case class ProjectionPairSndTile_ () extends ProjectionPairSndTile
+case class ProjectionPairSndTile_ [A, B] () extends ProjectionPairSndTile [A, B]
 
 object ProjectionPairSndTile {
-  def mk : ProjectionPairSndTile =
-    ProjectionPairSndTile_ ()
+  def mk [A, B] : ProjectionPairSndTile [A, B] =
+    ProjectionPairSndTile_ [A, B] ()
 }
 
 
@@ -153,26 +159,28 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile returns the first element of a triple.
  */
 
-trait ProjectionTripleFstTile
+trait ProjectionTripleFstTile [A , B , C ]
 {
 
 
 
-  def get_fst [A , B , C ] (triple : TileTriple [A, B, C] ) : A =
+  def get_fst (triple : TileTriple [A, B, C] ) : A =
     triple .fst
 
-  def apply [A , B , C ] (message : TileMessage [TileTriple [A, B, C] ] )
-      : TileMessage [A] =
-    ApplyTile .mk [TileTriple [A, B, C] , A] (get_fst)
-      .apply (message)
+  lazy val apply_tile = ApplyTile .mk [TileTriple [A, B, C] , A] (get_fst)
+
+  def apply (message : TileMessage [TileTriple [A, B, C] ] ) : TileMessage [A] =
+    apply_tile .apply (
+      message
+    )
 
 }
 
-case class ProjectionTripleFstTile_ () extends ProjectionTripleFstTile
+case class ProjectionTripleFstTile_ [A, B, C] () extends ProjectionTripleFstTile [A, B, C]
 
 object ProjectionTripleFstTile {
-  def mk : ProjectionTripleFstTile =
-    ProjectionTripleFstTile_ ()
+  def mk [A, B, C] : ProjectionTripleFstTile [A, B, C] =
+    ProjectionTripleFstTile_ [A, B, C] ()
 }
 
 
@@ -185,26 +193,28 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile returns the second element of a triple.
  */
 
-trait ProjectionTripleSndTile
+trait ProjectionTripleSndTile [A , B , C ]
 {
 
 
 
-  def get_snd [A , B , C ] (triple : TileTriple [A, B, C] ) : B =
+  def get_snd (triple : TileTriple [A, B, C] ) : B =
     triple .snd
 
-  def apply [A , B , C ] (message : TileMessage [TileTriple [A, B, C] ] )
-      : TileMessage [B] =
-    ApplyTile .mk [TileTriple [A, B, C] , B] (get_snd)
-      .apply (message)
+  lazy val apply_tile = ApplyTile .mk [TileTriple [A, B, C] , B] (get_snd)
+
+  def apply (message : TileMessage [TileTriple [A, B, C] ] ) : TileMessage [B] =
+    apply_tile .apply (
+      message
+    )
 
 }
 
-case class ProjectionTripleSndTile_ () extends ProjectionTripleSndTile
+case class ProjectionTripleSndTile_ [A, B, C] () extends ProjectionTripleSndTile [A, B, C]
 
 object ProjectionTripleSndTile {
-  def mk : ProjectionTripleSndTile =
-    ProjectionTripleSndTile_ ()
+  def mk [A, B, C] : ProjectionTripleSndTile [A, B, C] =
+    ProjectionTripleSndTile_ [A, B, C] ()
 }
 
 
@@ -217,25 +227,27 @@ import Soda.tiles.fairness.tool.TileMessage
  * This tile returns the third element of a triple.
  */
 
-trait ProjectionTripleTrdTile
+trait ProjectionTripleTrdTile [A , B , C ]
 {
 
 
 
-  def get_trd [A , B , C ] (triple : TileTriple [A, B, C] ) : C =
+  def get_trd (triple : TileTriple [A, B, C] ) : C =
     triple .trd
 
-  def apply [A , B , C ] (message : TileMessage [TileTriple [A, B, C] ] )
-      : TileMessage [C] =
-    ApplyTile .mk [TileTriple [A, B, C] , C] (get_trd)
-      .apply (message)
+  lazy val apply_tile = ApplyTile .mk [TileTriple [A, B, C] , C] (get_trd)
+
+  def apply (message : TileMessage [TileTriple [A, B, C] ] ) : TileMessage [C] =
+    apply_tile .apply (
+      message
+    )
 
 }
 
-case class ProjectionTripleTrdTile_ () extends ProjectionTripleTrdTile
+case class ProjectionTripleTrdTile_ [A, B, C] () extends ProjectionTripleTrdTile [A, B, C]
 
 object ProjectionTripleTrdTile {
-  def mk : ProjectionTripleTrdTile =
-    ProjectionTripleTrdTile_ ()
+  def mk [A, B, C] : ProjectionTripleTrdTile [A, B, C] =
+    ProjectionTripleTrdTile_ [A, B, C] ()
 }
 

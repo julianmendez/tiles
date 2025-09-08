@@ -280,9 +280,9 @@ trait CcsPerChildPipeline
 
   lazy val division_tile = ZipSigmaTile .mk (division)
 
-  lazy val pair_fst_tile = ProjectionPairFstTile .mk
+  lazy val pair_fst_tile = ProjectionPairFstTile .mk [Seq [Agent] , Seq [Agent] ]
 
-  lazy val pair_snd_tile = ProjectionPairSndTile .mk
+  lazy val pair_snd_tile = ProjectionPairSndTile .mk [Seq [Agent] , Seq [Agent] ]
 
   def apply_on_agents (pair : TileMessage [TilePair [Seq [Agent] , Seq [Agent] ] ] )
       : TileMessage [Boolean] =
@@ -417,9 +417,9 @@ trait CcsSingleGuardianPipeline
 
   lazy val all_agent_pair_tile = AllAgentPairTile .mk
 
-  lazy val pair_fst_tile = ProjectionPairFstTile .mk
+  lazy val pair_fst_tile = ProjectionPairFstTile .mk [Seq [Agent] , Seq [Agent] ]
 
-  lazy val pair_snd_tile = ProjectionPairSndTile .mk
+  lazy val pair_snd_tile = ProjectionPairSndTile .mk [Seq [Agent] , Seq [Agent] ]
 
   def and_combination (b0 : Boolean) (b1 : Boolean) : Boolean =
     b0 && b1
