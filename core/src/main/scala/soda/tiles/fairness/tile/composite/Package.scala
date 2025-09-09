@@ -411,18 +411,24 @@ trait FalsePosTile
 
 
 
-  private lazy val _measure_zero : Measure = Some (0)
+  lazy val zero : Measure = MeasureMod .mk .zero
 
-  private lazy val _measure_one : Measure = Some (1)
+  lazy val one : Measure = MeasureMod .mk .one
 
   def sigma (m0 : Measure) (m1 : Measure) : Measure =
-    if ( (m0 == _measure_one) && (m1 == _measure_zero)
-    ) _measure_one
-    else _measure_zero
+    if ( (m0 == one) && (m1 == zero)
+    ) one
+    else zero
+
+  lazy val zip_sigma_tile = ZipSigmaTile .mk (sigma)
 
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
       : TileMessage [Seq [Measure] ] =
-    ZipSigmaTile .mk (sigma) .apply (message0) (message1)
+    zip_sigma_tile .apply (
+      message0
+    ) (
+      message1
+    )
 
 }
 

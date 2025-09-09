@@ -12,18 +12,24 @@ class FalsePosTile
 
   abstract
 
-  _measure_zero : Measure = Some (0)
+  zero : Measure = MeasureMod .mk .zero
 
-  _measure_one : Measure = Some (1)
+  one : Measure = MeasureMod .mk .one
 
   sigma (m0 : Measure) (m1 : Measure) : Measure =
-    if (m0 == _measure_one) and (m1 == _measure_zero)
-    then _measure_one
-    else _measure_zero
+    if (m0 == one) and (m1 == zero)
+    then one
+    else zero
+
+  zip_sigma_tile = ZipSigmaTile .mk (sigma)
 
   apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
       : TileMessage [Seq [Measure] ] =
-    ZipSigmaTile .mk (sigma) .apply (message0) (message1)
+    zip_sigma_tile .apply (
+      message0
+    ) (
+      message1
+    )
 
 end
 
