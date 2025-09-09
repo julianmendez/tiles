@@ -17,6 +17,56 @@ import   soda.tiles.fairness.tool.TilePair
 
 
 
+case class LengthTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample .mk
+
+  def mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  lazy val length_tile = LengthTile .mk [Int]
+
+  test ("length tile on empty sequence returns zero") (
+    check(
+      obtained = length_tile
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected = Some(0)
+    )
+  )
+
+  test ("length tile on single element sequence returns one") (
+    check(
+      obtained = length_tile
+        .apply (mk_tile_message (Seq [Int] (42) ) )
+        .contents
+    ) (
+      expected = Some(1)
+    )
+  )
+
+  test ("length tile on multiple elements sequence returns correct length") (
+    check(
+      obtained = length_tile
+        .apply (mk_tile_message (Seq [Int] (10 , 20 , 30 , 40) ) )
+        .contents
+    ) (
+      expected = Some(4)
+    )
+  )
+
+}
+
+
 case class SumCountTileSpec ()
   extends
     AnyFunSuite
@@ -114,6 +164,66 @@ case class SumPhiTileSpec ()
         .contents
     ) (
       expected = Some(10)
+    )
+  )
+
+}
+
+
+case class SumTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample .mk
+
+  def mk_tile_message (seq : Seq [Measure] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  lazy val sum_tile = SumTile .mk [Measure]
+
+  test ("sum tile on empty sequence returns measure zero") (
+    check(
+      obtained = sum_tile
+        .apply (mk_tile_message (Seq [Measure] () ) )
+        .contents
+    ) (
+      expected = Some(0)
+    )
+  )
+
+  test ("sum tile on single element sequence returns that element") (
+    check(
+      obtained = sum_tile
+        .apply (mk_tile_message (Seq [Measure] (Some(7)) ) )
+        .contents
+    ) (
+      expected = Some(7)
+    )
+  )
+
+  test ("sum tile on multiple elements sequence returns correct sum") (
+    check(
+      obtained = sum_tile
+        .apply (mk_tile_message (Seq [Measure] (Some(2), Some(4), Some(6)) ) )
+        .contents
+    ) (
+      expected = Some(12)
+    )
+  )
+
+  test ("sum tile with Some and None values is None if one of them is found") (
+    check(
+      obtained = sum_tile
+        .apply (mk_tile_message (Seq [Measure] (Some(5), None, Some(10), None, Some(3)) ) )
+        .contents
+    ) (
+      expected = None
     )
   )
 

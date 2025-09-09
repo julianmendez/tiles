@@ -6,6 +6,8 @@
 
 class SumCountTile
 
+  abstract
+
   zero : Measure = MeasureMod .mk .zero
 
   one : Measure = MeasureMod .mk .one

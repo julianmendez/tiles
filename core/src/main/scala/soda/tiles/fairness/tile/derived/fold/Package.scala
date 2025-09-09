@@ -19,12 +19,45 @@ import   soda.tiles.fairness.tool.TileTriple
 
 
 /**
+ * This computes the length of a sequence.
+ */
+
+trait LengthTile [A ]
+{
+
+
+
+  lazy val one : Measure = MeasureMod .mk .one
+
+  def phi (x : A) : Measure =
+    one
+
+  lazy val sum_phi_tile = SumPhiTile .mk [A] (phi)
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Measure] =
+    sum_phi_tile .apply (
+      message
+    )
+
+}
+
+case class LengthTile_ [A] () extends LengthTile [A]
+
+object LengthTile {
+  def mk [A] : LengthTile [A] =
+    LengthTile_ [A] ()
+}
+
+
+/**
  * This processes a sequence of measures and returns a pair, which has the sum on the first component and
  * the number of elements on the second component.
  */
 
 trait SumCountTile
 {
+
+
 
   lazy val zero : Measure = MeasureMod .mk .zero
 
@@ -85,5 +118,34 @@ case class SumPhiTile_ [A] (phi : A => Measure) extends SumPhiTile [A]
 object SumPhiTile {
   def mk [A] (phi : A => Measure) : SumPhiTile [A] =
     SumPhiTile_ [A] (phi)
+}
+
+
+/**
+ * This computes the sum of the elements of a sequence.
+ */
+
+trait SumTile [A ]
+{
+
+
+
+  def phi (x : Measure) : Measure =
+    x
+
+  lazy val sum_phi_tile = SumPhiTile .mk [Measure] (phi)
+
+  def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
+    sum_phi_tile .apply (
+      message
+    )
+
+}
+
+case class SumTile_ [A] () extends SumTile [A]
+
+object SumTile {
+  def mk [A] : SumTile [A] =
+    SumTile_ [A] ()
 }
 
