@@ -19,6 +19,75 @@ import   soda.tiles.fairness.tool.TilePair
 
 
 
+case class AllAgentTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample .mk
+
+  lazy val resources = Seq [Resource] ("R0" , "R1" , "R2" , "R3" , "R4" , "R5" , "R6" , "R7")
+
+  def create_outcome (agents : Seq [Agent] ) : Outcome =
+    Outcome .mk (
+      agents
+        .zip (resources)
+        .map ( pair => Assignment .mk (pair ._1) (pair ._2) )
+    )
+
+  def mk_tile_message (agents : Seq [Agent] ) : TileMessage [Boolean] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (create_outcome (agents) ) (true)
+
+  lazy val all_agent_tile = AllAgentTile .mk
+
+  test ("all agent tile on empty assignments returns empty sequence") (
+    check(
+      obtained = all_agent_tile
+        .apply (mk_tile_message (Seq [Agent] () ) )
+        .contents
+    ) (
+      expected = Seq [Agent] ()
+    )
+  )
+
+  test ("all agent tile on single agent returns that agent") (
+    check(
+      obtained = all_agent_tile
+        .apply (mk_tile_message (Seq [Agent] ("A1") ) )
+        .contents
+    ) (
+      expected = Seq [Agent] ("A1")
+    )
+  )
+
+  test ("all agent tile on multiple distinct agents returns sorted sequence") (
+    check(
+      obtained = all_agent_tile
+        .apply (mk_tile_message (Seq [Agent] ("B" , "A" , "C") ) )
+        .contents
+    ) (
+      expected = Seq [Agent] ("A" , "B" , "C")
+    )
+  )
+
+  test ("all agent tile removes duplicates and sorts") (
+    check(
+      obtained = all_agent_tile
+        .apply (mk_tile_message (Seq [Agent] ("X" , "A" , "X" , "B") ) )
+        .contents
+    ) (
+      expected = Seq [Agent] ("A" , "B" , "X")
+    )
+  )
+
+}
+
+
 case class AllResourceTileSpec ()
   extends
     AnyFunSuite
