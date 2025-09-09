@@ -25,7 +25,7 @@ import   soda.tiles.fairness.tool.TilePair
 
 
 
-trait CcsAcromagatInstance
+trait CcsInstance
 {
 
   def   agents : Seq [Agent]
@@ -62,15 +62,15 @@ trait CcsAcromagatInstance
 
 }
 
-case class CcsAcromagatInstance_ (agents : Seq [Agent], resources : Seq [Resource], outcome : Outcome, agent_children_map : Map [Agent, Measure], agent_adults_map : Map [Agent, Measure], agent_income_map : Map [Agent, Measure], resource_value_map : Map [Resource, Measure], pipelines : Seq [String]) extends CcsAcromagatInstance
+case class CcsInstance_ (agents : Seq [Agent], resources : Seq [Resource], outcome : Outcome, agent_children_map : Map [Agent, Measure], agent_adults_map : Map [Agent, Measure], agent_income_map : Map [Agent, Measure], resource_value_map : Map [Resource, Measure], pipelines : Seq [String]) extends CcsInstance
 
-object CcsAcromagatInstance {
-  def mk (agents : Seq [Agent]) (resources : Seq [Resource]) (outcome : Outcome) (agent_children_map : Map [Agent, Measure]) (agent_adults_map : Map [Agent, Measure]) (agent_income_map : Map [Agent, Measure]) (resource_value_map : Map [Resource, Measure]) (pipelines : Seq [String]) : CcsAcromagatInstance =
-    CcsAcromagatInstance_ (agents, resources, outcome, agent_children_map, agent_adults_map, agent_income_map, resource_value_map, pipelines)
+object CcsInstance {
+  def mk (agents : Seq [Agent]) (resources : Seq [Resource]) (outcome : Outcome) (agent_children_map : Map [Agent, Measure]) (agent_adults_map : Map [Agent, Measure]) (agent_income_map : Map [Agent, Measure]) (resource_value_map : Map [Resource, Measure]) (pipelines : Seq [String]) : CcsInstance =
+    CcsInstance_ (agents, resources, outcome, agent_children_map, agent_adults_map, agent_income_map, resource_value_map, pipelines)
 }
 
 
-trait CcsAcromagatInstanceBuilder
+trait CcsInstanceBuilder
 {
 
 
@@ -157,9 +157,9 @@ trait CcsAcromagatInstanceBuilder
       .toSeq
 
   private def _build_from_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Option [CcsAcromagatInstance] =
+      : Option [CcsInstance] =
     Some (
-      CcsAcromagatInstance .mk (
+      CcsInstance .mk (
         _get_agents (m) ) (
         _get_resources (m) ) (
         _get_outcome (m) ) (
@@ -172,22 +172,22 @@ trait CcsAcromagatInstanceBuilder
     )
 
   def build (s : Seq [Seq [Tuple2 [String, Seq [Tuple2 [String, String] ] ] ] ] )
-      : Option [CcsAcromagatInstance] =
+      : Option [CcsInstance] =
     s match  {
       case a +: __soda__as => _build_from_map (a .toMap)
       case otherwise => None
     }
 
-  def from_yaml (reader : Reader) : Option [CcsAcromagatInstance] =
+  def from_yaml (reader : Reader) : Option [CcsInstance] =
      build (YamlParser .mk .parse (reader) )
 
 }
 
-case class CcsAcromagatInstanceBuilder_ () extends CcsAcromagatInstanceBuilder
+case class CcsInstanceBuilder_ () extends CcsInstanceBuilder
 
-object CcsAcromagatInstanceBuilder {
-  def mk : CcsAcromagatInstanceBuilder =
-    CcsAcromagatInstanceBuilder_ ()
+object CcsInstanceBuilder {
+  def mk : CcsInstanceBuilder =
+    CcsInstanceBuilder_ ()
 }
 
 
@@ -368,7 +368,7 @@ trait CcsPipelineFactory
 
 
 
-  def get_pipeline (name : String) (m : CcsAcromagatInstance) : Option [CcsPipeline] =
+  def get_pipeline (name : String) (m : CcsInstance) : Option [CcsPipeline] =
     if ( name == "CcsNoSubsidyPipeline"
     ) Some (
       CcsNoSubsidyPipeline .mk (m .resource_value) )

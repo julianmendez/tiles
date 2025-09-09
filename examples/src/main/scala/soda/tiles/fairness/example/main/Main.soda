@@ -45,7 +45,7 @@ class Main
     "Common errors include wrong indentation, an extra, missing or misplaced colon (':'), " +
     "and a misspelled attribute name."
 
-  _execute_and_report_pipeline (name : String) (input : CcsAcromagatInstance) : String =
+  _execute_and_report_pipeline (name : String) (input : CcsInstance) : String =
     CcsPipelineFactory .mk
       .get_pipeline (name) (input)
       .map(lambda pipeline -->
@@ -56,7 +56,7 @@ class Main
       )
       .getOrElse(error_invalid_pipeline + " '" + name + "'.")
 
-  _execute_and_report_with (input : CcsAcromagatInstance) : String =
+  _execute_and_report_with (input : CcsInstance) : String =
     input
       .pipelines
       .map (lambda name -->
@@ -64,7 +64,7 @@ class Main
       )
       .mkString ("\n")
 
-  execute_and_report (input : Option [CcsAcromagatInstance] ) : String =
+  execute_and_report (input : Option [CcsInstance] ) : String =
     match input
       case Some (instance) ==> _execute_and_report_with (instance)
       case otherwise ==> error_invalid_input_file
@@ -74,7 +74,7 @@ class Main
     then help
     else
       execute_and_report (
-        CcsAcromagatInstanceBuilder .mk
+        CcsInstanceBuilder .mk
           .from_yaml (FileReader (arguments .head) )
       )
 

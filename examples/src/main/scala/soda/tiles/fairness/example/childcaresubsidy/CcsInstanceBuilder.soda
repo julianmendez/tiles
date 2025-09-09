@@ -1,5 +1,5 @@
 
-class CcsAcromagatInstanceBuilder
+class CcsInstanceBuilder
 
   abstract
 
@@ -86,9 +86,9 @@ class CcsAcromagatInstanceBuilder
       .toSeq
 
   _build_from_map (m : Map [String] [Seq [Tuple2 [String] [String] ] ] )
-      : Option [CcsAcromagatInstance] =
+      : Option [CcsInstance] =
     Some (
-      CcsAcromagatInstance .mk (
+      CcsInstance .mk (
         _get_agents (m) ) (
         _get_resources (m) ) (
         _get_outcome (m) ) (
@@ -101,12 +101,12 @@ class CcsAcromagatInstanceBuilder
     )
 
   build (s : Seq [Seq [Tuple2 [String] [Seq [Tuple2 [String] [String] ] ] ] ] )
-      : Option [CcsAcromagatInstance] =
+      : Option [CcsInstance] =
     match s
       case a +: as ==> _build_from_map (a .toMap)
       case otherwise ==> None
 
-  from_yaml (reader : Reader) : Option [CcsAcromagatInstance] =
+  from_yaml (reader : Reader) : Option [CcsInstance] =
      build (YamlParser .mk .parse (reader) )
 
 end

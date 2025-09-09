@@ -6,8 +6,8 @@ package soda.tiles.fairness.example.main
  */
 
 import   java.io.FileReader
-import   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstance
-import   soda.tiles.fairness.example.childcaresubsidy.CcsAcromagatInstanceBuilder
+import   soda.tiles.fairness.example.childcaresubsidy.CcsInstance
+import   soda.tiles.fairness.example.childcaresubsidy.CcsInstanceBuilder
 import   soda.tiles.fairness.example.childcaresubsidy.CcsPipelineFactory
 
 
@@ -61,7 +61,7 @@ trait Main
     "Common errors include wrong indentation, an extra, missing or misplaced colon (':'), " +
     "and a misspelled attribute name."
 
-  private def _execute_and_report_pipeline (name : String) (input : CcsAcromagatInstance) : String =
+  private def _execute_and_report_pipeline (name : String) (input : CcsInstance) : String =
     CcsPipelineFactory .mk
       .get_pipeline (name) (input)
       .map( pipeline =>
@@ -72,7 +72,7 @@ trait Main
       )
       .getOrElse(error_invalid_pipeline + " '" + name + "'.")
 
-  private def _execute_and_report_with (input : CcsAcromagatInstance) : String =
+  private def _execute_and_report_with (input : CcsInstance) : String =
     input
       .pipelines
       .map ( name =>
@@ -80,7 +80,7 @@ trait Main
       )
       .mkString ("\n")
 
-  def execute_and_report (input : Option [CcsAcromagatInstance] ) : String =
+  def execute_and_report (input : Option [CcsInstance] ) : String =
     input match  {
       case Some (instance) => _execute_and_report_with (instance)
       case otherwise => error_invalid_input_file
@@ -91,7 +91,7 @@ trait Main
     ) help
     else
       execute_and_report (
-        CcsAcromagatInstanceBuilder .mk
+        CcsInstanceBuilder .mk
           .from_yaml (FileReader (arguments .head) )
       )
 
