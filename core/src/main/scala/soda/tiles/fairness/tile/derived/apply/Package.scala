@@ -36,7 +36,9 @@ trait CombineBooleanTile
   lazy val apply_tile = ApplyTile .mk [TilePair [Boolean, Boolean] , Boolean] (combine_pair)
 
   def apply (message : TileMessage [TilePair [Boolean, Boolean] ] ) : TileMessage [Boolean] =
-    apply_tile .apply (message)
+    apply_tile .apply (
+      message
+    )
 
 }
 
@@ -70,7 +72,9 @@ trait DecisionTile
   lazy val apply_tile = ApplyTile .mk [Measure, Boolean] (to_boolean)
 
   def apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
-    apply_tile .apply (message)
+    apply_tile .apply (
+      message
+    )
 
 }
 

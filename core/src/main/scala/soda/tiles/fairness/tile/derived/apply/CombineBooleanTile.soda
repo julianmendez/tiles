@@ -18,7 +18,9 @@ class CombineBooleanTile
   apply_tile = ApplyTile .mk [TilePair [Boolean] [Boolean] ] [Boolean] (combine_pair)
 
   apply (message : TileMessage [TilePair [Boolean] [Boolean] ] ) : TileMessage [Boolean] =
-    apply_tile .apply (message)
+    apply_tile .apply (
+      message
+    )
 
 end
 

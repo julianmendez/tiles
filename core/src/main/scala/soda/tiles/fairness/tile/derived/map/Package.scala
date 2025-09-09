@@ -30,8 +30,9 @@ trait NeedsTile
   lazy val map_file = MapTile .mk [Agent, Measure] (q)
 
   def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    map_file
-      .apply (message)
+    map_file .apply (
+      message
+    )
 
 }
 
@@ -64,10 +65,10 @@ trait SigmaTile
 
   lazy val map_tile = MapTile .mk [TilePair [Measure, Measure] , Measure] (combine)
 
-  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    map_tile
-      .apply (message)
+  def apply (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] ) : TileMessage [Seq [Measure] ] =
+    map_tile .apply (
+      message
+    )
 
 }
 

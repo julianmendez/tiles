@@ -20,8 +20,9 @@ class SumPhiTile [A : Type]
   fold_tile = FoldTile .mk (zero) (combine)
 
   apply (message : TileMessage [Seq [A] ] ) : TileMessage [Measure] =
-    fold_tile
-      .apply (message)
+    fold_tile .apply (
+      message
+    )
 
 end
 

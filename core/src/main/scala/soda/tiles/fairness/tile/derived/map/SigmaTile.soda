@@ -19,10 +19,10 @@ class SigmaTile
 
   map_tile = MapTile .mk [TilePair [Measure] [Measure] ] [Measure] (combine)
 
-  apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] )
-      : TileMessage [Seq [Measure] ] =
-    map_tile
-      .apply (message)
+  apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] ) : TileMessage [Seq [Measure] ] =
+    map_tile .apply (
+      message
+    )
 
 end
 

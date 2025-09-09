@@ -19,7 +19,9 @@ class DecisionTile
   apply_tile = ApplyTile .mk [Measure] [Boolean] (to_boolean)
 
   apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
-    apply_tile .apply (message)
+    apply_tile .apply (
+      message
+    )
 
 end
 

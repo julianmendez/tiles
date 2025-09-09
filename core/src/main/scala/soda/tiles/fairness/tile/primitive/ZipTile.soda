@@ -13,8 +13,7 @@ class ZipTile [A : Type] [B : Type]
 
   abstract
 
-  zip_lists (list0 : Seq [A] ) (list1 : Seq [B] )
-      : Seq [TilePair [A] [B] ] =
+  zip_lists (list0 : Seq [A] ) (list1 : Seq [B] ) : Seq [TilePair [A] [B] ] =
     list0
       .zip (list1)
       .map (lambda pair --> TilePair .mk [A] [B] (pair ._1) (pair ._2) )

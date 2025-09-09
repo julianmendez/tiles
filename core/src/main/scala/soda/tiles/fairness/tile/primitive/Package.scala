@@ -229,8 +229,7 @@ trait ZipTile [A , B ]
 
 
 
-  def zip_lists (list0 : Seq [A] ) (list1 : Seq [B] )
-      : Seq [TilePair [A, B] ] =
+  def zip_lists (list0 : Seq [A] ) (list1 : Seq [B] ) : Seq [TilePair [A, B] ] =
     list0
       .zip (list1)
       .map ( pair => TilePair .mk [A, B] (pair ._1) (pair ._2) )

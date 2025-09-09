@@ -92,7 +92,9 @@ trait AllAtLeastTile
 
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
     forall_tile .apply (
-      zip_tile .apply (message0) (
+      zip_tile .apply (
+        message0
+      ) (
         message1
       )
     )
@@ -267,7 +269,11 @@ trait CorrelationTile
 
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
     apply_zipped (
-      zip_tile .apply (message0) (message1)
+      zip_tile .apply (
+        message0
+      ) (
+        message1
+      )
     )
 
 }
@@ -450,7 +456,11 @@ trait ZipSigmaTile
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
       : TileMessage [Seq [Measure] ] =
     sigma_tile .apply (
-      zip_tile .apply (message0) (message1)
+      zip_tile .apply (
+        message0
+      ) (
+        message1
+      )
     )
 
 }

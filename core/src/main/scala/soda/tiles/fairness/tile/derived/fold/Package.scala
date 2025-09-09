@@ -73,7 +73,9 @@ trait SumCountTile
   lazy val fold_tile = FoldTile .mk (pair_zero) (combine)
 
   def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [TilePair [Measure, Measure] ] =
-    fold_tile .apply (message)
+    fold_tile .apply (
+      message
+    )
 
 }
 
@@ -108,8 +110,9 @@ trait SumPhiTile [A ]
   lazy val fold_tile = FoldTile .mk (zero) (combine)
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Measure] =
-    fold_tile
-      .apply (message)
+    fold_tile .apply (
+      message
+    )
 
 }
 

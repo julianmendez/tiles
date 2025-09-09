@@ -49,7 +49,11 @@ class CorrelationTile
 
   apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
     apply_zipped (
-      zip_tile .apply (message0) (message1)
+      zip_tile .apply (
+        message0
+      ) (
+        message1
+      )
     )
 
 end

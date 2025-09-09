@@ -21,7 +21,11 @@ class ZipSigmaTile
   apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
       : TileMessage [Seq [Measure] ] =
     sigma_tile .apply (
-      zip_tile .apply (message0) (message1)
+      zip_tile .apply (
+        message0
+      ) (
+        message1
+      )
     )
 
 end

@@ -15,8 +15,9 @@ class NeedsTile
   map_file = MapTile .mk [Agent] [Measure] (q)
 
   apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    map_file
-      .apply (message)
+    map_file .apply (
+      message
+    )
 
 end
 

@@ -22,7 +22,9 @@ class SumCountTile
   fold_tile = FoldTile .mk (pair_zero) (combine)
 
   apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [TilePair [Measure] [Measure] ] =
-    fold_tile .apply (message)
+    fold_tile .apply (
+      message
+    )
 
 end
 
