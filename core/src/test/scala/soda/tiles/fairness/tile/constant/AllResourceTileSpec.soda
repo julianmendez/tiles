@@ -1,0 +1,68 @@
+
+class AllResourceTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  agents = Seq [Agent] ("A0" , "A1" , "A2" , "A3" , "A4" , "A5" , "A6" , "A7")
+
+  create_outcome (resources : Seq [Resource] ) : Outcome =
+    Outcome .mk (
+      resources
+        .zip (agents)
+        .map (lambda pair --> Assignment .mk (pair ._2) (pair ._1) )
+    )
+
+  mk_tile_message (resources : Seq [Resource] ) : TileMessage [Boolean] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (create_outcome (resources) ) (true)
+
+  all_resource_tile = AllResourceTile .mk
+
+  test ("all resource tile on empty assignments returns empty sequence") (
+    check(
+      obtained := all_resource_tile
+        .apply (mk_tile_message (Seq [Resource] () ) )
+        .contents
+    ) (
+      expected := Seq [Resource] ()
+    )
+  )
+
+  test ("all resource tile on single resource returns that resource") (
+    check(
+      obtained := all_resource_tile
+        .apply (mk_tile_message (Seq [Resource] ("R1") ) )
+        .contents
+    ) (
+      expected := Seq [Resource] ("R1")
+    )
+  )
+
+  test ("all resource tile on multiple distinct resources returns sorted sequence") (
+    check(
+      obtained := all_resource_tile
+        .apply (mk_tile_message (Seq [Resource] ("B" , "A" , "C") ) )
+        .contents
+    ) (
+      expected := Seq [Resource] ("A" , "B" , "C")
+    )
+  )
+
+  test ("all resource tile removes duplicates and sorts") (
+    check(
+      obtained := all_resource_tile
+        .apply (mk_tile_message (Seq [Resource] ("X" , "A" , "X" , "B") ) )
+        .contents
+    ) (
+      expected := Seq [Resource] ("A" , "B" , "X")
+    )
+  )
+
+end
+
