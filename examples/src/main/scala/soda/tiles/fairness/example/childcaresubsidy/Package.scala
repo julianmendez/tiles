@@ -1,17 +1,17 @@
 package soda.tiles.fairness.example.childcaresubsidy
 
-import   soda.tiles.fairness.tile.constant.AllAgentPairTile
-import   soda.tiles.fairness.tile.constant.AllAgentTile
-import   soda.tiles.fairness.tile.constant.TuplingPairTile
-import   soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
-import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
-import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
 import   soda.tiles.fairness.tile.composite.AccumulatesTile
+import   soda.tiles.fairness.tile.composite.AllAgentPairTile
 import   soda.tiles.fairness.tile.composite.AllEqualTile
 import   soda.tiles.fairness.tile.composite.ForallTile
 import   soda.tiles.fairness.tile.composite.ZipSigmaTile
+import   soda.tiles.fairness.tile.constant.AllAgentTile
+import   soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
 import   soda.tiles.fairness.tile.primitive.FilterTile
 import   soda.tiles.fairness.tile.primitive.MapTile
+import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Measure

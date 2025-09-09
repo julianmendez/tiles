@@ -11,9 +11,9 @@ import
   soda.tiles.fairness.tile.composite.CorrelationTile
   soda.tiles.fairness.tile.composite.FalsePosTile
   soda.tiles.fairness.tile.composite.PredictionPTile
-  soda.tiles.fairness.tile.constant.AllAgentPairTile
+  soda.tiles.fairness.tile.composite.AllAgentPairTile
+  soda.tiles.fairness.tile.composite.AllAgentTripleTile
   soda.tiles.fairness.tile.constant.AllAgentTile
-  soda.tiles.fairness.tile.constant.AllAgentTripleTile
   soda.tiles.fairness.tile.derived.apply.DecisionTile
   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile

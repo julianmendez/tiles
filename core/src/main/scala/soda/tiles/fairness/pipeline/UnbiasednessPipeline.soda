@@ -1,7 +1,7 @@
 
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AllAgentTripleTile
+import Soda.tiles.fairness.tile.composite.AllAgentTripleTile
 import Soda.tiles.fairness.tile.CorrelationTile
 import Soda.tiles.fairness.tile.DecisionTile
 import Soda.tiles.fairness.tile.FalsePosTile

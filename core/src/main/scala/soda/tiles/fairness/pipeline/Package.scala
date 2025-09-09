@@ -10,9 +10,9 @@ import   soda.tiles.fairness.tile.composite.AllEqualTile
 import   soda.tiles.fairness.tile.composite.CorrelationTile
 import   soda.tiles.fairness.tile.composite.FalsePosTile
 import   soda.tiles.fairness.tile.composite.PredictionPTile
-import   soda.tiles.fairness.tile.constant.AllAgentPairTile
+import   soda.tiles.fairness.tile.composite.AllAgentPairTile
+import   soda.tiles.fairness.tile.composite.AllAgentTripleTile
 import   soda.tiles.fairness.tile.constant.AllAgentTile
-import   soda.tiles.fairness.tile.constant.AllAgentTripleTile
 import   soda.tiles.fairness.tile.derived.apply.DecisionTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
@@ -37,7 +37,7 @@ import   soda.tiles.fairness.tool.TileTriple
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AllAgentTile
+import Soda.tiles.fairness.tile.constant.AllAgentTile
 import Soda.tiles.fairness.tile.composite.AllEqualTile
 import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 */
@@ -133,7 +133,7 @@ object EquityPipeline {
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AllAgentTripleTile
+import Soda.tiles.fairness.tile.composite.AllAgentTripleTile
 import Soda.tiles.fairness.tile.CorrelationTile
 import Soda.tiles.fairness.tile.DecisionTile
 import Soda.tiles.fairness.tile.FalsePosTile

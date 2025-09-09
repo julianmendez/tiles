@@ -17,7 +17,11 @@ class AllAgentPairTile
   all_agent_tile = AllAgentTile .mk
 
   apply (message : TileMessage [Boolean] ) : TileMessage [TilePair [Seq [Agent] ] [Seq [Agent] ] ] =
-    tupling_tile .apply (all_agent_tile (message) ) (all_agent_tile (message) )
+    tupling_tile .apply (
+      all_agent_tile (message)
+    ) (
+      all_agent_tile (message)
+    )
 
 end
 

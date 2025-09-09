@@ -17,7 +17,13 @@ class AllAgentTripleTile
   all_agent_tile = AllAgentTile .mk
 
   apply (message : TileMessage [Boolean] ) : TileMessage [TileTriple [Seq [Agent] ] [Seq [Agent] ] [Seq [Agent] ] ] =
-    tupling_tile .apply (all_agent_tile (message) ) (all_agent_tile (message) ) (all_agent_tile (message) )
+    tupling_tile .apply (
+      all_agent_tile (message)
+    ) (
+      all_agent_tile (message)
+    ) (
+      all_agent_tile (message)
+    )
 
 end
 

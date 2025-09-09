@@ -11,7 +11,7 @@ class AllAgentTile
 
   abstract
 
-  all_agents [A : Type] (message : TileMessage [A] ) : Seq [Agent] =
+  all_agents (message : TileMessage [Boolean] ) : Seq [Agent] =
       ( (message .outcome) .assignments)
         .map (lambda assignment --> assignment .agent)
         .distinct
@@ -19,7 +19,7 @@ class AllAgentTile
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Agent] ] =
     TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      all_agents [Boolean] (message)
+      all_agents (message)
     )
 
 end

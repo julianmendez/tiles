@@ -11,8 +11,7 @@ class TuplingPairTile [A : Type] [B : Type]
 
   abstract
 
-  apply (message0 : TileMessage [A] )
-      (message1 : TileMessage [B] ) : TileMessage [TilePair [A] [B] ] =
+  apply (message0 : TileMessage [A] ) (message1 : TileMessage [B] ) : TileMessage [TilePair [A] [B] ] =
     TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
       TilePair .mk [A] [B] (message0 .contents) (message1 .contents)
     )

@@ -4,10 +4,13 @@ package soda.tiles.fairness.tile.composite
  * This package contains classes to model the tiles.
  */
 
+import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.derived.map.SigmaTile
 import   soda.tiles.fairness.tile.derived.fold.SumCountTile
 import   soda.tiles.fairness.tile.primitive.ApplyTile
 import   soda.tiles.fairness.tile.primitive.MapTile
+import   soda.tiles.fairness.tile.primitive.TuplingPairTile
+import   soda.tiles.fairness.tile.primitive.TuplingTripleTile
 import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
@@ -22,6 +25,7 @@ import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
+import   soda.tiles.fairness.tool.TileTriple
 
 
 
@@ -64,6 +68,80 @@ case class AccumulatesTile_ (utility : Resource => Measure) extends AccumulatesT
 object AccumulatesTile {
   def mk (utility : Resource => Measure) : AccumulatesTile =
     AccumulatesTile_ (utility)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile returns a sequence of pairs containing the same agent, sorted by agent, where each
+ * pair of agents occurs exactly once.
+ */
+
+trait AllAgentPairTile
+{
+
+
+
+  lazy val tupling_tile = TuplingPairTile .mk [Seq [Agent] , Seq [Agent] ]
+
+  lazy val all_agent_tile = AllAgentTile .mk
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [TilePair [Seq [Agent] , Seq [Agent] ] ] =
+    tupling_tile .apply (
+      all_agent_tile (message)
+    ) (
+      all_agent_tile (message)
+    )
+
+}
+
+case class AllAgentPairTile_ () extends AllAgentPairTile
+
+object AllAgentPairTile {
+  def mk : AllAgentPairTile =
+    AllAgentPairTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile returns a sequence of triples containing the same agent, sorted by agent, where
+ * each triple of agents occurs exactly once.
+ */
+
+trait AllAgentTripleTile
+{
+
+
+
+  lazy val tupling_tile = TuplingTripleTile .mk [Seq [Agent] , Seq [Agent] , Seq [Agent] ]
+
+  lazy val all_agent_tile = AllAgentTile .mk
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [TileTriple [Seq [Agent] , Seq [Agent] , Seq [Agent] ] ] =
+    tupling_tile .apply (
+      all_agent_tile (message)
+    ) (
+      all_agent_tile (message)
+    ) (
+      all_agent_tile (message)
+    )
+
+}
+
+case class AllAgentTripleTile_ () extends AllAgentTripleTile
+
+object AllAgentTripleTile {
+  def mk : AllAgentTripleTile =
+    AllAgentTripleTile_ ()
 }
 
 
