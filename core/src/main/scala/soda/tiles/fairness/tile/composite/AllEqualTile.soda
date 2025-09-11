@@ -11,11 +11,23 @@ class AllEqualTile
 
   abstract
 
-  all_equal_1_tile = AllEqual1Tile .mk
+  zero = MeasureMod .mk .zero
+
+  one = MeasureMod .mk .one
+
+  distinct_tile = DistinctTile .mk [Measure]
+
+  length_tile = LengthTile .mk [Measure]
+
+  apply_tile = ApplyTile .mk [Measure] [Boolean] (lambda m --> (m == zero) or (m == one) )
 
   apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      all_equal_1_tile .apply (message) (message .contents)
+    apply_tile (
+      length_tile (
+        distinct_tile (
+          message
+        )
+      )
     )
 
 end

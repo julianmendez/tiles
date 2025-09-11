@@ -7,8 +7,10 @@ package soda.tiles.fairness.tile.composite
 import
   soda.tiles.fairness.tile.constant.AllAgentTile
   soda.tiles.fairness.tile.derived.map.SigmaTile
+  soda.tiles.fairness.tile.derived.fold.LengthTile
   soda.tiles.fairness.tile.derived.fold.SumCountTile
   soda.tiles.fairness.tile.primitive.ApplyTile
+  soda.tiles.fairness.tile.primitive.DistinctTile
   soda.tiles.fairness.tile.primitive.MapTile
   soda.tiles.fairness.tile.primitive.TuplingPairTile
   soda.tiles.fairness.tile.primitive.TuplingTripleTile

@@ -76,6 +76,66 @@ case class AccumulatesTileSpec ()
 }
 
 
+case class AllEqualTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample.mk
+
+  def mk_tile_message (seq : Seq [Measure] ) : TileMessage[Seq[Measure]] =
+    TileMessageBuilder
+      .mk
+      .build (scenario.context) (scenario.outcome1) (seq)
+
+  lazy val all_equal_tile = AllEqualTile.mk
+
+  test ("all equal on empty sequence returns true") (
+    check (
+      obtained = all_equal_tile
+        .apply (mk_tile_message (Seq [Measure] () ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("all equal on single measure returns true") (
+    check (
+      obtained = all_equal_tile
+        .apply (mk_tile_message (Seq [Measure] (Some (42) ) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("all equal on identical measures returns true") (
+    check (
+      obtained = all_equal_tile
+        .apply (mk_tile_message (Seq [Measure] (Some (10) , Some (10) , Some (10) ) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("all equal on differing measures returns false") (
+    check (
+      obtained = all_equal_tile
+        .apply (mk_tile_message (Seq [Measure] (Some (5) , Some (10) ) ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+}
+
+
 case class AverageTileSpec ()
   extends
     AnyFunSuite

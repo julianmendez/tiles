@@ -6,8 +6,10 @@ package soda.tiles.fairness.tile.composite
 
 import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.derived.map.SigmaTile
+import   soda.tiles.fairness.tile.derived.fold.LengthTile
 import   soda.tiles.fairness.tile.derived.fold.SumCountTile
 import   soda.tiles.fairness.tile.primitive.ApplyTile
+import   soda.tiles.fairness.tile.primitive.DistinctTile
 import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tile.primitive.TuplingTripleTile
@@ -190,37 +192,6 @@ object AllAtLeastTile {
 /*
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile takes a sequence of measures and returns 'true' when all measures are the same as
- * the first one.
- */
-
-trait AllEqual1Tile
-{
-
-
-
-  def apply (message : TileMessage [Seq [Measure] ] ) (list : Seq [Measure] ) : Boolean =
-    list match  {
-      case Nil => true
-      case (x :: xs) => xs .forall ( e => x == e)
-    }
-
-}
-
-case class AllEqual1Tile_ () extends AllEqual1Tile
-
-object AllEqual1Tile {
-  def mk : AllEqual1Tile =
-    AllEqual1Tile_ ()
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AllEqual1Tile
 */
 
@@ -233,11 +204,23 @@ trait AllEqualTile
 
 
 
-  lazy val all_equal_1_tile = AllEqual1Tile .mk
+  lazy val zero = MeasureMod .mk .zero
+
+  lazy val one = MeasureMod .mk .one
+
+  lazy val distinct_tile = DistinctTile .mk [Measure]
+
+  lazy val length_tile = LengthTile .mk [Measure]
+
+  lazy val apply_tile = ApplyTile .mk [Measure, Boolean] ( m => (m == zero) || (m == one) )
 
   def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      all_equal_1_tile .apply (message) (message .contents)
+    apply_tile (
+      length_tile (
+        distinct_tile (
+          message
+        )
+      )
     )
 
 }
