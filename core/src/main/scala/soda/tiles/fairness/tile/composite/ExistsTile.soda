@@ -10,12 +10,23 @@ import Soda.tiles.fairness.tool.TileMessage
 class ExistsTile [A]
 
   abstract
-    p : A -> Boolean
+    phi : A -> Boolean
+
+  zero = MeasureMod .mk .zero
+
+  filter_tile = FilterTile .mk [A] (phi)
+
+  length_tile = LengthTile .mk [A]
+
+  apply_tile = ApplyTile .mk [Measure] [Boolean] (lambda m --> not (m == zero) )
 
   apply (message : TileMessage [Seq [A] ] ) : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .exists (lambda elem --> p (elem) ) )
+    apply_tile .apply (
+      length_tile .apply (
+        filter_tile .apply (
+          message
+        )
+      )
     )
 
 end

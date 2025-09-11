@@ -203,3 +203,127 @@ case class AverageTileSpec ()
 
 }
 
+
+case class ExistsTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample .mk
+
+  def mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ]  =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome1) (seq)
+
+  def phi (x : Int) : Boolean = x > 10
+
+  lazy val exists_tile = ExistsTile .mk [Int] (phi)
+
+  test ("exists on empty sequence returns false")(
+    check (
+      obtained = exists_tile
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+  test ("exists on sequence with no matching elements returns false")(
+    check (
+      obtained = exists_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 5 , 10) ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+  test ("exists on sequence with one matching element returns true")(
+    check (
+      obtained = exists_tile
+        .apply (mk_tile_message (Seq [Int] (5 , 15 , 3) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("exists on sequence with all matching elements returns true")(
+    check (
+      obtained = exists_tile
+        .apply (mk_tile_message (Seq [Int] (20 , 30 , 40) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+}
+
+
+case class ForallTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample.mk
+
+  def mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ]  =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome1) (seq)
+
+  def phi (x : Int) : Boolean = x > 0
+
+  lazy val forall_tile = ForallTile.mk [Int] (phi)
+
+  test ("forall on empty sequence returns true") (
+    check (
+      obtained = forall_tile
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("forall on sequence with all matching elements returns true") (
+    check (
+      obtained = forall_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("forall on sequence with one non-matching element returns false") (
+    check (
+      obtained = forall_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 0 , 3) ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+  test ("forall on sequence with all non-matching elements returns false") (
+    check (
+      obtained = forall_tile
+        .apply (mk_tile_message (Seq [Int] (0 , -1 , -5) ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+}
+

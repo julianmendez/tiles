@@ -10,6 +10,7 @@ import   soda.tiles.fairness.tile.derived.fold.LengthTile
 import   soda.tiles.fairness.tile.derived.fold.SumCountTile
 import   soda.tiles.fairness.tile.primitive.ApplyTile
 import   soda.tiles.fairness.tile.primitive.DistinctTile
+import   soda.tiles.fairness.tile.primitive.FilterTile
 import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tile.primitive.TuplingTripleTile
@@ -360,21 +361,32 @@ import Soda.tiles.fairness.tool.TileMessage
 trait ExistsTile [A]
 {
 
-  def   p : A => Boolean
+  def   phi : A => Boolean
+
+  lazy val zero = MeasureMod .mk .zero
+
+  lazy val filter_tile = FilterTile .mk [A] (phi)
+
+  lazy val length_tile = LengthTile .mk [A]
+
+  lazy val apply_tile = ApplyTile .mk [Measure, Boolean] ( m => ! (m == zero) )
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .exists ( elem => p (elem) ) )
+    apply_tile .apply (
+      length_tile .apply (
+        filter_tile .apply (
+          message
+        )
+      )
     )
 
 }
 
-case class ExistsTile_ [A] (p : A => Boolean) extends ExistsTile [A]
+case class ExistsTile_ [A] (phi : A => Boolean) extends ExistsTile [A]
 
 object ExistsTile {
-  def mk [A] (p : A => Boolean) : ExistsTile [A] =
-    ExistsTile_ [A] (p)
+  def mk [A] (phi : A => Boolean) : ExistsTile [A] =
+    ExistsTile_ [A] (phi)
 }
 
 
@@ -436,21 +448,35 @@ import Soda.tiles.fairness.tool.TileMessage
 trait ForallTile [A]
 {
 
-  def   p : A => Boolean
+  def   phi : A => Boolean
+
+  lazy val zero = MeasureMod .mk .zero
+
+  def not_phi (x : A) : Boolean =
+    ! phi (x)
+
+  lazy val filter_tile = FilterTile .mk [A] (not_phi)
+
+  lazy val length_tile = LengthTile .mk [A]
+
+  lazy val apply_tile = ApplyTile .mk [Measure, Boolean] ( m => m == zero)
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      ( (message .contents)
-        .forall ( elem => p (elem) ) )
+    apply_tile .apply (
+      length_tile .apply (
+        filter_tile .apply (
+          message
+        )
+      )
     )
 
 }
 
-case class ForallTile_ [A] (p : A => Boolean) extends ForallTile [A]
+case class ForallTile_ [A] (phi : A => Boolean) extends ForallTile [A]
 
 object ForallTile {
-  def mk [A] (p : A => Boolean) : ForallTile [A] =
-    ForallTile_ [A] (p)
+  def mk [A] (phi : A => Boolean) : ForallTile [A] =
+    ForallTile_ [A] (phi)
 }
 
 

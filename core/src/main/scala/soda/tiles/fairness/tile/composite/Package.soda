@@ -11,6 +11,7 @@ import
   soda.tiles.fairness.tile.derived.fold.SumCountTile
   soda.tiles.fairness.tile.primitive.ApplyTile
   soda.tiles.fairness.tile.primitive.DistinctTile
+  soda.tiles.fairness.tile.primitive.FilterTile
   soda.tiles.fairness.tile.primitive.MapTile
   soda.tiles.fairness.tile.primitive.TuplingPairTile
   soda.tiles.fairness.tile.primitive.TuplingTripleTile
