@@ -215,9 +215,9 @@ trait AllEqualTile
   lazy val apply_tile = ApplyTile .mk [Measure, Boolean] ( m => (m == zero) || (m == one) )
 
   def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
-    apply_tile (
-      length_tile (
-        distinct_tile (
+    apply_tile .apply (
+      length_tile .apply (
+        distinct_tile .apply (
           message
         )
       )

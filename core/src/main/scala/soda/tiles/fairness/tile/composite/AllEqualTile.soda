@@ -22,9 +22,9 @@ class AllEqualTile
   apply_tile = ApplyTile .mk [Measure] [Boolean] (lambda m --> (m == zero) or (m == one) )
 
   apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
-    apply_tile (
-      length_tile (
-        distinct_tile (
+    apply_tile .apply (
+      length_tile .apply (
+        distinct_tile .apply (
           message
         )
       )
