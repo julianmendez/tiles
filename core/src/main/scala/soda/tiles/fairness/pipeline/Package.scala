@@ -43,6 +43,82 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 */
 
 /**
+ * This composite tile returns all the accumulated resources of the agents.
+ */
+
+trait AllAgentAccumulatesTile
+{
+
+  def   utility : Resource => Measure
+
+  lazy val accumulates_tile = AccumulatesTile .mk (utility)
+
+  lazy val all_agent_tile = AllAgentTile .mk
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Measure] ] =
+    accumulates_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    )
+
+}
+
+case class AllAgentAccumulatesTile_ (utility : Resource => Measure) extends AllAgentAccumulatesTile
+
+object AllAgentAccumulatesTile {
+  def mk (utility : Resource => Measure) : AllAgentAccumulatesTile =
+    AllAgentAccumulatesTile_ (utility)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+*/
+
+/**
+ * This composite tile returns all the needs of the agents.
+ */
+
+trait AllAgentNeedsTile
+{
+
+  def   q : Resource => Measure
+
+  lazy val needs_tile = NeedsTile .mk (q)
+
+  lazy val all_agent_tile = AllAgentTile .mk
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Measure] ] =
+    needs_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    )
+
+}
+
+case class AllAgentNeedsTile_ (q : Resource => Measure) extends AllAgentNeedsTile
+
+object AllAgentNeedsTile {
+  def mk (q : Resource => Measure) : AllAgentNeedsTile =
+    AllAgentNeedsTile_ (q)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+*/
+
+/**
  * This pipeline returns 'true' when all the agents in the input receive a resource of the
  * same value, and 'false' otherwise.
  */
@@ -98,27 +174,22 @@ trait EquityPipeline
   def   need : Agent => Measure
   def   utility : Resource => Measure
 
-  lazy val at_least_tile = AllAtLeastTile .mk
+  lazy val all_at_least_tile = AllAtLeastTile .mk
 
-  lazy val accumulates_tile = AccumulatesTile .mk (utility)
+  lazy val all_agent_accumulates_tile = AllAgentAccumulatesTile .mk (utility)
 
-  lazy val needs_tile = NeedsTile .mk (need)
-
-  lazy val all_agent_pair_tile = AllAgentPairTile .mk
-
-  lazy val pair_fst_tile = ProjectionPairFstTile .mk [Seq [Agent] , Seq [Agent] ]
-
-  lazy val pair_snd_tile = ProjectionPairSndTile .mk [Seq [Agent] , Seq [Agent] ]
-
-  def apply_on_pair (pair : TileMessage [TilePair [Seq [Agent] , Seq [Agent] ] ] ) : TileMessage [Boolean] =
-    at_least_tile .apply (
-      accumulates_tile .apply (pair_fst_tile (pair) )
-    ) (
-      needs_tile .apply (pair_snd_tile (pair) )
-    )
+  lazy val all_agent_needs_tile = AllAgentNeedsTile .mk (need)
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    apply_on_pair (all_agent_pair_tile .apply (message) )
+    all_at_least_tile .apply (
+      all_agent_accumulates_tile .apply (
+        message
+      )
+    ) (
+      all_agent_needs_tile .apply (
+        message
+      )
+    )
 
 }
 
