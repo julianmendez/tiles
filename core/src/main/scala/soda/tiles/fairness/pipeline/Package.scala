@@ -7,7 +7,7 @@ package soda.tiles.fairness.pipeline
 import   soda.tiles.fairness.tile.composite.AccumulatesTile
 import   soda.tiles.fairness.tile.composite.AllAtLeastTile
 import   soda.tiles.fairness.tile.composite.AllEqualTile
-import   soda.tiles.fairness.tile.composite.CorrelationTile
+import   soda.tiles.fairness.tile.composite.CorrelationAbsTile
 import   soda.tiles.fairness.tile.composite.FalsePosTile
 import   soda.tiles.fairness.tile.composite.PredictionPTile
 import   soda.tiles.fairness.tile.composite.AllAgentPairTile
@@ -20,14 +20,17 @@ import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleFstTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleSndTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleTrdTile
 import   soda.tiles.fairness.tile.derived.map.NeedsTile
+import   soda.tiles.fairness.tile.primitive.ApplyTile
 import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.MeasureMod
+import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.OutcomeMod
+import   soda.tiles.fairness.tool.PearsonMod
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair
@@ -337,10 +340,10 @@ trait UnbiasednessPipeline
 
   lazy val all_agent_map_false_positive_tile = AllAgentMapFalsePositiveTile .mk (positive_value) (result_function)
 
-  lazy val correlation_tile = CorrelationTile .mk
+  lazy val correlation_abs_tile = CorrelationAbsTile .mk
 
-  def apply (message : TileMessage [Boolean] ) : TileMessage [Measure] =
-    correlation_tile .apply (
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Option [Number] ] =
+    correlation_abs_tile .apply (
       all_agent_map_false_positive_tile .apply (
         message
       )

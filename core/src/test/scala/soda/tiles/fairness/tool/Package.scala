@@ -360,7 +360,7 @@ case class ScoringToolSpec ()
 
   test ("coefficient") (
     check (
-      obtained = (pearson_mod .coefficient (instance_2) >= 0.529808) && (pearson_mod .coefficient (instance_2) < 0.529809)
+      obtained = pearson_mod .is_within (pearson_mod .coefficient (instance_2) ) (0.529808) (0.000001)
     ) (
       expected = true
     )

@@ -95,11 +95,23 @@ class ScoringScenarioExample
     then original
     else as_prediction (original + prediction_bias_on_attribute)
 
+  add_little_attribute_bias (index : Int) (original : Int) : Int =
+    if (protected_attribute .apply (index) and index < 2)
+    then original
+    else as_prediction (original + prediction_bias_on_attribute)
+
   add_prediction_error (value : Int) : Int =
     as_prediction (value + prediction_error)
 
   unbiased_prediction : Seq [Resource] =
     result_values
+      .map (lambda x --> add_prediction_error (x) )
+      .map (lambda x --> make_binary_resource (x) )
+
+  mostly_unbiased_prediction : Seq [Resource] =
+    result_values
+      .indices
+      .map (lambda index --> add_little_attribute_bias (index) (result_values .apply (index) ) )
       .map (lambda x --> add_prediction_error (x) )
       .map (lambda x --> make_binary_resource (x) )
 
@@ -119,6 +131,15 @@ class ScoringScenarioExample
         )
     )
 
+  mostly_unbiased_outcome : Outcome =
+    Outcome .mk (
+      agents
+        .indices
+        .map (lambda index -->
+          Assignment .mk (agents .apply (index) ) (mostly_unbiased_prediction .apply (index) )
+        )
+    )
+
   biased_outcome : Outcome =
     Outcome .mk (
       agents
@@ -134,6 +155,9 @@ class ScoringScenarioExample
 
   initial_unbiased : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (context) (unbiased_outcome) (true)
+
+  initial_mostly_unbiased : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (mostly_unbiased_outcome) (true)
 
   initial_biased : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (context) (biased_outcome) (true)

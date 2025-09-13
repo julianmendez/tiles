@@ -20,6 +20,7 @@ import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.MeasureMod
+import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.OutcomeMod
 import   soda.tiles.fairness.tool.Pearson
@@ -288,8 +289,55 @@ import Soda.tiles.fairness.tool.ScoringTool
 import soda.tiles.fairness.tool.Number
 
 /**
- * This tile computes the Pearson correlation, and for that, takes two sequences of measures,
- * and computes a single measure.
+ * This tile computes the Pearson correlation, and for that, takes two sequences of measures.
+ * The result is a number in the interval [0, 1].
+ */
+
+trait CorrelationAbsTile
+{
+
+
+
+  def conversion (m : Measure) : Option [Number] =
+    m .map ( value =>
+      PearsonMod .mk .abs (value / correlation_tile .percentage_constant)
+    )
+
+  lazy val apply_tile = ApplyTile .mk [Measure, Option [Number] ] (conversion)
+
+  lazy val correlation_tile = CorrelationTile .mk
+
+  def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
+      : TileMessage [Option [Number] ] =
+    apply_tile .apply (
+      correlation_tile .apply (
+          message0
+      ) (
+        message1
+      )
+    )
+
+}
+
+case class CorrelationAbsTile_ () extends CorrelationAbsTile
+
+object CorrelationAbsTile {
+  def mk : CorrelationAbsTile =
+    CorrelationAbsTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tool.ScoringTool
+*/
+
+import soda.tiles.fairness.tool.Number
+
+/**
+ * This tile computes the Pearson correlation, and for that, takes two sequences of measures.
+ * The result is a measure in the interval [-100, 100]
  */
 
 trait CorrelationTile
@@ -299,20 +347,23 @@ trait CorrelationTile
 
   private lazy val _measure_zero : Measure = Some (0)
 
-  private lazy val _percentage_constant : Number = 100.0
+  lazy val percentage_constant : Number = 100.0
+
+  lazy val one_plus_epsilon = 1.00001
 
   lazy val zip_tile = ZipTile .mk [Measure, Measure]
 
-  def get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Number =
+  def get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Option [Number] =
     PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )
 
   def to_double (m : Measure) : Number =
-    if ( (m == _measure_zero)
-    ) 0.0
-    else 1.0
+    m match  {
+      case Some (value) => value .toDouble
+      case otherwise => Double .NaN
+    }
 
   def to_measure (d : Number) : Measure =
-    Some ( (d * _percentage_constant) .intValue)
+    Some ( (d * percentage_constant * one_plus_epsilon) .intValue)
 
   def get_fst_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Number] =
     lists .map ( pair => to_double (pair .fst) )
@@ -320,17 +371,24 @@ trait CorrelationTile
   def get_snd_list (lists : Seq [TilePair [Measure, Measure] ] ) : Seq [Number] =
     lists .map ( pair => to_double (pair .snd) )
 
-  def process_tuples (lists : Seq [TilePair [Measure, Measure] ] ) : Measure =
-    to_measure (get_coefficient (get_fst_list (lists) ) (get_snd_list (lists) ) )
+  def is_all_defined (lists : Seq [TilePair [Measure, Measure] ] ) : Boolean =
+    lists .forall ( pair => (pair .fst .nonEmpty) && (pair .snd .nonEmpty) )
 
-  def apply_zipped (message : TileMessage [Seq [TilePair [Measure, Measure] ] ] )
-    : TileMessage [Measure] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      process_tuples (message .contents)
-    )
+  def process_coefficient (maybeCoefficient : Option [Number] ) : Measure =
+    maybeCoefficient match  {
+      case Some (value) => to_measure (value)
+      case None => None
+    }
+
+  def process_tuples (lists : Seq [TilePair [Measure, Measure] ] ) : Measure =
+    if ( is_all_defined (lists)
+    ) process_coefficient (get_coefficient (get_fst_list (lists) ) (get_snd_list (lists) ) )
+    else None
+
+  lazy val apply_tile = ApplyTile .mk [Seq [TilePair [Measure, Measure] ] , Measure] (process_tuples)
 
   def apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
-    apply_zipped (
+    apply_tile .apply (
       zip_tile .apply (
         message0
       ) (

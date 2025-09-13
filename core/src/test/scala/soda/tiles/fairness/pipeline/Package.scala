@@ -310,11 +310,23 @@ trait ScoringScenarioExample
     ) original
     else as_prediction (original + prediction_bias_on_attribute)
 
+  def add_little_attribute_bias (index : Int) (original : Int) : Int =
+    if ( (protected_attribute .apply (index) && index < 2)
+    ) original
+    else as_prediction (original + prediction_bias_on_attribute)
+
   def add_prediction_error (value : Int) : Int =
     as_prediction (value + prediction_error)
 
   lazy val unbiased_prediction : Seq [Resource] =
     result_values
+      .map ( x => add_prediction_error (x) )
+      .map ( x => make_binary_resource (x) )
+
+  lazy val mostly_unbiased_prediction : Seq [Resource] =
+    result_values
+      .indices
+      .map ( index => add_little_attribute_bias (index) (result_values .apply (index) ) )
       .map ( x => add_prediction_error (x) )
       .map ( x => make_binary_resource (x) )
 
@@ -334,6 +346,15 @@ trait ScoringScenarioExample
         )
     )
 
+  lazy val mostly_unbiased_outcome : Outcome =
+    Outcome .mk (
+      agents
+        .indices
+        .map ( index =>
+          Assignment .mk (agents .apply (index) ) (mostly_unbiased_prediction .apply (index) )
+        )
+    )
+
   lazy val biased_outcome : Outcome =
     Outcome .mk (
       agents
@@ -349,6 +370,9 @@ trait ScoringScenarioExample
 
   lazy val initial_unbiased : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (context) (unbiased_outcome) (true)
+
+  lazy val initial_mostly_unbiased : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (mostly_unbiased_outcome) (true)
 
   lazy val initial_biased : TileMessage [Boolean] =
     TileMessageBuilder .mk .build (context) (biased_outcome) (true)
@@ -380,11 +404,19 @@ case class UnbiasednessPipelineSpec ()
       ex .protected_attribute_function
     )
 
-  test ("coefficient of unbiased sample") (
+  test ("coefficient of a completely unbiased sample") (
     check (
       obtained = unbiasedness_pipeline .apply (ex .initial_unbiased) .contents
     ) (
-      expected = Some (0)
+      expected = None
+    )
+  )
+
+  test ("coefficient of mostly unbiased sample") (
+    check (
+      obtained = unbiasedness_pipeline .apply (ex .initial_mostly_unbiased) .contents
+    ) (
+      expected = Some (0.08)
     )
   )
 
@@ -392,7 +424,7 @@ case class UnbiasednessPipelineSpec ()
     check (
       obtained = unbiasedness_pipeline .apply (ex .initial_biased) .contents
     ) (
-      expected = Some (-42)
+      expected = Some (0.42)
     )
   )
 

@@ -15,11 +15,19 @@ class UnbiasednessPipelineSpec ()
       ex .protected_attribute_function
     )
 
-  test ("coefficient of unbiased sample") (
+  test ("coefficient of a completely unbiased sample") (
     check (
       obtained := unbiasedness_pipeline .apply (ex .initial_unbiased) .contents
     ) (
-      expected := Some (0)
+      expected := None
+    )
+  )
+
+  test ("coefficient of mostly unbiased sample") (
+    check (
+      obtained := unbiasedness_pipeline .apply (ex .initial_mostly_unbiased) .contents
+    ) (
+      expected := Some (0.08)
     )
   )
 
@@ -27,7 +35,7 @@ class UnbiasednessPipelineSpec ()
     check (
       obtained := unbiasedness_pipeline .apply (ex .initial_biased) .contents
     ) (
-      expected := Some (-42)
+      expected := Some (0.42)
     )
   )
 

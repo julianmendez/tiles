@@ -204,6 +204,86 @@ case class AverageTileSpec ()
 }
 
 
+case class CorrelationTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val tile = CorrelationTile.mk
+
+  lazy val scenario = ScenarioExample.mk
+
+  def mk_tile_message (seq: Seq[Measure] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  lazy val seq0 = Seq [Measure] (Some (1) , Some (2) , Some (3) )
+
+  lazy val seq1 = Seq [Measure] (Some (3) , Some (2) , Some (1) )
+
+  lazy val seq2 = Seq [Measure] (Some (5) , Some (5) , Some (5) )
+
+  lazy val seq3 = Seq [Measure] (Some (1) , None , Some (3) )
+
+  lazy val seq4 = Seq [Measure] ()
+
+  test ("correlation of two identical sequences should be 100 %") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq0) ) (mk_tile_message (seq0) )
+        .contents
+    ) (
+      expected = Some (100)
+    )
+  )
+
+  test ("correlation of perfectly inversely related sequences should be -100 %") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq0) ) (mk_tile_message (seq1) )
+        .contents
+    ) (
+      expected = Some (-100)
+    )
+  )
+
+  test ("correlation with one constant sequence should be None") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq2) ) (mk_tile_message (seq0) )
+        .contents
+    ) (
+      expected = None
+    )
+  )
+
+  test ("correlation should return None if any element is None") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq3) ) (mk_tile_message (seq0) )
+        .contents
+    ) (
+      expected = None
+    )
+  )
+
+  test ("correlation of empty sequences should be None") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq4) ) (mk_tile_message (seq4) )
+        .contents
+    ) (
+      expected = None
+    )
+  )
+
+}
+
+
 case class ExistsTileSpec ()
   extends
     AnyFunSuite

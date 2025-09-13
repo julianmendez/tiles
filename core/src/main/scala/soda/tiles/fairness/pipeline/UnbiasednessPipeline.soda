@@ -27,10 +27,10 @@ class UnbiasednessPipeline
 
   all_agent_map_false_positive_tile = AllAgentMapFalsePositiveTile .mk (positive_value) (result_function)
 
-  correlation_tile = CorrelationTile .mk
+  correlation_abs_tile = CorrelationAbsTile .mk
 
-  apply (message : TileMessage [Boolean] ) : TileMessage [Measure] =
-    correlation_tile .apply (
+  apply (message : TileMessage [Boolean] ) : TileMessage [Option [Number] ] =
+    correlation_abs_tile .apply (
       all_agent_map_false_positive_tile .apply (
         message
       )

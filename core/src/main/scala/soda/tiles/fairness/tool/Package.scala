@@ -312,8 +312,23 @@ trait PearsonMod
   private def _numerator (m : Pearson) : Number =
     _numerator_with (_x_y_together (m) ) (_mm .average (m .xlist) ) (_mm .average (m .ylist) )
 
-  def coefficient (m : Pearson) : Number =
-    _numerator (m) / _denominator (m)
+  def abs (x : Number) : Number =
+    if ( x < 0
+    ) (-1) * x
+    else x
+
+  def is_within (maybeNumber : Option [Number] ) (center : Double) (epsilon : Double) : Boolean =
+    maybeNumber
+      .exists ( value =>
+        abs (value - center) <= epsilon)
+
+  def coefficient_with (numerator : Number) (denominator : Number) : Option [Number] =
+    if ( denominator == 0
+    ) None
+    else Some (numerator / denominator)
+
+  def coefficient (m : Pearson) : Option [Number] =
+    coefficient_with (_numerator (m) ) (_denominator (m) )
 
 }
 
