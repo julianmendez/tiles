@@ -12,10 +12,10 @@ class NeedsTile
   abstract
     q : Agent -> Measure
 
-  map_file = MapTile .mk [Agent] [Measure] (q)
+  map_tile = MapTile .mk [Agent] [Measure] (q)
 
   apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    map_file .apply (
+    map_tile .apply (
       message
     )
 

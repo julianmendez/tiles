@@ -27,10 +27,10 @@ trait NeedsTile
 
   def   q : Agent => Measure
 
-  lazy val map_file = MapTile .mk [Agent, Measure] (q)
+  lazy val map_tile = MapTile .mk [Agent, Measure] (q)
 
   def apply (message : TileMessage [Seq [Agent] ] ) : TileMessage [Seq [Measure] ] =
-    map_file .apply (
+    map_tile .apply (
       message
     )
 
