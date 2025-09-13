@@ -26,6 +26,9 @@ import
   soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Comparator
   soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.MeasureMod
+  soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.OutcomeMod
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TilePair

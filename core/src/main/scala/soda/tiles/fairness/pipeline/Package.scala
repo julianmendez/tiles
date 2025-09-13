@@ -25,6 +25,9 @@ import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.MeasureMod
+import   soda.tiles.fairness.tool.Outcome
+import   soda.tiles.fairness.tool.OutcomeMod
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair
@@ -69,6 +72,109 @@ case class AllAgentAccumulatesTile_ (utility : Resource => Measure) extends AllA
 object AllAgentAccumulatesTile {
   def mk (utility : Resource => Measure) : AllAgentAccumulatesTile =
     AllAgentAccumulatesTile_ (utility)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+*/
+
+/**
+ * This composite tile returns all the the false positives with
+ * respect to a prediction (the outcome) and a result function.
+ */
+
+trait AllAgentMapFalsePositiveTile
+{
+
+  def   positive_value : Resource
+  def   result_function : Agent => Resource
+
+  lazy val zero = MeasureMod .mk .zero
+
+  lazy val one = MeasureMod .mk .one
+
+  def pred (outcome : Outcome) (a : Agent) : Boolean =
+    OutcomeMod .mk
+      .get_resources (outcome) (a)
+      .contains (positive_value)
+
+  def check_false_positive (outcome : Outcome) (a : Agent) : Measure =
+    if ( ( (pred (outcome) (a) ) && (! (result_function (a) == positive_value) ) )
+    ) one
+    else zero
+
+  lazy val all_agent_tile = AllAgentTile .mk
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Measure] ] =
+    MapTile .mk [Agent, Measure] (
+       agent =>
+        check_false_positive (message .outcome) (agent)
+    ) .apply (
+      all_agent_tile .apply (
+        message
+      )
+    )
+
+}
+
+case class AllAgentMapFalsePositiveTile_ (positive_value : Resource, result_function : Agent => Resource) extends AllAgentMapFalsePositiveTile
+
+object AllAgentMapFalsePositiveTile {
+  def mk (positive_value : Resource) (result_function : Agent => Resource) : AllAgentMapFalsePositiveTile =
+    AllAgentMapFalsePositiveTile_ (positive_value, result_function)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+*/
+
+/**
+ * This composite tile returns, for the all agents, 1 if the agent has a protected
+ * attribute, and 0 otherwise.
+ */
+
+trait AllAgentMapGroundTruthTile
+{
+
+  def   p : Agent => Boolean
+
+  lazy val zero = MeasureMod .mk .zero
+
+  lazy val one = MeasureMod .mk .one
+
+  def check_protected_attribute (a : Agent) : Measure =
+    if ( (p (a) )
+    ) one
+    else zero
+
+  lazy val map_tile = MapTile .mk (check_protected_attribute)
+
+  lazy val all_agent_tile = AllAgentTile .mk
+
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Measure] ] =
+    map_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    )
+
+}
+
+case class AllAgentMapGroundTruthTile_ (p : Agent => Boolean) extends AllAgentMapGroundTruthTile
+
+object AllAgentMapGroundTruthTile {
+  def mk (p : Agent => Boolean) : AllAgentMapGroundTruthTile =
+    AllAgentMapGroundTruthTile_ (p)
 }
 
 
@@ -216,64 +322,40 @@ import Soda.tiles.fairness.tile.WithPTile
 */
 
 /**
- * This pipeline checks unbiasedness for a given scenario.
+ * This pipeline measures the bias in a given scenario by contrasting
+ * false positives and those with a protected attribute.
  */
 
 trait UnbiasednessPipeline
 {
 
-  def   p0_evaluation : Resource => Measure
-  def   p1_result : Agent => Measure
-  def   p2_with_p : Agent => Measure
-  def   p3_acceptable_bias : Measure
+  def   positive_value : Resource
+  def   result_function : Agent => Resource
+  def   with_p : Agent => Boolean
 
-  lazy val all_agent_tile = AllAgentTile .mk
+  lazy val all_agent_map_ground_truth_tile = AllAgentMapGroundTruthTile .mk (with_p)
 
-  lazy val all_agent_triple_tile = AllAgentTripleTile .mk
-
-  lazy val triple_fst_tile = ProjectionTripleFstTile .mk [Seq [Agent] , Seq [Agent] , Seq [Agent] ]
-
-  lazy val triple_snd_tile = ProjectionTripleSndTile .mk [Seq [Agent] , Seq [Agent] , Seq [Agent] ]
-
-  lazy val triple_trd_tile = ProjectionTripleTrdTile .mk [Seq [Agent] , Seq [Agent] , Seq [Agent] ]
-
-  lazy val prediction_p_tile = PredictionPTile .mk (p0_evaluation)
-
-  lazy val result_p_tile = MapTile .mk [Agent, Measure] (p1_result)
-
-  lazy val with_p_tile = MapTile .mk [Agent, Measure] (p2_with_p)
-
-  lazy val false_pos_tile = FalsePosTile .mk
+  lazy val all_agent_map_false_positive_tile = AllAgentMapFalsePositiveTile .mk (positive_value) (result_function)
 
   lazy val correlation_tile = CorrelationTile .mk
 
-  lazy val decision_tile = DecisionTile .mk (p3_acceptable_bias)
-
-  def get_correlation_plumbing (message0 : TileMessage [Seq [Agent] ] )
-    (message1 : TileMessage [Seq [Agent] ] ) (message2 : TileMessage [Seq [Agent] ] )
-      : TileMessage [Measure] =
+  def apply (message : TileMessage [Boolean] ) : TileMessage [Measure] =
     correlation_tile .apply (
-      false_pos_tile .apply (prediction_p_tile .apply (message0) ) (result_p_tile .apply (message1) )
-    ) (with_p_tile .apply (message2) )
-
-  def apply_on_triple (triple : TileMessage [TileTriple [Seq [Agent] , Seq [Agent] , Seq [Agent] ] ] )
-      : TileMessage [Boolean] =
-    decision_tile .apply (
-      get_correlation_plumbing (
-        triple_fst_tile .apply (triple) ) (
-        triple_snd_tile .apply (triple) ) (
-        triple_trd_tile .apply (triple) )
+      all_agent_map_false_positive_tile .apply (
+        message
+      )
+    ) (
+      all_agent_map_ground_truth_tile .apply (
+        message
+      )
     )
-
-  def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    apply_on_triple (all_agent_triple_tile .apply (message) )
 
 }
 
-case class UnbiasednessPipeline_ (p0_evaluation : Resource => Measure, p1_result : Agent => Measure, p2_with_p : Agent => Measure, p3_acceptable_bias : Measure) extends UnbiasednessPipeline
+case class UnbiasednessPipeline_ (positive_value : Resource, result_function : Agent => Resource, with_p : Agent => Boolean) extends UnbiasednessPipeline
 
 object UnbiasednessPipeline {
-  def mk (p0_evaluation : Resource => Measure) (p1_result : Agent => Measure) (p2_with_p : Agent => Measure) (p3_acceptable_bias : Measure) : UnbiasednessPipeline =
-    UnbiasednessPipeline_ (p0_evaluation, p1_result, p2_with_p, p3_acceptable_bias)
+  def mk (positive_value : Resource) (result_function : Agent => Resource) (with_p : Agent => Boolean) : UnbiasednessPipeline =
+    UnbiasednessPipeline_ (positive_value, result_function, with_p)
 }
 

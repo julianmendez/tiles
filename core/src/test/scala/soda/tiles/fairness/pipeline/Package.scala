@@ -248,19 +248,19 @@ trait ScoringScenarioExample
   def as_protected_attribute (x : Int) : Int =
     mod (x) (protected_attribute_modulus)
 
-  lazy val protected_attribute : Seq [Measure] =
+  lazy val protected_attribute : Seq [Boolean] =
     Random .mk .get_next_seq (seed_protected_attribute) (agents .length)
-      .map ( x => Some ( as_protected_attribute (x .intValue) ) )
+      .map ( x => as_protected_attribute (x .intValue) == 1)
 
-  lazy val protected_attribute_map : Map [Agent, Measure] =
+  lazy val protected_attribute_map : Map [Agent, Boolean] =
     agents
       .indices
       .map ( index =>
-        Tuple2 [Agent, Measure] (agents .apply (index) , protected_attribute .apply (index) ) )
+        Tuple2 [Agent, Boolean] (agents .apply (index) , protected_attribute .apply (index) ) )
       .toMap
 
-  def protected_attribute_function (a : Agent) : Measure =
-    protected_attribute_map .getOrElse (a , _measure_zero )
+  def protected_attribute_function (a : Agent) : Boolean =
+    protected_attribute_map .getOrElse (a , false)
 
   lazy val seed_result : Long = 65535
 
@@ -281,11 +281,6 @@ trait ScoringScenarioExample
     ) _resource_one
     else _resource_zero
 
-  def make_binary_measure (x : Int) : Measure =
-    if ( x > prediction_limit
-    ) _measure_one
-    else _measure_zero
-
   lazy val result_values : Seq [Int] =
     Random .mk
       .get_next_seq (seed_result) (agents .length)
@@ -297,21 +292,21 @@ trait ScoringScenarioExample
 
   lazy val maximum_acceptable_bias_percentage : Measure = Some (30)
 
-  lazy val result : Seq [Measure] =
-    result_values .map ( x => make_binary_measure (x) )
+  lazy val result : Seq [Resource] =
+    result_values .map ( x => make_binary_resource (x) )
 
-  lazy val result_map : Map [Agent, Measure] =
+  lazy val result_map : Map [Agent, Resource] =
     agents
       .indices
       .map ( index =>
-        Tuple2 [Agent, Measure] (agents .apply (index) , result .apply (index) ) )
+        Tuple2 [Agent, Resource] (agents .apply (index) , result .apply (index) ) )
       .toMap
 
-  def result_function (a : Agent) : Measure =
-    result_map .getOrElse (a , _measure_zero )
+  def result_function (a : Agent) : Resource =
+    result_map .getOrElse (a , _resource_zero)
 
   def add_attribute_bias (index : Int) (original : Int) : Int =
-    if ( (protected_attribute .apply (index) == _measure_zero)
+    if ( (protected_attribute .apply (index) )
     ) original
     else as_prediction (original + prediction_bias_on_attribute)
 
@@ -348,10 +343,7 @@ trait ScoringScenarioExample
         )
     )
 
-  def evaluation (resource : Resource) : Measure =
-    if ( (resource == _resource_zero)
-    ) _measure_zero
-    else _measure_one
+  lazy val positive_value : Resource = _resource_one
 
   lazy val context = "context"
 
@@ -383,40 +375,14 @@ case class UnbiasednessPipelineSpec ()
 
   lazy val unbiasedness_pipeline =
     UnbiasednessPipeline .mk (
-      ex .evaluation) (
+      ex .positive_value) (
       ex .result_function) (
-      ex .protected_attribute_function) (
-      ex .maximum_acceptable_bias_percentage
+      ex .protected_attribute_function
     )
-
-  def get_coefficient (message : TileMessage [Boolean] ) : TileMessage [Measure] =
-    unbiasedness_pipeline .get_correlation_plumbing (
-      unbiasedness_pipeline .all_agent_tile .apply (message)
-    ) (
-      unbiasedness_pipeline .all_agent_tile .apply (message)
-    ) (
-      unbiasedness_pipeline .all_agent_tile .apply (message)
-    )
-
-  test ("unbiasedness on unbiased sample") (
-    check (
-      obtained = unbiasedness_pipeline .apply (ex .initial_unbiased) .contents
-    ) (
-      expected = true
-    )
-  )
-
-  test ("unbiasedness on biased sample") (
-    check (
-      obtained = unbiasedness_pipeline .apply (ex .initial_biased) .contents
-    ) (
-      expected = false
-    )
-  )
 
   test ("coefficient of unbiased sample") (
     check (
-      obtained = get_coefficient (ex .initial_unbiased) .contents
+      obtained = unbiasedness_pipeline .apply (ex .initial_unbiased) .contents
     ) (
       expected = Some (0)
     )
@@ -424,9 +390,9 @@ case class UnbiasednessPipelineSpec ()
 
   test ("coefficient of biased sample") (
     check (
-      obtained = get_coefficient (ex .initial_biased) .contents
+      obtained = unbiasedness_pipeline .apply (ex .initial_biased) .contents
     ) (
-      expected = Some (42)
+      expected = Some (-42)
     )
   )
 

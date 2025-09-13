@@ -33,19 +33,19 @@ class ScoringScenarioExample
   as_protected_attribute (x : Int) : Int =
     mod (x) (protected_attribute_modulus)
 
-  protected_attribute : Seq [Measure] =
+  protected_attribute : Seq [Boolean] =
     Random .mk .get_next_seq (seed_protected_attribute) (agents .length)
-      .map (lambda x --> Some ( as_protected_attribute (x .intValue) ) )
+      .map (lambda x --> as_protected_attribute (x .intValue) == 1)
 
-  protected_attribute_map : Map [Agent] [Measure] =
+  protected_attribute_map : Map [Agent] [Boolean] =
     agents
       .indices
       .map (lambda index -->
-        Tuple2 [Agent] [Measure] (agents .apply (index) , protected_attribute .apply (index) ) )
+        Tuple2 [Agent] [Boolean] (agents .apply (index) , protected_attribute .apply (index) ) )
       .toMap
 
-  protected_attribute_function (a : Agent) : Measure =
-    protected_attribute_map .getOrElse (a , _measure_zero )
+  protected_attribute_function (a : Agent) : Boolean =
+    protected_attribute_map .getOrElse (a , false)
 
   seed_result : Long = 65535
 
@@ -66,11 +66,6 @@ class ScoringScenarioExample
     then _resource_one
     else _resource_zero
 
-  make_binary_measure (x : Int) : Measure =
-    if x > prediction_limit
-    then _measure_one
-    else _measure_zero
-
   result_values : Seq [Int] =
     Random .mk
       .get_next_seq (seed_result) (agents .length)
@@ -82,21 +77,21 @@ class ScoringScenarioExample
 
   maximum_acceptable_bias_percentage : Measure = Some (30)
 
-  result : Seq [Measure] =
-    result_values .map (lambda x --> make_binary_measure (x) )
+  result : Seq [Resource] =
+    result_values .map (lambda x --> make_binary_resource (x) )
 
-  result_map : Map [Agent] [Measure] =
+  result_map : Map [Agent] [Resource] =
     agents
       .indices
       .map (lambda index -->
-        Tuple2 [Agent] [Measure] (agents .apply (index) , result .apply (index) ) )
+        Tuple2 [Agent] [Resource] (agents .apply (index) , result .apply (index) ) )
       .toMap
 
-  result_function (a : Agent) : Measure =
-    result_map .getOrElse (a , _measure_zero )
+  result_function (a : Agent) : Resource =
+    result_map .getOrElse (a , _resource_zero)
 
   add_attribute_bias (index : Int) (original : Int) : Int =
-    if (protected_attribute .apply (index) == _measure_zero)
+    if (protected_attribute .apply (index) )
     then original
     else as_prediction (original + prediction_bias_on_attribute)
 
@@ -133,10 +128,7 @@ class ScoringScenarioExample
         )
     )
 
-  evaluation (resource : Resource) : Measure =
-    if (resource == _resource_zero)
-    then _measure_zero
-    else _measure_one
+  positive_value : Resource = _resource_one
 
   context = "context"
 
