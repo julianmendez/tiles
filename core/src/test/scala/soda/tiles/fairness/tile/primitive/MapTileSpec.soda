@@ -1,0 +1,58 @@
+
+class DoubleMapTile
+  extends
+    MapTile [Int] [Int]
+
+  abstract
+
+  phi : Int -> Int =
+    lambda elem --> elem * 2
+
+end
+
+
+class MapTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  test ("map on empty sequence returns empty sequence") (
+    check(
+      obtained := DoubleMapTile .mk
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected := Seq [Int] ()
+    )
+  )
+
+  test ("map on single element sequence") (
+    check(
+      obtained := DoubleMapTile .mk
+        .apply (mk_tile_message (Seq [Int] (5) ) )
+        .contents
+    ) (
+      expected := Seq [Int] (10)
+    )
+  )
+
+  test ("map on multiple elements sequence") (
+    check(
+      obtained := DoubleMapTile .mk
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3 , 4) ) )
+        .contents
+    ) (
+      expected := Seq [Int] (2 , 4 , 6 , 8)
+    )
+  )
+
+end

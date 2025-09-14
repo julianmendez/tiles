@@ -1,0 +1,38 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tool.ScoringTool
+
+directive scala
+import soda.tiles.fairness.tool.Number
+
+/**
+ * This tile computes the Pearson correlation, and for that, takes two sequences of measures.
+ * The result is a number in the interval [0, 1].
+ */
+
+class CorrelationAbsTile
+
+  abstract
+
+  conversion (m : Measure) : Option [Number] =
+    m .map (lambda value -->
+      MathTool .mk .abs (value / correlation_tile .percentage_constant)
+    )
+
+  apply_tile = ApplyTile .mk [Measure] [Option [Number] ] (conversion)
+
+  correlation_tile = CorrelationTile .mk
+
+  apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
+      : TileMessage [Option [Number] ] =
+    apply_tile .apply (
+      correlation_tile .apply (
+          message0
+      ) (
+        message1
+      )
+    )
+
+end
+

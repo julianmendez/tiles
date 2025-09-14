@@ -1,0 +1,25 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns the first element of a triple.
+ */
+
+class ProjectionTripleFstTile [A : Type] [B : Type] [C : Type]
+
+  abstract
+
+  get_fst (triple : TileTriple [A] [B] [C] ) : A =
+    triple .fst
+
+  apply_tile = ApplyTile .mk [TileTriple [A] [B] [C] ] [A] (get_fst)
+
+  apply (message : TileMessage [TileTriple [A] [B] [C] ] ) : TileMessage [A] =
+    apply_tile .apply (
+      message
+    )
+
+end
+

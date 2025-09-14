@@ -6,11 +6,10 @@ import Soda.tiles.fairness.tile.NeededPTile
 import Soda.tiles.fairness.tile.ReceivedSigmaPTile
 import Soda.tiles.fairness.tile.UnzipPairFstTile
 import Soda.tiles.fairness.tile.UnzipPairSndTile
-import Soda.tiles.fairness.tile.ZipPairTile
 
 
 /**
- * This pipeline returns 'true' when all the actors in the input receive a resource that
+ * This pipeline returns 'true' when all the agents in the input receive a resource that
  * satisfies their needs, and 'false' otherwise.
  */
 
@@ -19,17 +18,16 @@ class CcsPerChildPipeline
     CcsPipeline
 
   abstract
-    sigma : Measure -> Measure -> Measure
-    children : Actor -> Measure
+    children : Agent -> Measure
     utility : Resource -> Measure
 
   all_equal_tile = AllEqualTile .mk
 
-  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (utility)
+  accumulates_tile = AccumulatesTile .mk (utility)
 
-  children_tile = AttributePTile .mk (children)
+  children_tile = MapTile .mk [Agent] [Measure] (children)
 
-  all_actor_pair_tile = AllActorPairTile .mk
+  all_agent_pair_tile = AllAgentPairTile .mk
 
   _division_with_2 (val0 : Int) (val1 : Int) : Measure =
     if val1 == 0
@@ -46,24 +44,24 @@ class CcsPerChildPipeline
       case Some (val0) ==> _division_with (val0) (m1)
       case None ==> None
 
-  division_tile = SigmaTile .mk (division)
+  division_tile = ZipSigmaTile .mk (division)
 
-  pair_fst_tile = ProjectionPairFstTile .mk
+  pair_fst_tile = ProjectionPairFstTile .mk [Seq [Agent] ] [Seq [Agent] ]
 
-  pair_snd_tile = ProjectionPairSndTile .mk
+  pair_snd_tile = ProjectionPairSndTile .mk [Seq [Agent] ] [Seq [Agent] ]
 
-  apply_on_actors (pair : TileMessage [TilePair [Seq [Actor] ] [Seq [Actor] ] ] )
+  apply_on_agents (pair : TileMessage [TilePair [Seq [Agent] ] [Seq [Agent] ] ] )
       : TileMessage [Boolean] =
     all_equal_tile .apply (
       division_tile .apply (
-        received_sigma_p_tile .apply (pair_fst_tile .apply (pair) )
+        accumulates_tile .apply (pair_fst_tile .apply (pair) )
       ) (
         children_tile .apply (pair_snd_tile .apply (pair) )
       )
     )
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    apply_on_actors (all_actor_pair_tile .apply (message) )
+    apply_on_agents (all_agent_pair_tile .apply (message) )
 
   runner : TileMessage [Boolean] -> TileMessage [Boolean] =
     lambda message --> apply (message)

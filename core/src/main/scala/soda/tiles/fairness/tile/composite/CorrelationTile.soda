@@ -1,0 +1,68 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tool.ScoringTool
+
+directive scala
+import soda.tiles.fairness.tool.Number
+
+/**
+ * This tile computes the Pearson correlation, and for that, takes two sequences of measures.
+ * The result is a measure in the interval [-100, 100]
+ */
+
+class CorrelationTile
+
+  abstract
+
+  _measure_zero : Measure = Some (0)
+
+  percentage_constant : Number = 100.0
+
+  one_plus_epsilon = 1.00001
+
+  zip_tile = ZipTile .mk [Measure] [Measure]
+
+  get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Option [Number] =
+    PearsonCorrCovariance .mk .coefficient (SeqPair .mk (xlist) (ylist) )
+
+  to_double (m : Measure) : Number =
+    match m
+      case Some (value) ==> value .toDouble
+      case otherwise ==> Double .NaN
+
+  to_measure (d : Number) : Measure =
+    Some ( (d * percentage_constant * one_plus_epsilon) .intValue)
+
+  get_fst_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Number] =
+    lists .map (lambda pair --> to_double (pair .fst) )
+
+  get_snd_list (lists : Seq [TilePair [Measure] [Measure] ] ) : Seq [Number] =
+    lists .map (lambda pair --> to_double (pair .snd) )
+
+  is_all_defined (lists : Seq [TilePair [Measure] [Measure] ] ) : Boolean =
+    lists .forall (lambda pair --> (pair .fst .nonEmpty) and (pair .snd .nonEmpty) )
+
+  process_coefficient (maybeCoefficient : Option [Number] ) : Measure =
+    match maybeCoefficient
+      case Some (value) ==> to_measure (value)
+      case None ==> None
+
+  process_tuples (lists : Seq [TilePair [Measure] [Measure] ] ) : Measure =
+    if is_all_defined (lists)
+    then process_coefficient (get_coefficient (get_fst_list (lists) ) (get_snd_list (lists) ) )
+    else None
+
+  apply_tile = ApplyTile .mk [Seq [TilePair [Measure] [Measure] ] ] [Measure] (process_tuples)
+
+  apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
+    apply_tile .apply (
+      zip_tile .apply (
+        message0
+      ) (
+        message1
+      )
+    )
+
+end
+

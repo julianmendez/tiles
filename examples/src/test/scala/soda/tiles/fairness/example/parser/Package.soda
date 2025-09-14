@@ -2,8 +2,7 @@ package soda.tiles.fairness.example.parser
 
 import
   org.scalatest.funsuite.AnyFunSuite
-  org.scalatest.Assertion
+  java.io.StringReader
   java.nio.file.Files
   java.nio.file.Paths
-  java.io.StringReader
 

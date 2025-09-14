@@ -1,0 +1,58 @@
+
+class SquareApplyTile
+  extends
+    ApplyTile [Int] [Int]
+
+  abstract
+
+  phi : Int -> Int =
+    lambda elem --> elem * elem
+
+end
+
+
+class ApplyTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message (value : Int) : TileMessage [Int] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (value)
+
+  test ("apply on single value") (
+    check(
+      obtained := SquareApplyTile .mk
+        .apply (mk_tile_message (5) )
+        .contents
+    ) (
+      expected := 25
+    )
+  )
+
+  test ("apply on zero") (
+    check(
+      obtained := SquareApplyTile .mk
+        .apply (mk_tile_message (0) )
+        .contents
+    ) (
+      expected := 0
+    )
+  )
+
+  test ("apply on negative value") (
+    check(
+      obtained := SquareApplyTile .mk
+        .apply (mk_tile_message (-3) )
+        .contents
+    ) (
+      expected := 9
+    )
+  )
+
+end

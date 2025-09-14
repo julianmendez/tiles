@@ -1,0 +1,26 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile takes a sequence of pairs (a, b), and returns a sequence with the second
+ * component of each pair from the input.
+ */
+
+class UnzipPairSndTile [A : Type] [B : Type]
+
+  abstract
+
+  get_snd (pair : TilePair [A] [B] ) : B =
+    pair .snd
+
+  map_tile = MapTile .mk [TilePair [A] [B] ] [B] (get_snd)
+
+  apply (message : TileMessage [Seq [TilePair [A] [B] ] ] ) : TileMessage [Seq [B] ] =
+    map_tile .apply (
+      message
+    )
+
+end
+

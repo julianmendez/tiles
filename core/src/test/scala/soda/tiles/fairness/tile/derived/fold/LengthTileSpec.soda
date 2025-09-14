@@ -1,0 +1,49 @@
+
+class LengthTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  length_tile = LengthTile .mk [Int]
+
+  test ("length tile on empty sequence returns zero") (
+    check(
+      obtained := length_tile
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected := Some(0)
+    )
+  )
+
+  test ("length tile on single element sequence returns one") (
+    check(
+      obtained := length_tile
+        .apply (mk_tile_message (Seq [Int] (42) ) )
+        .contents
+    ) (
+      expected := Some(1)
+    )
+  )
+
+  test ("length tile on multiple elements sequence returns correct length") (
+    check(
+      obtained := length_tile
+        .apply (mk_tile_message (Seq [Int] (10 , 20 , 30 , 40) ) )
+        .contents
+    ) (
+      expected := Some(4)
+    )
+  )
+
+end
+

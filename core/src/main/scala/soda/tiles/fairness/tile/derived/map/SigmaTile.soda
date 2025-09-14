@@ -1,0 +1,28 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile takes a sequence of pairs of measures as input, and returns a sequence such that,
+ * for each pair (m0, m1) in the input, is m = sigma (m0, m1), where sigma is a given function
+ * to combine measures.
+ */
+
+class SigmaTile
+
+  abstract
+    sigma : Measure -> Measure -> Measure
+
+  combine (pair : TilePair [Measure] [Measure] ) : Measure =
+    sigma (pair .fst) (pair .snd)
+
+  map_tile = MapTile .mk [TilePair [Measure] [Measure] ] [Measure] (combine)
+
+  apply (message : TileMessage [Seq [TilePair [Measure] [Measure] ] ] ) : TileMessage [Seq [Measure] ] =
+    map_tile .apply (
+      message
+    )
+
+end
+

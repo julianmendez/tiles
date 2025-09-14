@@ -1,0 +1,21 @@
+
+/**
+ * This computes the sum of the elements of a sequence.
+ */
+
+class SumTile [A : Type]
+
+  abstract
+
+  phi (x : Measure) : Measure =
+    x
+
+  sum_phi_tile = SumPhiTile .mk [Measure] (phi)
+
+  apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Measure] =
+    sum_phi_tile .apply (
+      message
+    )
+
+end
+

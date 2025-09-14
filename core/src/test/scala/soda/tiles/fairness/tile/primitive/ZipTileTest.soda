@@ -1,0 +1,66 @@
+
+class ZipTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message [T : Type] (seq : Seq [T] ) : TileMessage [Seq [T] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  test ("zip on two empty sequences returns empty sequence") (
+    check (
+      obtained := ZipTile .mk [Int] [String]
+        .apply (mk_tile_message (Seq [Int] () ) ) (mk_tile_message (Seq [String] () ) )
+        .contents
+    ) (
+      expected := Seq [TilePair [Int] [String] ] ()
+    )
+  )
+
+  test ("zip on sequences of equal length") (
+    check (
+      obtained := ZipTile .mk [Int] [String]
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3) ) ) (mk_tile_message (Seq [String] ("a" , "b" , "c") ) )
+        .contents
+    ) (
+      expected := Seq (
+        TilePair .mk [Int] [String] (1) ("a") ,
+        TilePair .mk [Int] [String] (2) ("b") ,
+        TilePair .mk [Int] [String] (3) ("c")
+      )
+    )
+  )
+
+  test ("zip truncates to the shorter sequence (first shorter)") (
+    check (
+      obtained := ZipTile .mk [Int] [String]
+        .apply (mk_tile_message (Seq [Int] (1 , 2) ) ) (mk_tile_message (Seq [String] ("a" , "b" , "c") ) )
+        .contents
+    ) (
+      expected := Seq (
+        TilePair .mk [Int] [String] (1) ("a") ,
+        TilePair .mk [Int] [String] (2) ("b")
+      )
+    )
+  )
+
+  test ("zip truncates to the shorter sequence (second shorter)") (
+    check (
+      obtained := ZipTile .mk [Int] [String]
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3) ) ) (mk_tile_message (Seq [String] ("a") ) )
+        .contents
+    ) (
+      expected := Seq (
+        TilePair .mk [Int] [String] (1) ("a")
+      )
+    )
+  )
+
+end
+

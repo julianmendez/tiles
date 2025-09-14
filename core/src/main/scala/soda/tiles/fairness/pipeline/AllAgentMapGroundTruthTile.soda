@@ -1,0 +1,39 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+
+/**
+ * This composite tile returns, for the all agents, 1 if the agent has a protected
+ * attribute, and 0 otherwise.
+ */
+
+class AllAgentMapGroundTruthTile
+
+  abstract
+    p : Agent -> Boolean
+
+  zero = MeasureMod .mk .zero
+
+  one = MeasureMod .mk .one
+
+  check_protected_attribute (a : Agent) : Measure =
+    if (p (a) )
+    then one
+    else zero
+
+  map_tile = MapTile .mk (check_protected_attribute)
+
+  all_agent_tile = AllAgentTile .mk
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Measure] ] =
+    map_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    )
+
+end
+

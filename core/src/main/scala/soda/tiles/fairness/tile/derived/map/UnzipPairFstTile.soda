@@ -1,0 +1,26 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile takes a sequence of pairs (a, b), and returns a sequence with the first
+ * component of each pair from the input.
+ */
+
+class UnzipPairFstTile [A : Type] [B : Type]
+
+  abstract
+
+  get_fst (pair : TilePair [A] [B] ) : A =
+    pair .fst
+
+  map_tile = MapTile .mk [TilePair [A] [B] ] [A] (get_fst)
+
+  apply (message : TileMessage [Seq [TilePair [A] [B] ] ] ) : TileMessage [Seq [A] ] =
+    map_tile .apply (
+      message
+    )
+
+end
+

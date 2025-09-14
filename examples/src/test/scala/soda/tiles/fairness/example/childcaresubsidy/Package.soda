@@ -6,39 +6,11 @@ package soda.tiles.fairness.example.childcaresubsidy
 
 import
   org.scalatest.funsuite.AnyFunSuite
-  soda.tiles.fairness.tool.Actor
+  soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Assignment
-  soda.tiles.fairness.tool.Context
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.Outcome
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder
-  soda.tiles.fairness.tool.TilePair
-  soda.tiles.fairness.tool.TilePair_
-  soda.tiles.fairness.tile.AllActorPairTile
-  soda.tiles.fairness.tile.AllActorTile
-  soda.tiles.fairness.tile.AllActorTripleTile
-  soda.tiles.fairness.tile.AllAtLeastTile
-  soda.tiles.fairness.tile.AllEqual1Tile
-  soda.tiles.fairness.tile.AllEqualTile
-  soda.tiles.fairness.tile.AllSatisfyPTile
-  soda.tiles.fairness.tile.AttributePTile
-  soda.tiles.fairness.tile.CorrelationTile
-  soda.tiles.fairness.tile.DecisionTile
-  soda.tiles.fairness.tile.FalsePosTile
-  soda.tiles.fairness.tile.MapPTile
-  soda.tiles.fairness.tile.NeededPTile
-  soda.tiles.fairness.tile.PredictionPTile
-  soda.tiles.fairness.tile.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.SigmaTile
-  soda.tiles.fairness.tile.UnzipPairFstTile
-  soda.tiles.fairness.tile.UnzipPairSndTile
-  soda.tiles.fairness.tile.UnzipTripleFstTile
-  soda.tiles.fairness.tile.UnzipTripleSndTile
-  soda.tiles.fairness.tile.UnzipTripleTrdTile
-  soda.tiles.fairness.tile.ZipPairTile
-  soda.tiles.fairness.pipeline.EqualityPipeline
-  soda.tiles.fairness.pipeline.EquityPipeline
-  soda.tiles.fairness.pipeline.UnbiasednessPipeline
 

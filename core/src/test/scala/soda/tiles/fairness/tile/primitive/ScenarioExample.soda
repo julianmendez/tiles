@@ -1,0 +1,52 @@
+
+class ScenarioExample
+
+  abstract
+
+  context = "context"
+
+  resource0 = "small box - 0.1 m"
+
+  resource1 = "medium box - 0.2 m"
+
+  resource2 = "large box - 0.3 m"
+
+  resource3 = "10"
+
+  resource4 = "20"
+
+  resource5 = "30"
+
+  resource6 = "40"
+
+  agent0 = "Anna A"
+
+  agent1 = "Bob B"
+
+  agent2 = "Charlie C"
+
+  agent3 = "David D"
+
+  agent4 = "Eva E"
+
+  outcome0 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource0)
+      )
+    )
+
+  outcome1 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource3) ,
+        Assignment .mk (agent1) (resource4) ,
+        Assignment .mk (agent2) (resource5) ,
+        Assignment .mk (agent0) (resource6)
+      )
+    )
+
+end
+

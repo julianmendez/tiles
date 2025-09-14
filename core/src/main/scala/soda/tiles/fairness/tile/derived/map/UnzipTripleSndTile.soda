@@ -1,0 +1,26 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile takes a sequence of triples (a, b, c), and returns a sequence with the second
+ * component of each triple from the input.
+ */
+
+class UnzipTripleSndTile [A : Type] [B : Type] [C : Type]
+
+  abstract
+
+  get_snd (triple : TileTriple [A] [B] [C] ) : B =
+    triple .snd
+
+  map_tile = MapTile .mk [TileTriple [A] [B] [C] ] [B] (get_snd)
+
+  apply (message : TileMessage [Seq [TileTriple [A] [B] [C] ] ] ) : TileMessage [Seq [B] ] =
+    map_tile .apply (
+      message
+    )
+
+end
+

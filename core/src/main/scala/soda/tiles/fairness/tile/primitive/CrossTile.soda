@@ -1,0 +1,30 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile connects two sequences and returns a sequence of pairs,
+ * such that every element of the first sequence is paired with every
+ * element of the second sequence (Cartesian product).
+ */
+
+class CrossTile [A : Type] [B : Type]
+
+  abstract
+
+  cross_lists (list0 : Seq [A] ) (list1 : Seq [B] )
+      : Seq [TilePair [A] [B] ] =
+    list0
+      .flatMap (lambda a -->
+        list1
+          .map (lambda b --> TilePair .mk [A] [B] (a) (b) )
+      )
+
+  apply (message0 : TileMessage [Seq [A] ] ) (message1 : TileMessage [Seq [B] ] )
+      : TileMessage [Seq [TilePair [A] [B] ] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      cross_lists (message0 .contents) (message1 .contents)
+    )
+
+end
+

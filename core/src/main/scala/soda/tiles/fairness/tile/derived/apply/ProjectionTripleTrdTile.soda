@@ -1,0 +1,25 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns the third element of a triple.
+ */
+
+class ProjectionTripleTrdTile [A : Type] [B : Type] [C : Type]
+
+  abstract
+
+  get_trd (triple : TileTriple [A] [B] [C] ) : C =
+    triple .trd
+
+  apply_tile = ApplyTile .mk [TileTriple [A] [B] [C] ] [C] (get_trd)
+
+  apply (message : TileMessage [TileTriple [A] [B] [C] ] ) : TileMessage [C] =
+    apply_tile .apply (
+      message
+    )
+
+end
+

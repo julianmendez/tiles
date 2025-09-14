@@ -11,11 +11,11 @@ class ChildCareSubsidyScenarioExample
 
   resource3 = "subsidy - 300"
 
-  actor0 = "family A"
+  agent0 = "family A"
 
-  actor1 = "family B"
+  agent1 = "family B"
 
-  actor2 = "family C"
+  agent2 = "family C"
 
   _add_value_to (value : Int) (m : Measure) : Measure =
     match m
@@ -32,32 +32,32 @@ class ChildCareSubsidyScenarioExample
       case Some (value) ==> value
       case None ==> default
 
-  actor_children_map : Map [Actor] [Measure] = Seq (
-    Tuple2 [Actor] [Measure] (actor0 , Some (2) ) ,
-    Tuple2 [Actor] [Measure] (actor1 , Some (3) ) ,
-    Tuple2 [Actor] [Measure] (actor2 , Some (1) )
+  agent_children_map : Map [Agent] [Measure] = Seq (
+    Tuple2 [Agent] [Measure] (agent0 , Some (2) ) ,
+    Tuple2 [Agent] [Measure] (agent1 , Some (3) ) ,
+    Tuple2 [Agent] [Measure] (agent2 , Some (1) )
   ) .toMap
 
-  actor_children (actor : Actor) : Measure =
-    get_or_else [Actor] (actor_children_map) (actor) (Some (-1) )
+  agent_children (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_children_map) (agent) (Some (-1) )
 
-  actor_adults_map : Map [Actor] [Measure] = Seq (
-    Tuple2 [Actor] [Measure] (actor0 , Some (2) ) ,
-    Tuple2 [Actor] [Measure] (actor1 , Some (1) ) ,
-    Tuple2 [Actor] [Measure] (actor2 , Some (2) )
+  agent_adults_map : Map [Agent] [Measure] = Seq (
+    Tuple2 [Agent] [Measure] (agent0 , Some (2) ) ,
+    Tuple2 [Agent] [Measure] (agent1 , Some (1) ) ,
+    Tuple2 [Agent] [Measure] (agent2 , Some (2) )
   ) .toMap
 
-  actor_adults (actor : Actor) : Measure =
-    get_or_else [Actor] (actor_adults_map) (actor) (Some (-1) )
+  agent_adults (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_adults_map) (agent) (Some (-1) )
 
-  actor_income_map : Map [Actor] [Measure] = Seq (
-    Tuple2 [Actor] [Measure] (actor0 , Some (5000) ) ,
-    Tuple2 [Actor] [Measure] (actor1 , Some (3000) ) ,
-    Tuple2 [Actor] [Measure] (actor2 , Some (800) )
+  agent_income_map : Map [Agent] [Measure] = Seq (
+    Tuple2 [Agent] [Measure] (agent0 , Some (5000) ) ,
+    Tuple2 [Agent] [Measure] (agent1 , Some (3000) ) ,
+    Tuple2 [Agent] [Measure] (agent2 , Some (800) )
   ) .toMap
 
-  actor_income (actor : Actor) : Measure =
-    get_or_else [Actor] (actor_income_map) (actor) (Some (-1) )
+  agent_income (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_income_map) (agent) (Some (-1) )
 
   resource_value_map : Map [Resource] [Measure] = Seq (
     Tuple2 [Resource] [Measure] (resource0 , Some (0) ) ,
@@ -74,9 +74,9 @@ class ChildCareSubsidyScenarioExample
   outcome_no_subsidy : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource0) ,
-        Assignment .mk (actor1) (resource0) ,
-        Assignment .mk (actor2) (resource0)
+        Assignment .mk (agent0) (resource0) ,
+        Assignment .mk (agent1) (resource0) ,
+        Assignment .mk (agent2) (resource0)
       )
     )
 
@@ -86,9 +86,9 @@ class ChildCareSubsidyScenarioExample
   outcome_per_family_0 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource1) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource1)
+        Assignment .mk (agent0) (resource1) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource1)
       )
     )
 
@@ -98,9 +98,9 @@ class ChildCareSubsidyScenarioExample
   outcome_per_family_1 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource2) ,
-        Assignment .mk (actor2) (resource2)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource2) ,
+        Assignment .mk (agent2) (resource2)
       )
     )
 
@@ -110,9 +110,9 @@ class ChildCareSubsidyScenarioExample
   outcome_single_guardian : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource0) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource0)
+        Assignment .mk (agent0) (resource0) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource0)
       )
     )
 
@@ -122,9 +122,9 @@ class ChildCareSubsidyScenarioExample
   outcome_per_child : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource3) ,
-        Assignment .mk (actor2) (resource1)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource3) ,
+        Assignment .mk (agent2) (resource1)
       )
     )
 
@@ -134,9 +134,9 @@ class ChildCareSubsidyScenarioExample
   outcome_decreasing_on_income_0 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource1) ,
-        Assignment .mk (actor1) (resource2) ,
-        Assignment .mk (actor2) (resource2)
+        Assignment .mk (agent0) (resource1) ,
+        Assignment .mk (agent1) (resource2) ,
+        Assignment .mk (agent2) (resource2)
       )
     )
 
@@ -146,9 +146,9 @@ class ChildCareSubsidyScenarioExample
   outcome_decreasing_on_income_1 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource1) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource3)
+        Assignment .mk (agent0) (resource1) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource3)
       )
     )
 
@@ -158,9 +158,9 @@ class ChildCareSubsidyScenarioExample
   outcome_decreasing_per_child : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource3) ,
-        Assignment .mk (actor2) (resource1)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource3) ,
+        Assignment .mk (agent2) (resource1)
       )
     )
 

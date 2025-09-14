@@ -6,7 +6,7 @@ import Soda.tiles.fairness.tool.StringComparator
 class Identifier = String
 
 
-class Actor = Identifier
+class Agent = Identifier
 
 
 class Resource = Identifier
@@ -18,10 +18,51 @@ class Context = Identifier
 class Measure = Option [Int]
 
 
+class MeasureMod
+
+  abstract
+
+  zero : Measure = Some (0)
+
+  one : Measure = Some (1)
+
+  is_equals_0 (measure : Measure) : Boolean =
+    match measure
+      case Some (0) ==> true
+      case otherwise ==> false
+
+  add_value_to (value : Int) (m : Measure) : Measure =
+    match m
+      case Some (other_value) ==> Some (value + other_value)
+      case None ==> None
+
+  plus (a : Measure) (b : Measure) : Measure =
+    match a
+      case Some (value) ==> add_value_to (value) (b)
+      case None ==> None
+
+  _divide_integers (a : Int) (b : Int) : Measure =
+    if b == 0
+    then None
+    else Some (a / b)
+
+  divide_by (a : Measure) (b : Int) : Measure =
+    match a
+      case Some (value) ==> _divide_integers (value) (b)
+      case None ==> None
+
+  divide (a : Measure) (b : Measure) : Measure =
+    match b
+      case Some (value) ==> divide_by (a) (value)
+      case None ==> None
+
+end
+
+
 class Assignment
 
   abstract
-    actor : Actor
+    agent : Agent
     resource : Resource
 
 end
@@ -31,6 +72,22 @@ class Outcome
 
   abstract
     assignments : Seq [Assignment]
+
+end
+
+
+class OutcomeMod
+
+  abstract
+
+  get_assignments (outcome : Outcome) (a : Agent) : Seq [Assignment] =
+    outcome
+      .assignments
+      .filter (lambda assignment --> assignment .agent == a)
+
+  get_resources (outcome : Outcome) (a : Agent) : Seq [Resource] =
+    get_assignments (outcome) (a)
+      .map (lambda assignment --> assignment .resource)
 
 end
 
@@ -54,8 +111,8 @@ class Comparator
   compareIdentifier (identifier0 : Identifier) (identifier1 : Identifier) : Int =
     compareString (identifier0) (identifier1)
 
-  compareActor (actor0 : Actor) (actor1 : Actor) : Int =
-    compareIdentifier (actor0) (actor1)
+  compareAgent (agent0 : Agent) (agent1 : Agent) : Int =
+    compareIdentifier (agent0) (agent1)
 
   compareResource (resource0 : Resource) (resource1 : Resource) : Int =
     compareIdentifier (resource0) (resource1)
@@ -79,9 +136,9 @@ class Comparator
       case None ==> _compareNone (measure1)
 
   compareAssignment (assignment0 : Assignment) (assignment1 : Assignment) : Int =
-    if assignment0 .actor == assignment1 .actor
+    if assignment0 .agent == assignment1 .agent
     then compareResource (assignment0 .resource) (assignment1 .resource)
-    else compareActor (assignment0 .actor) (assignment1 .actor)
+    else compareAgent (assignment0 .agent) (assignment1 .agent)
 
 end
 

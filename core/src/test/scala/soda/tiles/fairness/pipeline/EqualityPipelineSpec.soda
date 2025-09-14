@@ -8,7 +8,7 @@ class EqualityPipelineSpec ()
 
   example = ResourceAllocationScenarioExample .mk
 
-  equality_pipeline = EqualityPipeline .mk (example .measure_sum) (example .resource_height)
+  equality_pipeline = EqualityPipeline .mk (example .resource_height)
 
   test ("equality on outcome 0") (
     check (

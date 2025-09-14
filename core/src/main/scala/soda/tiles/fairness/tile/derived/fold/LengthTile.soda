@@ -1,0 +1,23 @@
+
+/**
+ * This computes the length of a sequence.
+ */
+
+class LengthTile [A : Type]
+
+  abstract
+
+  one : Measure = MeasureMod .mk .one
+
+  phi (x : A) : Measure =
+    one
+
+  sum_phi_tile = SumPhiTile .mk [A] (phi)
+
+  apply (message : TileMessage [Seq [A] ] ) : TileMessage [Measure] =
+    sum_phi_tile .apply (
+      message
+    )
+
+end
+

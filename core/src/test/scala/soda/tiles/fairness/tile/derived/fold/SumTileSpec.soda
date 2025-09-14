@@ -1,0 +1,59 @@
+
+class SumTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message (seq : Seq [Measure] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  sum_tile = SumTile .mk [Measure]
+
+  test ("sum tile on empty sequence returns measure zero") (
+    check(
+      obtained := sum_tile
+        .apply (mk_tile_message (Seq [Measure] () ) )
+        .contents
+    ) (
+      expected := Some(0)
+    )
+  )
+
+  test ("sum tile on single element sequence returns that element") (
+    check(
+      obtained := sum_tile
+        .apply (mk_tile_message (Seq [Measure] (Some(7)) ) )
+        .contents
+    ) (
+      expected := Some(7)
+    )
+  )
+
+  test ("sum tile on multiple elements sequence returns correct sum") (
+    check(
+      obtained := sum_tile
+        .apply (mk_tile_message (Seq [Measure] (Some(2), Some(4), Some(6)) ) )
+        .contents
+    ) (
+      expected := Some(12)
+    )
+  )
+
+  test ("sum tile with Some and None values is None if one of them is found") (
+    check(
+      obtained := sum_tile
+        .apply (mk_tile_message (Seq [Measure] (Some(5), None, Some(10), None, Some(3)) ) )
+        .contents
+    ) (
+      expected := None
+    )
+  )
+
+end
+

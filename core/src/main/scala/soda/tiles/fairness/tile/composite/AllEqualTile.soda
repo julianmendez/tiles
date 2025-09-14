@@ -1,0 +1,34 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllEqual1Tile
+
+/**
+ * This tile takes a sequence of measures and returns 'true' when they are all the same.
+ */
+
+class AllEqualTile
+
+  abstract
+
+  zero = MeasureMod .mk .zero
+
+  one = MeasureMod .mk .one
+
+  distinct_tile = DistinctTile .mk [Measure]
+
+  length_tile = LengthTile .mk [Measure]
+
+  apply_tile = ApplyTile .mk [Measure] [Boolean] (lambda m --> (m == zero) or (m == one) )
+
+  apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [Boolean] =
+    apply_tile .apply (
+      length_tile .apply (
+        distinct_tile .apply (
+          message
+        )
+      )
+    )
+
+end
+

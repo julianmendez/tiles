@@ -10,51 +10,32 @@ class UnbiasednessPipelineSpec ()
 
   unbiasedness_pipeline =
     UnbiasednessPipeline .mk (
-      ex .evaluation) (
+      ex .positive_value) (
       ex .result_function) (
-      ex .protected_attribute_function) (
-      ex .maximum_acceptable_bias_percentage
+      ex .protected_attribute_function
     )
 
-  get_coefficient (message : TileMessage [Boolean] ) : TileMessage [Measure] =
-    unbiasedness_pipeline .get_correlation_plumbing (
-      unbiasedness_pipeline .all_actor_tile .apply (message)
-    ) (
-      unbiasedness_pipeline .all_actor_tile .apply (message)
-    ) (
-      unbiasedness_pipeline .all_actor_tile .apply (message)
-    )
-
-
-  test ("unbiasedness on unbiased sample") (
+  test ("coefficient of a completely unbiased sample") (
     check (
       obtained := unbiasedness_pipeline .apply (ex .initial_unbiased) .contents
     ) (
-      expected := true
+      expected := None
     )
   )
 
-  test ("unbiasedness on biased sample") (
+  test ("coefficient of mostly unbiased sample") (
     check (
-      obtained := unbiasedness_pipeline .apply (ex .initial_biased) .contents
+      obtained := unbiasedness_pipeline .apply (ex .initial_mostly_unbiased) .contents
     ) (
-      expected := false
-    )
-  )
-
-  test ("coefficient of unbiased sample") (
-    check (
-      obtained := get_coefficient (ex .initial_unbiased) .contents
-    ) (
-      expected := Some (0)
+      expected := Some (0.08)
     )
   )
 
   test ("coefficient of biased sample") (
     check (
-      obtained := get_coefficient (ex .initial_biased) .contents
+      obtained := unbiasedness_pipeline .apply (ex .initial_biased) .contents
     ) (
-      expected := Some (42)
+      expected := Some (0.42)
     )
   )
 

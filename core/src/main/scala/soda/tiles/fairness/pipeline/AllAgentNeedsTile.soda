@@ -1,0 +1,29 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+
+/**
+ * This composite tile returns all the needs of the agents.
+ */
+
+class AllAgentNeedsTile
+
+  abstract
+    q : Resource -> Measure
+
+  needs_tile = NeedsTile .mk (q)
+
+  all_agent_tile = AllAgentTile .mk
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Measure] ] =
+    needs_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    )
+
+end
+

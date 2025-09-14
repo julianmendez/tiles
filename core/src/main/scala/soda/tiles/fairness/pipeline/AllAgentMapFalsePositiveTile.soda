@@ -1,0 +1,46 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+
+/**
+ * This composite tile returns all the the false positives with
+ * respect to a prediction (the outcome) and a result function.
+ */
+
+class AllAgentMapFalsePositiveTile
+
+  abstract
+    positive_value : Resource
+    result_function : Agent -> Resource
+
+  zero = MeasureMod .mk .zero
+
+  one = MeasureMod .mk .one
+
+  pred (outcome : Outcome) (a : Agent) : Boolean =
+    OutcomeMod .mk
+      .get_resources (outcome) (a)
+      .contains (positive_value)
+
+  check_false_positive (outcome : Outcome) (a : Agent) : Measure =
+    if ( (pred (outcome) (a) ) and (not (result_function (a) == positive_value) ) )
+    then one
+    else zero
+
+  all_agent_tile = AllAgentTile .mk
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Measure] ] =
+    MapTile .mk [Agent] [Measure] (
+      lambda agent -->
+        check_false_positive (message .outcome) (agent)
+    ) .apply (
+      all_agent_tile .apply (
+        message
+      )
+    )
+
+end
+

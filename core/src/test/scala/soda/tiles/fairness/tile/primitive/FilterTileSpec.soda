@@ -1,0 +1,68 @@
+
+class EvenFilterTile
+  extends
+    FilterTile [Int]
+
+  abstract
+
+  phi : Int -> Boolean =
+    lambda elem --> (elem % 2 == 0)
+
+end
+
+
+class FilterTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  test ("filter on empty sequence returns empty sequence") (
+    check(
+      obtained := EvenFilterTile .mk
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected := Seq [Int] ()
+    )
+  )
+
+  test ("filter on sequence with no matching elements") (
+    check(
+      obtained := EvenFilterTile .mk
+        .apply (mk_tile_message (Seq [Int] (1 , 3 , 5) ) )
+        .contents
+    ) (
+      expected := Seq [Int] ()
+    )
+  )
+
+  test ("filter on sequence with some matching elements") (
+    check(
+      obtained := EvenFilterTile .mk
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3 , 4 , 5) ) )
+        .contents
+    ) (
+      expected := Seq [Int] (2 , 4)
+    )
+  )
+
+  test ("filter on sequence with all matching elements") (
+    check(
+      obtained := EvenFilterTile .mk
+        .apply (mk_tile_message (Seq [Int] (2 , 4 , 6) ) )
+        .contents
+    ) (
+      expected := Seq [Int] (2 , 4 , 6)
+    )
+  )
+
+end
