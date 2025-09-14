@@ -31,7 +31,8 @@ import
   soda.tiles.fairness.tool.Number
   soda.tiles.fairness.tool.Outcome
   soda.tiles.fairness.tool.OutcomeMod
-  soda.tiles.fairness.tool.PearsonMod
+  soda.tiles.fairness.tool.PearsonCorrDirect
+  soda.tiles.fairness.tool.PearsonCorrCovariance
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TilePair

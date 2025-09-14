@@ -228,6 +228,9 @@ trait MathTool
   def squared (x : Number) : Number =
     x * x
 
+  def sqrt (x : Number) : Number =
+    Math .sqrt (x)
+
   private lazy val _sum_init : Number = 0
 
   private def _sum_next (accum : Number) (elem : Number) : Number =
@@ -239,6 +242,16 @@ trait MathTool
   def average (seq : Seq [Number] ) : Number =
     sum (seq) / as_number (seq .length)
 
+  def abs (x : Number) : Number =
+    if ( x < 0
+    ) (-1) * x
+    else x
+
+  def is_within (maybeNumber : Option [Number] ) (center : Double) (epsilon : Double) : Boolean =
+    maybeNumber
+      .exists ( value =>
+        abs (value - center) <= epsilon)
+
 }
 
 case class MathTool_ () extends MathTool
@@ -248,15 +261,7 @@ object MathTool {
     MathTool_ ()
 }
 
-/**
- * The main function in this class computes the Pearson correlation coefficient.
- *
- *  r_{x,y} =\frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
- *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
- *  \bar{y})^{2}}}
- */
-
-trait Pearson
+trait SeqPair
 {
 
   def   xlist : Seq [Number]
@@ -264,14 +269,23 @@ trait Pearson
 
 }
 
-case class Pearson_ (xlist : Seq [Number], ylist : Seq [Number]) extends Pearson
+case class SeqPair_ (xlist : Seq [Number], ylist : Seq [Number]) extends SeqPair
 
-object Pearson {
-  def mk (xlist : Seq [Number]) (ylist : Seq [Number]) : Pearson =
-    Pearson_ (xlist, ylist)
+object SeqPair {
+  def mk (xlist : Seq [Number]) (ylist : Seq [Number]) : SeqPair =
+    SeqPair_ (xlist, ylist)
 }
 
-trait PearsonMod
+/**
+ * The main function in this class computes the Pearson correlation coefficient.
+ * It uses a direct formula.
+ *
+ *  r_{x,y} = \frac{\sum _{i=1}^{n}(x_{i} - \bar{x})(y_{i} -
+ *  \bar{y})}{\sqrt{\sum _{i=1}^{n}(x_{i} - \bar{x})^2} \sqrt{\sum ^{n} _{i=1}(y_{i} -
+ *  \bar{y})^{2}}}
+ */
+
+trait PearsonCorrDirect
 {
 
 
@@ -280,7 +294,7 @@ trait PearsonMod
 
 /*
   directive lean
-  notation "Math.sqrt" => Float.sqrt
+  notation "_mm.sqrt" => Float.sqrt
   notation "_mm.average" => MathTool.average
   notation "_mm.sum" => MathTool.sum
   notation "_mm.squared" => MathTool.squared
@@ -293,9 +307,9 @@ trait PearsonMod
     _sum_squared_diff_with (seq) (_mm .average (seq) )
 
   private def _sqrt_sum_squared_diff (seq : Seq [Number] ) : Number =
-    Math.sqrt (sum_squared_diff (seq) )
+    _mm .sqrt (sum_squared_diff (seq) )
 
-  private def _denominator (m : Pearson) : Number =
+  private def _denominator (m : SeqPair) : Number =
     _sqrt_sum_squared_diff (m .xlist) * _sqrt_sum_squared_diff (m .ylist)
 
   private def _multip (x_i : Number) (y_i : Number) (x_average : Number) (y_average : Number) : Number =
@@ -306,37 +320,103 @@ trait PearsonMod
     _mm .sum (pair_list .map ( pair =>
       _multip (pair .fst) (pair .snd) (x_average) (y_average) ) )
 
-  private def _x_y_together (m : Pearson) : Seq [TilePair [Number, Number] ] =
+  private def _x_y_together (m : SeqPair) : Seq [TilePair [Number, Number] ] =
     (m .xlist .zip (m .ylist) ) .map ( elem => as_pair (elem) )
 
-  private def _numerator (m : Pearson) : Number =
+  private def _numerator (m : SeqPair) : Number =
     _numerator_with (_x_y_together (m) ) (_mm .average (m .xlist) ) (_mm .average (m .ylist) )
-
-  def abs (x : Number) : Number =
-    if ( x < 0
-    ) (-1) * x
-    else x
-
-  def is_within (maybeNumber : Option [Number] ) (center : Double) (epsilon : Double) : Boolean =
-    maybeNumber
-      .exists ( value =>
-        abs (value - center) <= epsilon)
 
   def coefficient_with (numerator : Number) (denominator : Number) : Option [Number] =
     if ( denominator == 0
     ) None
     else Some (numerator / denominator)
 
-  def coefficient (m : Pearson) : Option [Number] =
+  def coefficient (m : SeqPair) : Option [Number] =
     coefficient_with (_numerator (m) ) (_denominator (m) )
 
 }
 
-case class PearsonMod_ () extends PearsonMod
+case class PearsonCorrDirect_ () extends PearsonCorrDirect
 
-object PearsonMod {
-  def mk : PearsonMod =
-    PearsonMod_ ()
+object PearsonCorrDirect {
+  def mk : PearsonCorrDirect =
+    PearsonCorrDirect_ ()
+}
+
+/**
+ * The main function in this class computes the Pearson correlation coefficient.
+ * It computes the sample covariance and the sample standard deviation.
+ *
+ * r_{X,Y} = \frac{\mathrm{Cov}(X, Y)}{\sigma_{X} \, \sigma_{Y}}
+ */
+
+trait PearsonCorrCovariance
+{
+
+
+
+  private lazy val _mm : MathTool = MathTool .mk
+
+  private def _covariance_with (xs : Seq [Number] ) (ys : Seq [Number] ) (mu_x : Number) (mu_y : Number) (n : Number)
+      : Option [Number] =
+    if ( n > 1
+    ) Some (
+      _mm .sum (
+        xs
+          .zip (ys)
+          .map ( pair => (pair ._1 - mu_x) * (pair ._2 - mu_y) )
+      ) / (n - 1)
+    )
+    else None
+
+  /** Sample covariance: Cov(X,Y) = Σ (xᵢ - μₓ)(yᵢ - μᵧ) / (n - 1) */
+
+  def covariance (xs : Seq [Number] ) (ys : Seq [Number] ) : Option [Number] =
+    _covariance_with (xs) (ys) (_mm .average (xs) ) (_mm .average (ys) ) (as_number (xs .length) )
+
+  /** Sample variance: Var(X) = Cov(X, X) */
+
+  def variance (seq : Seq [Number] ) : Option [Number] =
+    covariance (seq) (seq)
+
+  /** Sample standard deviation: σₓ = sqrt(Var(X)) */
+
+  def stddev (seq : Seq [Number] ) : Option [Number] =
+    variance (seq)
+      .map ( v => _mm .sqrt (v) )
+
+  def coefficient_with (cov_xy : Option [Number] ) (stddev_x : Option [Number] ) (stddev_y : Option [Number] )
+      : Option [Number] =
+    stddev_x
+      .filter ( x => ! (x == 0) )
+      .flatMap ( stddev_x_val =>
+        stddev_y
+          .filter ( x => ! (x == 0) )
+          .flatMap ( stddev_y_val =>
+            cov_xy .map ( cov_xy_val =>
+              cov_xy_val / (stddev_x_val * stddev_y_val)
+            )
+          )
+      )
+
+  /** Pearson correlation coefficient: r = Cov(X,Y) / (σₓ * σᵧ) */
+
+  def coefficient (m : SeqPair) : Option [Number] =
+    coefficient_with (
+      covariance (m .xlist) (m .ylist)
+    ) (
+      stddev (m .xlist)
+    ) (
+      stddev (m .ylist)
+    )
+
+}
+
+case class PearsonCorrCovariance_ () extends PearsonCorrCovariance
+
+object PearsonCorrCovariance {
+  def mk : PearsonCorrCovariance =
+    PearsonCorrCovariance_ ()
 }
 
 trait ScoringCategory

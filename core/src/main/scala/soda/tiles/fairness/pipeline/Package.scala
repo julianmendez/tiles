@@ -30,7 +30,8 @@ import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.OutcomeMod
-import   soda.tiles.fairness.tool.PearsonMod
+import   soda.tiles.fairness.tool.PearsonCorrDirect
+import   soda.tiles.fairness.tool.PearsonCorrCovariance
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair

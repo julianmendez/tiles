@@ -24,7 +24,7 @@ class CorrelationTile
   zip_tile = ZipTile .mk [Measure] [Measure]
 
   get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Option [Number] =
-    PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )
+    PearsonCorrCovariance .mk .coefficient (SeqPair .mk (xlist) (ylist) )
 
   to_double (m : Measure) : Number =
     match m

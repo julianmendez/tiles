@@ -17,7 +17,7 @@ class CorrelationAbsTile
 
   conversion (m : Measure) : Option [Number] =
     m .map (lambda value -->
-      PearsonMod .mk .abs (value / correlation_tile .percentage_constant)
+      MathTool .mk .abs (value / correlation_tile .percentage_constant)
     )
 
   apply_tile = ApplyTile .mk [Measure] [Option [Number] ] (conversion)

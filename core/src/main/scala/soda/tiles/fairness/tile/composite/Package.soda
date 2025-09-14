@@ -19,14 +19,16 @@ import
   soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Assignment
   soda.tiles.fairness.tool.Comparator
+  soda.tiles.fairness.tool.MathTool
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.MeasureMod
   soda.tiles.fairness.tool.Number
   soda.tiles.fairness.tool.Outcome
   soda.tiles.fairness.tool.OutcomeMod
-  soda.tiles.fairness.tool.Pearson
-  soda.tiles.fairness.tool.PearsonMod
+  soda.tiles.fairness.tool.PearsonCorrDirect
+  soda.tiles.fairness.tool.PearsonCorrCovariance
   soda.tiles.fairness.tool.Resource
+  soda.tiles.fairness.tool.SeqPair
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder
   soda.tiles.fairness.tool.TilePair

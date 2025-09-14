@@ -320,9 +320,7 @@ case class ScoringToolSpec ()
 
   lazy val example_ylist_1 : Seq [Number] = Seq (1 , 3 , 5 , 8)
 
-  lazy val instance_1 : Pearson = Pearson .mk (example_xlist_1) (example_ylist_1)
-
-  lazy val pearson_mod : PearsonMod = PearsonMod .mk
+  lazy val instance_1 : SeqPair = SeqPair .mk (example_xlist_1) (example_ylist_1)
 
   private lazy val _mt : MathTool = MathTool .mk
 
@@ -356,11 +354,85 @@ case class ScoringToolSpec ()
 
   lazy val example_ylist_2 : Seq [Number] = Seq (99 , 65 , 79 , 75 , 87 , 81)
 
-  lazy val instance_2 : Pearson = Pearson .mk (example_xlist_2) (example_ylist_2)
+  lazy val instance_2 : SeqPair = SeqPair .mk (example_xlist_2) (example_ylist_2)
 
-  test ("coefficient") (
+  test ("coefficient v1") (
     check (
-      obtained = pearson_mod .is_within (pearson_mod .coefficient (instance_2) ) (0.529808) (0.000001)
+      obtained = MathTool .mk .is_within (PearsonCorrDirect .mk .coefficient (instance_2) ) (0.529808901) (0.000000001)
+    ) (
+      expected = true
+    )
+  )
+
+  test ("coefficient v2") (
+    check (
+      obtained = MathTool .mk .is_within (PearsonCorrCovariance .mk .coefficient (instance_2) ) (0.529808901) (0.000000001)
+    ) (
+      expected = true
+    )
+  )
+
+  lazy val example_xlist_3 : Seq [Number] = Seq (10 , 20 , 30 , 40 , 50)
+
+  lazy val example_ylist_3 : Seq [Number] = Seq (15 , 25 , 35 , 45 , 55)
+
+  lazy val instance_3 : SeqPair = SeqPair .mk (example_xlist_3) (example_ylist_3)
+
+  test ("coefficient v1 - perfect positive") (
+    check (
+      obtained = MathTool .mk .is_within (PearsonCorrDirect .mk .coefficient (instance_3) ) (1.0) (0.000001)
+    ) (
+      expected = true
+    )
+  )
+
+  test ("coefficient v2 - perfect positive") (
+    check (
+      obtained = MathTool .mk .is_within (PearsonCorrCovariance .mk .coefficient (instance_3) ) (1.0) (0.000001)
+    ) (
+      expected = true
+    )
+  )
+
+  lazy val example_xlist_4 : Seq [Number] = Seq (1 , 2 , 3 , 4 , 5)
+
+  lazy val example_ylist_4 : Seq [Number] = Seq (10 , 8 , 6 , 4 , 2)
+
+  lazy val instance_4 : SeqPair = SeqPair .mk (example_xlist_4) (example_ylist_4)
+
+  test ("coefficient v1 - perfect negative") (
+    check (
+      obtained = MathTool .mk .is_within (PearsonCorrDirect .mk .coefficient (instance_4) ) (-1.0) (0.000001)
+    ) (
+      expected = true
+    )
+  )
+
+  test ("coefficient v2 - perfect negative") (
+    check (
+      obtained = MathTool .mk .is_within (PearsonCorrCovariance .mk .coefficient (instance_4) ) (-1.0) (0.000001)
+    ) (
+      expected = true
+    )
+  )
+
+  lazy val example_xlist_5 : Seq [Number] = Seq (1 , 2 , 3 , 4 , 5)
+
+  lazy val example_ylist_5 : Seq [Number] = Seq (7 , 3 , 6 , 2 , 8)
+
+  lazy val instance_5 : SeqPair = SeqPair .mk (example_xlist_5) (example_ylist_5)
+
+  test ("coefficient v1 - no correlation") (
+    check (
+      obtained = MathTool .mk .is_within (PearsonCorrDirect .mk .coefficient (instance_5) ) (0.061084722) (0.000000001)
+    ) (
+      expected = true
+    )
+  )
+
+  test ("coefficient v2 - no correlation") (
+    check (
+      obtained = MathTool .mk .is_within (PearsonCorrCovariance .mk .coefficient (instance_5) ) (0.061084722) (0.000000001)
     ) (
       expected = true
     )

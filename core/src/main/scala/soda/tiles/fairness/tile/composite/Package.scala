@@ -18,14 +18,16 @@ import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Comparator
+import   soda.tiles.fairness.tool.MathTool
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.OutcomeMod
-import   soda.tiles.fairness.tool.Pearson
-import   soda.tiles.fairness.tool.PearsonMod
+import   soda.tiles.fairness.tool.PearsonCorrDirect
+import   soda.tiles.fairness.tool.PearsonCorrCovariance
 import   soda.tiles.fairness.tool.Resource
+import   soda.tiles.fairness.tool.SeqPair
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
@@ -300,7 +302,7 @@ trait CorrelationAbsTile
 
   def conversion (m : Measure) : Option [Number] =
     m .map ( value =>
-      PearsonMod .mk .abs (value / correlation_tile .percentage_constant)
+      MathTool .mk .abs (value / correlation_tile .percentage_constant)
     )
 
   lazy val apply_tile = ApplyTile .mk [Measure, Option [Number] ] (conversion)
@@ -354,7 +356,7 @@ trait CorrelationTile
   lazy val zip_tile = ZipTile .mk [Measure, Measure]
 
   def get_coefficient (xlist : Seq [Number] ) (ylist : Seq [Number] ) : Option [Number] =
-    PearsonMod .mk .coefficient (Pearson .mk (xlist) (ylist) )
+    PearsonCorrCovariance .mk .coefficient (SeqPair .mk (xlist) (ylist) )
 
   def to_double (m : Measure) : Number =
     m match  {
