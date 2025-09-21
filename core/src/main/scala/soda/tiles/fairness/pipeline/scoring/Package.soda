@@ -1,0 +1,20 @@
+package soda.tiles.fairness.pipeline.scoring
+
+/*
+ * This package contains classes to model the tiles.
+ */
+
+import
+  soda.tiles.fairness.tile.composite.CorrelationAbsTile
+  soda.tiles.fairness.tile.constant.AllAgentTile
+  soda.tiles.fairness.tile.primitive.MapTile
+  soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.MeasureMod
+  soda.tiles.fairness.tool.Number
+  soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.OutcomeMod
+  soda.tiles.fairness.tool.Resource
+  soda.tiles.fairness.tool.TileMessage
+
+
