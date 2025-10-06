@@ -1,0 +1,35 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import soda.tiles.fairness.tile.composite.ZipSigmaTile
+
+/**
+ * This tiles takes a sequence of pairs of measures (m0, m1), and returns a sequence, which
+ * for each pair is 1, if m0 = 1 and m1 = 0, and 0 otherwise.
+ */
+
+class FalsePosTile
+
+  abstract
+
+  zero : Measure = MeasureMod .mk .zero
+
+  one : Measure = MeasureMod .mk .one
+
+  sigma (m0 : Measure) (m1 : Measure) : Measure =
+    if (m0 == one) and (m1 == zero)
+    then one
+    else zero
+
+  zip_sigma_tile = ZipSigmaTile .mk (sigma)
+
+  apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [Seq [Measure] ] )
+      : TileMessage [Seq [Measure] ] =
+    zip_sigma_tile .apply (
+      message0
+    ) (
+      message1
+    )
+
+end
+

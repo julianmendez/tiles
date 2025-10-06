@@ -1,0 +1,409 @@
+package soda.tiles.fairness.tile.composite
+
+/*
+ * This package contains tests for derived tiles.
+ */
+
+import   org.scalatest.funsuite.AnyFunSuite
+import   soda.tiles.fairness.tile.primitive.ScenarioExample
+import   soda.tiles.fairness.tool.Agent
+import   soda.tiles.fairness.tool.Assignment
+import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.Outcome
+import   soda.tiles.fairness.tool.OutcomeMod
+import   soda.tiles.fairness.tool.Resource
+import   soda.tiles.fairness.tool.TileMessage
+import   soda.tiles.fairness.tool.TileMessageBuilder
+import   soda.tiles.fairness.tool.TilePair
+
+
+
+
+
+case class AccumulatesTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val scenario = ScenarioExample .mk
+
+  def mk_tile_message (seq : Seq [Agent] ) : TileMessage [Seq [Agent] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome1) (seq)
+
+  def utility (resource : Resource) : Measure =
+    Some (resource .toIntOption .getOrElse (resource .length) )
+
+  lazy val accumulates_tile = AccumulatesTile .mk (utility)
+
+  test ("accumulates on empty sequence returns empty sequence") (
+    check(
+      obtained = accumulates_tile
+        .apply (mk_tile_message (Seq [Agent] () ) )
+        .contents
+    ) (
+      expected = Seq [Measure] ()
+    )
+  )
+
+  test ("accumulates on single agent with no resources") (
+    check(
+      obtained = accumulates_tile
+        .apply (mk_tile_message (Seq [Agent] (scenario .agent3) ) )
+        .contents
+    ) (
+      expected = Seq [Measure] (Some (0) )
+    )
+  )
+
+  test ("accumulates on multiple agents with resources") (
+    check(
+      obtained = accumulates_tile
+        .apply (mk_tile_message (Seq [Agent] (scenario .agent0 , scenario .agent1) ) )
+        .contents
+    ) (
+      expected = Seq [Measure] (
+        Some (50),
+        Some (20)
+      )
+    )
+  )
+
+}
+
+
+case class AllEqualTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample.mk
+
+  def mk_tile_message (seq : Seq [Measure] ) : TileMessage[Seq[Measure]] =
+    TileMessageBuilder
+      .mk
+      .build (scenario.context) (scenario.outcome1) (seq)
+
+  lazy val all_equal_tile = AllEqualTile.mk
+
+  test ("all equal on empty sequence returns true") (
+    check (
+      obtained = all_equal_tile
+        .apply (mk_tile_message (Seq [Measure] () ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("all equal on single measure returns true") (
+    check (
+      obtained = all_equal_tile
+        .apply (mk_tile_message (Seq [Measure] (Some (42) ) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("all equal on identical measures returns true") (
+    check (
+      obtained = all_equal_tile
+        .apply (mk_tile_message (Seq [Measure] (Some (10) , Some (10) , Some (10) ) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("all equal on differing measures returns false") (
+    check (
+      obtained = all_equal_tile
+        .apply (mk_tile_message (Seq [Measure] (Some (5) , Some (10) ) ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+}
+
+
+case class AverageTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val tile = AverageTile .mk
+
+  lazy val scenario = ScenarioExample .mk
+
+  def mk_tile_message (seq: Seq [Measure] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  test ("average of empty sequence should be zero") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (Seq [Measure] () ) )
+        .contents
+    ) (
+      expected = Some (0)
+    )
+  )
+
+  test ("average of single element sequence should be that element") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (Seq (Some (5) ) ) )
+        .contents
+    ) (
+      expected = Some (5)
+    )
+  )
+
+  test ("average of multiple elements should be correct") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (Seq (Some (2) , Some (4) , Some (6) ) ) )
+        .contents
+    ) (
+      expected = Some (4)
+    )
+  )
+
+  test ("average should return None if any element is None") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (Seq (Some (2) , None , Some (6) ) ) )
+        .contents
+    ) (
+      expected = None
+    )
+  )
+
+  test ("average of sequence with zero elements should be zero") (
+    check (
+      obtained = tile .apply_function_with (Some (10) ) (Some (0) )
+    ) (
+      expected = Some (0)
+    )
+  )
+
+}
+
+
+case class CorrelationTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  lazy val tile = CorrelationTile.mk
+
+  lazy val scenario = ScenarioExample.mk
+
+  def mk_tile_message (seq: Seq[Measure] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  lazy val seq0 = Seq [Measure] (Some (1) , Some (2) , Some (3) )
+
+  lazy val seq1 = Seq [Measure] (Some (3) , Some (2) , Some (1) )
+
+  lazy val seq2 = Seq [Measure] (Some (5) , Some (5) , Some (5) )
+
+  lazy val seq3 = Seq [Measure] (Some (1) , None , Some (3) )
+
+  lazy val seq4 = Seq [Measure] ()
+
+  test ("correlation of two identical sequences should be 100 %") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq0) ) (mk_tile_message (seq0) )
+        .contents
+    ) (
+      expected = Some (100)
+    )
+  )
+
+  test ("correlation of perfectly inversely related sequences should be -100 %") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq0) ) (mk_tile_message (seq1) )
+        .contents
+    ) (
+      expected = Some (-100)
+    )
+  )
+
+  test ("correlation with one constant sequence should be None") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq2) ) (mk_tile_message (seq0) )
+        .contents
+    ) (
+      expected = None
+    )
+  )
+
+  test ("correlation should return None if any element is None") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq3) ) (mk_tile_message (seq0) )
+        .contents
+    ) (
+      expected = None
+    )
+  )
+
+  test ("correlation of empty sequences should be None") (
+    check (
+      obtained = tile
+        .apply (mk_tile_message (seq4) ) (mk_tile_message (seq4) )
+        .contents
+    ) (
+      expected = None
+    )
+  )
+
+}
+
+
+case class ExistsTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample .mk
+
+  def mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ]  =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome1) (seq)
+
+  def phi (x : Int) : Boolean = x > 10
+
+  lazy val exists_tile = ExistsTile .mk [Int] (phi)
+
+  test ("exists on empty sequence returns false")(
+    check (
+      obtained = exists_tile
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+  test ("exists on sequence with no matching elements returns false")(
+    check (
+      obtained = exists_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 5 , 10) ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+  test ("exists on sequence with one matching element returns true")(
+    check (
+      obtained = exists_tile
+        .apply (mk_tile_message (Seq [Int] (5 , 15 , 3) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("exists on sequence with all matching elements returns true")(
+    check (
+      obtained = exists_tile
+        .apply (mk_tile_message (Seq [Int] (20 , 30 , 40) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+}
+
+
+case class ForallTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample.mk
+
+  def mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ]  =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome1) (seq)
+
+  def phi (x : Int) : Boolean = x > 0
+
+  lazy val forall_tile = ForallTile.mk [Int] (phi)
+
+  test ("forall on empty sequence returns true") (
+    check (
+      obtained = forall_tile
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("forall on sequence with all matching elements returns true") (
+    check (
+      obtained = forall_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3) ) )
+        .contents
+    ) (
+      expected = true
+    )
+  )
+
+  test ("forall on sequence with one non-matching element returns false") (
+    check (
+      obtained = forall_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 0 , 3) ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+  test ("forall on sequence with all non-matching elements returns false") (
+    check (
+      obtained = forall_tile
+        .apply (mk_tile_message (Seq [Int] (0 , -1 , -5) ) )
+        .contents
+    ) (
+      expected = false
+    )
+  )
+
+}
+

@@ -4,69 +4,68 @@ class CcsSingleGuardianPipeline
     CcsPipeline
 
   abstract
-    sigma : Measure -> Measure -> Measure
-    p_utility : Resource -> Measure
-    adults : Actor -> Measure
+    utility : Resource -> Measure
+    adults : Agent -> Measure
 
   is_equals_0 (measure : Measure) : Boolean =
     match measure
       case Some (0) ==> true
       case otherwise ==> false
 
-  all_satisfy_p_tile = AllSatisfyPTile .mk (is_equals_0)
+  forall_tile = ForallTile .mk [Measure] (is_equals_0)
 
   all_equal_tile = AllEqualTile .mk
 
-  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+  accumulates_tile = AccumulatesTile .mk (utility)
 
-  all_actor_tile = AllActorTile .mk
+  all_agent_tile = AllAgentTile .mk
 
-  all_actor_pair_tile = AllActorPairTile .mk
+  all_agent_pair_tile = AllAgentPairTile .mk
 
-  pair_fst_tile = ProjectionPairFstTile .mk
+  pair_fst_tile = ProjectionPairFstTile .mk [Seq [Agent] ] [Seq [Agent] ]
 
-  pair_snd_tile = ProjectionPairSndTile .mk
+  pair_snd_tile = ProjectionPairSndTile .mk [Seq [Agent] ] [Seq [Agent] ]
 
   and_combination (b0 : Boolean) (b1 : Boolean) : Boolean =
     b0 and b1
 
   and_tile = CombineBooleanTile .mk (and_combination)
 
-  pairing_tile = TuplingPairTile .mk
+  tupling_tile = TuplingPairTile .mk [Boolean] [Boolean]
 
-  condition_0 (a : Actor) : Boolean =
+  condition_0 (a : Agent) : Boolean =
     adults (a) .getOrElse (0) == 1
 
-  condition_1 (a : Actor) : Boolean =
+  condition_1 (a : Agent) : Boolean =
     adults (a) .getOrElse (0) > 1
 
-  filter_actor_tile_0 = FilterActorTile .mk (condition_0)
+  filter_agent_tile_0 = FilterTile .mk [Agent] (condition_0)
 
-  filter_actor_tile_1 = FilterActorTile .mk (condition_1)
+  filter_agent_tile_1 = FilterTile .mk [Agent] (condition_1)
 
-  get_branch_0 (message : TileMessage [Seq [Actor] ] )
+  get_branch_0 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =
     all_equal_tile .apply (
-      received_sigma_p_tile .apply (
-        filter_actor_tile_0 .apply (
+      accumulates_tile .apply (
+        filter_agent_tile_0 .apply (
           message
         )
       )
     )
 
-  get_branch_1 (message : TileMessage [Seq [Actor] ] )
+  get_branch_1 (message : TileMessage [Seq [Agent] ] )
       : TileMessage [Boolean] =
-    all_satisfy_p_tile .apply (
-      received_sigma_p_tile .apply (
-        filter_actor_tile_1 .apply (
+    forall_tile .apply (
+      accumulates_tile .apply (
+        filter_agent_tile_1 .apply (
           message
         )
       )
     )
 
-  apply_on_actors (message : TileMessage [TilePair [Seq [Actor] ] [Seq [Actor] ] ] ) : TileMessage [Boolean] =
+  apply_on_agents (message : TileMessage [TilePair [Seq [Agent] ] [Seq [Agent] ] ] ) : TileMessage [Boolean] =
     and_tile .apply (
-      pairing_tile .apply (
+      tupling_tile .apply (
         get_branch_0 (pair_fst_tile .apply (message) )
       ) (
         get_branch_1 (pair_snd_tile .apply (message) )
@@ -74,7 +73,7 @@ class CcsSingleGuardianPipeline
     )
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    apply_on_actors (all_actor_pair_tile .apply (message) )
+    apply_on_agents (all_agent_pair_tile .apply (message) )
 
   runner : TileMessage [Boolean] -> TileMessage [Boolean] =
     lambda message --> apply (message)

@@ -1,0 +1,52 @@
+
+class SumPhiTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  phi (a : Int) : Measure =
+    Some (a)
+
+  sum_phi_tile = SumPhiTile .mk [Int] (phi)
+
+  test ("sum phi on empty sequence returns measure zero") (
+    check (
+      obtained := sum_phi_tile
+        .apply (mk_tile_message(Seq [Int] () ) )
+        .contents
+    ) (
+      expected := Some(0)
+    )
+  )
+
+  test ("sum phi on single element sequence") (
+    check(
+      obtained := sum_phi_tile
+        .apply (mk_tile_message (Seq [Int] (5) ) )
+        .contents
+    ) (
+      expected := Some(5)
+    )
+  )
+
+  test ("sum phi on multiple elements sequence") (
+    check(
+      obtained := sum_phi_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3 , 4) ) )
+        .contents
+    ) (
+      expected := Some(10)
+    )
+  )
+
+end
+

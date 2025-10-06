@@ -5,41 +5,13 @@ package soda.tiles.fairness.example.childcaresubsidy
  */
 
 import   org.scalatest.funsuite.AnyFunSuite
-import   soda.tiles.fairness.tool.Actor
+import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
-import   soda.tiles.fairness.tool.Context
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
-import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.TilePair_
-import   soda.tiles.fairness.tile.AllActorPairTile
-import   soda.tiles.fairness.tile.AllActorTile
-import   soda.tiles.fairness.tile.AllActorTripleTile
-import   soda.tiles.fairness.tile.AllAtLeastTile
-import   soda.tiles.fairness.tile.AllEqual1Tile
-import   soda.tiles.fairness.tile.AllEqualTile
-import   soda.tiles.fairness.tile.AllSatisfyPTile
-import   soda.tiles.fairness.tile.AttributePTile
-import   soda.tiles.fairness.tile.CorrelationTile
-import   soda.tiles.fairness.tile.DecisionTile
-import   soda.tiles.fairness.tile.FalsePosTile
-import   soda.tiles.fairness.tile.MapPTile
-import   soda.tiles.fairness.tile.NeededPTile
-import   soda.tiles.fairness.tile.PredictionPTile
-import   soda.tiles.fairness.tile.ReceivedSigmaPTile
-import   soda.tiles.fairness.tile.SigmaTile
-import   soda.tiles.fairness.tile.UnzipPairFstTile
-import   soda.tiles.fairness.tile.UnzipPairSndTile
-import   soda.tiles.fairness.tile.UnzipTripleFstTile
-import   soda.tiles.fairness.tile.UnzipTripleSndTile
-import   soda.tiles.fairness.tile.UnzipTripleTrdTile
-import   soda.tiles.fairness.tile.ZipPairTile
-import   soda.tiles.fairness.pipeline.EqualityPipeline
-import   soda.tiles.fairness.pipeline.EquityPipeline
-import   soda.tiles.fairness.pipeline.UnbiasednessPipeline
 
 
 
@@ -58,7 +30,7 @@ case class CcsNoSubsidyPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val no_subsidy_pipeline =
-    CcsNoSubsidyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+    CcsNoSubsidyPipeline .mk (_mm .resource_value)
 
   test ("no subsidy on all outcomes") (
     check (
@@ -87,7 +59,7 @@ case class CcsPerChildPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val per_child_pipeline =
-    CcsPerChildPipeline .mk (_mm .measure_sum) (_mm .actor_children) (_mm .resource_value)
+    CcsPerChildPipeline .mk (_mm .agent_children) (_mm .resource_value)
 
   test ("per child on all outcomes") (
     check (
@@ -116,7 +88,7 @@ case class CcsPerFamilyPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val per_family_pipeline =
-    CcsPerFamilyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+    CcsPerFamilyPipeline .mk (_mm .resource_value)
 
   test ("per family on all outcomes") (
     check (
@@ -145,7 +117,7 @@ case class CcsSingleGuardianPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val single_guardian_pipeline =
-    CcsSingleGuardianPipeline .mk (_mm .measure_sum) (_mm .resource_value) (_mm .actor_adults)
+    CcsSingleGuardianPipeline .mk (_mm .resource_value) (_mm .agent_adults)
 
   test ("single guardian on all outcomes") (
     check (
@@ -174,11 +146,11 @@ trait ChildCareSubsidyScenarioExample
 
   lazy val resource3 = "subsidy - 300"
 
-  lazy val actor0 = "family A"
+  lazy val agent0 = "family A"
 
-  lazy val actor1 = "family B"
+  lazy val agent1 = "family B"
 
-  lazy val actor2 = "family C"
+  lazy val agent2 = "family C"
 
   private def _add_value_to (value : Int) (m : Measure) : Measure =
     m match  {
@@ -198,32 +170,32 @@ trait ChildCareSubsidyScenarioExample
       case None => default
     }
 
-  lazy val actor_children_map : Map [Actor, Measure] = Seq (
-    Tuple2 [Actor, Measure] (actor0 , Some (2) ) ,
-    Tuple2 [Actor, Measure] (actor1 , Some (3) ) ,
-    Tuple2 [Actor, Measure] (actor2 , Some (1) )
+  lazy val agent_children_map : Map [Agent, Measure] = Seq (
+    Tuple2 [Agent, Measure] (agent0 , Some (2) ) ,
+    Tuple2 [Agent, Measure] (agent1 , Some (3) ) ,
+    Tuple2 [Agent, Measure] (agent2 , Some (1) )
   ) .toMap
 
-  def actor_children (actor : Actor) : Measure =
-    get_or_else [Actor] (actor_children_map) (actor) (Some (-1) )
+  def agent_children (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_children_map) (agent) (Some (-1) )
 
-  lazy val actor_adults_map : Map [Actor, Measure] = Seq (
-    Tuple2 [Actor, Measure] (actor0 , Some (2) ) ,
-    Tuple2 [Actor, Measure] (actor1 , Some (1) ) ,
-    Tuple2 [Actor, Measure] (actor2 , Some (2) )
+  lazy val agent_adults_map : Map [Agent, Measure] = Seq (
+    Tuple2 [Agent, Measure] (agent0 , Some (2) ) ,
+    Tuple2 [Agent, Measure] (agent1 , Some (1) ) ,
+    Tuple2 [Agent, Measure] (agent2 , Some (2) )
   ) .toMap
 
-  def actor_adults (actor : Actor) : Measure =
-    get_or_else [Actor] (actor_adults_map) (actor) (Some (-1) )
+  def agent_adults (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_adults_map) (agent) (Some (-1) )
 
-  lazy val actor_income_map : Map [Actor, Measure] = Seq (
-    Tuple2 [Actor, Measure] (actor0 , Some (5000) ) ,
-    Tuple2 [Actor, Measure] (actor1 , Some (3000) ) ,
-    Tuple2 [Actor, Measure] (actor2 , Some (800) )
+  lazy val agent_income_map : Map [Agent, Measure] = Seq (
+    Tuple2 [Agent, Measure] (agent0 , Some (5000) ) ,
+    Tuple2 [Agent, Measure] (agent1 , Some (3000) ) ,
+    Tuple2 [Agent, Measure] (agent2 , Some (800) )
   ) .toMap
 
-  def actor_income (actor : Actor) : Measure =
-    get_or_else [Actor] (actor_income_map) (actor) (Some (-1) )
+  def agent_income (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_income_map) (agent) (Some (-1) )
 
   lazy val resource_value_map : Map [Resource, Measure] = Seq (
     Tuple2 [Resource, Measure] (resource0 , Some (0) ) ,
@@ -240,9 +212,9 @@ trait ChildCareSubsidyScenarioExample
   lazy val outcome_no_subsidy : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource0) ,
-        Assignment .mk (actor1) (resource0) ,
-        Assignment .mk (actor2) (resource0)
+        Assignment .mk (agent0) (resource0) ,
+        Assignment .mk (agent1) (resource0) ,
+        Assignment .mk (agent2) (resource0)
       )
     )
 
@@ -252,9 +224,9 @@ trait ChildCareSubsidyScenarioExample
   lazy val outcome_per_family_0 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource1) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource1)
+        Assignment .mk (agent0) (resource1) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource1)
       )
     )
 
@@ -264,9 +236,9 @@ trait ChildCareSubsidyScenarioExample
   lazy val outcome_per_family_1 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource2) ,
-        Assignment .mk (actor2) (resource2)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource2) ,
+        Assignment .mk (agent2) (resource2)
       )
     )
 
@@ -276,9 +248,9 @@ trait ChildCareSubsidyScenarioExample
   lazy val outcome_single_guardian : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource0) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource0)
+        Assignment .mk (agent0) (resource0) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource0)
       )
     )
 
@@ -288,9 +260,9 @@ trait ChildCareSubsidyScenarioExample
   lazy val outcome_per_child : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource3) ,
-        Assignment .mk (actor2) (resource1)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource3) ,
+        Assignment .mk (agent2) (resource1)
       )
     )
 
@@ -300,9 +272,9 @@ trait ChildCareSubsidyScenarioExample
   lazy val outcome_decreasing_on_income_0 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource1) ,
-        Assignment .mk (actor1) (resource2) ,
-        Assignment .mk (actor2) (resource2)
+        Assignment .mk (agent0) (resource1) ,
+        Assignment .mk (agent1) (resource2) ,
+        Assignment .mk (agent2) (resource2)
       )
     )
 
@@ -312,9 +284,9 @@ trait ChildCareSubsidyScenarioExample
   lazy val outcome_decreasing_on_income_1 : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource1) ,
-        Assignment .mk (actor1) (resource1) ,
-        Assignment .mk (actor2) (resource3)
+        Assignment .mk (agent0) (resource1) ,
+        Assignment .mk (agent1) (resource1) ,
+        Assignment .mk (agent2) (resource3)
       )
     )
 
@@ -324,9 +296,9 @@ trait ChildCareSubsidyScenarioExample
   lazy val outcome_decreasing_per_child : Outcome =
     Outcome .mk (
       Seq [Assignment] (
-        Assignment .mk (actor0) (resource2) ,
-        Assignment .mk (actor1) (resource3) ,
-        Assignment .mk (actor2) (resource1)
+        Assignment .mk (agent0) (resource2) ,
+        Assignment .mk (agent1) (resource3) ,
+        Assignment .mk (agent2) (resource1)
       )
     )
 

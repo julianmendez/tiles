@@ -1,0 +1,60 @@
+
+class ForallTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  scenario = ScenarioExample.mk
+
+  mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ]  =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome1) (seq)
+
+  phi (x : Int) : Boolean = x > 0
+
+  forall_tile = ForallTile.mk [Int] (phi)
+
+  test ("forall on empty sequence returns true") (
+    check (
+      obtained := forall_tile
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("forall on sequence with all matching elements returns true") (
+    check (
+      obtained := forall_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3) ) )
+        .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("forall on sequence with one non-matching element returns false") (
+    check (
+      obtained := forall_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 0 , 3) ) )
+        .contents
+    ) (
+      expected := false
+    )
+  )
+
+  test ("forall on sequence with all non-matching elements returns false") (
+    check (
+      obtained := forall_tile
+        .apply (mk_tile_message (Seq [Int] (0 , -1 , -5) ) )
+        .contents
+    ) (
+      expected := false
+    )
+  )
+
+end

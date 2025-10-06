@@ -1,0 +1,27 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns a sequence of pairs containing the same agent, sorted by agent, where each
+ * pair of agents occurs exactly once.
+ */
+
+class AllAgentPairTile
+
+  abstract
+
+  tupling_tile = TuplingPairTile .mk [Seq [Agent] ] [Seq [Agent] ]
+
+  all_agent_tile = AllAgentTile .mk
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [TilePair [Seq [Agent] ] [Seq [Agent] ] ] =
+    tupling_tile .apply (
+      all_agent_tile (message)
+    ) (
+      all_agent_tile (message)
+    )
+
+end
+

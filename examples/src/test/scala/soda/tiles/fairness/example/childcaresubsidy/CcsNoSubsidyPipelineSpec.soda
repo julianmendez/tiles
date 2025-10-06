@@ -11,7 +11,7 @@ class CcsNoSubsidyPipelineSpec ()
   all_cases = _mm .all_cases
 
   no_subsidy_pipeline =
-    CcsNoSubsidyPipeline .mk (_mm .measure_sum) (_mm .resource_value)
+    CcsNoSubsidyPipeline .mk (_mm .resource_value)
 
   test ("no subsidy on all outcomes") (
     check (

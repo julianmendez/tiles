@@ -1,0 +1,37 @@
+
+class CcsInstance
+
+  abstract
+    agents : Seq [Agent]
+    resources : Seq [Resource]
+    outcome : Outcome
+    agent_children_map : Map [Agent] [Measure]
+    agent_adults_map : Map [Agent] [Measure]
+    agent_income_map : Map [Agent] [Measure]
+    resource_value_map : Map [Resource] [Measure]
+    pipelines : Seq [String]
+
+  get_or_else [A : Type] (map : Map [A] [Measure] ) (key : A) (default : Measure) : Measure =
+    match map .get (key)
+      case Some (value) ==> value
+      case None ==> default
+
+  agent_children (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_children_map) (agent) (Some (-1) )
+
+  agent_adults (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_adults_map) (agent) (Some (-1) )
+
+  agent_income (agent : Agent) : Measure =
+    get_or_else [Agent] (agent_income_map) (agent) (Some (-1) )
+
+  resource_value (resource : Resource) : Measure =
+    get_or_else [Resource] (resource_value_map) (resource) (Some (-1) )
+
+  context = "ChildCareSubsidy"
+
+  initial_message : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome) (true)
+
+end
+

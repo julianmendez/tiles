@@ -6,14 +6,12 @@ package soda.tiles.fairness.pipeline
 
 import
   org.scalatest.funsuite.AnyFunSuite
-  soda.tiles.fairness.tool.Actor
+  soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Assignment
-  soda.tiles.fairness.tool.Context
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.Random
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder
-  soda.tiles.fairness.tool.TilePair
-  soda.tiles.fairness.tool.Random
-  
+

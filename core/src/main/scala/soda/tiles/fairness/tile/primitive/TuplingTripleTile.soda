@@ -1,0 +1,21 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile connects three elements and returns a triple.
+ */
+
+class TuplingTripleTile [A : Type] [B : Type] [C : Type]
+
+  abstract
+
+  apply (message0 : TileMessage [A] ) (message1 : TileMessage [B] ) (message2 : TileMessage [C] )
+      : TileMessage [TileTriple [A] [B] [C] ] =
+    TileMessageBuilder .mk .build (message0 .context) (message0 .outcome) (
+      TileTriple .mk [A] [B] [C] (message0 .contents) (message1 .contents) (message2 .contents)
+    )
+
+end
+

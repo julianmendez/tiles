@@ -1,0 +1,27 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile works as a binary threshold for a measure. It returns 'true' if the input measure
+ * is than or equal to a given threshold, and 'false' otherwise.
+ */
+
+class DecisionTile
+
+  abstract
+    maximum_acceptable_bias_percentage : Measure
+
+  to_boolean (m : Measure) : Boolean =
+    ( Comparator .mk
+       .compareMeasure (m) (maximum_acceptable_bias_percentage) ) <= 0
+
+  apply_tile = ApplyTile .mk [Measure] [Boolean] (to_boolean)
+
+  apply (message : TileMessage [Measure] ) : TileMessage [Boolean] =
+    apply_tile .apply (
+      message
+    )
+
+end
+

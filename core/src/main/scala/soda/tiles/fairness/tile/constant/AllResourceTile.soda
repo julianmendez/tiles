@@ -1,0 +1,26 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile returns a sorted sequence of resources, where each resource occurs exactly once.
+ */
+
+class AllResourceTile
+
+  abstract
+
+  all_resources (message : TileMessage [Boolean] ) : Seq [Resource] =
+      ( (message .outcome) .assignments)
+        .map (lambda assignment --> assignment .resource)
+        .distinct
+        .sorted
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Seq [Resource] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      all_resources (message)
+    )
+
+end
+

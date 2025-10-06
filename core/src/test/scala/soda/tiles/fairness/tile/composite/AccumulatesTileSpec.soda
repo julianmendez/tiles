@@ -1,0 +1,55 @@
+
+class AccumulatesTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message (seq : Seq [Agent] ) : TileMessage [Seq [Agent] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome1) (seq)
+
+  utility (resource : Resource) : Measure =
+    Some (resource .toIntOption .getOrElse (resource .length) )
+
+  accumulates_tile = AccumulatesTile .mk (utility)
+
+  test ("accumulates on empty sequence returns empty sequence") (
+    check(
+      obtained := accumulates_tile
+        .apply (mk_tile_message (Seq [Agent] () ) )
+        .contents
+    ) (
+      expected := Seq [Measure] ()
+    )
+  )
+
+  test ("accumulates on single agent with no resources") (
+    check(
+      obtained := accumulates_tile
+        .apply (mk_tile_message (Seq [Agent] (scenario .agent3) ) )
+        .contents
+    ) (
+      expected := Seq [Measure] (Some (0) )
+    )
+  )
+
+  test ("accumulates on multiple agents with resources") (
+    check(
+      obtained := accumulates_tile
+        .apply (mk_tile_message (Seq [Agent] (scenario .agent0 , scenario .agent1) ) )
+        .contents
+    ) (
+      expected := Seq [Measure] (
+        Some (50),
+        Some (20)
+      )
+    )
+  )
+
+end
+

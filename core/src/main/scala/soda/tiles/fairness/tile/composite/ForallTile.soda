@@ -1,0 +1,36 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile takes a sequence of elements and returns 'true' when all the elements in the input
+ * satisfy a property.
+ */
+
+class ForallTile [A]
+
+  abstract
+    phi : A -> Boolean
+
+  zero = MeasureMod .mk .zero
+
+  not_phi (x : A) : Boolean =
+    not phi (x)
+
+  filter_tile = FilterTile .mk [A] (not_phi)
+
+  length_tile = LengthTile .mk [A]
+
+  apply_tile = ApplyTile .mk [Measure] [Boolean] (lambda m --> m == zero)
+
+  apply (message : TileMessage [Seq [A] ] ) : TileMessage [Boolean] =
+    apply_tile .apply (
+      length_tile .apply (
+        filter_tile .apply (
+          message
+        )
+      )
+    )
+
+end
+

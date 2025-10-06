@@ -4,24 +4,23 @@ class CcsNoSubsidyPipeline
     CcsPipeline
 
   abstract
-    sigma : Measure -> Measure -> Measure
-    p_utility : Resource -> Measure
+    utility : Resource -> Measure
 
   is_equals_0 (measure : Measure) : Boolean =
     match measure
       case Some (0) ==> true
       case otherwise ==> false
 
-  all_satisfy_p_tile = AllSatisfyPTile .mk (is_equals_0)
+  forall_tile = ForallTile .mk [Measure] (is_equals_0)
 
-  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p_utility)
+  accumulates_tile = AccumulatesTile .mk (utility)
 
-  all_actor_tile = AllActorTile .mk
+  all_agent_tile = AllAgentTile .mk
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    all_satisfy_p_tile .apply (
-      received_sigma_p_tile .apply (
-        all_actor_tile .apply (message)
+    forall_tile .apply (
+      accumulates_tile .apply (
+        all_agent_tile .apply (message)
       )
     )
 

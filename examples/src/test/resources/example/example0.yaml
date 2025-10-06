@@ -4,8 +4,8 @@
 # This is a YAML file, and requires special attention regarding indentation and use of
 # colon (':').
 
-# Actors for this scenario
-actors:
+# Agents for this scenario
+agents:
   family A: .
   family B: .
   family C: .
@@ -18,19 +18,19 @@ resources:
   subsidy 300: .
 
 # Number of children in each family.
-actor_children:
+agent_children:
   family A: 2
   family B: 3
   family C: 1
 
 # Number of guardians in each family.
-actor_adults:
+agent_adults:
   family A: 2
   family B: 1
   family C: 2
 
 # Total income in each family.
-actor_income:
+agent_income:
   family A: 5000
   family B: 3000
   family C: 800

@@ -5,41 +5,36 @@ package soda.tiles.fairness.pipeline
  */
 
 import
-  soda.tiles.fairness.tool.Actor
-  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tile.composite.AccumulatesTile
+  soda.tiles.fairness.tile.composite.AllAtLeastTile
+  soda.tiles.fairness.tile.composite.AllEqualTile
+  soda.tiles.fairness.tile.composite.CorrelationAbsTile
+  soda.tiles.fairness.tile.composite.FalsePosTile
+  soda.tiles.fairness.tile.composite.PredictionPTile
+  soda.tiles.fairness.tile.composite.AllAgentPairTile
+  soda.tiles.fairness.tile.composite.AllAgentTripleTile
+  soda.tiles.fairness.tile.constant.AllAgentTile
+  soda.tiles.fairness.tile.derived.apply.DecisionTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionTripleFstTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionTripleSndTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionTripleTrdTile
+  soda.tiles.fairness.tile.derived.map.NeedsTile
+  soda.tiles.fairness.tile.primitive.ApplyTile
+  soda.tiles.fairness.tile.primitive.MapTile
+  soda.tiles.fairness.tile.primitive.ZipTile
+  soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Comparator
   soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.MeasureMod
+  soda.tiles.fairness.tool.Number
   soda.tiles.fairness.tool.Outcome
-  soda.tiles.fairness.tool.Pearson
+  soda.tiles.fairness.tool.OutcomeMod
+  soda.tiles.fairness.tool.PearsonCorrDirect
+  soda.tiles.fairness.tool.PearsonCorrCovariance
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
-  soda.tiles.fairness.tool.TileMessageBuilder
   soda.tiles.fairness.tool.TilePair
   soda.tiles.fairness.tool.TileTriple
-  soda.tiles.fairness.tile.AllActorPairTile
-  soda.tiles.fairness.tile.AllActorTile
-  soda.tiles.fairness.tile.AllActorTripleTile
-  soda.tiles.fairness.tile.AllAtLeastTile
-  soda.tiles.fairness.tile.AllEqual1Tile
-  soda.tiles.fairness.tile.AllEqualTile
-  soda.tiles.fairness.tile.AttributePTile
-  soda.tiles.fairness.tile.CorrelationTile
-  soda.tiles.fairness.tile.DecisionTile
-  soda.tiles.fairness.tile.FalsePosTile
-  soda.tiles.fairness.tile.NeededPTile
-  soda.tiles.fairness.tile.PredictionPTile
-  soda.tiles.fairness.tile.ProjectionPairFstTile
-  soda.tiles.fairness.tile.ProjectionPairSndTile
-  soda.tiles.fairness.tile.ProjectionTripleFstTile
-  soda.tiles.fairness.tile.ProjectionTripleSndTile
-  soda.tiles.fairness.tile.ProjectionTripleTrdTile
-  soda.tiles.fairness.tile.ReceivedSigmaPTile
-  soda.tiles.fairness.tile.SigmaTile
-  soda.tiles.fairness.tile.UnzipPairFstTile
-  soda.tiles.fairness.tile.UnzipPairSndTile
-  soda.tiles.fairness.tile.UnzipTripleFstTile
-  soda.tiles.fairness.tile.UnzipTripleSndTile
-  soda.tiles.fairness.tile.UnzipTripleTrdTile
-  soda.tiles.fairness.tile.ZipPairTile
-  soda.tiles.fairness.tile.ZipTripleTile
 

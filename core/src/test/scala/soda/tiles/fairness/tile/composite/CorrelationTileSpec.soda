@@ -1,0 +1,79 @@
+
+class CorrelationTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  tile = CorrelationTile.mk
+
+  scenario = ScenarioExample.mk
+
+  mk_tile_message (seq: Seq[Measure] ) : TileMessage [Seq [Measure] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  seq0 = Seq [Measure] (Some (1) , Some (2) , Some (3) )
+
+  seq1 = Seq [Measure] (Some (3) , Some (2) , Some (1) )
+
+  seq2 = Seq [Measure] (Some (5) , Some (5) , Some (5) )
+
+  seq3 = Seq [Measure] (Some (1) , None , Some (3) )
+
+  seq4 = Seq [Measure] ()
+
+  test ("correlation of two identical sequences should be 100 %") (
+    check (
+      obtained := tile
+        .apply (mk_tile_message (seq0) ) (mk_tile_message (seq0) )
+        .contents
+    ) (
+      expected := Some (100)
+    )
+  )
+
+  test ("correlation of perfectly inversely related sequences should be -100 %") (
+    check (
+      obtained := tile
+        .apply (mk_tile_message (seq0) ) (mk_tile_message (seq1) )
+        .contents
+    ) (
+      expected := Some (-100)
+    )
+  )
+
+  test ("correlation with one constant sequence should be None") (
+    check (
+      obtained := tile
+        .apply (mk_tile_message (seq2) ) (mk_tile_message (seq0) )
+        .contents
+    ) (
+      expected := None
+    )
+  )
+
+  test ("correlation should return None if any element is None") (
+    check (
+      obtained := tile
+        .apply (mk_tile_message (seq3) ) (mk_tile_message (seq0) )
+        .contents
+    ) (
+      expected := None
+    )
+  )
+
+  test ("correlation of empty sequences should be None") (
+    check (
+      obtained := tile
+        .apply (mk_tile_message (seq4) ) (mk_tile_message (seq4) )
+        .contents
+    ) (
+      expected := None
+    )
+  )
+
+end
+

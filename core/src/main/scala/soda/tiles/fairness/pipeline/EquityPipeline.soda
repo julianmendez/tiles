@@ -1,47 +1,40 @@
 
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AtLeastTile
-import Soda.tiles.fairness.tile.NeededPTile
-import Soda.tiles.fairness.tile.ReceivedSigmaPTile
-import Soda.tiles.fairness.tile.UnzipPairFstTile
-import Soda.tiles.fairness.tile.UnzipPairSndTile
-import Soda.tiles.fairness.tile.ZipTile
+import Soda.tiles.fairness.tile.composite.AtLeastTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+import Soda.tiles.fairness.tile.derived.map.NeedsTile
+import Soda.tiles.fairness.tile.derived.map.UnzipPairFstTile
+import Soda.tiles.fairness.tile.derived.map.UnzipPairSndTile
 
 
 /**
- * This pipeline returns 'true' when all the actors in the input receive a resource that
+ * This pipeline returns 'true' when all the agents in the input receive a resource that
  * satisfies their needs, and 'false' otherwise.
  */
 
 class EquityPipeline
 
   abstract
-    sigma : Measure -> Measure -> Measure
-    p0_need : Actor -> Measure
-    p1_utility : Resource -> Measure
+    need : Agent -> Measure
+    utility : Resource -> Measure
 
-  at_least_tile = AllAtLeastTile .mk
+  all_at_least_tile = AllAtLeastTile .mk
 
-  received_sigma_p_tile = ReceivedSigmaPTile .mk (sigma) (p1_utility)
+  all_agent_accumulates_tile = AllAgentAccumulatesTile .mk (utility)
 
-  needed_p_tile = NeededPTile .mk (p0_need)
-
-  all_actor_pair_tile = AllActorPairTile .mk
-
-  pair_fst_tile = ProjectionPairFstTile .mk
-
-  pair_snd_tile = ProjectionPairSndTile .mk
-
-  apply_on_pair (pair : TileMessage [TilePair [Seq [Actor] ] [Seq [Actor] ] ] ) : TileMessage [Boolean] =
-    at_least_tile .apply (
-      received_sigma_p_tile .apply (pair_fst_tile (pair) )
-    ) (
-      needed_p_tile .apply (pair_snd_tile (pair) )
-    )
+  all_agent_needs_tile = AllAgentNeedsTile .mk (need)
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    apply_on_pair (all_actor_pair_tile .apply (message) )
+    all_at_least_tile .apply (
+      all_agent_accumulates_tile .apply (
+        message
+      )
+    ) (
+      all_agent_needs_tile .apply (
+        message
+      )
+    )
 
 end
 

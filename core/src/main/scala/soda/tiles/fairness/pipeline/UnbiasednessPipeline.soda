@@ -1,74 +1,44 @@
 
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import Soda.tiles.fairness.tile.AllActorTripleTile
+import Soda.tiles.fairness.tile.composite.AllAgentTripleTile
 import Soda.tiles.fairness.tile.CorrelationTile
 import Soda.tiles.fairness.tile.DecisionTile
 import Soda.tiles.fairness.tile.FalsePosTile
 import Soda.tiles.fairness.tile.PredictionPTile
-import Soda.tiles.fairness.tile.ResultPTile
 import Soda.tiles.fairness.tile.UnzipTripleFstTile
 import Soda.tiles.fairness.tile.UnzipTripleSndTile
 import Soda.tiles.fairness.tile.UnzipTripleTrdTile
 import Soda.tiles.fairness.tile.WithPTile
-import Soda.tiles.fairness.tile.ZipTile
 
 /**
- * This pipeline checks unbiasedness for a given scenario.
+ * This pipeline measures the bias in a given scenario by contrasting
+ * false positives and those with a protected attribute.
  */
 
 class UnbiasednessPipeline
 
   abstract
-    p0_evaluation : Resource -> Measure
-    p1_result : Actor -> Measure
-    p2_with_p : Actor -> Measure
-    p3_acceptable_bias : Measure
+    positive_value : Resource
+    result_function : Agent -> Resource
+    with_p : Agent -> Boolean
 
-  all_actor_tile = AllActorTile .mk
+  all_agent_map_ground_truth_tile = AllAgentMapGroundTruthTile .mk (with_p)
 
-  all_actor_triple_tile = AllActorTripleTile .mk
+  all_agent_map_false_positive_tile = AllAgentMapFalsePositiveTile .mk (positive_value) (result_function)
 
-  triple_fst_tile = ProjectionTripleFstTile .mk
+  correlation_abs_tile = CorrelationAbsTile .mk
 
-  triple_snd_tile = ProjectionTripleSndTile .mk
-
-  triple_trd_tile = ProjectionTripleTrdTile .mk
-
-  zip_pair_tile = ZipPairTile .mk
-
-  zip_triple_tile = ZipTripleTile .mk
-
-  prediction_p_tile = PredictionPTile .mk (p0_evaluation)
-
-  result_p_tile = AttributePTile .mk (p1_result)
-
-  with_p_tile = AttributePTile .mk (p2_with_p)
-
-  false_pos_tile = FalsePosTile .mk
-
-  correlation_tile = CorrelationTile .mk
-
-  decision_tile = DecisionTile .mk (p3_acceptable_bias)
-
-  get_correlation_plumbing (message0 : TileMessage [Seq [Actor] ] )
-    (message1 : TileMessage [Seq [Actor] ] ) (message2 : TileMessage [Seq [Actor] ] )
-      : TileMessage [Measure] =
-    correlation_tile .apply (
-      false_pos_tile .apply (prediction_p_tile .apply (message0) ) (result_p_tile .apply (message1) )
-    ) (with_p_tile .apply (message2) )
-
-  apply_on_triple (triple : TileMessage [TileTriple [Seq [Actor] ] [Seq [Actor] ] [Seq [Actor] ] ] )
-      : TileMessage [Boolean] =
-    decision_tile .apply (
-      get_correlation_plumbing (
-        triple_fst_tile .apply (triple) ) (
-        triple_snd_tile .apply (triple) ) (
-        triple_trd_tile .apply (triple) )
+  apply (message : TileMessage [Boolean] ) : TileMessage [Option [Number] ] =
+    correlation_abs_tile .apply (
+      all_agent_map_false_positive_tile .apply (
+        message
+      )
+    ) (
+      all_agent_map_ground_truth_tile .apply (
+        message
+      )
     )
-
-  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    apply_on_triple (all_actor_triple_tile .apply (message) )
 
 end
 
