@@ -1,0 +1,54 @@
+
+class EnvyFreenessPipelineSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  ex = ResourceAllocationScenarioExample .mk
+
+  preference = Preference .mk (
+      Seq [Tuple2 [Agent] [Seq [Resource] ] ] (
+        Tuple2 [Agent] [Seq [Resource] ] (ex .agent0 , Seq [Resource] (ex .resource0 , ex .resource1 , ex .resource2) ) ,
+        Tuple2 [Agent] [Seq [Resource] ] (ex .agent1 , Seq [Resource] (ex .resource1 , ex .resource2 , ex .resource0) ) ,
+        Tuple2 [Agent] [Seq [Resource] ] (ex .agent2 , Seq [Resource] (ex .resource2 , ex .resource0 , ex .resource1) )
+      ) .toMap
+    )
+
+  envy_freeness_pipeline = EnvyFreenessPipeline .mk (preference)
+
+  test ("envy freeness on outcome 0") (
+    check (
+      obtained := envy_freeness_pipeline .apply (ex .initial0) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("envy freeness on outcome 1") (
+    check (
+      obtained := envy_freeness_pipeline .apply (ex .initial1) .contents
+    ) (
+      expected := false
+    )
+  )
+
+  test ("envy freeness on outcome 2") (
+    check (
+      obtained := envy_freeness_pipeline .apply (ex .initial2) .contents
+    ) (
+      expected := false
+    )
+  )
+
+  test ("envy freeness on outcome 3") (
+    check (
+      obtained := envy_freeness_pipeline .apply (ex .initial3) .contents
+    ) (
+      expected := false
+    )
+  )
+
+end
+

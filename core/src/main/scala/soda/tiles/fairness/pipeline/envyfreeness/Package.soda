@@ -1,0 +1,44 @@
+package soda.tiles.fairness.pipeline.envyfreeness
+
+/*
+ * This package contains classes to model the tiles.
+ */
+
+import
+  soda.tiles.fairness.tile.composite.AccumulatesTile
+  soda.tiles.fairness.tile.composite.AllAtLeastTile
+  soda.tiles.fairness.tile.composite.AllEqualTile
+  soda.tiles.fairness.tile.composite.CorrelationAbsTile
+  soda.tiles.fairness.tile.composite.ExistsTile
+  soda.tiles.fairness.tile.composite.FalsePosTile
+  soda.tiles.fairness.tile.composite.PredictionPTile
+  soda.tiles.fairness.tile.composite.AllAgentPairTile
+  soda.tiles.fairness.tile.composite.AllAgentTripleTile
+  soda.tiles.fairness.tile.constant.AllAgentTile
+  soda.tiles.fairness.tile.constant.AllResourceTile
+  soda.tiles.fairness.tile.derived.apply.DecisionTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionTripleFstTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionTripleSndTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionTripleTrdTile
+  soda.tiles.fairness.tile.derived.map.NeedsTile
+  soda.tiles.fairness.tile.primitive.ApplyTile
+  soda.tiles.fairness.tile.primitive.CrossTile
+  soda.tiles.fairness.tile.primitive.FilterTile
+  soda.tiles.fairness.tile.primitive.MapTile
+  soda.tiles.fairness.tile.primitive.ZipTile
+  soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.Comparator
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.MeasureMod
+  soda.tiles.fairness.tool.Number
+  soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.OutcomeMod
+  soda.tiles.fairness.tool.PearsonCorrDirect
+  soda.tiles.fairness.tool.PearsonCorrCovariance
+  soda.tiles.fairness.tool.Resource
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TilePair
+  soda.tiles.fairness.tool.TileTriple
+
