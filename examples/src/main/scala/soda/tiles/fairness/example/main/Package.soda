@@ -7,7 +7,7 @@ package soda.tiles.fairness.example.main
 
 import
   java.io.FileReader
-  soda.tiles.fairness.example.childcaresubsidy.CcsInstance
-  soda.tiles.fairness.example.childcaresubsidy.CcsInstanceBuilder
-  soda.tiles.fairness.example.childcaresubsidy.CcsPipelineFactory
+  soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsInstance
+  soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsInstanceBuilder
+  soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsPipelineFactory
 
