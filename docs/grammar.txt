@@ -1,0 +1,11 @@
+Atomic      ::= a | r | m | b
+Tuple       ::= \<TypeList\>
+Sequence    ::= \(Type\)
+Subindex    ::= n
+Type        ::= Atomic 
+              | Atomic Subindex 
+              | Tuple 
+              | Sequence
+TypeList    ::= Type 
+              | Type , TypeList
+Annotation  ::= TypeList

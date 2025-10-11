@@ -1,4 +1,4 @@
-package soda.tiles.fairness.example.childcaresubsidy
+package soda.tiles.fairness.example.pipeline.scoring
 
 /*
  * This package contains tests for the classes to model a resource allocation scenario.
@@ -10,6 +10,7 @@ import
   soda.tiles.fairness.tool.Assignment
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.Random
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder

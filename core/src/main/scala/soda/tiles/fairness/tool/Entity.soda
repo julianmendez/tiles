@@ -89,6 +89,11 @@ class OutcomeMod
     get_assignments (outcome) (a)
       .map (lambda assignment --> assignment .resource)
 
+  receives (outcome : Outcome) (a : Agent) (r : Resource) : Boolean =
+    outcome
+      .assignments
+      .contains (Assignment .mk (a) (r) )
+
 end
 
 

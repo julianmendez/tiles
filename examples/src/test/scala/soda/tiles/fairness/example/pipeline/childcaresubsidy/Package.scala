@@ -1,4 +1,4 @@
-package soda.tiles.fairness.example.childcaresubsidy
+package soda.tiles.fairness.example.pipeline.childcaresubsidy
 
 /*
  * This package contains tests for the classes to model a resource allocation scenario.

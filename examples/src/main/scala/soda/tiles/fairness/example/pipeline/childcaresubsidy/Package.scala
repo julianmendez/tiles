@@ -1,4 +1,4 @@
-package soda.tiles.fairness.example.childcaresubsidy
+package soda.tiles.fairness.example.pipeline.childcaresubsidy
 
 import   soda.tiles.fairness.tile.composite.AccumulatesTile
 import   soda.tiles.fairness.tile.composite.AllAgentPairTile

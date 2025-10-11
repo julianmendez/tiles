@@ -190,7 +190,7 @@ are:
 
 [test-yaml-conf]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/resources/example/example0.yaml
 
-[scoring-example]: https://julianmendez.github.io/tiles/scoring_example.html
+[scoring-example]: https://julianmendez.github.io/tiles/example/scoring/scoring_example.html
 
 <script>
   window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
