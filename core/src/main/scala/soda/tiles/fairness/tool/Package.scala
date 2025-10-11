@@ -119,6 +119,11 @@ trait OutcomeMod
     get_assignments (outcome) (a)
       .map ( assignment => assignment .resource)
 
+  def receives (outcome : Outcome) (a : Agent) (r : Resource) : Boolean =
+    outcome
+      .assignments
+      .contains (Assignment .mk (a) (r) )
+
 }
 
 case class OutcomeMod_ () extends OutcomeMod

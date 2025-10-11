@@ -1,0 +1,65 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+
+/**
+ * This pipeline returns 'true' when all the agents in the input receive
+ * at least one resource that is better than any other resource
+ * received by any other agent.
+ */
+
+class EnvyFreenessPipeline
+
+  abstract
+    preference : Preference
+
+  all_agent_tile = AllAgentTile .mk
+
+  all_resource_tile = AllResourceTile .mk
+
+  cross_filter_map_tile = CrossFilterMapTile .mk
+
+  cross_filter_tile = CrossFilterTile .mk
+
+  cross_exists_tile = CrossExistsTile .mk (preference)
+
+  pipeline_0 (message : TileMessage [Boolean] )
+      : TileMessage [Seq [Resource] ] =
+    cross_filter_map_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    ) (
+      all_resource_tile .apply (
+        message
+      )
+    )
+
+  pipeline_1 (message : TileMessage [Boolean] )
+      : TileMessage [Seq [TilePair [Agent] [Resource] ] ] =
+    cross_filter_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    ) (
+      pipeline_0 (
+        message
+      )
+    )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    cross_exists_tile .apply (
+      pipeline_1 .apply (
+        message
+      )
+    ) (
+      all_resource_tile .apply (
+        message
+      )
+    )
+
+end
+

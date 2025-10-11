@@ -1,0 +1,33 @@
+
+class Preference
+
+  abstract
+     map : Map [Agent] [Seq [Resource] ]
+
+end
+
+
+class PreferenceMod
+
+  abstract
+
+  get_preferences (preference : Preference) (a : Agent) : Seq [Resource] =
+    preference .map .get (a) .getOrElse (Seq [Resource] () )
+
+  _occurs_before (r0_index : Int) (r1_index : Int) : Boolean =
+    (r0_index >= 0) and (r1_index >=0) and (r0_index < r1_index)
+
+  _prefers_with (seq : Seq [Resource] ) (r0 : Resource) (r1 : Resource) : Boolean =
+    _occurs_before (seq .indexOf (r0) ) (seq .indexOf (r1) )
+
+  /**
+   * Considering a sequence of resources 'seq', an agent 'a' prefers
+   * a resource 'r0' over another resource 'r1' if and only if
+   * provided that 'r0' is in 'seq' and 'r1' is in 'seq', then 'r0' is before 'r1' in 'seq'.
+   */
+
+  prefers (preference : Preference) (a : Agent) (r0 : Resource) (r1 : Resource) : Boolean =
+    _prefers_with (get_preferences (preference) (a) ) (r0) (r1)
+
+end
+

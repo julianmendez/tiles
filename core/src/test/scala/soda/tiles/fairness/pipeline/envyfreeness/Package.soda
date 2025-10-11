@@ -1,4 +1,4 @@
-package soda.tiles.fairness.pipeline
+package soda.tiles.fairness.pipeline.envyfreeness
 
 /*
  * This package contains tests for the classes to model a resource allocation scenario.
@@ -14,4 +14,5 @@ import
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder
+  soda.tiles.fairness.pipeline.equity.ResourceAllocationScenarioExample
 

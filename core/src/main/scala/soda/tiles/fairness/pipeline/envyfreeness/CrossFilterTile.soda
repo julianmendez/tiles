@@ -1,0 +1,29 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllEqual1Tile
+
+/**
+ * This is a composite tile for the envy freeness pipelines.
+ */
+
+class CrossFilterTile
+
+  abstract
+
+  cross_tile = CrossTile .mk [Agent] [Resource]
+
+  apply (message0 : TileMessage [Seq [Agent] ] )  (message1 : TileMessage [Seq [Resource] ] )
+      : TileMessage [Seq [TilePair [Agent] [Resource] ] ] =
+    FilterTile .mk [TilePair [Agent] [Resource] ] (lambda pair -->
+      not (OutcomeMod .mk .receives (message0 .outcome) (pair .fst)  (pair .snd) )
+    ) .apply (
+      cross_tile .apply (
+        message0
+      ) (
+        message1
+      )
+    )
+
+end
+
