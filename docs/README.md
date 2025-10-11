@@ -1,9 +1,4 @@
-<head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js"> </script>
-</head>
-
-
-# [Tiles](https://julianmendez.github.io/tiles/)
+# [🅃🄸🄻🄴🅂](https://julianmendez.github.io/tiles/)
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)][license]
 [![build](https://github.com/julianmendez/tiles/workflows/Scala%20CI/badge.svg)][build-status]
@@ -12,9 +7,14 @@
 written in [Soda][soda] and grouped in packages translated to
 [Scala][scala].
 
-The fairness tiles are defined in [package tile][package-tile]
-[(Scala translation)][package-tile-scala] and they use entities and other tools defined in
-[package tool][package-tool] [(Scala translation)][package-tool-scala].
+This is an example of a pipeline to detect equality.
+
+![equality](example/equality/equality0.png)
+
+The meaning is: for all agents (`all-agent`), compute how much each agent accumulates (`accumulates`),
+and ensure that all of them received the same amount (`all-equal`).
+The notation `(a)` denotes a sequence of agents, `(m)` denotes a sequence of quantities, and `b` denotes a single
+Boolean value.
 
 
 ## Publications
@@ -40,74 +40,29 @@ The fairness tiles are defined in [package tile][package-tile]
   &nbsp; [Implementation][soda-impl]
 
 
-## Example
+## Examples
+
+| Example                                | Description                                                                        |
+|----------------------------------------|:-----------------------------------------------------------------------------------|
+|                                        |                                                                                    |
+| [Equality][equality-example]           | This determines whether every agent receives the same amount of resource.          |
+|                                        |                                                                                    |
+| [Equity][equity-example]               | This determines whether all the agents receive resources according to their needs. |
+|                                        |                                                                                    |
+| [Envy-Freeness][envy-freeness-example] | This determines whether the distribution is envy-free.                             |
+|                                        |                                                                                    |
+| [Scoring][scoring-example]             | This measures the correlation between false positives and a protected attribute.   |
+|                                        |                                                                                    |
+| [Child Care Subsidy][ccs-example]      | This is a collection of different possible pipelines for Child Care Subsidies.     |
+|                                        |                                                                                    |
+
+
+## Executable
 
 This project includes an executable example of [Child Care Subsidy][ccs-example] pipelines.
 The script `makeall.sh` creates the file `tiles`, which is an executable JAR file that can be
 directly executed in Linux. Its input is a [YAML][yaml] configuration file, like the
-[configuration file][test-yaml-conf] provided for the unit tests. For more details, see the
-[Child Care Subsidy example][ccs-example].
-
-
-## Resource Allocation Scenarios
-
-These are some of the implemented fairness tiles for resource allocation scenarios:
-
-| Tile                                                | Class                                | Formerly  |
-|:----------------------------------------------------|:-------------------------------------|:----------|
-| all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]         | all-actor |
-| <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>       | [AccumulatesTile][AccumulatesTile]   | received  |
-| <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]         |           |
-| <sub>*(a)*</sub> needs <sub>*(m)*</sub>             | [NeedsTile][NeedsTile]               | needed    |
-| <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]     |           |
-| equality <sub>*b*</sub>                             | [EqualityPipeline][EqualityPipeline] |           |
-| equity <sub>*b*</sub>                               | [EquityPipeline][EquityPipeline]     |           |
-
-A specific scenario is given as an example
-in [ResourceAllocationScenarioExample][ResourceAllocationScenarioExample].
-This scenario is used to test the equality tile
-with [EqualityPipelineSpec][EqualityPipelineSpec]
-and the equity tile
-with [EquityPipelineSpec][EquityPipelineSpec].
-
-
-### Example of Equality
-
-```mermaid
-graph LR
-  all-agent(all-agent) --> accumulates
-  accumulates(accumulates) --> all-equal(all-equal)
-```
-
-
-### Example of Equity
-
-```mermaid
-graph LR
-  all-agent(all-agent) --> accumulates
-  all-agent --> needs
-  accumulates(accumulates) --> all-at-least(all-at-least)
-  needs(needs) -->  all-at-least
-```
-
-
-### Auxiliary Tiles
-
-The auxiliary tiles are used in the construction of other tiles. Some of the auxiliary tiles
-are:
-
-| Tile                                                                        | Class                                |
-|:----------------------------------------------------------------------------|:-------------------------------------|
-| <sub>*(a)*</sub> map <sub>*(m)*</sub>                                       | [MapTile][MapTile]                   |
-| <sub>*(m0), (m1)*</sub> &sigma; <sub>*(m)*</sub>                            | [SigmaTile][SigmaTile]               |
-| <sub>*(&alpha;0), (&alpha;1)*</sub> zip <sub>*(⟨&alpha;0, &alpha;1⟩)*</sub> | [ZipTile][ZipTile]                   |
-| <sub>*(⟨&alpha;0, &alpha;1⟩)*</sub> unzip-0 <sub>*(&alpha;0)*</sub>         | [UnzipPairFstTile][UnzipPairFstTile] |
-| <sub>*(⟨&alpha;0, &alpha;1⟩)*</sub> unzip-1 <sub>*(&alpha;1)*</sub>         | [UnzipPairSndTile][UnzipPairSndTile] |
-
-
-### More examples
-
-* [Scoring Example][scoring-example]
+[configuration file][test-yaml-conf] provided for the unit tests.
 
 
 ## Author
@@ -156,44 +111,22 @@ are:
 
 [package-tool-scala]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tool/Package.scala
 
-[AllAgentTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/constant/AllAgentTile.soda
-
-[AccumulatesTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/AccumulatesTile.soda
-
-[AllEqualTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/AllEqualTile.soda
-
-[NeedsTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/map/NeedsTile.soda
-
-[AllAtLeastTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/AllAtLeastTile.soda
-
-[EqualityPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/equality/EqualityPipeline.soda
-
-[EquityPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/equity/EquityPipeline.soda
-
-[MapTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/MapTile.soda
-
-[SigmaTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/map/SigmaTile.soda
-
-[ZipTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/ZipTile.soda
-
-[UnzipPairFstTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/map/UnzipPairFstTile.soda
-
-[UnzipPairSndTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/map/UnzipPairSndTile.soda
-
 [ResourceAllocationScenarioExample]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/scala/soda/tiles/fairness/example/pipeline/equity/ResourceAllocationScenarioExample.soda
 
 [EqualityPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/scala/soda/tiles/fairness/example/pipeline/equality/EqualityPipelineSpec.soda
 
 [EquityPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/scala/soda/tiles/fairness/example/pipeline/equity/EquityPipelineSpec.soda
 
-[ccs-example]: https://julianmendez.github.io/tiles/example/child_care_subsidy/ccs_example.html
+[equality-example]: https://julianmendez.github.io/tiles/example/equality/equality_example.html
 
-[test-yaml-conf]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/resources/example/example0.yaml
+[equity-example]: https://julianmendez.github.io/tiles/example/equity/equity_example.html
+
+[envy-freeness-example]: https://julianmendez.github.io/tiles/example/envy_freeness/envy_freeness_example.html
 
 [scoring-example]: https://julianmendez.github.io/tiles/example/scoring/scoring_example.html
 
-<script>
-  window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
-</script>
+[ccs-example]: https://julianmendez.github.io/tiles/example/child_care_subsidy/ccs_example.html
+
+[test-yaml-conf]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/resources/example/example0.yaml
 
 
