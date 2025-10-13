@@ -29,6 +29,6 @@ These are some of the implemented fairness tiles for the scenario:
 
 [CrossForallTile]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/individualfairness/CrossForallTile.soda
 
-[IndividualFairnessPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/individualfairness/EnvyFreeneessPipeline.soda
+[IndividualFairnessPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/individualfairness/IndividualFairnessPipeline.soda
 
 
