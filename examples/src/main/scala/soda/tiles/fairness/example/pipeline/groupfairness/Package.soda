@@ -1,4 +1,4 @@
-package soda.tiles.fairness.example.pipeline.group
+package soda.tiles.fairness.example.pipeline.groupfairness
 
 /*
  * This package contains classes to model the tiles.
