@@ -446,6 +446,16 @@ trait MathTool
       .exists ( value =>
         abs (value - center) <= epsilon)
 
+  def min (x : Number) (y : Number) : Number =
+    if ( x < y
+    ) x
+    else y
+
+  def max (x : Number) (y : Number) : Number =
+    if ( x > y
+    ) x
+    else y
+
 }
 
 case class MathTool_ () extends MathTool
