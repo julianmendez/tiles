@@ -40,6 +40,6 @@ These are some of the implemented fairness tiles for the scenario:
 
 [AllAgentFilterNotPLengthTile]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/groupfairness/AllAgentFilterNotPLengthTile.soda
 
-[GroupFairnessPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/groupfairness/EnvyFreeneessPipeline.soda
+[GroupFairnessPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/groupfairness/GroupFairnessPipeline.soda
 
 

@@ -35,6 +35,6 @@ These are some of the implemented fairness tiles for the scenario:
 
 [CrossExistsTile]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/envyfreeness/CrossExistsTile.soda
 
-[EnvyFreenessPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/envyfreeness/EnvyFreeneessPipeline.soda
+[EnvyFreenessPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/envyfreeness/EnvyFreenessPipeline.soda
 
 
