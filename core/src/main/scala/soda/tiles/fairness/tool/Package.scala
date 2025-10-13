@@ -67,6 +67,12 @@ trait MeasureMod
       case None => None
     }
 
+  def squared (a : Measure) : Measure =
+    a match  {
+      case Some (value) => Some (value * value)
+      case None => None
+    }
+
 }
 
 case class MeasureMod_ () extends MeasureMod
