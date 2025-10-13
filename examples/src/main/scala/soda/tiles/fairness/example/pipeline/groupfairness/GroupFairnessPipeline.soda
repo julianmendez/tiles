@@ -1,0 +1,114 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+
+/**
+ * This pipeline returns 'true' if there is group fairness, according to a hard-coded epsilon,
+ * and 'false' otherwise.
+ */
+
+class GroupFairnessPipeline
+
+  abstract
+    p : Agent -> Boolean
+
+  epsilon : Number = 0.1
+
+  abs (a : Number) : Number =
+    MathTool .mk .abs (a)
+
+  max (a : Number) (b : Number) : Number =
+    MathTool .mk .max (a) (b)
+
+  length_to_number (a : Measure) : Number =
+    a .getOrElse (-1)
+
+  divide (pair : TilePair [Measure] [Measure] ) : Number =
+    length_to_number (pair .fst) / length_to_number (pair .snd)
+
+  is_similar (a : Number) (b : Number) : Boolean =
+    (a == b) or
+      (not (a == b) and ( (abs (a - b) / max (abs (a) ) (abs (b) ) ) < epsilon) )
+
+  is_pair_similar (pair : TilePair [Number] [Number] ) : Boolean =
+    is_similar (pair .fst) (pair .snd)
+
+  all_agent_tile = AllAgentTile .mk
+
+  all_resource_tile = AllResourceTile .mk
+
+  apply_divide_tile = ApplyTile .mk [TilePair [Measure] [Measure] ] [Number] (divide)
+
+  apply_similar_tile = ApplyTile .mk [TilePair [Number] [Number] ] [Boolean] (is_pair_similar)
+
+  cross_filter_p_length_tile = CrossFilterPLengthTile .mk (p)
+
+  cross_filter_not_p_length_tile = CrossFilterNotPLengthTile .mk (p)
+
+  all_agent_filter_p_length_tile = AllAgentFilterPLengthTile .mk (p)
+
+  all_agent_filter_not_p_length_tile = AllAgentFilterNotPLengthTile .mk (p)
+
+  tupling_pair_measure_tile = TuplingPairTile .mk [Measure] [Measure]
+
+  tupling_pair_number_tile = TuplingPairTile .mk [Number] [Number]
+
+  pipeline_0 (message : TileMessage [Boolean] )
+      : TileMessage [Measure] =
+    cross_filter_p_length_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    ) (
+      all_resource_tile .apply (
+        message
+      )
+    )
+
+  pipeline_1 (message : TileMessage [Boolean] ) : TileMessage [Number] =
+    apply_divide_tile .apply (
+      tupling_pair_measure_tile .apply (
+        pipeline_0 (message)
+      ) (
+        all_agent_filter_p_length_tile .apply (
+          message
+        )
+      )
+    )
+
+  pipeline_2 (message : TileMessage [Boolean] ) : TileMessage [Measure] =
+    cross_filter_not_p_length_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    ) (
+      all_resource_tile .apply (
+        message
+      )
+    )
+
+  pipeline_3 (message : TileMessage [Boolean] ) : TileMessage [Number] =
+    apply_divide_tile .apply (
+      tupling_pair_measure_tile .apply (
+        pipeline_2 (message)
+      ) (
+        all_agent_filter_not_p_length_tile .apply (
+          message
+        )
+      )
+    )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    apply_similar_tile .apply (
+      tupling_pair_number_tile .apply (
+        pipeline_1 (message)
+      ) (
+        pipeline_3 (message)
+      )
+    )
+
+end
+

@@ -4,24 +4,26 @@ import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.AllEqual1Tile
 
 /**
- * This is a composite tile for the envy freeness pipelines.
+ * This is a composite tile for the group fairness pipeline.
  */
 
-class CrossFilterMapTile
+class CrossFilterPLengthTile
 
   abstract
+    p : Agent -> Boolean
 
-  map_tile = MapTile .mk [TilePair [Agent] [Resource] ] [Resource] (
-    lambda pair --> pair .snd
-  )
+  to_number (a : Measure) : Number =
+    a .getOrElse (-1)
+
+  length_tile = LengthTile .mk [TilePair [Agent] [Resource] ]
 
   cross_tile = CrossTile .mk [Agent] [Resource]
 
   apply (message0 : TileMessage [Seq [Agent] ] )  (message1 : TileMessage [Seq [Resource] ] )
-      : TileMessage [Seq [Resource] ] =
-    map_tile .apply (
+      : TileMessage [Measure] =
+    length_tile .apply (
       FilterTile .mk [TilePair [Agent] [Resource] ] (lambda pair -->
-        OutcomeMod .mk .receives (message0 .outcome) (pair .fst)  (pair .snd)
+        not (OutcomeMod .mk .receives (message0 .outcome) (pair .fst)  (pair .snd) )
       ) .apply (
         cross_tile .apply (
           message0
@@ -29,7 +31,7 @@ class CrossFilterMapTile
           message1
         )
       )
-    )
+     )
 
 end
 

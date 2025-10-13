@@ -55,6 +55,16 @@ class MathTool
       .exists (lambda value -->
         abs (value - center) <= epsilon)
 
+  min (x : Number) (y : Number) : Number =
+    if x < y
+    then x
+    else y
+
+  max (x : Number) (y : Number) : Number =
+    if x > y
+    then x
+    else y
+
 end
 
 

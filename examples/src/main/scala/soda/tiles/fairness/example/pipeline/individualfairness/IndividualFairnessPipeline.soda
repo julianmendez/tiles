@@ -1,0 +1,46 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+
+/**
+ * This pipeline returns 'true' if there is individual fairness, and 'false' otherwise.
+ */
+
+class IndividualFairnessPipeline
+
+  abstract
+    q : Agent -> Boolean
+
+  all_agent_tile = AllAgentTile .mk
+
+  all_resource_tile = AllResourceTile .mk
+
+  cross_filter_tile = CrossFilterTile .mk (q)
+
+  cross_forall_tile = CrossForallTile .mk
+
+  pipeline_0 (message : TileMessage [Boolean] ) : TileMessage [Seq [TilePair [Agent] [Agent] ] ] =
+    cross_filter_tile .apply (
+      all_agent_tile .apply (
+        message
+      )
+    ) (
+      all_agent_tile .apply (
+        message
+      )
+    )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
+    cross_forall_tile .apply (
+      pipeline_0 (message)
+    ) (
+      all_resource_tile .apply (
+        message
+      )
+    )
+
+end
+

@@ -1,0 +1,23 @@
+package soda.tiles.fairness.example.pipeline.groupfairness
+
+/*
+ * This package contains classes to model the tiles.
+ */
+
+import
+  soda.tiles.fairness.tile.constant.AllAgentTile
+  soda.tiles.fairness.tile.constant.AllResourceTile
+  soda.tiles.fairness.tile.derived.fold.LengthTile
+  soda.tiles.fairness.tile.primitive.ApplyTile
+  soda.tiles.fairness.tile.primitive.CrossTile
+  soda.tiles.fairness.tile.primitive.FilterTile
+  soda.tiles.fairness.tile.primitive.TuplingPairTile
+  soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.MathTool
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.Number
+  soda.tiles.fairness.tool.OutcomeMod
+  soda.tiles.fairness.tool.Resource
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TilePair
+

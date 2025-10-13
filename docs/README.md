@@ -42,19 +42,23 @@ Boolean value.
 
 ## Examples
 
-| Example                                | Description                                                                        |
-|----------------------------------------|:-----------------------------------------------------------------------------------|
-|                                        |                                                                                    |
-| [Equality][equality-example]           | This determines whether every agent receives the same amount of resource.          |
-|                                        |                                                                                    |
-| [Equity][equity-example]               | This determines whether all the agents receive resources according to their needs. |
-|                                        |                                                                                    |
-| [Envy-Freeness][envy-freeness-example] | This determines whether the distribution is envy-free.                             |
-|                                        |                                                                                    |
-| [Scoring][scoring-example]             | This measures the correlation between false positives and a protected attribute.   |
-|                                        |                                                                                    |
-| [Child Care Subsidy][ccs-example]      | This is a collection of different possible pipelines for Child Care Subsidies.     |
-|                                        |                                                                                    |
+| Example                                            | Description                                                                 |
+|----------------------------------------------------|:----------------------------------------------------------------------------|
+|                                                    |                                                                             |
+| [Equality][equality-example]                       | Determines whether every agent receives the same amount of resources.       |
+|                                                    |                                                                             |
+| [Equity][equity-example]                           | Determines whether all agents receive resources according to their needs.   |
+|                                                    |                                                                             |
+| [Envy-Freeness][envy-freeness-example]             | Determines whether the distribution is envy-free.                           |
+|                                                    |                                                                             |
+| [Group Fairness][group-fairness-example]           | Determines whether the distribution preserves fairness across groups.       |
+|                                                    |                                                                             |
+| [Individual Fairness][individual-fairness-example] | Determines whether the distribution preserves fairness for individuals.     |
+|                                                    |                                                                             |
+| [Scoring][scoring-example]                         | Measures the correlation between false positives and a protected attribute. |
+|                                                    |                                                                             |
+| [Child Care Subsidy][ccs-example]                  | Represents a collection of possible pipelines for child care subsidies.     |
+|                                                    |                                                                             |
 
 
 ## Executable
@@ -122,6 +126,10 @@ directly executed in Linux. Its input is a [YAML][yaml] configuration file, like
 [equity-example]: https://julianmendez.github.io/tiles/example/equity/equity_example.html
 
 [envy-freeness-example]: https://julianmendez.github.io/tiles/example/envy_freeness/envy_freeness_example.html
+
+[group-fairness-example]: https://julianmendez.github.io/tiles/example/group_fairness/group_fairness_example.html
+
+[individual-fairness-example]: https://julianmendez.github.io/tiles/example/individual_fairness/individual_fairness_example.html
 
 [scoring-example]: https://julianmendez.github.io/tiles/example/scoring/scoring_example.html
 
