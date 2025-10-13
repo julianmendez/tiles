@@ -113,7 +113,7 @@ trait CrossFilterMapTile
       : TileMessage [Seq [Resource] ] =
     map_tile .apply (
       FilterTile .mk [TilePair [Agent, Resource] ] ( pair =>
-        ! (OutcomeMod .mk .receives (message0 .outcome) (pair .fst)  (pair .snd) )
+        OutcomeMod .mk .receives (message0 .outcome) (pair .fst)  (pair .snd)
       ) .apply (
         cross_tile .apply (
           message0
