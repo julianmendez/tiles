@@ -4,45 +4,21 @@ package soda.tiles.fairness.example.pipeline.groupfairness
  * This package contains classes to model the tiles.
  */
 
-import   soda.tiles.fairness.tile.composite.AccumulatesTile
-import   soda.tiles.fairness.tile.composite.AllAtLeastTile
-import   soda.tiles.fairness.tile.composite.AllEqualTile
-import   soda.tiles.fairness.tile.composite.CorrelationAbsTile
-import   soda.tiles.fairness.tile.composite.ExistsTile
-import   soda.tiles.fairness.tile.composite.FalsePosTile
-import   soda.tiles.fairness.tile.composite.PredictionPTile
-import   soda.tiles.fairness.tile.composite.AllAgentPairTile
-import   soda.tiles.fairness.tile.composite.AllAgentTripleTile
 import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.constant.AllResourceTile
-import   soda.tiles.fairness.tile.derived.apply.DecisionTile
-import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
-import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
-import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleFstTile
-import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleSndTile
-import   soda.tiles.fairness.tile.derived.apply.ProjectionTripleTrdTile
 import   soda.tiles.fairness.tile.derived.fold.LengthTile
-import   soda.tiles.fairness.tile.derived.map.NeedsTile
 import   soda.tiles.fairness.tile.primitive.ApplyTile
 import   soda.tiles.fairness.tile.primitive.CrossTile
 import   soda.tiles.fairness.tile.primitive.FilterTile
-import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.TuplingPairTile
-import   soda.tiles.fairness.tile.primitive.ZipTile
 import   soda.tiles.fairness.tool.Agent
-import   soda.tiles.fairness.tool.Comparator
 import   soda.tiles.fairness.tool.MathTool
 import   soda.tiles.fairness.tool.Measure
-import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Number
-import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.OutcomeMod
-import   soda.tiles.fairness.tool.PearsonCorrDirect
-import   soda.tiles.fairness.tool.PearsonCorrCovariance
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.TileTriple
 
 
 
