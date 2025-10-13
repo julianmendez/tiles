@@ -1,0 +1,36 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllEqual1Tile
+
+/**
+ * This is a composite tile for the individual fairness pipeline.
+ */
+
+class CrossFilterTile
+
+  abstract
+    q : Agent -> Boolean
+
+  cross_tile = CrossTile .mk [Agent] [Agent]
+
+  filter_function_pair (a0 : Agent) (a1 : Agent) : Boolean =
+    not (a0 == a1) and (q (a0) == q (a1) )
+
+  filter_function (pair : TilePair [Agent] [Agent] ) : Boolean =
+    filter_function_pair (pair .fst) (pair .snd)
+
+  filter_tile = FilterTile .mk [TilePair [Agent] [Agent] ] (filter_function)
+
+  apply (message0 : TileMessage [Seq [Agent] ] )  (message1 : TileMessage [Seq [Agent] ] )
+      : TileMessage [Seq [TilePair [Agent] [Agent] ] ] =
+    filter_tile .apply (
+      cross_tile .apply (
+        message0
+      ) (
+        message1
+      )
+    )
+
+end
+
