@@ -1,0 +1,29 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllEqual1Tile
+
+/**
+ * This is a composite tile for the group fairness pipeline.
+ */
+
+class CrossFilterNotPLengthTile
+
+  abstract
+    p : Agent -> Boolean
+
+  not_p (a : Agent) : Boolean =
+    not (p (a) )
+
+  other_tile = CrossFilterPLengthTile .mk (not_p)
+
+  apply (message0 : TileMessage [Seq [Agent] ] )  (message1 : TileMessage [Seq [Resource] ] )
+      : TileMessage [Measure] =
+    other_tile .apply (
+      message0
+    ) (
+      message1
+    )
+
+end
+
