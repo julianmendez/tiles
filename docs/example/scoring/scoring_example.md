@@ -26,20 +26,18 @@ scoring scenario tile (unbiasedness with respect to falsepositives) with
 
 [ApplyTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/ApplyTile.soda
 
-[FalsePosTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/FalsePosTile.soda
-
 [CorrelationTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/CorrelationTile.soda
 
 [CorrelationAbsTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/CorrelationAbsTile.soda
 
-[AllAgentMapFalsePositiveTile]: https://github.com/julianmendez/tiles/blob/master/example/src/main/scala/soda/tiles/fairness/example/pipeline/scoring/AllAgentMapFalsePositiveTile.soda
+[AllAgentMapFalsePositiveTile]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/scoring/AllAgentMapFalsePositiveTile.soda
 
-[AllAgentMapGroundTruthTile]: https://github.com/julianmendez/tiles/blob/master/example/src/main/scala/soda/tiles/fairness/example/pipeline/scoring/AllAgentMapGroundTruthTile.soda
+[AllAgentMapGroundTruthTile]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/scoring/AllAgentMapGroundTruthTile.soda
 
-[UnbiasednessPipeline]: https://github.com/julianmendez/tiles/blob/master/example/src/main/scala/soda/tiles/fairness/example/pipeline/scoring/UnbiasednessPipeline.soda
+[UnbiasednessPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/scoring/UnbiasednessPipeline.soda
 
-[ScoringScenarioExample]: https://github.com/julianmendez/tiles/blob/master/example/src/test/scala/soda/tiles/fairness/pipeline/scoring/ScoringScenarioExample.soda
+[ScoringScenarioExample]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/scala/soda/tiles/fairness/pipeline/scoring/ScoringScenarioExample.soda
 
-[UnbiasednessPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/example/src/test/scala/soda/tiles/fairness/pipeline/scoring/UnbiasednessPipelineSpec.soda
+[UnbiasednessPipelineSpec]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/scala/soda/tiles/fairness/pipeline/scoring/UnbiasednessPipelineSpec.soda
 
 

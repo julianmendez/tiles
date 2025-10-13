@@ -67,6 +67,12 @@ trait MeasureMod
       case None => None
     }
 
+  def squared (a : Measure) : Measure =
+    a match  {
+      case Some (value) => Some (value * value)
+      case None => None
+    }
+
 }
 
 case class MeasureMod_ () extends MeasureMod
@@ -445,6 +451,16 @@ trait MathTool
     maybeNumber
       .exists ( value =>
         abs (value - center) <= epsilon)
+
+  def min (x : Number) (y : Number) : Number =
+    if ( x < y
+    ) x
+    else y
+
+  def max (x : Number) (y : Number) : Number =
+    if ( x > y
+    ) x
+    else y
 
 }
 

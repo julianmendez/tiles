@@ -56,6 +56,11 @@ class MeasureMod
       case Some (value) ==> divide_by (a) (value)
       case None ==> None
 
+  squared (a : Measure) : Measure =
+    match a
+      case Some (value) ==> Some (value * value)
+      case None ==> None
+
 end
 
 
