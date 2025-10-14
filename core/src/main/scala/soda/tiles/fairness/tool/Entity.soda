@@ -61,6 +61,25 @@ class MeasureMod
       case Some (value) ==> Some (value * value)
       case None ==> None
 
+  abs_int (a : Int) : Int =
+    if a < 0
+    then -a
+    else a
+
+  distance_int (a : Int) (b : Int) : Int =
+    abs_int (a - b)
+
+  _distance_for (a : Int) (b : Measure) : Measure =
+    match b
+      case Some (value) ==> Some (distance_int (a) (value) )
+      case None ==> None
+
+  distance (a : Measure) (b : Measure) : Measure =
+    match a
+      case Some (value) ==> _distance_for (value) (b)
+      case None ==> None
+
+
 end
 
 

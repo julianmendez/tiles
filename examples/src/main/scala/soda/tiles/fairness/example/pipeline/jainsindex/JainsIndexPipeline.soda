@@ -1,0 +1,54 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+
+/**
+ * This pipeline returns 'true' if there is group fairness, according to a hard-coded epsilon,
+ * and 'false' otherwise.
+ */
+
+class JainsIndexPipeline
+
+  abstract
+    utility : Resource -> Measure
+
+  to_number (a : Measure) : Number =
+    a .getOrElse (-1)
+
+  phi (m0 : Measure) (m1 : Measure) (m2 : Measure) : Number =
+    to_number (m0) / (to_number (m1) * to_number (m2) )
+
+  all_agent_accumulates_map_sum_tile = AllAgentAccumulatesMapSumTile .mk (utility)
+
+  all_agent_accumulates_sum_apply_tile = AllAgentAccumulatesSumApplyTile .mk (utility)
+
+  all_agent_length_tile = AllAgentLengthTile .mk
+
+  tupling_pair_measure_tile = TuplingPairTile .mk [Measure] [Measure]
+
+  tupling_pair_pair_tile = TuplingPairTile .mk [TilePair [Measure] [Measure] ] [Measure]
+
+  apply_tile =
+    ApplyTile .mk [TilePair [TilePair [Measure] [Measure] ] [Measure] ] [Number] (
+      lambda tuple -->
+        phi (tuple .fst .fst) (tuple .fst .snd) (tuple .snd)
+    )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Number] =
+    apply_tile .apply (
+      tupling_pair_pair_tile .apply (
+        tupling_pair_measure_tile .apply (
+          all_agent_accumulates_map_sum_tile .apply (message)
+        ) (
+          all_agent_accumulates_sum_apply_tile .apply (message)
+        )
+      ) (
+        all_agent_length_tile .apply (message)
+      )
+    )
+
+end
+

@@ -73,6 +73,26 @@ trait MeasureMod
       case None => None
     }
 
+  def abs_int (a : Int) : Int =
+    if ( a < 0
+    ) -a
+    else a
+
+  def distance_int (a : Int) (b : Int) : Int =
+    abs_int (a - b)
+
+  private def _distance_for (a : Int) (b : Measure) : Measure =
+    b match  {
+      case Some (value) => Some (distance_int (a) (value) )
+      case None => None
+    }
+
+  def distance (a : Measure) (b : Measure) : Measure =
+    a match  {
+      case Some (value) => _distance_for (value) (b)
+      case None => None
+    }
+
 }
 
 case class MeasureMod_ () extends MeasureMod

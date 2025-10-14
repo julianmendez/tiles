@@ -1,0 +1,40 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllEqual1Tile
+
+/**
+ * This is a composite tile for the pipeline of the complement of the Gini index.
+ */
+
+class CrossMapTile
+
+  abstract
+
+  phi (m0 : Measure) (m1 : Measure) : Measure =
+    MeasureMod .mk .distance (m0) (m1)
+
+  map_tile =
+    MapTile .mk [TilePair [Measure] [Measure] ] [Measure] (
+      lambda tuple -->
+        phi (tuple .fst) (tuple .snd)
+    )
+
+  sum_tile = SumTile .mk
+
+  cross_tile = CrossTile .mk [Measure] [Measure]
+
+  apply (message0 : TileMessage [Seq [Measure] ] )  (message1 : TileMessage [Seq [Measure] ] )
+      : TileMessage [Measure] =
+    sum_tile .apply (
+      map_tile .apply (
+        cross_tile .apply (
+          message0
+        ) (
+          message1
+        )
+      )
+    )
+
+end
+

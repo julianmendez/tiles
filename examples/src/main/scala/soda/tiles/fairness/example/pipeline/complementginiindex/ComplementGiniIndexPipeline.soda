@@ -1,0 +1,72 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.constant.AllAgentTile
+import Soda.tiles.fairness.tile.composite.AllEqualTile
+import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
+
+/**
+ * This pipeline model the complement of the Gini index.
+ */
+
+class ComplementGiniIndexPipeline
+
+  abstract
+    utility : Resource -> Measure
+
+  to_number (a : Measure) : Number =
+    a .getOrElse (-1)
+
+  phi (m3 : Measure) (m4 : Measure) (m5 : Measure) : Number =
+    1 - (to_number (m3) / (2 * to_number (m5) * to_number (m4) ) )
+
+  all_agent_accumulates_tile = AllAgentAccumulatesTile .mk (utility)
+
+  all_agent_accumulates_sum_tile = AllAgentAccumulatesSumTile .mk (utility)
+
+  all_agent_length_tile = AllAgentLengthTile .mk
+
+  cross_map_tile = CrossMapTile .mk
+
+  tupling_pair_measure_tile = TuplingPairTile .mk [Measure] [Measure]
+
+  tupling_pair_pair_tile = TuplingPairTile .mk [TilePair [Measure] [Measure] ] [Measure]
+
+  apply_tile =
+    ApplyTile .mk [TilePair [TilePair [Measure] [Measure] ] [Measure] ] [Number] (
+      lambda tuple -->
+        phi (tuple .fst .fst) (tuple .fst .snd) (tuple .snd)
+    )
+
+  pipeline_0 (message : TileMessage [Boolean] ) : TileMessage [Measure] =
+    cross_map_tile .apply (
+      all_agent_accumulates_tile .apply (
+        message
+      )
+    ) (
+      all_agent_accumulates_tile .apply (
+        message
+      )
+    )
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Number] =
+    apply_tile .apply (
+      tupling_pair_pair_tile .apply (
+        tupling_pair_measure_tile .apply (
+          pipeline_0 .apply (
+            message
+          )
+        ) (
+          all_agent_accumulates_sum_tile .apply (
+            message
+          )
+        )
+      ) (
+        all_agent_length_tile .apply (
+          message
+        )
+      )
+    )
+
+end
+
