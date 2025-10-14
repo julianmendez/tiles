@@ -7,7 +7,7 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
  * This is a composite tile for the pipeline of the complement of the Gini index.
  */
 
-class CrossMapTile
+class CrossMapSumTile
 
   abstract
 

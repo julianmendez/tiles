@@ -165,7 +165,7 @@ trait ComplementGiniIndexPipeline
 
   lazy val all_agent_length_tile = AllAgentLengthTile .mk
 
-  lazy val cross_map_tile = CrossMapTile .mk
+  lazy val cross_map_sum_tile = CrossMapSumTile .mk
 
   lazy val tupling_pair_measure_tile = TuplingPairTile .mk [Measure, Measure]
 
@@ -178,7 +178,7 @@ trait ComplementGiniIndexPipeline
     )
 
   def pipeline_0 (message : TileMessage [Boolean] ) : TileMessage [Measure] =
-    cross_map_tile .apply (
+    cross_map_sum_tile .apply (
       all_agent_accumulates_tile .apply (
         message
       )
@@ -227,7 +227,7 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
  * This is a composite tile for the pipeline of the complement of the Gini index.
  */
 
-trait CrossMapTile
+trait CrossMapSumTile
 {
 
 
@@ -259,10 +259,10 @@ trait CrossMapTile
 
 }
 
-case class CrossMapTile_ () extends CrossMapTile
+case class CrossMapSumTile_ () extends CrossMapSumTile
 
-object CrossMapTile {
-  def mk : CrossMapTile =
-    CrossMapTile_ ()
+object CrossMapSumTile {
+  def mk : CrossMapSumTile =
+    CrossMapSumTile_ ()
 }
 
