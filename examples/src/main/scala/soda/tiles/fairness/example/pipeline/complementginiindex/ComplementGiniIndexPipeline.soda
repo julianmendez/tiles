@@ -26,7 +26,7 @@ class ComplementGiniIndexPipeline
 
   all_agent_length_tile = AllAgentLengthTile .mk
 
-  cross_map_tile = CrossMapTile .mk
+  cross_map_sum_tile = CrossMapSumTile .mk
 
   tupling_pair_measure_tile = TuplingPairTile .mk [Measure] [Measure]
 
@@ -39,7 +39,7 @@ class ComplementGiniIndexPipeline
     )
 
   pipeline_0 (message : TileMessage [Boolean] ) : TileMessage [Measure] =
-    cross_map_tile .apply (
+    cross_map_sum_tile .apply (
       all_agent_accumulates_tile .apply (
         message
       )
