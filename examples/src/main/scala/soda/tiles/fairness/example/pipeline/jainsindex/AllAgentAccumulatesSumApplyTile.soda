@@ -1,0 +1,35 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllEqual1Tile
+
+/**
+ * This is a composite tile for the Jain's index pipeline.
+ */
+
+class AllAgentAccumulatesSumApplyTile
+
+  abstract
+    utility : Resource -> Measure
+
+  all_agent_tile = AllAgentTile .mk
+
+  accumulates_tile = AccumulatesTile .mk (utility)
+
+  sum_tile = SumTile .mk
+
+  apply_tile = ApplyTile .mk [Measure] [Measure] (MeasureMod .mk .squared)
+
+  apply (message : TileMessage [Boolean] ) : TileMessage [Measure] =
+    apply_tile .apply (
+      sum_tile .apply (
+        accumulates_tile .apply (
+          all_agent_tile .apply (
+            message
+          )
+        )
+      )
+    )
+
+end
+
