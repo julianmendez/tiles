@@ -1,8 +1,3 @@
-<head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js"> </script>
-</head>
-
-
 ## Child Care Subsidy Example
 
 The Child Care Subsidy (CCS) is a financial assistance to help families with the cost of
@@ -81,12 +76,13 @@ their own section (`pipelines`).
 |:----------------------------------------------------|:-----------------------------------------|:----------|
 | all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             | all-actor |
 | <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>       | [AccumulatesTile][AccumulatesTile]       | received  |
-| <sub>*(m)*</sub> forall (p) <sub>*b*</sub>          | [ForallTile][ForallTile]                 |           |
+| <sub>*(α)*</sub> forall ϕ <sub>*b*</sub>            | [ForallTile][ForallTile]                 |
 | <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |           |
-| <sub>*(a)*</sub> p <sub>*(m)*</sub>                 | [MapTile][MapTile]                       |           |
-| <sub>*(a)*</sub> p ? <sub>*(a)*</sub>               | [FilterTile][FilterTile]                 |           |
+| <sub>*(α)*</sub> map ϕ <sub>*(β)*</sub>             | [MapTile][MapTile]                       |
+| <sub>*(α)*</sub> filter ϕ <sub>*(α)*</sub>          | [FilterTile][FilterTile]                 |
 | <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |           |
 | <sub>*(m0), (m1)*</sub> f (m0, m1) <sub>*(m)*</sub> | [SigmaTile][SigmaTile]                   |           |
+| <sub>*α*</sub> apply <sub>*β*</sub>                 | [ApplyTile][ApplyTile]                   |
 | <sub>*b0, b1*</sub> f (b0, b1) <sub>*b*</sub>       | [CombineBooleanTile][CombineBooleanTile] |           |
 
 
@@ -94,11 +90,7 @@ their own section (`pipelines`).
 
 This is the [No Subsidy Pipeline][CcsNoSubsidyPipeline]. In this case, no subsidy is given to any family.
 
-```mermaid
-graph LR
-  all-agent(all-agent) --> accumulates
-  accumulates(accumulates) --> forall-0(forall m=0)
-```
+![ccs_no_subsidy](ccs_no_subsidy.png)
 
 
 ### Child Care Subsidy Per Child Pipeline
@@ -106,14 +98,7 @@ graph LR
 This is the [Per Child Pipeline][CcsPerChildPipeline]. In this case, the amount of money
 given to each family depends on the number of children in the family.
 
-```mermaid
-graph LR
-  all-agent(all-agent) --> accumulates
-  all-agent --> children
-  accumulates(accumulates) --> map-m0/m1
-  children(children) --> map-m0/m1
-  map-m0/m1(m0 / m1) --> all-equal(all-equal)
-```
+![ccs_per_child](ccs_per_child.png)
 
 
 ### Child Care Subsidy Per Family Pipeline
@@ -121,29 +106,15 @@ graph LR
 This is the [Per Family Pipeline][CcsPerFamilyPipeline]. In this case, the amount of money
 given to each family is the same, regardless of the number of children in the family.
 
-```mermaid
-graph LR
-  all-agent(all-agent) --> accumulates
-  accumulates(accumulates) --> all-equal(all-equal)
-```
+![ccs_per_family](ccs_per_family.png)
 
 
-### Child Card Subsidy to Single Guardian Pipeline
+### Child Card Subsidy to Single Parent or Guardian Pipeline
 
 This is the [Single Guardian Pipeline][CcsSingleGuardianPipeline]. In this case, the subsidy
-is only granted to families having a single guardian.
+is only granted to families having a single parent or guardian.
 
-```mermaid
-graph LR
-  all-agent(all-agent) --> adults-1
-  all-agent --> adults-2
-  adults-1(adults a0 = 1?) --> accumulates-1
-  adults-2(adults a1 > 1?) --> accumulates-0
-  accumulates-1(accumulates) --> all-equal
-  accumulates-0(accumulates) --> all-satisfy-0
-  all-equal(all-equal) --> and(and)
-  all-satisfy-0(all-satisfy m=0) --> and
-```
+![ccs_single_adult](ccs_single_adult.png)
 
 [yaml]: https://yaml.org
 
@@ -165,6 +136,8 @@ graph LR
 
 [CombineBooleanTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/apply/CombineBooleanTile.soda
 
+[ApplyTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/ApplyTile.soda
+
 [CcsSingleGuardianPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/childcaresubsidy/CcsSingleGuardianPipeline.soda
 
 [CcsNoSubsidyPipeline]: https://github.com/julianmendez/tiles/blob/master/examples/src/main/scala/soda/tiles/fairness/example/pipeline/childcaresubsidy/CcsNoSubsidyPipeline.soda
@@ -176,9 +149,5 @@ graph LR
 [test-yaml-conf]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/resources/example/example0.yaml
 
 [australian-conditions]: https://www.servicesaustralia.gov.au/how-much-child-care-subsidy-you-can-get?context=41186
-
-<script>
-  window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
-</script>
 
 
