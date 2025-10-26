@@ -9,9 +9,9 @@ These are some of the implemented fairness tiles for the scenario:
 | 1     | all-agent <sub>*(a)*</sub>                    | [AllAgentTile][AllAgentTile]                                       |
 | 2     | <sub>*(a)*</sub> accumulates <sub>*(m)*</sub> | [AccumulatesTile][AccumulatesTile]                                 |
 | 3     | <sub>*(m)*</sub> sum <sub>*m*</sub>           | [SumTile][SumTile]                                                 |
-| 4     | <sub>*(α)*</sub> map ϕ <sub>*(β)*</sub>       | [MapTile][MapTile]                                                 |
+| 4     | <sub>*(α)*</sub> map φ <sub>*(β)*</sub>       | [MapTile][MapTile]                                                 |
 | 5     | <sub>*(α)*</sub> length <sub>*m*</sub>        | [LengthTile][LengthTile]                                           |
-| 6     | <sub>*α*</sub> apply ϕ <sub>*β*</sub>         | [ApplyTile][ApplyTile]                                             |
+| 6     | <sub>*α*</sub> apply φ <sub>*β*</sub>         | [ApplyTile][ApplyTile]                                             |
 | 7     | composite (1 + 2 + 3 + 6)                     | [AllAgentAccumulatesMapSumTile][AllAgentAccumulatesMapSumTile]     |
 | 8     | composite (1 + 2 + 4 + 3)                     | [AllAgentAccumulatesSumApplyTile][AllAgentAccumulatesSumApplyTile] |
 | 9     | composite (1 + 5)                             | [AllAgentLengthTile][AllAgentLengthTile]                           |

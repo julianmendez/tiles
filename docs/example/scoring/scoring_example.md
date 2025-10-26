@@ -7,9 +7,9 @@ These are some of the implemented fairness tiles for scoring scenarios:
 | Index | Tile or Pipeline                                   | Class                                                        |
 |:------|:---------------------------------------------------|:-------------------------------------------------------------|
 | 1     | all-agent <sub>*(a)*</sub>                         | [AllAgentTile][AllAgentTile]                                 |
-| 2     | <sub>*(α)*</sub> map ϕ <sub>*(β)*</sub>            | [MapTile][MapTile]                                           |
+| 2     | <sub>*(α)*</sub> map φ <sub>*(β)*</sub>            | [MapTile][MapTile]                                           |
 | 3     | <sub>*(m0), (m1)*</sub> correlation <sub>*m*</sub> | [CorrelationTile][CorrelationTile]                           |
-| 4     | <sub>*α*</sub> apply ϕ <sub>*β*</sub>              | [ApplyTile][ApplyTile]                                       |
+| 4     | <sub>*α*</sub> apply φ <sub>*β*</sub>              | [ApplyTile][ApplyTile]                                       |
 | 5     | composite (1 + 2)                                  | [AllAgentMapFalsePositiveTile][AllAgentMapFalsePositiveTile] |
 | 6     | composite (1 + 2)                                  | [AllAgentMapGroundTruthTile][AllAgentMapGroundTruthTile]     |
 | 7     | composite (3 + 4)                                  | [CorrelationAbsTile][CorrelationAbsTile]                     |

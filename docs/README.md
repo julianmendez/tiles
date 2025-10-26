@@ -65,6 +65,11 @@ Boolean value.
 |                                                               |                                                                             |
 
 
+## How it works
+
+See a small explanation of [how Tiles works][how-it-works].
+
+
 ## Executable
 
 This project includes an executable example of [Child Care Subsidy][ccs-example] pipelines.
@@ -144,5 +149,7 @@ directly executed in Linux. Its input is a [YAML][yaml] configuration file, like
 [ccs-example]: https://julianmendez.github.io/tiles/example/child_care_subsidy/ccs_example.html
 
 [test-yaml-conf]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/resources/example/example0.yaml
+
+[how-it-works]: https://julianmendez.github.io/tiles/tutorial/how_it_works.html
 
 

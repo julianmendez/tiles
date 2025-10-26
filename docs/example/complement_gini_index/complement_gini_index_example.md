@@ -10,9 +10,9 @@ These are some of the implemented fairness tiles for the scenario:
 | 2     | <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>    | [AccumulatesTile][AccumulatesTile]                         |
 | 3     | <sub>*(α),(β)*</sub> cross <sub>*(⟨α, β⟩)*</sub> | [CrossTile][CrossTile]                                     |
 | 4     | <sub>*(m)*</sub> sum <sub>*m*</sub>              | [SumTile][SumTile]                                         |
-| 5     | <sub>*(α)*</sub> map ϕ <sub>*(β)*</sub>          | [MapTile][MapTile]                                         |
+| 5     | <sub>*(α)*</sub> map φ <sub>*(β)*</sub>          | [MapTile][MapTile]                                         |
 | 6     | <sub>*(α)*</sub> length <sub>*m*</sub>           | [LengthTile][LengthTile]                                   |
-| 7     | <sub>*α*</sub> apply ϕ <sub>*β*</sub>            | [ApplyTile][ApplyTile]                                     |
+| 7     | <sub>*α*</sub> apply φ <sub>*β*</sub>            | [ApplyTile][ApplyTile]                                     |
 | 8     | composite (1 + 2)                                | [AllAgentAccumulatesTile][AllAgentAccumulatesTile]         |
 | 9     | composite (1 + 2)                                | [AllAgentAccumulatesTile][AllAgentAccumulatesTile]         |
 | 10    | composite (3 + 5 + 4)                            | [CrossMapSumTile][CrossMapSumTile]                         |

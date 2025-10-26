@@ -21,7 +21,7 @@ Equality can also be modeled as:
 | 2     | <sub>*(a)*</sub> accumulates <sub>*(m)*</sub> | [AccumulatesTile][AccumulatesTile] |
 | 3     | <sub>*(m)*</sub> distinct <sub>*(m)*</sub>    | [DistinctTile][DistinctTile]       |
 | 4     | <sub>*(α)*</sub> length <sub>*m*</sub>        | [LengthTile][LengthTile]           |
-| 5     | <sub>*α*</sub> apply <sub>*β*</sub>           | [ApplyTile][ApplyTile]             |
+| 5     | <sub>*α*</sub> apply φ <sub>*β*</sub>         | [ApplyTile][ApplyTile]             |
 | 6     | composite (1 + 2 + 3 + 4 + 5)                 |                                    |
 
 [AllAgentTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/constant/AllAgentTile.soda

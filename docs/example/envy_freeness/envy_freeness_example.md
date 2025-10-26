@@ -9,9 +9,9 @@ These are some of the implemented fairness tiles for the scenario:
 | 1     | all-agent <sub>*(a)*</sub>                       | [AllAgentTile][AllAgentTile]                 |
 | 2     | all-resource <sub>*(r)*</sub>                    | [AllResourceTile][AllResourceTile]           |
 | 3     | <sub>*(α),(β)*</sub> cross <sub>*(⟨α, β⟩)*</sub> | [CrossTile][CrossTile]                       |
-| 4     | <sub>*(α)*</sub> filter ϕ <sub>*(α)*</sub>       | [FilterTile][FilterTile]                     |
-| 5     | <sub>*(α)*</sub> map ϕ <sub>*(β)*</sub>          | [MapTile][MapTile]                           |
-| 6     | <sub>*(α)*</sub> exists ϕ <sub>*b*</sub>         | [ExistsTile][ExistsTile]                     |
+| 4     | <sub>*(α)*</sub> filter φ <sub>*(α)*</sub>       | [FilterTile][FilterTile]                     |
+| 5     | <sub>*(α)*</sub> map φ <sub>*(β)*</sub>          | [MapTile][MapTile]                           |
+| 6     | <sub>*(α)*</sub> exists φ <sub>*b*</sub>         | [ExistsTile][ExistsTile]                     |
 | 7     | composite (3 + 4 + 5)                            | [CrossFilterMapTile][CrossFilterMapTile]     |
 | 8     | composite (3 + 4)                                | [CrossFilterTile][CrossFilterTile]           |
 | 9     | composite (3 + 6)                                | [CrossExistsTile][CrossExistsTile]           |
