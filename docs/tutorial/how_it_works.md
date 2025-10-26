@@ -15,8 +15,13 @@ With **Tiles**, we refer to:
 
 Each block, called *tile*, has a *name*, a *function*, an *input type*, an *output type*, and
 *contextual information* (e.g. constants and auxiliary functions).
-This is denoted as <sub>*α*</sub> name <sub>*β*</sub>, where α is the input type, β is the output type, and 'name'
-is the function name.
+This is denoted as follows, where α is the input type, β is the output type, and 'name'
+is the function name:
+
+|                                    |
+|------------------------------------|
+| <sub>*α*</sub> name <sub>*β*</sub> |
+
 Graphically, this is represented as:
 
 ![name_alpha_beta](name_alpha_beta.png)
@@ -59,7 +64,7 @@ These are the primitive tiles.
 | <sub>*α*</sub> apply φ <sub>*β*</sub>            | [ApplyTile][ApplyTile]       |
 | <sub>*(α)*</sub> fold *z* using φ <sub>*β*</sub> | [FoldTile][FoldTile]         |
 
-Some tiles are directly derived from primitve tiles by instantiating some parameter.
+Some tiles are directly derived from primitive tiles by instantiating some parameter.
 For example:
 
 | Function                               | Implementation           |
@@ -68,13 +73,28 @@ For example:
 | <sub>*(m)*</sub> sum <sub>*m*</sub>    | [SumTile][SumTile]       |
 | <sub>*(α)*</sub> length <sub>*m*</sub> | [LengthTile][LengthTile] |
 
-The tile <sub>*(α)*</sub> sum φ <sub>*m*</sub> is further instantiated to create
-<sub>*(m)*</sub> sum <sub>*m*</sub> and <sub>*(α)*</sub> length <sub>*m*</sub>.
+The tile
+
+|                                       |
+|---------------------------------------|
+| <sub>*(α)*</sub> sum φ <sub>*m*</sub> |
+
+is further instantiated to create
+
+|                                     |
+|-------------------------------------|
+| <sub>*(m)*</sub> sum <sub>*m*</sub> |
+
+and
+
+|                                        |
+|----------------------------------------|
+| <sub>*(α)*</sub> length <sub>*m*</sub> |
 
 
 ### Constants
 
-The *constants* are a special type of tiles that provide the constants in a deterministic way.
+The *constants* are special type of tiles that provide the constants in a deterministic way.
 For example, the order of elements for all-agent and for all-resources is always known and always the same.
 
 | Function                      | Implementation                     |
@@ -86,11 +106,29 @@ For example, the order of elements for all-agent and for all-resources is always
 ### Composite tiles
 
 A *composite tile* is created by connecting two or more tiles.
-Assume that <sub>*α*</sub> tile_1 <sub>*β*</sub> is connected to <sub>*β*</sub> tile_2 <sub>*γ*</sub>.
+Assume that
+
+|                                      |
+|--------------------------------------|
+| <sub>*α*</sub> tile 1 <sub>*β*</sub> |
+
+is connected to
+
+|                                      |
+|--------------------------------------|
+| <sub>*β*</sub> tile 2 <sub>*γ*</sub> |
+
 They can be connected together to form the composite tile
-<sub>*α*</sub> tile_1 | <sub>*β*</sub> tile_2 <sub>*γ*</sub>.
+
+|                                                              |
+|--------------------------------------------------------------|
+| <sub>*α*</sub> tile 1 ⏐ <sub>*β*</sub> tile 2 <sub>*γ*</sub> |
+
 The composite tile of the example can also be denoted as
-<sub>*α*</sub> tile_2 ◦ tile_1 <sub>*γ*</sub> .
+
+|                                               |
+|-----------------------------------------------|
+| <sub>*α*</sub> tile 2 ◦ tile 1 <sub>*γ*</sub> |
 
 Graphically, this is represented as:
 
