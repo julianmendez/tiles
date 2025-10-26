@@ -72,7 +72,7 @@ The tile <sub>*(α)*</sub> sum φ <sub>*m*</sub> is further instantiated to crea
 <sub>*(m)*</sub> sum <sub>*m*</sub> and <sub>*(α)*</sub> length <sub>*m*</sub>.
 
 
-## Constants
+### Constants
 
 The *constants* are a special type of tiles that provide the constants in a deterministic way.
 For example, the order of elements for all-agent and for all-resources is always known and always the same.
