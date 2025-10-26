@@ -1,10 +1,10 @@
 ## How it works
 
-**Tiles** is a flexible framework of rigorous representation of functions aimed at clarity and scalability.
+**Tiles** is a flexible framework for the rigorous representation of functions aimed at clarity and scalability.
 The framework is based on concepts of modular design, especially
 *encapsulation*, *reusability*, *interchangeability*, *cohesion*, *low coupling*, *scalability*, and *testability*.
 
-With **Tiles**, we refer to:
+With **Tiles**, we refer to the following:
 
 - a framework where functions can be combined to create descriptions,
 - a graphical representation of the framework, and
@@ -13,7 +13,7 @@ With **Tiles**, we refer to:
 
 ### Tiles
 
-Each block, called *tile*, has a *name*, a *function*, an *input type*, an *output type*, and
+Each block, called a *tile*, has a *name*, a *function*, an *input type*, an *output type*, and
 *contextual information* (e.g. constants and auxiliary functions).
 This is denoted as follows, where α is the input type, β is the output type, and 'name'
 is the function name:
@@ -26,7 +26,7 @@ Graphically, this is represented as:
 
 ![name_alpha_beta](name_alpha_beta.png)
 
-If the tile is a constant, the input type is omitted.
+If a tile is a constant, its input type is omitted.
 
 
 ### Types
@@ -37,7 +37,7 @@ Types in **Tiles** are:
 - *Tuple*: ⟨α_1, …, α_n⟩
 - *Sequence*: (α)
 
-The type *measure* is a type that represents quantities, like integer numbers and floating point numbers, and may
+The *measure* type represents quantities, such as integer numbers and floating-point numbers, and may
 include an undefined element (⊥).
 
 The type annotation follows [this grammar][type-annotation-grammar].
@@ -48,9 +48,9 @@ The type annotation follows [this grammar][type-annotation-grammar].
 The primitive tiles are basic blocks, such that their definitions do not depend on other tiles.
 
 Some tiles may be *polymorphic* or *parametric*.
-*Polymorphic tiles* are tiles such that the input or output types are generic, such as α, β, and they are instantiated
-when they connected to other tiles.
-*Parametric tiles* are tiles such that the main function depends on another function φ provided as a parameter.
+*Polymorphic tiles* are tiles such that their input or output types are generic (e.g. α, β), and they are instantiated
+when connected to other tiles.
+*Parametric tiles* are tiles such that their main function depends on another function φ provided as a parameter.
 
 These are the primitive tiles.
 
@@ -64,7 +64,7 @@ These are the primitive tiles.
 | <sub>*α*</sub> apply φ <sub>*β*</sub>            | [ApplyTile][ApplyTile]       |
 | <sub>*(α)*</sub> fold *z* using φ <sub>*β*</sub> | [FoldTile][FoldTile]         |
 
-Some tiles are directly derived from primitive tiles by instantiating some parameter.
+Some tiles are directly derived from primitive tiles by instantiating parameters.
 For example:
 
 | Function                               | Implementation           |
@@ -94,8 +94,8 @@ and
 
 ### Constants
 
-The *constants* are special type of tiles that provide the constants in a deterministic way.
-For example, the order of elements for all-agent and for all-resources is always known and always the same.
+The *constants* are a special type of tile that provide values in a deterministic way.
+For example, the order of elements for 'all-agent' and for 'all-resources' is always known and always the same.
 
 | Function                      | Implementation                     |
 |-------------------------------|------------------------------------|
@@ -136,7 +136,7 @@ Graphically, this is represented as:
 
 ![tile_1_tile_2_block](tile_1_tile_2_block.png)
 
-Some composite tiles receive special names because they are or can be used in multiple places.
+Some composite tiles receive special names because they are commonly used in multiple contexts.
 For example:
 
 | Function                                      | Implementation                     |
@@ -148,8 +148,8 @@ For example:
 ### Pipelines
 
 Multiple tiles can be connected to create a *pipeline*.
-Each pipeline should have a single *start point* and a single *end point*.
-To unify the generation of actors and resources, an empty tile is added at the beginning of the pipeline.
+Each pipeline should have one *start point* and one *end point*.
+To unify the generation of actors and resources, an empty tile is placed at the beginning of the pipeline.
 
 Graphically, we can represent [equity][equity-example] with the following pipeline:
 
