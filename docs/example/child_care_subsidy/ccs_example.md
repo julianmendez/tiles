@@ -76,13 +76,13 @@ their own section (`pipelines`).
 |:----------------------------------------------------|:-----------------------------------------|:----------|
 | all-agent <sub>*(a)*</sub>                          | [AllAgentTile][AllAgentTile]             | all-actor |
 | <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>       | [AccumulatesTile][AccumulatesTile]       | received  |
-| <sub>*(α)*</sub> forall ϕ <sub>*b*</sub>            | [ForallTile][ForallTile]                 |
+| <sub>*(α)*</sub> forall φ <sub>*b*</sub>            | [ForallTile][ForallTile]                 |
 | <sub>*(m)*</sub> all-equal <sub>*b*</sub>           | [AllEqualTile][AllEqualTile]             |           |
-| <sub>*(α)*</sub> map ϕ <sub>*(β)*</sub>             | [MapTile][MapTile]                       |
-| <sub>*(α)*</sub> filter ϕ <sub>*(α)*</sub>          | [FilterTile][FilterTile]                 |
+| <sub>*(α)*</sub> map φ <sub>*(β)*</sub>             | [MapTile][MapTile]                       |
+| <sub>*(α)*</sub> filter φ <sub>*(α)*</sub>          | [FilterTile][FilterTile]                 |
 | <sub>*(m0), (m1)*</sub> all-at-least <sub>*b*</sub> | [AllAtLeastTile][AllAtLeastTile]         |           |
 | <sub>*(m0), (m1)*</sub> f (m0, m1) <sub>*(m)*</sub> | [SigmaTile][SigmaTile]                   |           |
-| <sub>*α*</sub> apply <sub>*β*</sub>                 | [ApplyTile][ApplyTile]                   |
+| <sub>*α*</sub> apply φ <sub>*β*</sub>               | [ApplyTile][ApplyTile]                   |
 | <sub>*b0, b1*</sub> f (b0, b1) <sub>*b*</sub>       | [CombineBooleanTile][CombineBooleanTile] |           |
 
 

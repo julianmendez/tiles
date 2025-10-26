@@ -24,7 +24,7 @@ Equity can also be modeled as:
 | 2     | <sub>*(a)*</sub> accumulates <sub>*(m)*</sub>  | [AccumulatesTile][AccumulatesTile] |
 | 3     | <sub>*(a)*</sub> needs <sub>*(m)*</sub>        | [NeedsTile][NeedsTile]             |
 | 4     | <sub>*(α),(β)*</sub> zip <sub>*(⟨α, β⟩)*</sub> | [ZipTile][ZipTile]                 |
-| 5     | <sub>*(α)*</sub> forall ϕ <sub>*b*</sub>       | [ForallTile][ForallTile]           |
+| 5     | <sub>*(α)*</sub> forall φ <sub>*b*</sub>       | [ForallTile][ForallTile]           |
 | 6     | composite (1 + 2)                              |                                    |
 | 7     | composite (1 + 3)                              |                                    |
 | 8     | composite (4 + 5)                              |                                    |
