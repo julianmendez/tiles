@@ -11,6 +11,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 class EqualityPipeline
+  extends
+    Pipeline
 
   abstract
     utility : Resource -> Measure
@@ -29,6 +31,9 @@ class EqualityPipeline
         )
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> as_number (apply (message) )
 
 end
 

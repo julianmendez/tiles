@@ -16,6 +16,7 @@ import   soda.tiles.fairness.tool.MathTool
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.OutcomeMod
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair
@@ -199,6 +200,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 trait GroupFairnessPipeline
+  extends
+    Pipeline
 {
 
   def   protected_attribute : Agent => Boolean
@@ -297,6 +300,9 @@ trait GroupFairnessPipeline
         pipeline_3 (message)
       )
     )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 

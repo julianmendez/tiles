@@ -16,6 +16,7 @@ import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Number
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair
@@ -149,6 +150,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 trait ComplementGiniIndexPipeline
+  extends
+    Pipeline
 {
 
   def   utility : Resource => Measure
@@ -206,6 +209,9 @@ trait ComplementGiniIndexPipeline
         )
       )
     )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => apply (message)
 
 }
 

@@ -13,8 +13,10 @@ import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.OutcomeMod
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
+import   soda.tiles.fairness.tool.TileMessageBuilder
 
 /*
 directive lean
@@ -139,11 +141,15 @@ import Soda.tiles.fairness.tile.WithPTile
  */
 
 trait UnbiasednessPipeline
+  extends
+    Pipeline
 {
 
   def   positive_value : Resource
   def   result_function : Agent => Resource
   def   protected_attribute : Agent => Boolean
+
+  lazy val default_value : Number = -1
 
   lazy val all_agent_map_ground_truth_tile = AllAgentMapGroundTruthTile .mk (protected_attribute)
 
@@ -161,6 +167,14 @@ trait UnbiasednessPipeline
         message
       )
     )
+
+  private def _get_number (message : TileMessage [Option [Number] ] ) : TileMessage [Number] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      message .contents .getOrElse (default_value)
+    )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => _get_number (apply (message) )
 
 }
 

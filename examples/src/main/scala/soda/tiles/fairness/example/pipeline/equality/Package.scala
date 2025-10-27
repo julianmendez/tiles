@@ -8,6 +8,8 @@ import   soda.tiles.fairness.tile.composite.AccumulatesTile
 import   soda.tiles.fairness.tile.composite.AllEqualTile
 import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.Number
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 
@@ -29,6 +31,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 trait EqualityPipeline
+  extends
+    Pipeline
 {
 
   def   utility : Resource => Measure
@@ -47,6 +51,9 @@ trait EqualityPipeline
         )
       )
     )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 

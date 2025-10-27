@@ -15,6 +15,7 @@ import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Number
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair
@@ -161,6 +162,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 trait JainsIndexPipeline
+  extends
+    Pipeline
 {
 
   def   utility : Resource => Measure
@@ -199,6 +202,9 @@ trait JainsIndexPipeline
         all_agent_length_tile .apply (message)
       )
     )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => apply (message)
 
 }
 

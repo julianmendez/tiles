@@ -36,6 +36,7 @@ import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.OutcomeMod
 import   soda.tiles.fairness.tool.PearsonCorrDirect
 import   soda.tiles.fairness.tool.PearsonCorrCovariance
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair
@@ -187,6 +188,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 trait EnvyFreenessPipeline
+  extends
+    Pipeline
 {
 
   def   preference : Preference
@@ -235,6 +238,9 @@ trait EnvyFreenessPipeline
         message
       )
     )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 

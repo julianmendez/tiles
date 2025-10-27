@@ -11,6 +11,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 class JainsIndexPipeline
+  extends
+    Pipeline
 
   abstract
     utility : Resource -> Measure
@@ -49,6 +51,9 @@ class JainsIndexPipeline
         all_agent_length_tile .apply (message)
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> apply (message)
 
 end
 

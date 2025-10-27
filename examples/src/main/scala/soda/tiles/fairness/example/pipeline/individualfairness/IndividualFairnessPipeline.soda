@@ -10,6 +10,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 class IndividualFairnessPipeline
+  extends
+    Pipeline
 
   abstract
     relevant_attribute : Agent -> Boolean
@@ -41,6 +43,9 @@ class IndividualFairnessPipeline
         message
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> as_number (apply (message) )
 
 end
 

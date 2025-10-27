@@ -10,8 +10,10 @@ import   soda.tiles.fairness.tile.constant.AllResourceTile
 import   soda.tiles.fairness.tile.primitive.CrossTile
 import   soda.tiles.fairness.tile.primitive.FilterTile
 import   soda.tiles.fairness.tool.Agent
+import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.OutcomeMod
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TilePair
@@ -124,6 +126,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 trait IndividualFairnessPipeline
+  extends
+    Pipeline
 {
 
   def   relevant_attribute : Agent => Boolean
@@ -155,6 +159,9 @@ trait IndividualFairnessPipeline
         message
       )
     )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 
