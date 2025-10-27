@@ -12,6 +12,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 class EnvyFreenessPipeline
+  extends
+    Pipeline
 
   abstract
     preference : Preference
@@ -60,6 +62,9 @@ class EnvyFreenessPipeline
         message
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> as_number (apply (message) )
 
 end
 

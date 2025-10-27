@@ -13,8 +13,10 @@ import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.OutcomeMod
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
+import   soda.tiles.fairness.tool.TileMessageBuilder
 
 /*
 directive lean
@@ -87,14 +89,14 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 trait AllAgentMapGroundTruthTile
 {
 
-  def   p : Agent => Boolean
+  def   protected_attribute : Agent => Boolean
 
   lazy val zero = MeasureMod .mk .zero
 
   lazy val one = MeasureMod .mk .one
 
   def check_protected_attribute (a : Agent) : Measure =
-    if ( (p (a) )
+    if ( (protected_attribute (a) )
     ) one
     else zero
 
@@ -111,11 +113,11 @@ trait AllAgentMapGroundTruthTile
 
 }
 
-case class AllAgentMapGroundTruthTile_ (p : Agent => Boolean) extends AllAgentMapGroundTruthTile
+case class AllAgentMapGroundTruthTile_ (protected_attribute : Agent => Boolean) extends AllAgentMapGroundTruthTile
 
 object AllAgentMapGroundTruthTile {
-  def mk (p : Agent => Boolean) : AllAgentMapGroundTruthTile =
-    AllAgentMapGroundTruthTile_ (p)
+  def mk (protected_attribute : Agent => Boolean) : AllAgentMapGroundTruthTile =
+    AllAgentMapGroundTruthTile_ (protected_attribute)
 }
 
 
@@ -139,13 +141,17 @@ import Soda.tiles.fairness.tile.WithPTile
  */
 
 trait UnbiasednessPipeline
+  extends
+    Pipeline
 {
 
   def   positive_value : Resource
   def   result_function : Agent => Resource
-  def   with_p : Agent => Boolean
+  def   protected_attribute : Agent => Boolean
 
-  lazy val all_agent_map_ground_truth_tile = AllAgentMapGroundTruthTile .mk (with_p)
+  lazy val default_value : Number = -1
+
+  lazy val all_agent_map_ground_truth_tile = AllAgentMapGroundTruthTile .mk (protected_attribute)
 
   lazy val all_agent_map_false_positive_tile = AllAgentMapFalsePositiveTile .mk (positive_value) (result_function)
 
@@ -162,12 +168,20 @@ trait UnbiasednessPipeline
       )
     )
 
+  private def _get_number (message : TileMessage [Option [Number] ] ) : TileMessage [Number] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      message .contents .getOrElse (default_value)
+    )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => _get_number (apply (message) )
+
 }
 
-case class UnbiasednessPipeline_ (positive_value : Resource, result_function : Agent => Resource, with_p : Agent => Boolean) extends UnbiasednessPipeline
+case class UnbiasednessPipeline_ (positive_value : Resource, result_function : Agent => Resource, protected_attribute : Agent => Boolean) extends UnbiasednessPipeline
 
 object UnbiasednessPipeline {
-  def mk (positive_value : Resource) (result_function : Agent => Resource) (with_p : Agent => Boolean) : UnbiasednessPipeline =
-    UnbiasednessPipeline_ (positive_value, result_function, with_p)
+  def mk (positive_value : Resource) (result_function : Agent => Resource) (protected_attribute : Agent => Boolean) : UnbiasednessPipeline =
+    UnbiasednessPipeline_ (positive_value, result_function, protected_attribute)
 }
 

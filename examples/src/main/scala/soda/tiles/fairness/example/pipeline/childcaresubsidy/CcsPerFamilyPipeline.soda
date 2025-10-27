@@ -1,7 +1,7 @@
 
 class CcsPerFamilyPipeline
   extends
-    CcsPipeline
+    Pipeline
 
   abstract
     utility : Resource -> Measure
@@ -21,7 +21,7 @@ class CcsPerFamilyPipeline
       )
     )
 
-  runner : TileMessage [Boolean] -> TileMessage [Boolean] =
-    lambda message --> apply (message)
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> as_number (apply (message) )
 
 end

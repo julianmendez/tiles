@@ -15,7 +15,9 @@ import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
@@ -25,175 +27,9 @@ import   soda.tiles.fairness.tool.TilePair
 
 
 
-trait CcsInstance
-{
-
-  def   agents : Seq [Agent]
-  def   resources : Seq [Resource]
-  def   outcome : Outcome
-  def   agent_children_map : Map [Agent, Measure]
-  def   agent_adults_map : Map [Agent, Measure]
-  def   agent_income_map : Map [Agent, Measure]
-  def   resource_value_map : Map [Resource, Measure]
-  def   pipelines : Seq [String]
-
-  def get_or_else [A ] (map : Map [A, Measure] ) (key : A) (default : Measure) : Measure =
-    map .get (key) match  {
-      case Some (value) => value
-      case None => default
-    }
-
-  def agent_children (agent : Agent) : Measure =
-    get_or_else [Agent] (agent_children_map) (agent) (Some (-1) )
-
-  def agent_adults (agent : Agent) : Measure =
-    get_or_else [Agent] (agent_adults_map) (agent) (Some (-1) )
-
-  def agent_income (agent : Agent) : Measure =
-    get_or_else [Agent] (agent_income_map) (agent) (Some (-1) )
-
-  def resource_value (resource : Resource) : Measure =
-    get_or_else [Resource] (resource_value_map) (resource) (Some (-1) )
-
-  lazy val context = "ChildCareSubsidy"
-
-  lazy val initial_message : TileMessage [Boolean] =
-    TileMessageBuilder .mk .build (context) (outcome) (true)
-
-}
-
-case class CcsInstance_ (agents : Seq [Agent], resources : Seq [Resource], outcome : Outcome, agent_children_map : Map [Agent, Measure], agent_adults_map : Map [Agent, Measure], agent_income_map : Map [Agent, Measure], resource_value_map : Map [Resource, Measure], pipelines : Seq [String]) extends CcsInstance
-
-object CcsInstance {
-  def mk (agents : Seq [Agent]) (resources : Seq [Resource]) (outcome : Outcome) (agent_children_map : Map [Agent, Measure]) (agent_adults_map : Map [Agent, Measure]) (agent_income_map : Map [Agent, Measure]) (resource_value_map : Map [Resource, Measure]) (pipelines : Seq [String]) : CcsInstance =
-    CcsInstance_ (agents, resources, outcome, agent_children_map, agent_adults_map, agent_income_map, resource_value_map, pipelines)
-}
-
-
-trait CcsInstanceBuilder
-{
-
-
-
-  import   soda.tiles.fairness.example.parser.YamlParser
-  import   java.io.BufferedReader
-  import   java.io.Reader
-
-  lazy val agents_key = "agents"
-
-  lazy val resources_key = "resources"
-
-  lazy val outcome_key = "outcome"
-
-  lazy val agent_children_key = "agent_children"
-
-  lazy val agent_adults_key = "agent_adults"
-
-  lazy val agent_income_key = "agent_income"
-
-  lazy val resource_value_key = "resource_value"
-
-  lazy val pipelines_key = "pipelines"
-
-  def to_measure (s : String) : Measure =
-    s .toIntOption
-
-  private def _get_agents (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Seq [Agent] =
-    m .getOrElse (agents_key , None)
-      .iterator
-      .map ( pair => pair ._1)
-      .toSeq
-
-  private def _get_resources (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Seq [Resource] =
-    m .getOrElse (resources_key , None)
-      .iterator
-      .map ( pair => pair ._1)
-      .toSeq
-
-  private def _get_outcome (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Outcome =
-    Outcome .mk (
-      m .getOrElse (outcome_key , None)
-        .iterator
-        .map( pair => Assignment .mk (pair._1) (pair ._2) )
-        .toSeq
-    )
-
-  private def _get_agent_children_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Map [Agent, Measure] =
-    m .getOrElse (agent_children_key , None)
-      .iterator
-      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
-      .toMap
-
-  private def _get_agent_adults_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Map [Agent, Measure] =
-    m .getOrElse (agent_adults_key , None)
-      .iterator
-      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
-      .toMap
-
-  private def _get_agent_income_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Map [Agent, Measure] =
-    m .getOrElse (agent_income_key , None)
-      .iterator
-      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
-      .toMap
-
-  private def _get_resource_value_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Map [Resource, Measure] =
-    m .getOrElse (resource_value_key , None)
-      .iterator
-      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
-      .toMap
-
-  private def _get_pipelines (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Seq [String] =
-    m .getOrElse (pipelines_key , None)
-      .iterator
-      .map ( pair => pair ._1)
-      .toSeq
-
-  private def _build_from_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
-      : Option [CcsInstance] =
-    Some (
-      CcsInstance .mk (
-        _get_agents (m) ) (
-        _get_resources (m) ) (
-        _get_outcome (m) ) (
-        _get_agent_children_map (m) ) (
-        _get_agent_adults_map (m) ) (
-        _get_agent_income_map (m) ) (
-        _get_resource_value_map (m) ) (
-        _get_pipelines (m)
-      )
-    )
-
-  def build (s : Seq [Seq [Tuple2 [String, Seq [Tuple2 [String, String] ] ] ] ] )
-      : Option [CcsInstance] =
-    s match  {
-      case a +: __soda__as => _build_from_map (a .toMap)
-      case otherwise => None
-    }
-
-  def from_yaml (reader : Reader) : Option [CcsInstance] =
-     build (YamlParser .mk .parse (reader) )
-
-}
-
-case class CcsInstanceBuilder_ () extends CcsInstanceBuilder
-
-object CcsInstanceBuilder {
-  def mk : CcsInstanceBuilder =
-    CcsInstanceBuilder_ ()
-}
-
-
 trait CcsNoSubsidyPipeline
   extends
-    CcsPipeline
+    Pipeline
 {
 
   def   utility : Resource => Measure
@@ -217,8 +53,8 @@ trait CcsNoSubsidyPipeline
       )
     )
 
-  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
-     message => apply (message)
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 
@@ -247,7 +83,7 @@ import Soda.tiles.fairness.tile.UnzipPairSndTile
 
 trait CcsPerChildPipeline
   extends
-    CcsPipeline
+    Pipeline
 {
 
   def   children : Agent => Measure
@@ -297,8 +133,8 @@ trait CcsPerChildPipeline
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     apply_on_agents (all_agent_pair_tile .apply (message) )
 
-  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
-     message => apply (message)
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 
@@ -312,7 +148,7 @@ object CcsPerChildPipeline {
 
 trait CcsPerFamilyPipeline
   extends
-    CcsPipeline
+    Pipeline
 {
 
   def   utility : Resource => Measure
@@ -332,8 +168,8 @@ trait CcsPerFamilyPipeline
       )
     )
 
-  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
-     message => apply (message)
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 
@@ -345,63 +181,13 @@ object CcsPerFamilyPipeline {
 }
 
 
-trait CcsPipeline
-{
-
-  def   runner : TileMessage [Boolean] => TileMessage [Boolean]
-
-  def run (initial : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    runner (initial)
-
-}
-
-case class CcsPipeline_ (runner : TileMessage [Boolean] => TileMessage [Boolean]) extends CcsPipeline
-
-object CcsPipeline {
-  def mk (runner : TileMessage [Boolean] => TileMessage [Boolean]) : CcsPipeline =
-    CcsPipeline_ (runner)
-}
-
-
-trait CcsPipelineFactory
-{
-
-
-
-  def get_pipeline (name : String) (m : CcsInstance) : Option [CcsPipeline] =
-    if ( name == "CcsNoSubsidyPipeline"
-    ) Some (
-      CcsNoSubsidyPipeline .mk (m .resource_value) )
-    else if ( name == "CcsPerChildPipeline"
-    ) Some (
-      CcsPerChildPipeline .mk (m .agent_children) (m .resource_value) )
-    else if ( name == "CcsPerFamilyPipeline"
-    ) Some (
-      CcsPerFamilyPipeline .mk (m .resource_value) )
-    else if ( name == "CcsSingleGuardianPipeline"
-    ) Some (
-      CcsSingleGuardianPipeline .mk (m .agent_adults) (m .resource_value) )
-    else None
-
-}
-
-case class CcsPipelineFactory_ () extends CcsPipelineFactory
-
-object CcsPipelineFactory {
-  def mk : CcsPipelineFactory =
-    CcsPipelineFactory_ ()
-}
-
-
-
-
 trait CcsSingleGuardianPipeline
   extends
-    CcsPipeline
+    Pipeline
 {
 
-  def   utility : Resource => Measure
   def   adults : Agent => Measure
+  def   utility : Resource => Measure
 
   def is_equals_0 (measure : Measure) : Boolean =
     measure match  {
@@ -472,15 +258,15 @@ trait CcsSingleGuardianPipeline
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     apply_on_agents (all_agent_pair_tile .apply (message) )
 
-  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
-     message => apply (message)
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 
-case class CcsSingleGuardianPipeline_ (utility : Resource => Measure, adults : Agent => Measure) extends CcsSingleGuardianPipeline
+case class CcsSingleGuardianPipeline_ (adults : Agent => Measure, utility : Resource => Measure) extends CcsSingleGuardianPipeline
 
 object CcsSingleGuardianPipeline {
-  def mk (utility : Resource => Measure) (adults : Agent => Measure) : CcsSingleGuardianPipeline =
-    CcsSingleGuardianPipeline_ (utility, adults)
+  def mk (adults : Agent => Measure) (utility : Resource => Measure) : CcsSingleGuardianPipeline =
+    CcsSingleGuardianPipeline_ (adults, utility)
 }
 

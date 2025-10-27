@@ -9,6 +9,8 @@ import
   soda.tiles.fairness.tile.composite.AllEqualTile
   soda.tiles.fairness.tile.constant.AllAgentTile
   soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.Number
+  soda.tiles.fairness.tool.Pipeline
   soda.tiles.fairness.tool.Resource
   soda.tiles.fairness.tool.TileMessage
 

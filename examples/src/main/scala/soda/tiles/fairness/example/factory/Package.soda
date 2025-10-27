@@ -1,0 +1,38 @@
+package soda.tiles.fairness.example.factory
+
+import
+  soda.tiles.fairness.tile.composite.AccumulatesTile
+  soda.tiles.fairness.tile.composite.AllAgentPairTile
+  soda.tiles.fairness.tile.composite.AllEqualTile
+  soda.tiles.fairness.tile.composite.ForallTile
+  soda.tiles.fairness.tile.composite.ZipSigmaTile
+  soda.tiles.fairness.tile.constant.AllAgentTile
+  soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
+  soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
+  soda.tiles.fairness.tile.primitive.FilterTile
+  soda.tiles.fairness.tile.primitive.MapTile
+  soda.tiles.fairness.tile.primitive.TuplingPairTile
+  soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.Pipeline
+  soda.tiles.fairness.tool.Resource
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+  soda.tiles.fairness.tool.TilePair
+  soda.tiles.fairness.example.pipeline.jainsindex.JainsIndexPipeline
+  soda.tiles.fairness.example.pipeline.individualfairness.IndividualFairnessPipeline
+  soda.tiles.fairness.example.pipeline.groupfairness.GroupFairnessPipeline
+  soda.tiles.fairness.example.pipeline.scoring.UnbiasednessPipeline
+  soda.tiles.fairness.example.pipeline.complementginiindex.ComplementGiniIndexPipeline
+  soda.tiles.fairness.example.pipeline.equality.EqualityPipeline
+  soda.tiles.fairness.example.pipeline.equity.EquityPipeline
+  soda.tiles.fairness.example.pipeline.envyfreeness.EnvyFreenessPipeline
+  soda.tiles.fairness.example.pipeline.envyfreeness.Preference
+  soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsNoSubsidyPipeline
+  soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsPerChildPipeline
+  soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsPerFamilyPipeline
+  soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsSingleGuardianPipeline
+

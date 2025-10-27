@@ -10,6 +10,8 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 class ComplementGiniIndexPipeline
+  extends
+    Pipeline
 
   abstract
     utility : Resource -> Measure
@@ -67,6 +69,9 @@ class ComplementGiniIndexPipeline
         )
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> apply (message)
 
 end
 
