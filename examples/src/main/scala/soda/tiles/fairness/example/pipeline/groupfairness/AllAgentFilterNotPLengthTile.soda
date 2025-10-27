@@ -10,12 +10,12 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
 class AllAgentFilterNotPLengthTile
 
   abstract
-    p : Agent -> Boolean
+    protected_attribute : Agent -> Boolean
 
-  not_p (a : Agent) : Boolean =
-    not (p (a) )
+  not_protected_attribute (a : Agent) : Boolean =
+    not (protected_attribute (a) )
 
-  other_tile = AllAgentFilterPLengthTile .mk (not_p)
+  other_tile = AllAgentFilterPLengthTile .mk (not_protected_attribute)
 
   apply (message : TileMessage [Boolean] ) : TileMessage [Measure] =
     other_tile .apply (

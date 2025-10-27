@@ -12,13 +12,13 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 class IndividualFairnessPipeline
 
   abstract
-    q : Agent -> Boolean
+    relevant_attribute : Agent -> Boolean
 
   all_agent_tile = AllAgentTile .mk
 
   all_resource_tile = AllResourceTile .mk
 
-  cross_filter_tile = CrossFilterTile .mk (q)
+  cross_filter_tile = CrossFilterTile .mk (relevant_attribute)
 
   cross_forall_tile = CrossForallTile .mk
 

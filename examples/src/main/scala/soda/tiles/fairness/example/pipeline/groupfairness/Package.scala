@@ -37,12 +37,12 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
 trait AllAgentFilterNotPLengthTile
 {
 
-  def   p : Agent => Boolean
+  def   protected_attribute : Agent => Boolean
 
-  def not_p (a : Agent) : Boolean =
-    ! (p (a) )
+  def not_protected_attribute (a : Agent) : Boolean =
+    ! (protected_attribute (a) )
 
-  lazy val other_tile = AllAgentFilterPLengthTile .mk (not_p)
+  lazy val other_tile = AllAgentFilterPLengthTile .mk (not_protected_attribute)
 
   def apply (message : TileMessage [Boolean] ) : TileMessage [Measure] =
     other_tile .apply (
@@ -51,11 +51,11 @@ trait AllAgentFilterNotPLengthTile
 
 }
 
-case class AllAgentFilterNotPLengthTile_ (p : Agent => Boolean) extends AllAgentFilterNotPLengthTile
+case class AllAgentFilterNotPLengthTile_ (protected_attribute : Agent => Boolean) extends AllAgentFilterNotPLengthTile
 
 object AllAgentFilterNotPLengthTile {
-  def mk (p : Agent => Boolean) : AllAgentFilterNotPLengthTile =
-    AllAgentFilterNotPLengthTile_ (p)
+  def mk (protected_attribute : Agent => Boolean) : AllAgentFilterNotPLengthTile =
+    AllAgentFilterNotPLengthTile_ (protected_attribute)
 }
 
 
@@ -72,7 +72,7 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
 trait AllAgentFilterPLengthTile
 {
 
-  def   p : Agent => Boolean
+  def   protected_attribute : Agent => Boolean
 
   lazy val all_agent_tile = AllAgentTile .mk
 
@@ -83,7 +83,7 @@ trait AllAgentFilterPLengthTile
   def apply (message : TileMessage [Boolean] ) : TileMessage [Measure] =
     length_tile .apply (
       FilterTile .mk [Agent] ( agent =>
-        p (agent)
+        protected_attribute (agent)
       ) .apply (
         all_agent_tile .apply (
           message
@@ -93,11 +93,11 @@ trait AllAgentFilterPLengthTile
 
 }
 
-case class AllAgentFilterPLengthTile_ (p : Agent => Boolean) extends AllAgentFilterPLengthTile
+case class AllAgentFilterPLengthTile_ (protected_attribute : Agent => Boolean) extends AllAgentFilterPLengthTile
 
 object AllAgentFilterPLengthTile {
-  def mk (p : Agent => Boolean) : AllAgentFilterPLengthTile =
-    AllAgentFilterPLengthTile_ (p)
+  def mk (protected_attribute : Agent => Boolean) : AllAgentFilterPLengthTile =
+    AllAgentFilterPLengthTile_ (protected_attribute)
 }
 
 
@@ -114,12 +114,12 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
 trait CrossFilterNotPLengthTile
 {
 
-  def   p : Agent => Boolean
+  def   protected_attribute : Agent => Boolean
 
-  def not_p (a : Agent) : Boolean =
-    ! (p (a) )
+  def not_protected_attribute (a : Agent) : Boolean =
+    ! (protected_attribute (a) )
 
-  lazy val other_tile = CrossFilterPLengthTile .mk (not_p)
+  lazy val other_tile = CrossFilterPLengthTile .mk (not_protected_attribute)
 
   def apply (message0 : TileMessage [Seq [Agent] ] )  (message1 : TileMessage [Seq [Resource] ] )
       : TileMessage [Measure] =
@@ -131,11 +131,11 @@ trait CrossFilterNotPLengthTile
 
 }
 
-case class CrossFilterNotPLengthTile_ (p : Agent => Boolean) extends CrossFilterNotPLengthTile
+case class CrossFilterNotPLengthTile_ (protected_attribute : Agent => Boolean) extends CrossFilterNotPLengthTile
 
 object CrossFilterNotPLengthTile {
-  def mk (p : Agent => Boolean) : CrossFilterNotPLengthTile =
-    CrossFilterNotPLengthTile_ (p)
+  def mk (protected_attribute : Agent => Boolean) : CrossFilterNotPLengthTile =
+    CrossFilterNotPLengthTile_ (protected_attribute)
 }
 
 
@@ -152,7 +152,7 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
 trait CrossFilterPLengthTile
 {
 
-  def   p : Agent => Boolean
+  def   protected_attribute : Agent => Boolean
 
   def to_number (a : Measure) : Number =
     a .getOrElse (-1)
@@ -177,11 +177,11 @@ trait CrossFilterPLengthTile
 
 }
 
-case class CrossFilterPLengthTile_ (p : Agent => Boolean) extends CrossFilterPLengthTile
+case class CrossFilterPLengthTile_ (protected_attribute : Agent => Boolean) extends CrossFilterPLengthTile
 
 object CrossFilterPLengthTile {
-  def mk (p : Agent => Boolean) : CrossFilterPLengthTile =
-    CrossFilterPLengthTile_ (p)
+  def mk (protected_attribute : Agent => Boolean) : CrossFilterPLengthTile =
+    CrossFilterPLengthTile_ (protected_attribute)
 }
 
 
@@ -201,7 +201,7 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 trait GroupFairnessPipeline
 {
 
-  def   p : Agent => Boolean
+  def   protected_attribute : Agent => Boolean
 
   lazy val epsilon : Number = 0.1
 
@@ -232,13 +232,13 @@ trait GroupFairnessPipeline
 
   lazy val apply_similar_tile = ApplyTile .mk [TilePair [Number, Number] , Boolean] (is_pair_similar)
 
-  lazy val cross_filter_p_length_tile = CrossFilterPLengthTile .mk (p)
+  lazy val cross_filter_p_length_tile = CrossFilterPLengthTile .mk (protected_attribute)
 
-  lazy val cross_filter_not_p_length_tile = CrossFilterNotPLengthTile .mk (p)
+  lazy val cross_filter_not_p_length_tile = CrossFilterNotPLengthTile .mk (protected_attribute)
 
-  lazy val all_agent_filter_p_length_tile = AllAgentFilterPLengthTile .mk (p)
+  lazy val all_agent_filter_p_length_tile = AllAgentFilterPLengthTile .mk (protected_attribute)
 
-  lazy val all_agent_filter_not_p_length_tile = AllAgentFilterNotPLengthTile .mk (p)
+  lazy val all_agent_filter_not_p_length_tile = AllAgentFilterNotPLengthTile .mk (protected_attribute)
 
   lazy val tupling_pair_measure_tile = TuplingPairTile .mk [Measure, Measure]
 
@@ -300,10 +300,10 @@ trait GroupFairnessPipeline
 
 }
 
-case class GroupFairnessPipeline_ (p : Agent => Boolean) extends GroupFairnessPipeline
+case class GroupFairnessPipeline_ (protected_attribute : Agent => Boolean) extends GroupFairnessPipeline
 
 object GroupFairnessPipeline {
-  def mk (p : Agent => Boolean) : GroupFairnessPipeline =
-    GroupFairnessPipeline_ (p)
+  def mk (protected_attribute : Agent => Boolean) : GroupFairnessPipeline =
+    GroupFairnessPipeline_ (protected_attribute)
 }
 

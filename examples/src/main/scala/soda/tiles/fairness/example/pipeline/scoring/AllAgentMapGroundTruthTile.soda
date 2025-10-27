@@ -13,14 +13,14 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 class AllAgentMapGroundTruthTile
 
   abstract
-    p : Agent -> Boolean
+    protected_attribute : Agent -> Boolean
 
   zero = MeasureMod .mk .zero
 
   one = MeasureMod .mk .one
 
   check_protected_attribute (a : Agent) : Measure =
-    if (p (a) )
+    if (protected_attribute (a) )
     then one
     else zero
 

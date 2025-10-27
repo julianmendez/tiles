@@ -33,12 +33,12 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
 trait CrossFilterTile
 {
 
-  def   q : Agent => Boolean
+  def   relevant_attribute : Agent => Boolean
 
   lazy val cross_tile = CrossTile .mk [Agent, Agent]
 
   def filter_function_pair (a0 : Agent) (a1 : Agent) : Boolean =
-    ! (a0 == a1) && (q (a0) == q (a1) )
+    ! (a0 == a1) && (relevant_attribute (a0) == relevant_attribute (a1) )
 
   def filter_function (pair : TilePair [Agent, Agent] ) : Boolean =
     filter_function_pair (pair .fst) (pair .snd)
@@ -57,11 +57,11 @@ trait CrossFilterTile
 
 }
 
-case class CrossFilterTile_ (q : Agent => Boolean) extends CrossFilterTile
+case class CrossFilterTile_ (relevant_attribute : Agent => Boolean) extends CrossFilterTile
 
 object CrossFilterTile {
-  def mk (q : Agent => Boolean) : CrossFilterTile =
-    CrossFilterTile_ (q)
+  def mk (relevant_attribute : Agent => Boolean) : CrossFilterTile =
+    CrossFilterTile_ (relevant_attribute)
 }
 
 
@@ -126,13 +126,13 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 trait IndividualFairnessPipeline
 {
 
-  def   q : Agent => Boolean
+  def   relevant_attribute : Agent => Boolean
 
   lazy val all_agent_tile = AllAgentTile .mk
 
   lazy val all_resource_tile = AllResourceTile .mk
 
-  lazy val cross_filter_tile = CrossFilterTile .mk (q)
+  lazy val cross_filter_tile = CrossFilterTile .mk (relevant_attribute)
 
   lazy val cross_forall_tile = CrossForallTile .mk
 
@@ -158,10 +158,10 @@ trait IndividualFairnessPipeline
 
 }
 
-case class IndividualFairnessPipeline_ (q : Agent => Boolean) extends IndividualFairnessPipeline
+case class IndividualFairnessPipeline_ (relevant_attribute : Agent => Boolean) extends IndividualFairnessPipeline
 
 object IndividualFairnessPipeline {
-  def mk (q : Agent => Boolean) : IndividualFairnessPipeline =
-    IndividualFairnessPipeline_ (q)
+  def mk (relevant_attribute : Agent => Boolean) : IndividualFairnessPipeline =
+    IndividualFairnessPipeline_ (relevant_attribute)
 }
 

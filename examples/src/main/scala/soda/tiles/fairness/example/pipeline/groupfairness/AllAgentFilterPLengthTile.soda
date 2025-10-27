@@ -10,7 +10,7 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
 class AllAgentFilterPLengthTile
 
   abstract
-    p : Agent -> Boolean
+    protected_attribute : Agent -> Boolean
 
   all_agent_tile = AllAgentTile .mk
 
@@ -21,7 +21,7 @@ class AllAgentFilterPLengthTile
   apply (message : TileMessage [Boolean] ) : TileMessage [Measure] =
     length_tile .apply (
       FilterTile .mk [Agent] (lambda agent -->
-        p (agent)
+        protected_attribute (agent)
       ) .apply (
         all_agent_tile .apply (
           message

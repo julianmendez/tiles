@@ -21,9 +21,9 @@ class UnbiasednessPipeline
   abstract
     positive_value : Resource
     result_function : Agent -> Resource
-    with_p : Agent -> Boolean
+    protected_attribute : Agent -> Boolean
 
-  all_agent_map_ground_truth_tile = AllAgentMapGroundTruthTile .mk (with_p)
+  all_agent_map_ground_truth_tile = AllAgentMapGroundTruthTile .mk (protected_attribute)
 
   all_agent_map_false_positive_tile = AllAgentMapFalsePositiveTile .mk (positive_value) (result_function)
 
