@@ -1,0 +1,21 @@
+
+class Pipeline
+
+  abstract
+    runner : TileMessage [Boolean] -> TileMessage [Number]
+
+  run (initial : TileMessage [Boolean] ) : TileMessage [Number] =
+    runner (initial)
+
+  to_number (b : Boolean) : Number =
+    if b
+    then 1
+    else 0
+
+  as_number (message : TileMessage [Boolean] ) : TileMessage [Number] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      to_number (message .contents)
+    )
+
+end
+
