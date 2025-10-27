@@ -3,7 +3,7 @@ class CcsPipelineFactory
 
   abstract
 
-  get_pipeline (name : String) (m : CcsInstance) : Option [CcsPipeline] =
+  get_pipeline (name : String) (m : CcsInstance) : Option [Pipeline] =
     if name == "CcsNoSubsidyPipeline"
     then Some (
       CcsNoSubsidyPipeline .mk (m .resource_value) )

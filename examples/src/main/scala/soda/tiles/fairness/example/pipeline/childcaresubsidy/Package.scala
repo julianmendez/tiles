@@ -15,7 +15,9 @@ import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
@@ -193,7 +195,7 @@ object CcsInstanceBuilder {
 
 trait CcsNoSubsidyPipeline
   extends
-    CcsPipeline
+    Pipeline
 {
 
   def   utility : Resource => Measure
@@ -217,8 +219,8 @@ trait CcsNoSubsidyPipeline
       )
     )
 
-  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
-     message => apply (message)
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 
@@ -247,7 +249,7 @@ import Soda.tiles.fairness.tile.UnzipPairSndTile
 
 trait CcsPerChildPipeline
   extends
-    CcsPipeline
+    Pipeline
 {
 
   def   children : Agent => Measure
@@ -297,8 +299,8 @@ trait CcsPerChildPipeline
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     apply_on_agents (all_agent_pair_tile .apply (message) )
 
-  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
-     message => apply (message)
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 
@@ -312,7 +314,7 @@ object CcsPerChildPipeline {
 
 trait CcsPerFamilyPipeline
   extends
-    CcsPipeline
+    Pipeline
 {
 
   def   utility : Resource => Measure
@@ -332,8 +334,8 @@ trait CcsPerFamilyPipeline
       )
     )
 
-  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
-     message => apply (message)
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 
@@ -345,30 +347,12 @@ object CcsPerFamilyPipeline {
 }
 
 
-trait CcsPipeline
-{
-
-  def   runner : TileMessage [Boolean] => TileMessage [Boolean]
-
-  def run (initial : TileMessage [Boolean] ) : TileMessage [Boolean] =
-    runner (initial)
-
-}
-
-case class CcsPipeline_ (runner : TileMessage [Boolean] => TileMessage [Boolean]) extends CcsPipeline
-
-object CcsPipeline {
-  def mk (runner : TileMessage [Boolean] => TileMessage [Boolean]) : CcsPipeline =
-    CcsPipeline_ (runner)
-}
-
-
 trait CcsPipelineFactory
 {
 
 
 
-  def get_pipeline (name : String) (m : CcsInstance) : Option [CcsPipeline] =
+  def get_pipeline (name : String) (m : CcsInstance) : Option [Pipeline] =
     if ( name == "CcsNoSubsidyPipeline"
     ) Some (
       CcsNoSubsidyPipeline .mk (m .resource_value) )
@@ -397,7 +381,7 @@ object CcsPipelineFactory {
 
 trait CcsSingleGuardianPipeline
   extends
-    CcsPipeline
+    Pipeline
 {
 
   def   utility : Resource => Measure
@@ -472,8 +456,8 @@ trait CcsSingleGuardianPipeline
   def apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     apply_on_agents (all_agent_pair_tile .apply (message) )
 
-  lazy val runner : TileMessage [Boolean] => TileMessage [Boolean] =
-     message => apply (message)
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 
