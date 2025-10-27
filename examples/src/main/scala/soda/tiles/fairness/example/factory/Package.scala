@@ -107,6 +107,210 @@ object ExampleInstance {
 }
 
 
+trait ExampleInstanceBuilder
+{
+
+
+
+  import   soda.tiles.fairness.example.parser.YamlParser
+  import   java.io.BufferedReader
+  import   java.io.Reader
+
+  lazy val separator = ","
+
+  lazy val agents_key = "agents"
+
+  lazy val resources_key = "resources"
+
+  lazy val outcome_key = "outcome"
+
+  lazy val agent_children_key = "agent_children"
+
+  lazy val agent_adults_key = "agent_adults"
+
+  lazy val agent_need_key = "agent_need"
+
+  lazy val agent_income_key = "agent_income"
+
+  lazy val agent_preference_key = "agent_preference"
+
+  lazy val agent_p_attribute_key  = "agent_p_attribute"
+
+  lazy val agent_q_attribute_key = "agent_q_attribute"
+
+  lazy val agent_result_key = "agent_result"
+
+  lazy val resource_utility_key = "resource_utility"
+
+  lazy val resource_positive_value_key = "resource_positive_value"
+
+  lazy val resource_default_value_key = "resource_default_value"
+
+  lazy val pipelines_key = "pipelines"
+
+  lazy val default_resource = "DEFAULT_RESOURCE"
+
+  def to_measure (s : String) : Measure =
+    s .toIntOption
+
+  def to_seq_resource (s : String) : Seq [Resource] =
+    s .split (separator)
+      .map ( resource => resource .trim)
+      .toSeq
+
+  private def _get_agents (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Seq [Agent] =
+    m .getOrElse (agents_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSeq
+
+  private def _get_resources (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Seq [Resource] =
+    m .getOrElse (resources_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSeq
+
+  private def _get_outcome (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Outcome =
+    Outcome .mk (
+      m .getOrElse (outcome_key , None)
+        .iterator
+        .map( pair => Assignment .mk (pair._1) (pair ._2) )
+        .toSeq
+    )
+
+  private def _get_agent_children_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Agent, Measure] =
+    m .getOrElse (agent_children_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  private def _get_agent_adults_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Agent, Measure] =
+    m .getOrElse (agent_adults_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  private def _get_agent_need_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Agent, Measure] =
+    m .getOrElse (agent_need_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  private def _get_agent_income_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Agent, Measure] =
+    m .getOrElse (agent_income_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  private def _get_agent_preference_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Agent, Seq [Resource] ] =
+    m .getOrElse (agent_preference_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_seq_resource (pair ._2) ) )
+      .toMap
+
+  private def _get_agent_p_attribute_set (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Set [Agent] =
+    m .getOrElse (agent_p_attribute_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSet
+
+  private def _get_agent_q_attribute_set (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Set [Agent] =
+    m .getOrElse (agent_q_attribute_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSet
+
+  private def _get_agent_result_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Agent, Resource] =
+    m .getOrElse (agent_result_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , pair ._2) )
+      .toMap
+
+  private def _get_resource_utility_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Map [Resource, Measure] =
+    m .getOrElse (resource_utility_key , None)
+      .iterator
+      .map ( pair => Tuple2 (pair ._1 , to_measure (pair ._2) ) )
+      .toMap
+
+  private def _get_resource_positive_value (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Resource =
+    m .getOrElse (resource_positive_value_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSeq
+      .headOption
+      .getOrElse (default_resource)
+
+  private def _get_resource_default_value (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Resource =
+    m .getOrElse (resource_default_value_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSeq
+      .headOption
+      .getOrElse (default_resource)
+
+  private def _get_pipelines (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Seq [String] =
+    m .getOrElse (pipelines_key , None)
+      .iterator
+      .map ( pair => pair ._1)
+      .toSeq
+
+  private def _build_from_map (m : Map [String, Seq [Tuple2 [String, String] ] ] )
+      : Option [ExampleInstance] =
+    Some (
+      ExampleInstance .mk (
+        _get_agents (m) ) (
+        _get_resources (m) ) (
+        _get_outcome (m) ) (
+        _get_agent_children_map (m) ) (
+        _get_agent_adults_map (m) ) (
+        _get_agent_need_map (m) ) (
+        _get_agent_income_map (m) ) (
+        _get_agent_preference_map (m) ) (
+        _get_agent_p_attribute_set (m) ) (
+        _get_agent_q_attribute_set (m) ) (
+        _get_agent_result_map (m) ) (
+        _get_resource_utility_map (m) ) (
+        _get_resource_positive_value (m) ) (
+        _get_resource_default_value (m) ) (
+        _get_pipelines (m)
+      )
+    )
+
+  def build (s : Seq [Seq [Tuple2 [String, Seq [Tuple2 [String, String] ] ] ] ] )
+      : Option [ExampleInstance] =
+    s match  {
+      case elem +: list => _build_from_map (elem .toMap)
+      case otherwise => None
+    }
+
+  def from_yaml (reader : Reader) : Option [ExampleInstance] =
+     build (YamlParser .mk .parse (reader) )
+
+}
+
+case class ExampleInstanceBuilder_ () extends ExampleInstanceBuilder
+
+object ExampleInstanceBuilder {
+  def mk : ExampleInstanceBuilder =
+    ExampleInstanceBuilder_ ()
+}
+
+
 trait ExamplePipelineFactory
 {
 
