@@ -6,9 +6,9 @@ package soda.tiles.fairness.example.main
  */
 
 import   java.io.FileReader
-import   soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsInstance
-import   soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsInstanceBuilder
-import   soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsPipelineFactory
+import   soda.tiles.fairness.example.factory.ExampleInstance
+import   soda.tiles.fairness.example.factory.ExampleInstanceBuilder
+import   soda.tiles.fairness.example.factory.ExamplePipelineFactory
 
 
 
@@ -31,7 +31,6 @@ trait Main
     "\nhttps://github.com/julianmendez/tiles" +
     "\n" +
     "\nTiles is a framework to create formal configurations of constraints." +
-    "\nThis is an example of a Child Care Subsidy scenario." +
     "\nThis application outputs the results to the standard output." +
     "\n" +
     "\nUsage:" +
@@ -61,8 +60,8 @@ trait Main
     "Common errors include wrong indentation, an extra, missing or misplaced colon (':'), " +
     "and a misspelled attribute name."
 
-  private def _execute_and_report_pipeline (name : String) (input : CcsInstance) : String =
-    CcsPipelineFactory .mk
+  private def _execute_and_report_pipeline (name : String) (input : ExampleInstance) : String =
+    ExamplePipelineFactory .mk
       .get_pipeline (name) (input)
       .map( pipeline =>
         name + ": " +
@@ -72,7 +71,7 @@ trait Main
       )
       .getOrElse(error_invalid_pipeline + " '" + name + "'.")
 
-  private def _execute_and_report_with (input : CcsInstance) : String =
+  private def _execute_and_report_with (input : ExampleInstance) : String =
     input
       .pipelines
       .map ( name =>
@@ -80,7 +79,7 @@ trait Main
       )
       .mkString ("\n")
 
-  def execute_and_report (input : Option [CcsInstance] ) : String =
+  def execute_and_report (input : Option [ExampleInstance] ) : String =
     input match  {
       case Some (instance) => _execute_and_report_with (instance)
       case otherwise => error_invalid_input_file
@@ -91,7 +90,7 @@ trait Main
     ) help
     else
       execute_and_report (
-        CcsInstanceBuilder .mk
+        ExampleInstanceBuilder .mk
           .from_yaml (FileReader (arguments .head) )
       )
 

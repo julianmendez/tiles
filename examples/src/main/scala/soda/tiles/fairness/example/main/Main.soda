@@ -15,7 +15,6 @@ class Main
     "\nhttps://github.com/julianmendez/tiles" +
     "\n" +
     "\nTiles is a framework to create formal configurations of constraints." +
-    "\nThis is an example of a Child Care Subsidy scenario." +
     "\nThis application outputs the results to the standard output." +
     "\n" +
     "\nUsage:" +
@@ -45,8 +44,8 @@ class Main
     "Common errors include wrong indentation, an extra, missing or misplaced colon (':'), " +
     "and a misspelled attribute name."
 
-  _execute_and_report_pipeline (name : String) (input : CcsInstance) : String =
-    CcsPipelineFactory .mk
+  _execute_and_report_pipeline (name : String) (input : ExampleInstance) : String =
+    ExamplePipelineFactory .mk
       .get_pipeline (name) (input)
       .map(lambda pipeline -->
         name + ": " +
@@ -56,7 +55,7 @@ class Main
       )
       .getOrElse(error_invalid_pipeline + " '" + name + "'.")
 
-  _execute_and_report_with (input : CcsInstance) : String =
+  _execute_and_report_with (input : ExampleInstance) : String =
     input
       .pipelines
       .map (lambda name -->
@@ -64,7 +63,7 @@ class Main
       )
       .mkString ("\n")
 
-  execute_and_report (input : Option [CcsInstance] ) : String =
+  execute_and_report (input : Option [ExampleInstance] ) : String =
     match input
       case Some (instance) ==> _execute_and_report_with (instance)
       case otherwise ==> error_invalid_input_file
@@ -74,7 +73,7 @@ class Main
     then help
     else
       execute_and_report (
-        CcsInstanceBuilder .mk
+        ExampleInstanceBuilder .mk
           .from_yaml (FileReader (arguments .head) )
       )
 
