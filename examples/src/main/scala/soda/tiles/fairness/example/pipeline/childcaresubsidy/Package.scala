@@ -384,8 +384,8 @@ trait CcsSingleGuardianPipeline
     Pipeline
 {
 
-  def   utility : Resource => Measure
   def   adults : Agent => Measure
+  def   utility : Resource => Measure
 
   def is_equals_0 (measure : Measure) : Boolean =
     measure match  {
@@ -461,10 +461,10 @@ trait CcsSingleGuardianPipeline
 
 }
 
-case class CcsSingleGuardianPipeline_ (utility : Resource => Measure, adults : Agent => Measure) extends CcsSingleGuardianPipeline
+case class CcsSingleGuardianPipeline_ (adults : Agent => Measure, utility : Resource => Measure) extends CcsSingleGuardianPipeline
 
 object CcsSingleGuardianPipeline {
-  def mk (utility : Resource => Measure) (adults : Agent => Measure) : CcsSingleGuardianPipeline =
-    CcsSingleGuardianPipeline_ (utility, adults)
+  def mk (adults : Agent => Measure) (utility : Resource => Measure) : CcsSingleGuardianPipeline =
+    CcsSingleGuardianPipeline_ (adults, utility)
 }
 

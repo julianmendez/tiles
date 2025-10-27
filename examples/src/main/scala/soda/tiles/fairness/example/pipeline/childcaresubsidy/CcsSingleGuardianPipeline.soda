@@ -4,8 +4,8 @@ class CcsSingleGuardianPipeline
     Pipeline
 
   abstract
-    utility : Resource -> Measure
     adults : Agent -> Measure
+    utility : Resource -> Measure
 
   is_equals_0 (measure : Measure) : Boolean =
     match measure
