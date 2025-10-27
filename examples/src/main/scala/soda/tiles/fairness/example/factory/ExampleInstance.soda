@@ -1,0 +1,60 @@
+
+class ExampleInstance
+
+  abstract
+    agents : Seq [Agent]
+    resources : Seq [Resource]
+    outcome : Outcome
+    agent_children_map : Map [Agent] [Measure]
+    agent_adults_map : Map [Agent] [Measure]
+    agent_need_map : Map [Agent] [Measure]
+    agent_income_map : Map [Agent] [Measure]
+    agent_preference_map : Map [Agent] [Seq [Resource] ]
+    agent_p_attribute_set : Set [Agent]
+    agent_q_attribute_set : Set [Agent]
+    agent_result_map : Map [Agent] [Resource]
+    resource_utility_map : Map [Resource] [Measure]
+    resource_positive_value : Resource
+    resource_default_value : Resource
+    pipelines : Seq [String]
+
+  default_measure : Measure = Some (-1)
+
+  default_resource : Resource = default_resource
+
+  get_or_else [A : Type] [B : Type] (map : Map [A] [B] ) (key : A) (default : B) : B =
+    match map .get (key)
+      case Some (value) ==> value
+      case None ==> default
+
+  agent_children (agent : Agent) : Measure =
+    get_or_else [Agent] [Measure] (agent_children_map) (agent) (default_measure)
+
+  agent_adults (agent : Agent) : Measure =
+    get_or_else [Agent] [Measure] (agent_adults_map) (agent) (default_measure)
+
+  agent_need (agent : Agent) : Measure =
+    get_or_else [Agent] [Measure] (agent_need_map) (agent) (default_measure)
+
+  agent_income (agent : Agent) : Measure =
+    get_or_else [Agent] [Measure] (agent_income_map) (agent) (default_measure)
+
+  agent_p_attribute (agent : Agent) : Boolean =
+    agent_p_attribute_set .contains (agent)
+
+  agent_q_attribute (agent : Agent) : Boolean =
+    agent_q_attribute_set .contains (agent)
+
+  agent_result (agent : Agent) : Resource =
+    get_or_else [Agent] [Resource] (agent_result_map) (agent) (default_resource)
+
+  resource_utility (resource : Resource) : Measure =
+    get_or_else [Resource] [Measure] (resource_utility_map) (resource) (default_measure)
+
+  context = "FairnessScenario"
+
+  initial_message : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome) (true)
+
+end
+

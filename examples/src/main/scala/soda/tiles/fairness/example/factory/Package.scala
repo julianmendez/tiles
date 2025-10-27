@@ -1,0 +1,108 @@
+package soda.tiles.fairness.example.factory
+
+import   soda.tiles.fairness.tile.composite.AccumulatesTile
+import   soda.tiles.fairness.tile.composite.AllAgentPairTile
+import   soda.tiles.fairness.tile.composite.AllEqualTile
+import   soda.tiles.fairness.tile.composite.ForallTile
+import   soda.tiles.fairness.tile.composite.ZipSigmaTile
+import   soda.tiles.fairness.tile.constant.AllAgentTile
+import   soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
+import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
+import   soda.tiles.fairness.tile.primitive.FilterTile
+import   soda.tiles.fairness.tile.primitive.MapTile
+import   soda.tiles.fairness.tile.primitive.TuplingPairTile
+import   soda.tiles.fairness.tool.Agent
+import   soda.tiles.fairness.tool.Assignment
+import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.Outcome
+import   soda.tiles.fairness.tool.Pipeline
+import   soda.tiles.fairness.tool.Resource
+import   soda.tiles.fairness.tool.TileMessage
+import   soda.tiles.fairness.tool.TileMessageBuilder
+import   soda.tiles.fairness.tool.TilePair
+import   soda.tiles.fairness.example.pipeline.jainsindex.JainsIndexPipeline
+import   soda.tiles.fairness.example.pipeline.individualfairness.IndividualFairnessPipeline
+import   soda.tiles.fairness.example.pipeline.groupfairness.GroupFairnessPipeline
+import   soda.tiles.fairness.example.pipeline.scoring.UnbiasednessPipeline
+import   soda.tiles.fairness.example.pipeline.complementginiindex.ComplementGiniIndexPipeline
+import   soda.tiles.fairness.example.pipeline.equality.EqualityPipeline
+import   soda.tiles.fairness.example.pipeline.equity.EquityPipeline
+import   soda.tiles.fairness.example.pipeline.envyfreeness.EnvyFreenessPipeline
+import   soda.tiles.fairness.example.pipeline.envyfreeness.Preference
+import   soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsNoSubsidyPipeline
+import   soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsPerChildPipeline
+import   soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsPerFamilyPipeline
+import   soda.tiles.fairness.example.pipeline.childcaresubsidy.CcsSingleGuardianPipeline
+
+
+
+
+
+trait ExampleInstance
+{
+
+  def   agents : Seq [Agent]
+  def   resources : Seq [Resource]
+  def   outcome : Outcome
+  def   agent_children_map : Map [Agent, Measure]
+  def   agent_adults_map : Map [Agent, Measure]
+  def   agent_need_map : Map [Agent, Measure]
+  def   agent_income_map : Map [Agent, Measure]
+  def   agent_preference_map : Map [Agent, Seq [Resource] ]
+  def   agent_p_attribute_set : Set [Agent]
+  def   agent_q_attribute_set : Set [Agent]
+  def   agent_result_map : Map [Agent, Resource]
+  def   resource_utility_map : Map [Resource, Measure]
+  def   resource_positive_value : Resource
+  def   resource_default_value : Resource
+  def   pipelines : Seq [String]
+
+  lazy val default_measure : Measure = Some (-1)
+
+  lazy val default_resource : Resource = default_resource
+
+  def get_or_else [A , B ] (map : Map [A, B] ) (key : A) (default : B) : B =
+    map .get (key) match  {
+      case Some (value) => value
+      case None => default
+    }
+
+  def agent_children (agent : Agent) : Measure =
+    get_or_else [Agent, Measure] (agent_children_map) (agent) (default_measure)
+
+  def agent_adults (agent : Agent) : Measure =
+    get_or_else [Agent, Measure] (agent_adults_map) (agent) (default_measure)
+
+  def agent_need (agent : Agent) : Measure =
+    get_or_else [Agent, Measure] (agent_need_map) (agent) (default_measure)
+
+  def agent_income (agent : Agent) : Measure =
+    get_or_else [Agent, Measure] (agent_income_map) (agent) (default_measure)
+
+  def agent_p_attribute (agent : Agent) : Boolean =
+    agent_p_attribute_set .contains (agent)
+
+  def agent_q_attribute (agent : Agent) : Boolean =
+    agent_q_attribute_set .contains (agent)
+
+  def agent_result (agent : Agent) : Resource =
+    get_or_else [Agent, Resource] (agent_result_map) (agent) (default_resource)
+
+  def resource_utility (resource : Resource) : Measure =
+    get_or_else [Resource, Measure] (resource_utility_map) (resource) (default_measure)
+
+  lazy val context = "FairnessScenario"
+
+  lazy val initial_message : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome) (true)
+
+}
+
+case class ExampleInstance_ (agents : Seq [Agent], resources : Seq [Resource], outcome : Outcome, agent_children_map : Map [Agent, Measure], agent_adults_map : Map [Agent, Measure], agent_need_map : Map [Agent, Measure], agent_income_map : Map [Agent, Measure], agent_preference_map : Map [Agent, Seq [Resource] ], agent_p_attribute_set : Set [Agent], agent_q_attribute_set : Set [Agent], agent_result_map : Map [Agent, Resource], resource_utility_map : Map [Resource, Measure], resource_positive_value : Resource, resource_default_value : Resource, pipelines : Seq [String]) extends ExampleInstance
+
+object ExampleInstance {
+  def mk (agents : Seq [Agent]) (resources : Seq [Resource]) (outcome : Outcome) (agent_children_map : Map [Agent, Measure]) (agent_adults_map : Map [Agent, Measure]) (agent_need_map : Map [Agent, Measure]) (agent_income_map : Map [Agent, Measure]) (agent_preference_map : Map [Agent, Seq [Resource] ]) (agent_p_attribute_set : Set [Agent]) (agent_q_attribute_set : Set [Agent]) (agent_result_map : Map [Agent, Resource]) (resource_utility_map : Map [Resource, Measure]) (resource_positive_value : Resource) (resource_default_value : Resource) (pipelines : Seq [String]) : ExampleInstance =
+    ExampleInstance_ (agents, resources, outcome, agent_children_map, agent_adults_map, agent_need_map, agent_income_map, agent_preference_map, agent_p_attribute_set, agent_q_attribute_set, agent_result_map, resource_utility_map, resource_positive_value, resource_default_value, pipelines)
+}
+
