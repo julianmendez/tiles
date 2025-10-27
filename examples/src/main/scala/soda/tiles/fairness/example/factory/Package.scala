@@ -106,3 +106,59 @@ object ExampleInstance {
     ExampleInstance_ (agents, resources, outcome, agent_children_map, agent_adults_map, agent_need_map, agent_income_map, agent_preference_map, agent_p_attribute_set, agent_q_attribute_set, agent_result_map, resource_utility_map, resource_positive_value, resource_default_value, pipelines)
 }
 
+
+trait ExamplePipelineFactory
+{
+
+
+
+  def get_pipeline (name : String) (m : ExampleInstance) : Option [Pipeline] =
+    if ( name == "EqualityPipeline"
+    ) Some (
+      EqualityPipeline .mk (m .resource_utility) )
+    else if ( name == "EquityPipeline"
+    ) Some (
+      EquityPipeline .mk (m .agent_need) (m .resource_utility) )
+    else if ( name == "EnvyFreenessPipeline"
+    ) Some (
+      EnvyFreenessPipeline .mk (Preference .mk (m .agent_preference_map) ) )
+    else if ( name == "GroupFairnessPipeline"
+    ) Some (
+      GroupFairnessPipeline .mk (m .agent_p_attribute) )
+    else if ( name == "IndividualFairnessPipeline"
+    ) Some (
+      IndividualFairnessPipeline .mk (m .agent_q_attribute) )
+    else if ( name == "JainsIndexPipeline"
+    ) Some (
+      JainsIndexPipeline .mk (m .resource_utility) )
+    else if ( name == "ComplementGiniIndexPipeline"
+    ) Some (
+      ComplementGiniIndexPipeline .mk (m .resource_utility) )
+    else if ( name == "UnbiasednessPipeline"
+    ) Some (
+      UnbiasednessPipeline .mk (m .resource_positive_value) (m .agent_result) (m .agent_p_attribute) )
+    else if ( name == "CcsNoSubsidyPipeline"
+    ) Some (
+      CcsNoSubsidyPipeline .mk (m .resource_utility) )
+    else if ( name == "CcsPerChildPipeline"
+    ) Some (
+      CcsPerChildPipeline .mk (m .agent_children) (m .resource_utility) )
+    else if ( name == "CcsPerFamilyPipeline"
+    ) Some (
+      CcsPerFamilyPipeline .mk (m .resource_utility) )
+    else if ( name == "CcsSingleGuardianPipeline"
+    ) Some (
+      CcsSingleGuardianPipeline .mk (m .agent_adults) (m .resource_utility) )
+    else None
+
+}
+
+case class ExamplePipelineFactory_ () extends ExamplePipelineFactory
+
+object ExamplePipelineFactory {
+  def mk : ExamplePipelineFactory =
+    ExamplePipelineFactory_ ()
+}
+
+
+

@@ -1,0 +1,47 @@
+
+class ExamplePipelineFactory
+
+  abstract
+
+  get_pipeline (name : String) (m : ExampleInstance) : Option [Pipeline] =
+    if name == "EqualityPipeline"
+    then Some (
+      EqualityPipeline .mk (m .resource_utility) )
+    else if name == "EquityPipeline"
+    then Some (
+      EquityPipeline .mk (m .agent_need) (m .resource_utility) )
+    else if name == "EnvyFreenessPipeline"
+    then Some (
+      EnvyFreenessPipeline .mk (Preference .mk (m .agent_preference_map) ) )
+    else if name == "GroupFairnessPipeline"
+    then Some (
+      GroupFairnessPipeline .mk (m .agent_p_attribute) )
+    else if name == "IndividualFairnessPipeline"
+    then Some (
+      IndividualFairnessPipeline .mk (m .agent_q_attribute) )
+    else if name == "JainsIndexPipeline"
+    then Some (
+      JainsIndexPipeline .mk (m .resource_utility) )
+    else if name == "ComplementGiniIndexPipeline"
+    then Some (
+      ComplementGiniIndexPipeline .mk (m .resource_utility) )
+    else if name == "UnbiasednessPipeline"
+    then Some (
+      UnbiasednessPipeline .mk (m .resource_positive_value) (m .agent_result) (m .agent_p_attribute) )
+    else if name == "CcsNoSubsidyPipeline"
+    then Some (
+      CcsNoSubsidyPipeline .mk (m .resource_utility) )
+    else if name == "CcsPerChildPipeline"
+    then Some (
+      CcsPerChildPipeline .mk (m .agent_children) (m .resource_utility) )
+    else if name == "CcsPerFamilyPipeline"
+    then Some (
+      CcsPerFamilyPipeline .mk (m .resource_utility) )
+    else if name == "CcsSingleGuardianPipeline"
+    then Some (
+      CcsSingleGuardianPipeline .mk (m .agent_adults) (m .resource_utility) )
+    else None
+
+end
+
+
