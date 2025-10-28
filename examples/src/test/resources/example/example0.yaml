@@ -35,8 +35,8 @@ agent_income:
   family B: 3000
   family C: 800
 
-# The value of each resource.
-resource_value:
+# The utility of each resource.
+resource_utility:
   no subsidy 0: 0
   subsidy 100: 100
   subsidy 200: 200
