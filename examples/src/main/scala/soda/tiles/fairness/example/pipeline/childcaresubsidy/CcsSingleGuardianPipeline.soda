@@ -1,11 +1,11 @@
 
 class CcsSingleGuardianPipeline
   extends
-    CcsPipeline
+    Pipeline
 
   abstract
-    utility : Resource -> Measure
     adults : Agent -> Measure
+    utility : Resource -> Measure
 
   is_equals_0 (measure : Measure) : Boolean =
     match measure
@@ -75,7 +75,7 @@ class CcsSingleGuardianPipeline
   apply (message : TileMessage [Boolean] ) : TileMessage [Boolean] =
     apply_on_agents (all_agent_pair_tile .apply (message) )
 
-  runner : TileMessage [Boolean] -> TileMessage [Boolean] =
-    lambda message --> apply (message)
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> as_number (apply (message) )
 
 end

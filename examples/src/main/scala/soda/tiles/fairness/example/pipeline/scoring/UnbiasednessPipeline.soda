@@ -17,13 +17,17 @@ import Soda.tiles.fairness.tile.WithPTile
  */
 
 class UnbiasednessPipeline
+  extends
+    Pipeline
 
   abstract
     positive_value : Resource
     result_function : Agent -> Resource
-    with_p : Agent -> Boolean
+    protected_attribute : Agent -> Boolean
 
-  all_agent_map_ground_truth_tile = AllAgentMapGroundTruthTile .mk (with_p)
+  default_value : Number = -1
+
+  all_agent_map_ground_truth_tile = AllAgentMapGroundTruthTile .mk (protected_attribute)
 
   all_agent_map_false_positive_tile = AllAgentMapFalsePositiveTile .mk (positive_value) (result_function)
 
@@ -39,6 +43,14 @@ class UnbiasednessPipeline
         message
       )
     )
+
+  _get_number (message : TileMessage [Option [Number] ] ) : TileMessage [Number] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      message .contents .getOrElse (default_value)
+    )
+
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> _get_number (apply (message) )
 
 end
 

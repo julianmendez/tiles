@@ -10,7 +10,7 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
 class CrossFilterPLengthTile
 
   abstract
-    p : Agent -> Boolean
+    protected_attribute : Agent -> Boolean
 
   to_number (a : Measure) : Number =
     a .getOrElse (-1)

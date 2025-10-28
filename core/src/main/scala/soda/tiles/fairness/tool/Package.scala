@@ -222,6 +222,34 @@ object Comparator {
 }
 
 
+trait Pipeline
+{
+
+  def   runner : TileMessage [Boolean] => TileMessage [Number]
+
+  def run (initial : TileMessage [Boolean] ) : TileMessage [Number] =
+    runner (initial)
+
+  def to_number (b : Boolean) : Number =
+    if ( b
+    ) 1
+    else 0
+
+  def as_number (message : TileMessage [Boolean] ) : TileMessage [Number] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      to_number (message .contents)
+    )
+
+}
+
+case class Pipeline_ (runner : TileMessage [Boolean] => TileMessage [Number]) extends Pipeline
+
+object Pipeline {
+  def mk (runner : TileMessage [Boolean] => TileMessage [Number]) : Pipeline =
+    Pipeline_ (runner)
+}
+
+
 trait RandomNumberGenerator
 {
 

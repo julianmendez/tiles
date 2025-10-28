@@ -11,9 +11,11 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 class GroupFairnessPipeline
+  extends
+    Pipeline
 
   abstract
-    p : Agent -> Boolean
+    protected_attribute : Agent -> Boolean
 
   epsilon : Number = 0.1
 
@@ -44,13 +46,13 @@ class GroupFairnessPipeline
 
   apply_similar_tile = ApplyTile .mk [TilePair [Number] [Number] ] [Boolean] (is_pair_similar)
 
-  cross_filter_p_length_tile = CrossFilterPLengthTile .mk (p)
+  cross_filter_p_length_tile = CrossFilterPLengthTile .mk (protected_attribute)
 
-  cross_filter_not_p_length_tile = CrossFilterNotPLengthTile .mk (p)
+  cross_filter_not_p_length_tile = CrossFilterNotPLengthTile .mk (protected_attribute)
 
-  all_agent_filter_p_length_tile = AllAgentFilterPLengthTile .mk (p)
+  all_agent_filter_p_length_tile = AllAgentFilterPLengthTile .mk (protected_attribute)
 
-  all_agent_filter_not_p_length_tile = AllAgentFilterNotPLengthTile .mk (p)
+  all_agent_filter_not_p_length_tile = AllAgentFilterNotPLengthTile .mk (protected_attribute)
 
   tupling_pair_measure_tile = TuplingPairTile .mk [Measure] [Measure]
 
@@ -109,6 +111,9 @@ class GroupFairnessPipeline
         pipeline_3 (message)
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> as_number (apply (message) )
 
 end
 

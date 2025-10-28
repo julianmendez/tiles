@@ -10,12 +10,12 @@ import Soda.tiles.fairness.tile.AllEqual1Tile
 class CrossFilterTile
 
   abstract
-    q : Agent -> Boolean
+    relevant_attribute : Agent -> Boolean
 
   cross_tile = CrossTile .mk [Agent] [Agent]
 
   filter_function_pair (a0 : Agent) (a1 : Agent) : Boolean =
-    not (a0 == a1) and (q (a0) == q (a1) )
+    not (a0 == a1) and (relevant_attribute (a0) == relevant_attribute (a1) )
 
   filter_function (pair : TilePair [Agent] [Agent] ) : Boolean =
     filter_function_pair (pair .fst) (pair .snd)

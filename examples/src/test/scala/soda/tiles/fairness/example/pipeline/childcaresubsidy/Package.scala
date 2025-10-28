@@ -117,7 +117,7 @@ case class CcsSingleGuardianPipelineSpec ()
   lazy val all_cases = _mm .all_cases
 
   lazy val single_guardian_pipeline =
-    CcsSingleGuardianPipeline .mk (_mm .resource_value) (_mm .agent_adults)
+    CcsSingleGuardianPipeline .mk (_mm .agent_adults) (_mm .resource_value)
 
   test ("single guardian on all outcomes") (
     check (

@@ -10,6 +10,8 @@ import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.derived.map.NeedsTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.Number
+import   soda.tiles.fairness.tool.Pipeline
 import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 
@@ -109,6 +111,8 @@ import Soda.tiles.fairness.tile.derived.map.UnzipPairSndTile
  */
 
 trait EquityPipeline
+  extends
+    Pipeline
 {
 
   def   need : Agent => Measure
@@ -130,6 +134,9 @@ trait EquityPipeline
         message
       )
     )
+
+  lazy val runner : TileMessage [Boolean] => TileMessage [Number] =
+     message => as_number (apply (message) )
 
 }
 

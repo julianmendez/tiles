@@ -14,6 +14,8 @@ import Soda.tiles.fairness.tile.derived.map.UnzipPairSndTile
  */
 
 class EquityPipeline
+  extends
+    Pipeline
 
   abstract
     need : Agent -> Measure
@@ -35,6 +37,9 @@ class EquityPipeline
         message
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> as_number (apply (message) )
 
 end
 

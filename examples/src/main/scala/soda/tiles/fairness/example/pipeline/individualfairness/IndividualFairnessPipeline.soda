@@ -10,15 +10,17 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
  */
 
 class IndividualFairnessPipeline
+  extends
+    Pipeline
 
   abstract
-    q : Agent -> Boolean
+    relevant_attribute : Agent -> Boolean
 
   all_agent_tile = AllAgentTile .mk
 
   all_resource_tile = AllResourceTile .mk
 
-  cross_filter_tile = CrossFilterTile .mk (q)
+  cross_filter_tile = CrossFilterTile .mk (relevant_attribute)
 
   cross_forall_tile = CrossForallTile .mk
 
@@ -41,6 +43,9 @@ class IndividualFairnessPipeline
         message
       )
     )
+
+  runner : TileMessage [Boolean] -> TileMessage [Number] =
+    lambda message --> as_number (apply (message) )
 
 end
 
