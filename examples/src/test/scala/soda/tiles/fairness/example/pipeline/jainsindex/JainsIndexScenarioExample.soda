@@ -1,0 +1,87 @@
+
+/**
+ * This is a resource allocation scenario. There are three people of different heights. The may
+ * need boxes to stand on them and to watch above a wall.
+ */
+
+class JainsIndexScenarioExample
+
+  abstract
+
+  resource0 = "R0"
+
+  resource5 = "R5"
+
+  resource10 = "R10"
+
+  resource15 = "R15"
+
+  resource20 = "R20"
+
+  resource50 = "R50"
+
+  resource100 = "R100"
+
+  agent0 = "A"
+
+  agent1 = "B"
+
+  agent2 = "C"
+
+  agent3 = "D"
+
+  agent4 = "E"
+
+  agent5 = "F"
+
+  resource_utility_map : Map [Resource] [Measure] = Seq (
+    Tuple2 [Resource] [Measure] (resource0 , Some (0) ) ,
+    Tuple2 [Resource] [Measure] (resource5 , Some (5) ) ,
+    Tuple2 [Resource] [Measure] (resource10 , Some (10) ) ,
+    Tuple2 [Resource] [Measure] (resource15 , Some (15) ) ,
+    Tuple2 [Resource] [Measure] (resource20 , Some (20) ) ,
+    Tuple2 [Resource] [Measure] (resource50 , Some (50) ) ,
+    Tuple2 [Resource] [Measure] (resource100 , Some (100) )
+  ) .toMap
+
+  resource_utility (resource : Resource) : Measure =
+    resource_utility_map .getOrElse (resource , Some (-1) )
+
+  context = "context"
+
+  outcome0 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource10) ,
+        Assignment .mk (agent1) (resource10)
+      )
+    )
+
+  outcome1 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource20) ,
+        Assignment .mk (agent1) (resource0)
+      )
+    )
+
+  outcome2 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource5) ,
+        Assignment .mk (agent1) (resource10) ,
+        Assignment .mk (agent2) (resource15)
+      )
+    )
+
+  initial0 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome0) (true)
+
+  initial1 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome1) (true)
+
+  initial2 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome2) (true)
+
+end
+
