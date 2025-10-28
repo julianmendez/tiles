@@ -44,9 +44,9 @@ resource_utility:
 
 # The resources received by the family, checked by the pipeline.
 outcome:
-  family A: subsidy 200
-  family B: subsidy 300
-  family C: subsidy 100
+  family A: no subsidy 0
+  family B: no subsidy 0
+  family C: no subsidy 0
 
 # Pipelines that can test the provided data.
 pipelines:
