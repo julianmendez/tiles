@@ -1,0 +1,47 @@
+---
+# Tiles (https://julianmendez.github.io/tiles/)
+# This is an instance for a Child Care Subsidy pipeline.
+# This is a YAML file, and requires special attention regarding indentation and use of
+# colon (':').
+
+# Agents for this scenario.
+agents:
+  A: .
+  B: .
+  C: .
+  D: .
+  E: .
+  F: .
+
+# Resources for this scenario.
+resources:
+  R5: .
+  R10: .
+  R15: .
+  R20: .
+  R50: .
+  R100: .
+
+# The utility of each resource.
+resource_utility:
+  R5: 5
+  R10: 10
+  R15: 15
+  R20: 20
+  R50: 50
+  R100: 100
+
+# The resources received by each agent.
+outcome:
+  A: R5
+  B: R10
+  C: R15
+  D: R20
+  E: R50
+  F: R100
+
+# Pipelines that can test the provided data.
+pipelines:
+  JainsIndexPipeline: .
+  ComplementGiniIndexPipeline: .
+
