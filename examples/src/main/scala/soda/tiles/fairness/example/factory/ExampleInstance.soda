@@ -20,7 +20,7 @@ class ExampleInstance
 
   default_measure : Measure = Some (-1)
 
-  default_resource : Resource = default_resource
+  default_resource : Resource = resource_default_value
 
   get_or_else [A : Type] [B : Type] (map : Map [A] [B] ) (key : A) (default : B) : B =
     match map .get (key)

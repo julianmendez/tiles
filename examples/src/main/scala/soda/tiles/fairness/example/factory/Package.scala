@@ -60,7 +60,7 @@ trait ExampleInstance
 
   lazy val default_measure : Measure = Some (-1)
 
-  lazy val default_resource : Resource = default_resource
+  lazy val default_resource : Resource = resource_default_value
 
   def get_or_else [A , B ] (map : Map [A, B] ) (key : A) (default : B) : B =
     map .get (key) match  {

@@ -41,7 +41,7 @@ class Example0Instance
           Tuple2 ("family C" , "800")
         )
       ) ,
-      Tuple2 ("resource_value" ,
+      Tuple2 ("resource_utility" ,
         Seq (
           Tuple2 ("no subsidy 0" , "0") ,
           Tuple2 ("subsidy 100" , "100") ,
