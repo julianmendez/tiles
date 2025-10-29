@@ -72,10 +72,11 @@ See a small explanation of [how Tiles works][how-it-works].
 
 ## Executable
 
-This project includes an executable example of [Child Care Subsidy][ccs-example] pipelines.
+This project includes an executable for the example pipelines.
 The script `makeall.sh` creates the file `tiles`, which is an executable JAR file that can be
 directly executed in Linux. Its input is a [YAML][yaml] configuration file, like the
 [configuration file][test-yaml-conf] provided for the unit tests.
+Other configuration files are also available [here][example-yaml-directory].
 
 
 ## Author
@@ -149,6 +150,8 @@ directly executed in Linux. Its input is a [YAML][yaml] configuration file, like
 [ccs-example]: https://julianmendez.github.io/tiles/example/child_care_subsidy/ccs_example.html
 
 [test-yaml-conf]: https://github.com/julianmendez/tiles/blob/master/examples/src/test/resources/example/example0.yaml
+
+[example-yaml-directory]: https://github.com/julianmendez/tiles/tree/master/examples/src/test/resources/example/
 
 [how-it-works]: https://julianmendez.github.io/tiles/tutorial/how_it_works.html
 
