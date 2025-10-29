@@ -157,8 +157,7 @@ import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
 */
 
 /**
- * This pipeline returns 'true' if there is group fairness, according to a hard-coded epsilon,
- * and 'false' otherwise.
+ * This pipeline returns the Jain's index.
  */
 
 trait JainsIndexPipeline
@@ -194,9 +193,9 @@ trait JainsIndexPipeline
     apply_tile .apply (
       tupling_pair_pair_tile .apply (
         tupling_pair_measure_tile .apply (
-          all_agent_accumulates_map_sum_tile .apply (message)
-        ) (
           all_agent_accumulates_sum_apply_tile .apply (message)
+        ) (
+          all_agent_accumulates_map_sum_tile .apply (message)
         )
       ) (
         all_agent_length_tile .apply (message)

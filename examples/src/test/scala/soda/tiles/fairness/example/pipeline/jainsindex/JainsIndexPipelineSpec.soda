@@ -1,0 +1,43 @@
+
+class JainsIndexPipelineSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  example = JainsIndexScenarioExample .mk
+
+  jains_index_pipeline =
+    JainsIndexPipeline .mk (example .resource_utility)
+
+  test ("perfectly equal allocation gives Jain's index = 1") (
+    check (
+      obtained := jains_index_pipeline .runner (example .initial0) .contents
+    ) (
+      expected := 1.0
+    )
+  )
+
+  /** Jain's index = (20^2) / (2 * (20^2 + 0^2)) = 400 / 800 = 0.5 */
+
+  test ("unequal allocation gives Jain's index < 1") (
+    check (
+      obtained := jains_index_pipeline .runner (example .initial1) .contents
+    ) (
+      expected := 0.5
+    )
+  )
+
+  /** Jain's index = (30^2) / (3 * (25 + 100 + 225)) = 900 / (3*350) = 900 / 1050 ≈ 0.857 */
+
+  test ("three agents with different allocations") (
+    check (
+      obtained := (jains_index_pipeline .runner (example .initial2) .contents * 1000) .intValue
+    ) (
+      expected := 857
+    )
+  )
+
+end
+
