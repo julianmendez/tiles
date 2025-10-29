@@ -1,0 +1,43 @@
+
+class ComplementGiniIndexPipelineSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  example = JainsIndexScenarioExample .mk
+
+  complement_gini_index_pipeline =
+    ComplementGiniIndexPipeline .mk (example .resource_utility)
+
+  test ("perfectly equal allocation gives complement Gini index = 1") (
+    check (
+      obtained := complement_gini_index_pipeline .runner (example .initial0) .contents
+    ) (
+      expected := 1.0
+    )
+  )
+
+  /** For allocation (20, 0), Gini index = 0.5, so complement = 0.5 */
+
+  test ("unequal allocation gives complement Gini index < 1") (
+    check (
+      obtained := complement_gini_index_pipeline .runner (example .initial1) .contents
+    ) (
+      expected := 0.5
+    )
+  )
+
+  /** For allocation (5, 10, 15), Gini index ≈ 0.222, so complement ≈ 0.777 */
+
+  test ("three agents with different allocations") (
+    check (
+      obtained := (complement_gini_index_pipeline .runner (example .initial2) .contents * 1000) .intValue
+    ) (
+      expected := 777
+    )
+  )
+
+end
+
