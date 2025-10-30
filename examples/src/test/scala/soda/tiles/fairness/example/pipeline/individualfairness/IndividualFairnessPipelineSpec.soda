@@ -1,0 +1,45 @@
+
+class IndividualFairnessPipelineSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  ex = IndividualFairnessScenarioExample .mk
+
+  individual_fairness_pipeline = IndividualFairnessPipeline .mk (ex .relevant_attribute)
+
+  test ("individual fairness on outcome 0") (
+    check (
+      obtained := individual_fairness_pipeline .apply (ex .initial0) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("individual fairness on outcome 1") (
+    check (
+      obtained := individual_fairness_pipeline .apply (ex .initial1) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("individual fairness on outcome 2") (
+    check (
+      obtained := individual_fairness_pipeline .apply (ex .initial2) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("individual fairness on outcome 3") (
+    check (
+      obtained := individual_fairness_pipeline .apply (ex .initial3) .contents
+    ) (
+      expected := false
+    )
+  )
+
+end

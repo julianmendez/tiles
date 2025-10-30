@@ -1,0 +1,105 @@
+
+class IndividualFairnessScenarioExample
+
+  abstract
+
+  resource20 = "R20"
+
+  resource50 = "R50"
+
+  resource100 = "R100"
+
+  agent0 = "A"
+
+  agent1 = "B"
+
+  agent2 = "C"
+
+  agent3 = "D"
+
+  agent4 = "E"
+
+  agent5 = "F"
+
+  resource_utility_map : Map [Resource] [Measure] = Seq (
+    Tuple2 [Resource] [Measure] (resource20 , Some (20) ) ,
+    Tuple2 [Resource] [Measure] (resource50 , Some (50) ) ,
+    Tuple2 [Resource] [Measure] (resource100 , Some (100) )
+  ) .toMap
+
+  resource_utility (resource : Resource) : Measure =
+    resource_utility_map .getOrElse (resource , Some (-1) )
+
+  relevant_attribute_set : Set [Agent] =
+    Set [Agent] (
+      agent0 , agent1 , agent2
+    )
+
+  relevant_attribute (agent : Agent) : Boolean =
+    relevant_attribute_set .contains (agent)
+
+  context = "context"
+
+  outcome0 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource20) ,
+        Assignment .mk (agent1) (resource20) ,
+        Assignment .mk (agent2) (resource20) ,
+        Assignment .mk (agent3) (resource20) ,
+        Assignment .mk (agent4) (resource20) ,
+        Assignment .mk (agent5) (resource20)
+      )
+    )
+
+  outcome1 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource50) ,
+        Assignment .mk (agent1) (resource50) ,
+        Assignment .mk (agent2) (resource50) ,
+        Assignment .mk (agent3) (resource20) ,
+        Assignment .mk (agent4) (resource20) ,
+        Assignment .mk (agent5) (resource20)
+      )
+    )
+
+  outcome2 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource20) ,
+        Assignment .mk (agent1) (resource20) ,
+        Assignment .mk (agent2) (resource20) ,
+        Assignment .mk (agent3) (resource50) ,
+        Assignment .mk (agent4) (resource50) ,
+        Assignment .mk (agent5) (resource50)
+      )
+    )
+
+  outcome3 : Outcome =
+    Outcome .mk (
+      Seq [Assignment] (
+        Assignment .mk (agent0) (resource50) ,
+        Assignment .mk (agent1) (resource20) ,
+        Assignment .mk (agent2) (resource50) ,
+        Assignment .mk (agent3) (resource20) ,
+        Assignment .mk (agent4) (resource50) ,
+        Assignment .mk (agent5) (resource20)
+      )
+    )
+
+
+  initial0 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome0) (true)
+
+  initial1 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome1) (true)
+
+  initial2 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome2) (true)
+
+  initial3 : TileMessage [Boolean] =
+    TileMessageBuilder .mk .build (context) (outcome3) (true)
+
+end
+
