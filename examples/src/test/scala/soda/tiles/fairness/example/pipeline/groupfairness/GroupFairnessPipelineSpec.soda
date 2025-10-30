@@ -1,0 +1,37 @@
+
+class GroupFairnessPipelineSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  ex = GroupFairnessScenarioExample .mk
+
+  group_fairness_pipeline = GroupFairnessPipeline .mk (ex .protected_attribute)
+
+  test ("group fairness on outcome 0") (
+    check (
+      obtained := group_fairness_pipeline .apply (ex .initial0) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("group fairness on outcome 1") (
+    check (
+      obtained := group_fairness_pipeline .apply (ex .initial1) .contents
+    ) (
+      expected := true
+    )
+  )
+
+  test ("group fairness on outcome 2") (
+    check (
+      obtained := group_fairness_pipeline .apply (ex .initial2) .contents
+    ) (
+      expected := false
+    )
+  )
+
+end
