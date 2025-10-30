@@ -1,0 +1,16 @@
+package soda.tiles.fairness.example.pipeline.groupfairness
+
+/*
+ * This package contains tests for the classes that model group fairness.
+ */
+
+import
+  org.scalatest.funsuite.AnyFunSuite
+  soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.Assignment
+  soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.Outcome
+  soda.tiles.fairness.tool.Resource
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+
