@@ -1,0 +1,43 @@
+
+class ComplementTheilIndexPipelineSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  example = JainsIndexScenarioExample .mk
+
+  complement_theil_index_pipeline =
+    ComplementTheilIndexPipeline .mk (example .resource_utility)
+
+  test ("perfectly equal allocation gives complement Theil index = 1") (
+    check (
+      obtained := complement_theil_index_pipeline .runner (example .initial0) .contents
+    ) (
+      expected := 1.0
+    )
+  )
+
+  /** For allocation (20, 1), Theil index ≈ 0.501, so complement ≈ 0.498 */
+
+  test ("unequal allocation gives complement Theil index < 1") (
+    check (
+      obtained := (complement_theil_index_pipeline .runner (example .initial1) .contents * 1000) .intValue
+    ) (
+      expected := 498
+    )
+  )
+
+  /** For allocation (5, 10, 15), Theil index ≈ 0.087, so complement ≈ 0.912 */
+
+  test ("three agents with different allocations") (
+    check (
+      obtained := (complement_theil_index_pipeline .runner (example .initial2) .contents * 1000) .intValue
+    ) (
+      expected := 912
+    )
+  )
+
+end
+
