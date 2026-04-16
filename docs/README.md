@@ -42,27 +42,29 @@ Boolean value.
 
 ## Examples
 
-| Example                                                       | Description                                                                 |
-|---------------------------------------------------------------|:----------------------------------------------------------------------------|
-|                                                               |                                                                             |
-| [Equality][equality-example]                                  | Determines whether every agent receives the same amount of resources.       |
-|                                                               |                                                                             |
-| [Equity][equity-example]                                      | Determines whether all agents receive resources according to their needs.   |
-|                                                               |                                                                             |
-| [Envy-Freeness][envy-freeness-example]                        | Determines whether the distribution is envy-free.                           |
-|                                                               |                                                                             |
-| [Group Fairness][group-fairness-example]                      | Determines whether the distribution preserves fairness across groups.       |
-|                                                               |                                                                             |
-| [Individual Fairness][individual-fairness-example]            | Determines whether the distribution preserves fairness for individuals.     |
-|                                                               |                                                                             |
-| [Scoring][scoring-example]                                    | Measures the correlation between false positives and a protected attribute. |
-|                                                               |                                                                             |
-| [Jain's Index][jains-index-example]                           | Measures fairness according to the Jain's index.                            |
-|                                                               |                                                                             |
-| [Complement of the Gini Index][complement-gini-index-example] | Measures fairness using the complement of the Gini index.                   |
-|                                                               |                                                                             |
-| [Child Care Subsidy][ccs-example]                             | Represents a collection of possible pipelines for child care subsidies.     |
-|                                                               |                                                                             |
+| Example                                                         | Description                                                                 |
+|-----------------------------------------------------------------|:----------------------------------------------------------------------------|
+|                                                                 |                                                                             |
+| [Equality][equality-example]                                    | Determines whether every agent receives the same amount of resources.       |
+|                                                                 |                                                                             |
+| [Equity][equity-example]                                        | Determines whether all agents receive resources according to their needs.   |
+|                                                                 |                                                                             |
+| [Envy-Freeness][envy-freeness-example]                          | Determines whether the distribution is envy-free.                           |
+|                                                                 |                                                                             |
+| [Group Fairness][group-fairness-example]                        | Determines whether the distribution preserves fairness across groups.       |
+|                                                                 |                                                                             |
+| [Individual Fairness][individual-fairness-example]              | Determines whether the distribution preserves fairness for individuals.     |
+|                                                                 |                                                                             |
+| [Scoring][scoring-example]                                      | Measures the correlation between false positives and a protected attribute. |
+|                                                                 |                                                                             |
+| [Jain's Index][jains-index-example]                             | Measures fairness according to the Jain's index.                            |
+|                                                                 |                                                                             |
+| [Complement of the Gini Index][complement-gini-index-example]   | Measures fairness using the complement of the Gini index.                   |
+|                                                                 |                                                                             |
+| [Complement of the Theil Index][complement-theil-index-example] | Measures fairness using the complement of the Theil index.                  |
+|                                                                 |                                                                             |
+| [Child Care Subsidy][ccs-example]                               | Represents a collection of possible pipelines for child care subsidies.     |
+|                                                                 |                                                                             |
 
 
 ## How it works
@@ -144,6 +146,8 @@ Other configuration files are also available [here][example-yaml-directory].
 [jains-index-example]: https://julianmendez.github.io/tiles/example/jains_index/jains_index_example.html
 
 [complement-gini-index-example]: https://julianmendez.github.io/tiles/example/complement_gini_index/complement_gini_index_example.html
+
+[complement-theil-index-example]: https://julianmendez.github.io/tiles/example/complement_theil_index/complement_theil_index_example.html
 
 [scoring-example]: https://julianmendez.github.io/tiles/example/scoring/scoring_example.html
 
