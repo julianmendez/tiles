@@ -39,7 +39,7 @@ case class JainsIndexPipelineSpec ()
     )
   )
 
-  /** Jain's index = (20^2) / (2 * (20^2 + 1^2)) = 400 / 802 = 0.498 */
+  /** Jain's index = ((20 + 1)^2) / 2 * (20^2 + 1^2) = 441 / 802 = 0.549 */
 
   test ("unequal allocation gives Jain's index < 1") (
     check (
@@ -49,7 +49,7 @@ case class JainsIndexPipelineSpec ()
     )
   )
 
-  /** Jain's index = (30^2) / (3 * (25 + 100 + 225)) = 900 / (3*350) = 900 / 1050 ≈ 0.857 */
+  /** Jain's index = ((5 + 10 + 15)^2) / (3 * (5^2 + 10^2 + 15^2)) = 900 / (3 * 350) = 900 / 1050 ≈ 0.857 */
 
   test ("three agents with different allocations") (
     check (
