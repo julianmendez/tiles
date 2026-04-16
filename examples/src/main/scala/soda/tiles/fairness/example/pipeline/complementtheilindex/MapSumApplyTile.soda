@@ -1,0 +1,45 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+import Soda.tiles.fairness.tile.AllEqual1Tile
+
+/**
+ * This is a composite tile for the pipeline of the complement of the Theil index.
+ */
+
+class MapSumApplyTile
+
+  abstract
+
+  to_number (a : Measure) : Number =
+    a .getOrElse (-1)
+
+  apply_phi (m4 : Number) (m2 : Measure)  : Number =
+    1 - (m4 / to_number (m2) )
+
+  log (x : Number) : Number =
+    Math .log (x)
+
+  map_phi (m0 : Number) (m1 : Number) (m2 : Number) : Number =
+    (m0 * m2 / m1) * log (m0 * m2 / m1)
+
+  sum_tile = SumPhiNumberTile .mk [Number] (lambda x --> x)
+
+  apply (message0 : TileMessage [Seq [Measure] ] ) (message1 : TileMessage [TilePair [Measure] [Measure] ] )
+      : TileMessage [Number] =
+    ApplyTile .mk [Number] [Number] (
+      lambda value -->
+         apply_phi (value) (message1 .contents .snd)
+    ) .apply (
+      sum_tile .apply (
+        MapTile .mk [Measure] [Number] (
+         lambda param -->
+              map_phi (to_number (param) ) (to_number (message1 .contents .fst) ) (to_number (message1 .contents .snd) )
+        ) .apply (
+          message0
+        )
+      )
+    )
+
+end
+
