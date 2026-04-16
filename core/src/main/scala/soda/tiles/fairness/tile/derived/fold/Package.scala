@@ -9,6 +9,7 @@ import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.MeasureMod
+import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
@@ -84,6 +85,43 @@ case class SumCountTile_ () extends SumCountTile
 object SumCountTile {
   def mk : SumCountTile =
     SumCountTile_ ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This takes a sequence, a starting value, and a function, then processes the sequence from left to right,
+ * adding elements into a single result step by step.
+ */
+
+trait SumPhiNumberTile [A ]
+{
+
+  def   phi : A => Number
+
+  lazy val zero : Number = 0
+
+  def combine (acc : Number) (elem : A) : Number =
+    (acc) + (phi (elem) )
+
+  lazy val fold_tile = FoldTile .mk (zero) (combine)
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Number] =
+    fold_tile .apply (
+      message
+    )
+
+}
+
+case class SumPhiNumberTile_ [A] (phi : A => Number) extends SumPhiNumberTile [A]
+
+object SumPhiNumberTile {
+  def mk [A] (phi : A => Number) : SumPhiNumberTile [A] =
+    SumPhiNumberTile_ [A] (phi)
 }
 
 

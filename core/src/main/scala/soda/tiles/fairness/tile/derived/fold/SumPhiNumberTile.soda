@@ -1,0 +1,28 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This takes a sequence, a starting value, and a function, then processes the sequence from left to right,
+ * adding elements into a single result step by step.
+ */
+
+class SumPhiNumberTile [A : Type]
+
+  abstract
+    phi : A -> Number
+
+  zero : Number = 0
+
+  combine (acc : Number) (elem : A) : Number =
+    (acc) + (phi (elem) )
+
+  fold_tile = FoldTile .mk (zero) (combine)
+
+  apply (message : TileMessage [Seq [A] ] ) : TileMessage [Number] =
+    fold_tile .apply (
+      message
+    )
+
+end
+
