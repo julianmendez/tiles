@@ -10,6 +10,8 @@ class JainsIndexScenarioExample
 
   resource0 = "R0"
 
+  resource1 = "R1"
+
   resource5 = "R5"
 
   resource10 = "R10"
@@ -36,6 +38,7 @@ class JainsIndexScenarioExample
 
   resource_utility_map : Map [Resource] [Measure] = Seq (
     Tuple2 [Resource] [Measure] (resource0 , Some (0) ) ,
+    Tuple2 [Resource] [Measure] (resource1 , Some (1) ) ,
     Tuple2 [Resource] [Measure] (resource5 , Some (5) ) ,
     Tuple2 [Resource] [Measure] (resource10 , Some (10) ) ,
     Tuple2 [Resource] [Measure] (resource15 , Some (15) ) ,
@@ -61,7 +64,7 @@ class JainsIndexScenarioExample
     Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (agent0) (resource20) ,
-        Assignment .mk (agent1) (resource0)
+        Assignment .mk (agent1) (resource1)
       )
     )
 

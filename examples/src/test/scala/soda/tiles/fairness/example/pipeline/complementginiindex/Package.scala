@@ -1,4 +1,4 @@
-package soda.tiles.fairness.example.pipeline.equity
+package soda.tiles.fairness.example.pipeline.complementginiindex
 
 /*
  * This package contains tests for the classes to model the complement of the Gini index.
@@ -13,6 +13,7 @@ import   soda.tiles.fairness.tool.Resource
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.example.pipeline.complementginiindex.ComplementGiniIndexPipeline
+import   soda.tiles.fairness.example.pipeline.equity.JainsIndexScenarioExample
 
 
 
@@ -39,13 +40,13 @@ case class ComplementGiniIndexPipelineSpec ()
     )
   )
 
-  /** For allocation (20, 0), Gini index = 0.5, so complement = 0.5 */
+  /** For allocation (20, 1), Gini index ≈ 0.452, so complement ≈ 0.547 */
 
   test ("unequal allocation gives complement Gini index < 1") (
     check (
-      obtained = complement_gini_index_pipeline .runner (example .initial1) .contents
+      obtained = (complement_gini_index_pipeline .runner (example .initial1) .contents * 1000) .intValue
     ) (
-      expected = 0.5
+      expected = 547
     )
   )
 

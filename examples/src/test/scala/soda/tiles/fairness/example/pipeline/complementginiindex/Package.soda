@@ -1,4 +1,4 @@
-package soda.tiles.fairness.example.pipeline.equity
+package soda.tiles.fairness.example.pipeline.complementginiindex
 
 /*
  * This package contains tests for the classes to model the complement of the Gini index.
@@ -14,4 +14,5 @@ import
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder
   soda.tiles.fairness.example.pipeline.complementginiindex.ComplementGiniIndexPipeline
+  soda.tiles.fairness.example.pipeline.equity.JainsIndexScenarioExample
 

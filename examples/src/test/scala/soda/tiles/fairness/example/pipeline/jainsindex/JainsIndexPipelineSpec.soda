@@ -19,13 +19,13 @@ class JainsIndexPipelineSpec ()
     )
   )
 
-  /** Jain's index = (20^2) / (2 * (20^2 + 0^2)) = 400 / 800 = 0.5 */
+  /** Jain's index = (20^2) / (2 * (20^2 + 1^2)) = 400 / 802 = 0.498 */
 
   test ("unequal allocation gives Jain's index < 1") (
     check (
-      obtained := jains_index_pipeline .runner (example .initial1) .contents
+      obtained := (jains_index_pipeline .runner (example .initial1) .contents * 1000) .intValue
     ) (
-      expected := 0.5
+      expected := 549
     )
   )
 

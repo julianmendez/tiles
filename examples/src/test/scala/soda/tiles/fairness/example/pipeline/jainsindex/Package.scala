@@ -39,13 +39,13 @@ case class JainsIndexPipelineSpec ()
     )
   )
 
-  /** Jain's index = (20^2) / (2 * (20^2 + 0^2)) = 400 / 800 = 0.5 */
+  /** Jain's index = (20^2) / (2 * (20^2 + 1^2)) = 400 / 802 = 0.498 */
 
   test ("unequal allocation gives Jain's index < 1") (
     check (
-      obtained = jains_index_pipeline .runner (example .initial1) .contents
+      obtained = (jains_index_pipeline .runner (example .initial1) .contents * 1000) .intValue
     ) (
-      expected = 0.5
+      expected = 549
     )
   )
 
@@ -74,6 +74,8 @@ trait JainsIndexScenarioExample
 
   lazy val resource0 = "R0"
 
+  lazy val resource1 = "R1"
+
   lazy val resource5 = "R5"
 
   lazy val resource10 = "R10"
@@ -100,6 +102,7 @@ trait JainsIndexScenarioExample
 
   lazy val resource_utility_map : Map [Resource, Measure] = Seq (
     Tuple2 [Resource, Measure] (resource0 , Some (0) ) ,
+    Tuple2 [Resource, Measure] (resource1 , Some (1) ) ,
     Tuple2 [Resource, Measure] (resource5 , Some (5) ) ,
     Tuple2 [Resource, Measure] (resource10 , Some (10) ) ,
     Tuple2 [Resource, Measure] (resource15 , Some (15) ) ,
@@ -125,7 +128,7 @@ trait JainsIndexScenarioExample
     Outcome .mk (
       Seq [Assignment] (
         Assignment .mk (agent0) (resource20) ,
-        Assignment .mk (agent1) (resource0)
+        Assignment .mk (agent1) (resource1)
       )
     )
 
