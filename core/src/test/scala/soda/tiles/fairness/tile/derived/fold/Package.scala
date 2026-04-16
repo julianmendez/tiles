@@ -8,6 +8,7 @@ import   org.scalatest.funsuite.AnyFunSuite
 import   soda.tiles.fairness.tile.primitive.ScenarioExample
 import   soda.tiles.fairness.tool.Assignment
 import   soda.tiles.fairness.tool.Measure
+import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome
 import   soda.tiles.fairness.tool.TileMessage
 import   soda.tiles.fairness.tool.TileMessageBuilder
@@ -111,6 +112,59 @@ case class SumCountTileSpec ()
         .contents
     ) (
       expected = TilePair .mk (Some(10) ) (Some(4) )
+    )
+  )
+
+}
+
+
+case class SumPhiNumberTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample .mk
+
+  def mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  def phi (a : Int) : Number =
+    a .toDouble
+
+  lazy val sum_phi_tile = SumPhiNumberTile .mk [Int] (phi)
+
+  test ("sum phi on empty sequence returns measure zero") (
+    check (
+      obtained = sum_phi_tile
+        .apply (mk_tile_message(Seq [Int] () ) )
+        .contents
+    ) (
+      expected = 0.0
+    )
+  )
+
+  test ("sum phi on single element sequence") (
+    check(
+      obtained = sum_phi_tile
+        .apply (mk_tile_message (Seq [Int] (5) ) )
+        .contents
+    ) (
+      expected = 5.0
+    )
+  )
+
+  test ("sum phi on multiple elements sequence") (
+    check(
+      obtained = sum_phi_tile
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3 , 4) ) )
+        .contents
+    ) (
+      expected = 10.0
     )
   )
 

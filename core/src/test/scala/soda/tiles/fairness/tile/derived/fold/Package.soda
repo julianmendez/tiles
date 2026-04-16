@@ -9,6 +9,7 @@ import
   soda.tiles.fairness.tile.primitive.ScenarioExample
   soda.tiles.fairness.tool.Assignment
   soda.tiles.fairness.tool.Measure
+  soda.tiles.fairness.tool.Number
   soda.tiles.fairness.tool.Outcome
   soda.tiles.fairness.tool.TileMessage
   soda.tiles.fairness.tool.TileMessageBuilder
