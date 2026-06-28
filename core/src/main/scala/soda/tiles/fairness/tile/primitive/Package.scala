@@ -123,36 +123,6 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This tile returns a collection containing only the unique elements from the original, removing any duplicates while
- * keeping the first occurrence of each.
- */
-
-trait DistinctTile [A ]
-{
-
-
-
-  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents) .distinct
-    )
-
-}
-
-case class DistinctTile_ [A] () extends DistinctTile [A]
-
-object DistinctTile {
-  def mk [A] : DistinctTile [A] =
-    DistinctTile_ [A] ()
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
  * This takes a sequence, a starting value, and a function, then processes the sequence from left to right,
  * combining elements into a single result step by step.
  */

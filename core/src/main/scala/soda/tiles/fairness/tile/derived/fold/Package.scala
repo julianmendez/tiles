@@ -19,6 +19,52 @@ import   soda.tiles.fairness.tool.TileTriple
 
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile returns a collection containing only the unique elements from the original, removing any duplicates while
+ * keeping the first occurrence of each.
+ */
+
+trait DistinctTile [A ]
+{
+
+
+
+  lazy val zero : Seq [A] = Seq [A] ()
+
+  def add (acc : Seq [A] ) (elem : A) : Seq [A] =
+    acc .+: (elem)
+
+  def combine (acc : Seq [A] ) (elem : A) : Seq [A] =
+    if ( (acc .contains (elem) )
+    ) acc
+    else acc .+: (elem)
+
+  lazy val main_fold_tile = FoldTile .mk (zero) (combine)
+
+  lazy val reverse_tile = FoldTile .mk (zero) (add)
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
+    reverse_tile .apply (
+      main_fold_tile .apply (
+        message
+      )
+    )
+
+}
+
+case class DistinctTile_ [A] () extends DistinctTile [A]
+
+object DistinctTile {
+  def mk [A] : DistinctTile [A] =
+    DistinctTile_ [A] ()
+}
+
+
 /**
  * This computes the length of a sequence.
  */
