@@ -8,8 +8,8 @@ import
   soda.tiles.fairness.tile.composite.ForallTile
   soda.tiles.fairness.tile.constant.AllAgentTile
   soda.tiles.fairness.tile.constant.AllResourceTile
+  soda.tiles.fairness.tile.derived.bind.FilterTile
   soda.tiles.fairness.tile.primitive.CrossTile
-  soda.tiles.fairness.tile.primitive.FilterTile
   soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Number
   soda.tiles.fairness.tool.Outcome

@@ -1,0 +1,37 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile returns a collection containing only the unique elements from the original, removing any duplicates while
+ * keeping the first occurrence of each.
+ */
+
+
+class DistinctTile [A : Type]
+
+  abstract
+
+  zero : Seq [A] = Seq [A] ()
+
+  prepend (acc : Seq [A] ) (elem : A) : Seq [A] =
+    acc .+: (elem)
+
+  add_if_new (acc : Seq [A] ) (elem : A) : Seq [A] =
+    if (acc .contains (elem) )
+    then acc
+    else acc .+: (elem)
+
+  main_fold_tile = FoldTile .mk (zero) (add_if_new)
+
+  reverse_tile = FoldTile .mk (zero) (prepend)
+
+  apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
+    reverse_tile .apply (
+      main_fold_tile .apply (
+        message
+      )
+    )
+
+end
+
