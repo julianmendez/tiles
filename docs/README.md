@@ -19,21 +19,29 @@ Boolean value.
 
 ## Publications
 
-* <a id="MeKaAlDi2024"></a>
+- <a id="MeKa2025Spec"></a>
+  Julian Alfredo Mendez and Timotheus Kampik. **Specification, application, and operationalization of a metamodel of fairness**. Logics for New-Generation AI, pages 163–180, 2025.
+  &nbsp; [CollegePublications.co.uk/LNGAI/?00005][lngai-2025-pub]
+  &nbsp; [Abstract][lngai-2025-abstract]
+  &nbsp; [BibTeX][lngai-2025-bibtex]
+  &nbsp; [PDF][lngai-2025-pdf]
+  &nbsp; [arXiv][lngai-2025-arxiv]
+  &nbsp; [Implementation][lngai-2025-impl]
+- <a id="MeKaAlDi2024"></a>
   Julian Alfredo Mendez, Timotheus Kampik, Andrea Aler Tubella, and Virginia Dignum. **A Clearer View on Fairness:
   Visual and Formal Representation for Comparative Analysis**. In Florian Westphal, Einav Peretz-Andersson, Maria
   Riveiro, Kerstin Bach, and Fredrik Heintz, editors, *14th Scandinavian Conference on Artificial Intelligence, SCAI
   2024*, pages 112-120. Swedish Artificial Intelligence Society, June 2024.
-  &nbsp; DOI:[10.3384/ecp208013][tiles-doi]
-  &nbsp; [Abstract][tiles-abstract]
-  &nbsp; [BibTeX][tiles-bibtex]
-  &nbsp; [PDF][tiles-pdf]
-  &nbsp; [Implementation][tiles-impl]
-* <a id="Me2023"></a>
+  &nbsp; [https://doi.org/10.3384/ecp208013][scai-2024-doi]
+  &nbsp; [Abstract][scai-2024-abstract]
+  &nbsp; [BibTeX][scai-2024-bibtex]
+  &nbsp; [PDF][scai-2024-pdf]
+  &nbsp; [Implementation][scai-2024-impl]
+- <a id="Me2023"></a>
   Julian Alfredo Mendez.
   **Soda: An Object-Oriented Functional Language for Specifying Human-Centered Problems**.
   arXiv
-  &nbsp; DOI:[10.48550/arXiv.2310.01961][soda-doi]
+  &nbsp; [https://doi.org/10.48550/arXiv.2310.01961][soda-doi]
   &nbsp; [Abstract][soda-abstract]
   &nbsp; [BibTeX][soda-bibtex]
   &nbsp; [PDF][soda-pdf]
@@ -85,15 +93,27 @@ Other configuration files are also available [here][example-yaml-directory].
 
 [Julian Alfredo Mendez][author]
 
-[tiles-doi]: https://doi.org/10.3384/ecp208013
+[lngai-2025-pub]: https://www.collegepublications.co.uk/LNGAI/?00005
 
-[tiles-abstract]: https://ecp.ep.liu.se/index.php/sais/article/view/1005
+[lngai-2025-abstract]: https://arxiv.org/abs/2511.11144
 
-[tiles-bibtex]: https://julianmendez.github.io/tiles/bibtex-2024.html
+[lngai-2025-bibtex]: https://arxiv.org/abs/2511.11144
 
-[tiles-pdf]: https://ecp.ep.liu.se/index.php/sais/article/view/1005/913
+[lngai-2025-pdf]: http://collegepublications.co.uk/admin/download.php?ID=LNGAI00005
 
-[tiles-impl]: https://github.com/julianmendez/tiles
+[lngai-2025-arxiv]: https://arxiv.org/abs/2511.11144
+
+[lngai-2025-impl]: https://github.com/julianmendez/tiles
+
+[scai-2024-doi]: https://doi.org/10.3384/ecp208013
+
+[scai-2024-abstract]: https://ecp.ep.liu.se/index.php/sais/article/view/1005
+
+[scai-2024-bibtex]: https://julianmendez.github.io/scai-2024/bibtex-2024.html
+
+[scai-2024-pdf]: https://ecp.ep.liu.se/index.php/sais/article/view/1005/913
+
+[scai-2024-impl]: https://github.com/julianmendez/tiles
 
 [soda-doi]: https://doi.org/10.48550/arXiv.2310.01961
 
