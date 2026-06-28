@@ -36,17 +36,17 @@ trait DistinctTile [A ]
 
   lazy val zero : Seq [A] = Seq [A] ()
 
-  def add (acc : Seq [A] ) (elem : A) : Seq [A] =
+  def prepend (acc : Seq [A] ) (elem : A) : Seq [A] =
     acc .+: (elem)
 
-  def combine (acc : Seq [A] ) (elem : A) : Seq [A] =
+  def add_if_new (acc : Seq [A] ) (elem : A) : Seq [A] =
     if ( (acc .contains (elem) )
     ) acc
     else acc .+: (elem)
 
-  lazy val main_fold_tile = FoldTile .mk (zero) (combine)
+  lazy val main_fold_tile = FoldTile .mk (zero) (add_if_new)
 
-  lazy val reverse_tile = FoldTile .mk (zero) (add)
+  lazy val reverse_tile = FoldTile .mk (zero) (prepend)
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
     reverse_tile .apply (

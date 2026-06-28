@@ -14,17 +14,17 @@ class DistinctTile [A : Type]
 
   zero : Seq [A] = Seq [A] ()
 
-  add (acc : Seq [A] ) (elem : A) : Seq [A] =
+  prepend (acc : Seq [A] ) (elem : A) : Seq [A] =
     acc .+: (elem)
 
-  combine (acc : Seq [A] ) (elem : A) : Seq [A] =
+  add_if_new (acc : Seq [A] ) (elem : A) : Seq [A] =
     if (acc .contains (elem) )
     then acc
     else acc .+: (elem)
 
-  main_fold_tile = FoldTile .mk (zero) (combine)
+  main_fold_tile = FoldTile .mk (zero) (add_if_new)
 
-  reverse_tile = FoldTile .mk (zero) (add)
+  reverse_tile = FoldTile .mk (zero) (prepend)
 
   apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
     reverse_tile .apply (
