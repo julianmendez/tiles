@@ -1,0 +1,26 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+/**
+ * This tile represents a monadic bind operation over sequences.
+ * It takes a transformation function that maps each input element
+ * to a sequence of output elements, and then concatenates all of
+ * those sequences into a single flattened sequence. The relative
+ * order of both the original elements and the expanded subsequences
+ * is preserved.
+ */
+
+
+class BindTile [A : Type] [B : Type]
+
+  abstract
+    phi : A -> Seq [B]
+
+  apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [B] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      (message .contents) .flatMap (phi)
+    )
+
+end
+

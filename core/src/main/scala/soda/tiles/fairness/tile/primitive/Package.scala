@@ -49,6 +49,40 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
+ * This tile represents a monadic bind operation over sequences.
+ * It takes a transformation function that maps each input element
+ * to a sequence of output elements, and then concatenates all of
+ * those sequences into a single flattened sequence. The relative
+ * order of both the original elements and the expanded subsequences
+ * is preserved.
+ */
+
+trait BindTile [A , B ]
+{
+
+  def   phi : A => Seq [B]
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [B] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      (message .contents) .flatMap (phi)
+    )
+
+}
+
+case class BindTile_ [A, B] (phi : A => Seq [B]) extends BindTile [A, B]
+
+object BindTile {
+  def mk [A, B] (phi : A => Seq [B]) : BindTile [A, B] =
+    BindTile_ [A, B] (phi)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
  * This tile connects two sequences and returns a sequence of pairs,
  * such that every element of the first sequence is paired with every
  * element of the second sequence (Cartesian product).
@@ -80,66 +114,6 @@ case class CrossTile_ [A, B] () extends CrossTile [A, B]
 object CrossTile {
   def mk [A, B] : CrossTile [A, B] =
     CrossTile_ [A, B] ()
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile returns a collection containing only the unique elements from the original, removing any duplicates while
- * keeping the first occurrence of each.
- */
-
-trait DistinctTile [A ]
-{
-
-
-
-  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents) .distinct
-    )
-
-}
-
-case class DistinctTile_ [A] () extends DistinctTile [A]
-
-object DistinctTile {
-  def mk [A] : DistinctTile [A] =
-    DistinctTile_ [A] ()
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This takes a condition (predicate) and passes through only those elements that satisfy it, discarding all others
- * while preserving the original order.
- */
-
-trait FilterTile [A ]
-{
-
-  def   phi : A => Boolean
-
-  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents) .filter (phi)
-    )
-
-}
-
-case class FilterTile_ [A] (phi : A => Boolean) extends FilterTile [A]
-
-object FilterTile {
-  def mk [A] (phi : A => Boolean) : FilterTile [A] =
-    FilterTile_ [A] (phi)
 }
 
 
