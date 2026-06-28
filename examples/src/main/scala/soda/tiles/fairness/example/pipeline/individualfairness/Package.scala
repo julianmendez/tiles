@@ -7,8 +7,8 @@ package soda.tiles.fairness.example.pipeline.individualfairness
 import   soda.tiles.fairness.tile.composite.ForallTile
 import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.constant.AllResourceTile
+import   soda.tiles.fairness.tile.derived.bind.FilterTile
 import   soda.tiles.fairness.tile.primitive.CrossTile
-import   soda.tiles.fairness.tile.primitive.FilterTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.Outcome

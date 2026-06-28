@@ -9,7 +9,7 @@ import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
-import   soda.tiles.fairness.tile.primitive.FilterTile
+import   soda.tiles.fairness.tile.derived.bind.FilterTile
 import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tool.Agent

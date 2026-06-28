@@ -6,10 +6,10 @@ package soda.tiles.fairness.example.pipeline.groupfairness
 
 import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.constant.AllResourceTile
+import   soda.tiles.fairness.tile.derived.bind.FilterTile
 import   soda.tiles.fairness.tile.derived.fold.LengthTile
 import   soda.tiles.fairness.tile.primitive.ApplyTile
 import   soda.tiles.fairness.tile.primitive.CrossTile
-import   soda.tiles.fairness.tile.primitive.FilterTile
 import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.MathTool
