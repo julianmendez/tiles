@@ -54,24 +54,25 @@ when connected to other tiles.
 
 These are the primitive tiles.
 
-| Function                                         | Implementation               |
-|--------------------------------------------------|------------------------------|
-| <sub>*(α),(β)*</sub> cross <sub>*(⟨α, β⟩)*</sub> | [CrossTile][CrossTile]       |
-| <sub>*(α),(β)*</sub> zip <sub>*(⟨α, β⟩)*</sub>   | [ZipTile][ZipTile]           |
-| <sub>*(α)*</sub> distinct <sub>*(α)*</sub>       | [DistinctTile][DistinctTile] |
-| <sub>*(α)*</sub> filter φ <sub>*(α)*</sub>       | [FilterTile][FilterTile]     |
-| <sub>*(α)*</sub> map φ <sub>*(β)*</sub>          | [MapTile][MapTile]           |
-| <sub>*α*</sub> apply φ <sub>*β*</sub>            | [ApplyTile][ApplyTile]       |
-| <sub>*(α)*</sub> fold *z* using φ <sub>*β*</sub> | [FoldTile][FoldTile]         |
+| Function                                         | Implementation          |
+|--------------------------------------------------|-------------------------|
+| <sub>*(α),(β)*</sub> cross <sub>*(⟨α, β⟩)*</sub> | [CrossTile][CrossTile]  |
+| <sub>*(α),(β)*</sub> zip <sub>*(⟨α, β⟩)*</sub>   | [ZipTile][ZipTile]      |
+| <sub>*(α)*</sub> map φ <sub>*(β)*</sub>          | [MapTile][MapTile]      |
+| <sub>*α*</sub> apply φ <sub>*β*</sub>            | [ApplyTile][ApplyTile]  |
+| <sub>*(α)*</sub> bind φ <sub>*(β)*</sub>         | [BindTile][BindTile]    |
+| <sub>*(α)*</sub> fold *z* using φ <sub>*β*</sub> | [FoldTile][FoldTile]    |
 
 Some tiles are directly derived from primitive tiles by instantiating parameters.
 For example:
 
-| Function                               | Implementation           |
-|----------------------------------------|--------------------------|
-| <sub>*(α)*</sub> sum φ <sub>*m*</sub>  | [SumPhiTile][SumPhiTile] |
-| <sub>*(m)*</sub> sum <sub>*m*</sub>    | [SumTile][SumTile]       |
-| <sub>*(α)*</sub> length <sub>*m*</sub> | [LengthTile][LengthTile] |
+| Function                                   | Implementation               |
+|--------------------------------------------|------------------------------|
+| <sub>*(α)*</sub> distinct <sub>*(α)*</sub> | [DistinctTile][DistinctTile] |
+| <sub>*(α)*</sub> filter φ <sub>*(α)*</sub> | [FilterTile][FilterTile]     |
+| <sub>*(α)*</sub> sum φ <sub>*m*</sub>      | [SumPhiTile][SumPhiTile]     |
+| <sub>*(m)*</sub> sum <sub>*m*</sub>        | [SumTile][SumTile]           |
+| <sub>*(α)*</sub> length <sub>*m*</sub>     | [LengthTile][LengthTile]     |
 
 The tile
 
@@ -159,9 +160,11 @@ Graphically, we can represent [equity][equity-example] with the following pipeli
 
 [ApplyTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/ApplyTile.soda
 
+[BindTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/BindTile.soda
+
 [CrossTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/CrossTile.soda
 
-[FilterTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/FilterTile.soda
+[FilterTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/bind/FilterTile.soda
 
 [DistinctTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/DistinctTile.soda
 
