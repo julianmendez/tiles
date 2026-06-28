@@ -78,6 +78,82 @@ case class ApplyTileSpec ()
 }
 
 
+trait DuplicateBindTile
+  extends BindTile [Int, Int]
+{
+
+
+
+  lazy val phi : Int => Seq [Int] =
+     elem => Seq [Int] (elem , elem)
+
+}
+
+case class DuplicateBindTile_ () extends DuplicateBindTile
+
+object DuplicateBindTile {
+  def mk : DuplicateBindTile =
+    DuplicateBindTile_ ()
+}
+
+case class BindTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample .mk
+
+  def mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  test ("bind on empty sequence returns empty sequence") (
+    check (
+      obtained = DuplicateBindTile .mk
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected = Seq [Int] ()
+    )
+  )
+
+  test ("bind on single element sequence expands element") (
+    check (
+      obtained = DuplicateBindTile .mk
+        .apply (mk_tile_message (Seq [Int] (5) ) )
+        .contents
+    ) (
+      expected = Seq [Int] (5 , 5)
+    )
+  )
+
+  test ("bind on multiple elements sequence concatenates expansions") (
+    check (
+      obtained = DuplicateBindTile .mk
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3) ) )
+        .contents
+    ) (
+      expected = Seq [Int] (1 , 1 , 2 , 2 , 3 , 3)
+    )
+  )
+
+  test ("bind preserves order of expanded elements") (
+    check (
+      obtained = DuplicateBindTile .mk
+        .apply (mk_tile_message (Seq [Int] (3 , 1 , 2) ) )
+        .contents
+    ) (
+      expected = Seq [Int] (3 , 3 , 1 , 1 , 2 , 2)
+    )
+  )
+
+}
+
+
 case class CrossTileSpec ()
   extends
     AnyFunSuite

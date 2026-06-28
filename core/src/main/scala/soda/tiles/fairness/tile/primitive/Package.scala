@@ -49,6 +49,40 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
+ * This tile represents a monadic bind operation over sequences.
+ * It takes a transformation function that maps each input element
+ * to a sequence of output elements, and then concatenates all of
+ * those sequences into a single flattened sequence. The relative
+ * order of both the original elements and the expanded subsequences
+ * is preserved.
+ */
+
+trait BindTile [A , B ]
+{
+
+  def   phi : A => Seq [B]
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [B] ] =
+    TileMessageBuilder .mk .build (message .context) (message .outcome) (
+      (message .contents) .flatMap (phi)
+    )
+
+}
+
+case class BindTile_ [A, B] (phi : A => Seq [B]) extends BindTile [A, B]
+
+object BindTile {
+  def mk [A, B] (phi : A => Seq [B]) : BindTile [A, B] =
+    BindTile_ [A, B] (phi)
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
  * This tile connects two sequences and returns a sequence of pairs,
  * such that every element of the first sequence is paired with every
  * element of the second sequence (Cartesian product).
