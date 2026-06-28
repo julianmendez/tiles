@@ -153,36 +153,6 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
- * This takes a condition (predicate) and passes through only those elements that satisfy it, discarding all others
- * while preserving the original order.
- */
-
-trait FilterTile [A ]
-{
-
-  def   phi : A => Boolean
-
-  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents) .filter (phi)
-    )
-
-}
-
-case class FilterTile_ [A] (phi : A => Boolean) extends FilterTile [A]
-
-object FilterTile {
-  def mk [A] (phi : A => Boolean) : FilterTile [A] =
-    FilterTile_ [A] (phi)
-}
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
  * This takes a sequence, a starting value, and a function, then processes the sequence from left to right,
  * combining elements into a single result step by step.
  */

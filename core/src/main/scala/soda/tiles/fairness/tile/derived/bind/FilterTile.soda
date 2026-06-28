@@ -12,9 +12,16 @@ class FilterTile [A : Type]
   abstract
     phi : A -> Boolean
 
+  filter (elem : A) : Seq [A] =
+    if (phi (elem) )
+    then Seq [A] (elem)
+    else Seq [A] ()
+
+  bind_tile = BindTile .mk (filter)
+
   apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
-    TileMessageBuilder .mk .build (message .context) (message .outcome) (
-      (message .contents) .filter (phi)
+    bind_tile .apply (
+      message
     )
 
 end
