@@ -28,8 +28,13 @@ done
 # This updates elan
 elan self update
 
+lake clean
+
 # This updates lake
 lake update
 
+lake build
+
 IFS="$oldIFS"
+
 
