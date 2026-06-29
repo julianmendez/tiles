@@ -1,7 +1,7 @@
 
 directive lean
 import Soda.tiles.fairness.tool.TileMessage
-import soda.tiles.fairness.tile.primitive.MapTile
+import soda.tiles.fairness.tile.derived.bind.MapTile
 
 /**
  * This tile is a particular case of an 'MapTile', where the attribute is 'needed'.

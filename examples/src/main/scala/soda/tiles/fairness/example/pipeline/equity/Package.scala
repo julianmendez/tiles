@@ -7,7 +7,7 @@ package soda.tiles.fairness.example.pipeline.equity
 import   soda.tiles.fairness.tile.composite.AccumulatesTile
 import   soda.tiles.fairness.tile.composite.AllAtLeastTile
 import   soda.tiles.fairness.tile.constant.AllAgentTile
-import   soda.tiles.fairness.tile.derived.map.NeedsTile
+import   soda.tiles.fairness.tile.derived.bind.NeedsTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.Number
@@ -100,9 +100,9 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.composite.AtLeastTile
 import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
-import Soda.tiles.fairness.tile.derived.map.NeedsTile
-import Soda.tiles.fairness.tile.derived.map.UnzipPairFstTile
-import Soda.tiles.fairness.tile.derived.map.UnzipPairSndTile
+import Soda.tiles.fairness.tile.derived.bind.NeedsTile
+import Soda.tiles.fairness.tile.derived.bind.UnzipPairFstTile
+import Soda.tiles.fairness.tile.derived.bind.UnzipPairSndTile
 */
 
 /**

@@ -7,11 +7,11 @@ package soda.tiles.fairness.example.pipeline.complementginiindex
 import
   soda.tiles.fairness.tile.composite.AccumulatesTile
   soda.tiles.fairness.tile.constant.AllAgentTile
+  soda.tiles.fairness.tile.derived.bind.MapTile
   soda.tiles.fairness.tile.derived.fold.LengthTile
   soda.tiles.fairness.tile.derived.fold.SumTile
   soda.tiles.fairness.tile.primitive.ApplyTile
   soda.tiles.fairness.tile.primitive.CrossTile
-  soda.tiles.fairness.tile.primitive.MapTile
   soda.tiles.fairness.tile.primitive.TuplingPairTile
   soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Measure

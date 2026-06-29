@@ -6,12 +6,12 @@ package soda.tiles.fairness.tile.composite
 
 import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.derived.bind.FilterTile
-import   soda.tiles.fairness.tile.derived.map.SigmaTile
+import   soda.tiles.fairness.tile.derived.bind.MapTile
+import   soda.tiles.fairness.tile.derived.bind.SigmaTile
 import   soda.tiles.fairness.tile.derived.fold.DistinctTile
 import   soda.tiles.fairness.tile.derived.fold.LengthTile
 import   soda.tiles.fairness.tile.derived.fold.SumCountTile
 import   soda.tiles.fairness.tile.primitive.ApplyTile
-import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tile.primitive.TuplingTripleTile
 import   soda.tiles.fairness.tile.primitive.ZipTile

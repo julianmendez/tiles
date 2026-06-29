@@ -6,11 +6,11 @@ package soda.tiles.fairness.example.pipeline.complementginiindex
 
 import   soda.tiles.fairness.tile.composite.AccumulatesTile
 import   soda.tiles.fairness.tile.constant.AllAgentTile
+import   soda.tiles.fairness.tile.derived.bind.MapTile
 import   soda.tiles.fairness.tile.derived.fold.LengthTile
 import   soda.tiles.fairness.tile.derived.fold.SumTile
 import   soda.tiles.fairness.tile.primitive.ApplyTile
 import   soda.tiles.fairness.tile.primitive.CrossTile
-import   soda.tiles.fairness.tile.primitive.MapTile
 import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure

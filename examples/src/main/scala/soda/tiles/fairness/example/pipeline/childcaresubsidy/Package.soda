@@ -11,7 +11,7 @@ import
   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
   soda.tiles.fairness.tile.derived.bind.FilterTile
-  soda.tiles.fairness.tile.primitive.MapTile
+  soda.tiles.fairness.tile.derived.bind.MapTile
   soda.tiles.fairness.tile.primitive.TuplingPairTile
   soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Assignment

@@ -6,5 +6,10 @@ package soda.tiles.fairness.tile.derived.bind
 
 import
   soda.tiles.fairness.tile.primitive.BindTile
+  soda.tiles.fairness.tool.Agent
+  soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+  soda.tiles.fairness.tool.TilePair
+  soda.tiles.fairness.tool.TileTriple
 
