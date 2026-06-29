@@ -255,3 +255,40 @@ object ProjectionTripleTrdTile {
     ProjectionTripleTrdTile_ [A, B, C] ()
 }
 
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile takes a single value and creates a sequence containing only that value.
+ * It corresponds to the monadic pure operation for sequences, introducing
+ * sequence structure by wrapping an element of type A into a Seq [A] with
+ * exactly one element.
+ */
+
+trait PureTile [A ]
+{
+
+
+
+  def make_pure (elem : A) : Seq [A] =
+    Seq [A] (elem)
+
+  lazy val apply_tile = ApplyTile .mk [A, Seq [A] ] (make_pure)
+
+  def apply (message : TileMessage [A] ) : TileMessage [Seq [A] ] =
+    apply_tile .apply (
+      message
+    )
+
+}
+
+case class PureTile_ [A] () extends PureTile [A]
+
+object PureTile {
+  def mk [A] : PureTile [A] =
+    PureTile_ [A] ()
+}
+

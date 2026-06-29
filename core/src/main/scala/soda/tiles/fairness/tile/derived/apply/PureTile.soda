@@ -1,0 +1,28 @@
+
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+
+
+/**
+ * This tile takes a single value and creates a sequence containing only that value.
+ * It corresponds to the monadic pure operation for sequences, introducing
+ * sequence structure by wrapping an element of type A into a Seq [A] with
+ * exactly one element.
+ */
+
+class PureTile [A : Type]
+
+  abstract
+
+  make_pure (elem : A) : Seq [A] =
+    Seq [A] (elem)
+
+  apply_tile = ApplyTile .mk [A] [Seq [A] ] (make_pure)
+
+  apply (message : TileMessage [A] ) : TileMessage [Seq [A] ] =
+    apply_tile .apply (
+      message
+    )
+
+end
+

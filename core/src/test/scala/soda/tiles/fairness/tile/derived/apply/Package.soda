@@ -1,0 +1,12 @@
+package soda.tiles.fairness.tile.derived.apply
+
+/*
+ * This package contains tests for the primitive tiles.
+ */
+
+import
+  org.scalatest.funsuite.AnyFunSuite
+  soda.tiles.fairness.tile.primitive.ScenarioExample
+  soda.tiles.fairness.tool.TileMessage
+  soda.tiles.fairness.tool.TileMessageBuilder
+
