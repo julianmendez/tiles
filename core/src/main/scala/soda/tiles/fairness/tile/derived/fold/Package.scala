@@ -5,15 +5,11 @@ package soda.tiles.fairness.tile.derived.fold
  */
 
 import   soda.tiles.fairness.tile.primitive.FoldTile
-import   soda.tiles.fairness.tile.primitive.MapTile
-import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.TileMessage
-import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.TileTriple
 
 
 
@@ -36,9 +32,6 @@ trait DistinctTile [A ]
 
   lazy val zero : Seq [A] = Seq [A] ()
 
-  def prepend (acc : Seq [A] ) (elem : A) : Seq [A] =
-    acc .+: (elem)
-
   def add_if_new (acc : Seq [A] ) (elem : A) : Seq [A] =
     if ( (acc .contains (elem) )
     ) acc
@@ -46,7 +39,7 @@ trait DistinctTile [A ]
 
   lazy val main_fold_tile = FoldTile .mk (zero) (add_if_new)
 
-  lazy val reverse_tile = FoldTile .mk (zero) (prepend)
+  lazy val reverse_tile = ReverseTile .mk [A]
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
     reverse_tile .apply (
@@ -93,6 +86,42 @@ case class LengthTile_ [A] () extends LengthTile [A]
 object LengthTile {
   def mk [A] : LengthTile [A] =
     LengthTile_ [A] ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile reverses a collection.
+ */
+
+trait ReverseTile [A ]
+{
+
+
+
+  lazy val zero : Seq [A] = Seq [A] ()
+
+  def prepend (acc : Seq [A] ) (elem : A) : Seq [A] =
+    acc .+: (elem)
+
+  lazy val fold_tile = FoldTile .mk (zero) (prepend)
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
+    fold_tile .apply (
+      message
+    )
+
+}
+
+case class ReverseTile_ [A] () extends ReverseTile [A]
+
+object ReverseTile {
+  def mk [A] : ReverseTile [A] =
+    ReverseTile_ [A] ()
 }
 
 
