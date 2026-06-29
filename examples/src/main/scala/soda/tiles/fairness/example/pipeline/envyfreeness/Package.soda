@@ -23,10 +23,10 @@ import
   soda.tiles.fairness.tile.derived.apply.ProjectionTripleSndTile
   soda.tiles.fairness.tile.derived.apply.ProjectionTripleTrdTile
   soda.tiles.fairness.tile.derived.bind.FilterTile
-  soda.tiles.fairness.tile.derived.map.NeedsTile
+  soda.tiles.fairness.tile.derived.bind.MapTile
+  soda.tiles.fairness.tile.derived.bind.NeedsTile
   soda.tiles.fairness.tile.primitive.ApplyTile
   soda.tiles.fairness.tile.primitive.CrossTile
-  soda.tiles.fairness.tile.primitive.MapTile
   soda.tiles.fairness.tile.primitive.ZipTile
   soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Comparator

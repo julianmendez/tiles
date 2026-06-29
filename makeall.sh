@@ -7,7 +7,7 @@
 
 sbt scalaVersion sbtVersion version clean compile test package assembly
 
-scalaVersion="3.3.7"
+scalaVersion="3.3.8"
 binaryFile="tiles"
 executableStub="exec java -jar \$0 \"\$@\" ; exit"
 jarFile="target/scala-${scalaVersion}/${binaryFile}-*.jar"
@@ -15,4 +15,5 @@ jarFile="target/scala-${scalaVersion}/${binaryFile}-*.jar"
 echo ${executableStub} >${binaryFile}
 cat ${jarFile} >>${binaryFile}
 chmod u+x ${binaryFile}
+
 

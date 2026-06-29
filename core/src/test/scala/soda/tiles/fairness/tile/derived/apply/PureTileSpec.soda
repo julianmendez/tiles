@@ -1,0 +1,37 @@
+
+class PureTileSpec ()
+  extends
+    AnyFunSuite
+
+  check [A : Type] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert (obtained == expected)
+
+  scenario = ScenarioExample .mk
+
+  mk_tile_message (value : Int) : TileMessage [Int] =
+    TileMessageBuilder
+      .mk
+      .build (scenario.context) (scenario.outcome0) (value)
+
+  test ("pure puts a single value into a singleton sequence") (
+    check(
+      obtained := PureTile .mk
+        .apply (mk_tile_message(5) )
+        .contents
+    ) (
+      expected := Seq [Int] (5)
+    )
+  )
+
+  test ("pure preserves the value exactly") (
+    check(
+      obtained := PureTile .mk
+        .apply (mk_tile_message(42) )
+        .contents
+    ) (
+      expected := Seq [Int] (42)
+    )
+  )
+
+end
+

@@ -864,7 +864,7 @@ trait TileMessageBuilder
 
 
   def build [A ] (context : Context) (outcome : Outcome) (contents : A) : TileMessage [A] =
-    TileMessage .mk (context) (outcome) (contents)
+    TileMessage .mk [A] (context) (outcome) (contents)
 
 }
 

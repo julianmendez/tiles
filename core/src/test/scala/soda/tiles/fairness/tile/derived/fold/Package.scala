@@ -18,64 +18,6 @@ import   soda.tiles.fairness.tool.TilePair
 
 
 
-case class DistinctTileSpec ()
-  extends
-    AnyFunSuite
-{
-
-  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
-    assert (obtained == expected)
-
-  lazy val scenario = ScenarioExample .mk
-
-  def mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq [Int] ] =
-    TileMessageBuilder
-      .mk
-      .build (scenario .context) (scenario .outcome0) (seq)
-
-  test ("distinct on empty sequence returns empty sequence") (
-    check(
-      obtained = DistinctTile .mk
-        .apply (mk_tile_message (Seq [Int] () ) )
-        .contents
-    ) (
-      expected = Seq [Int] ()
-    )
-  )
-
-  test ("distinct on sequence with no duplicates") (
-    check(
-      obtained = DistinctTile .mk
-        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3) ) )
-        .contents
-    ) (
-      expected = Seq [Int] (1 , 2 , 3)
-    )
-  )
-
-  test ("distinct on sequence with some duplicates") (
-    check(
-      obtained = DistinctTile .mk
-        .apply (mk_tile_message (Seq [Int] (1 , 2 , 2 , 3 , 1 , 4) ) )
-        .contents
-    ) (
-      expected = Seq [Int] (1 , 2 , 3 , 4)
-    )
-  )
-
-  test ("distinct on sequence with all duplicates") (
-    check(
-      obtained = DistinctTile .mk
-        .apply (mk_tile_message (Seq [Int] (5 , 5 , 5 , 5) ) )
-        .contents
-    ) (
-      expected = Seq [Int] (5)
-    )
-  )
-
-}
-
-
 case class LengthTileSpec ()
   extends
     AnyFunSuite
@@ -120,6 +62,64 @@ case class LengthTileSpec ()
         .contents
     ) (
       expected = Some(4)
+    )
+  )
+
+}
+
+
+case class ReverseTileSpec ()
+  extends
+    AnyFunSuite
+{
+
+  def check [A ] (obtained : A) (expected : A) : org.scalatest.compatible.Assertion =
+    assert(obtained == expected)
+
+  lazy val scenario = ScenarioExample .mk
+
+  def mk_tile_message (seq : Seq [Int] ) : TileMessage [Seq  [Int]  ] =
+    TileMessageBuilder
+      .mk
+      .build (scenario .context) (scenario .outcome0) (seq)
+
+  test ("reverse on empty sequence returns empty sequence") (
+    check(
+      obtained = ReverseTile .mk
+        .apply (mk_tile_message (Seq [Int] () ) )
+        .contents
+    ) (
+      expected = Seq [Int] ()
+    )
+  )
+
+  test ("reverse on single element sequence") (
+    check(
+      obtained = ReverseTile .mk
+        .apply (mk_tile_message (Seq [Int] (7) ) )
+        .contents
+    ) (
+      expected = Seq [Int] (7)
+    )
+  )
+
+  test ("reverse on multiple elements") (
+    check(
+      obtained = ReverseTile .mk
+        .apply (mk_tile_message (Seq [Int] (1 , 2 , 3 , 4) ) )
+        .contents
+    ) (
+      expected = Seq [Int] (4 , 3 , 2 , 1)
+    )
+  )
+
+  test ("reverse on sequence with repeated elements") (
+    check(
+      obtained = ReverseTile .mk
+        .apply (mk_tile_message (Seq [Int] (5 , 5 , 2 , 2) ) )
+        .contents
+    ) (
+      expected = Seq [Int] (2 , 2 , 5 , 5)
     )
   )
 

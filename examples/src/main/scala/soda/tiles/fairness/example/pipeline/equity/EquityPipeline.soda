@@ -3,9 +3,9 @@ directive lean
 import Soda.tiles.fairness.tool.TileMessage
 import Soda.tiles.fairness.tile.composite.AtLeastTile
 import Soda.tiles.fairness.tile.composite.ReceivedSigmaPTile
-import Soda.tiles.fairness.tile.derived.map.NeedsTile
-import Soda.tiles.fairness.tile.derived.map.UnzipPairFstTile
-import Soda.tiles.fairness.tile.derived.map.UnzipPairSndTile
+import Soda.tiles.fairness.tile.derived.bind.NeedsTile
+import Soda.tiles.fairness.tile.derived.bind.UnzipPairFstTile
+import Soda.tiles.fairness.tile.derived.bind.UnzipPairSndTile
 
 
 /**

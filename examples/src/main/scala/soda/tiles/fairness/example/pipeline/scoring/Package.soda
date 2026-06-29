@@ -7,7 +7,7 @@ package soda.tiles.fairness.example.pipeline.scoring
 import
   soda.tiles.fairness.tile.composite.CorrelationAbsTile
   soda.tiles.fairness.tile.constant.AllAgentTile
-  soda.tiles.fairness.tile.primitive.MapTile
+  soda.tiles.fairness.tile.derived.bind.MapTile
   soda.tiles.fairness.tool.Agent
   soda.tiles.fairness.tool.Measure
   soda.tiles.fairness.tool.MeasureMod

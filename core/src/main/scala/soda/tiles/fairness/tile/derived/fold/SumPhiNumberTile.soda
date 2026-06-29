@@ -17,7 +17,7 @@ class SumPhiNumberTile [A : Type]
   combine (acc : Number) (elem : A) : Number =
     (acc) + (phi (elem) )
 
-  fold_tile = FoldTile .mk (zero) (combine)
+  fold_tile = FoldTile .mk [A] [Number] (zero) (combine)
 
   apply (message : TileMessage [Seq [A] ] ) : TileMessage [Number] =
     fold_tile .apply (

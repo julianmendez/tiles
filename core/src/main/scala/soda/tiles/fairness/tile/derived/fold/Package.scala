@@ -5,64 +5,14 @@ package soda.tiles.fairness.tile.derived.fold
  */
 
 import   soda.tiles.fairness.tile.primitive.FoldTile
-import   soda.tiles.fairness.tile.primitive.MapTile
-import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Measure
 import   soda.tiles.fairness.tool.MeasureMod
 import   soda.tiles.fairness.tool.Number
 import   soda.tiles.fairness.tool.TileMessage
-import   soda.tiles.fairness.tool.TileMessageBuilder
 import   soda.tiles.fairness.tool.TilePair
-import   soda.tiles.fairness.tool.TileTriple
 
 
 
-
-
-/*
-directive lean
-import Soda.tiles.fairness.tool.TileMessage
-*/
-
-/**
- * This tile returns a collection containing only the unique elements from the original, removing any duplicates while
- * keeping the first occurrence of each.
- */
-
-trait DistinctTile [A ]
-{
-
-
-
-  lazy val zero : Seq [A] = Seq [A] ()
-
-  def prepend (acc : Seq [A] ) (elem : A) : Seq [A] =
-    acc .+: (elem)
-
-  def add_if_new (acc : Seq [A] ) (elem : A) : Seq [A] =
-    if ( (acc .contains (elem) )
-    ) acc
-    else acc .+: (elem)
-
-  lazy val main_fold_tile = FoldTile .mk (zero) (add_if_new)
-
-  lazy val reverse_tile = FoldTile .mk (zero) (prepend)
-
-  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
-    reverse_tile .apply (
-      main_fold_tile .apply (
-        message
-      )
-    )
-
-}
-
-case class DistinctTile_ [A] () extends DistinctTile [A]
-
-object DistinctTile {
-  def mk [A] : DistinctTile [A] =
-    DistinctTile_ [A] ()
-}
 
 
 /**
@@ -96,6 +46,42 @@ object LengthTile {
 }
 
 
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
+ * This tile reverses a collection.
+ */
+
+trait ReverseTile [A ]
+{
+
+
+
+  lazy val zero : Seq [A] = Seq [A] ()
+
+  def prepend (acc : Seq [A] ) (elem : A) : Seq [A] =
+    acc .+: (elem)
+
+  lazy val fold_tile = FoldTile .mk [A, Seq [A] ] (zero) (prepend)
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
+    fold_tile .apply (
+      message
+    )
+
+}
+
+case class ReverseTile_ [A] () extends ReverseTile [A]
+
+object ReverseTile {
+  def mk [A] : ReverseTile [A] =
+    ReverseTile_ [A] ()
+}
+
+
 /**
  * This processes a sequence of measures and returns a pair, which has the sum on the first component and
  * the number of elements on the second component.
@@ -111,13 +97,13 @@ trait SumCountTile
   lazy val one : Measure = MeasureMod .mk .one
 
   lazy val pair_zero : TilePair [Measure, Measure] =
-    TilePair .mk (zero) (zero)
+    TilePair .mk [Measure, Measure] (zero) (zero)
 
   def combine (acc : TilePair [Measure, Measure] ) (elem : Measure)
       : TilePair [Measure, Measure] =
-    TilePair .mk (MeasureMod .mk .plus (acc .fst) (elem) ) (MeasureMod .mk .plus (acc .snd) (one) )
+    TilePair .mk [Measure, Measure] (MeasureMod .mk .plus (acc .fst) (elem) ) (MeasureMod .mk .plus (acc .snd) (one) )
 
-  lazy val fold_tile = FoldTile .mk (pair_zero) (combine)
+  lazy val fold_tile = FoldTile .mk [Measure, TilePair [Measure, Measure] ] (pair_zero) (combine)
 
   def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [TilePair [Measure, Measure] ] =
     fold_tile .apply (
@@ -154,7 +140,7 @@ trait SumPhiNumberTile [A ]
   def combine (acc : Number) (elem : A) : Number =
     (acc) + (phi (elem) )
 
-  lazy val fold_tile = FoldTile .mk (zero) (combine)
+  lazy val fold_tile = FoldTile .mk [A, Number] (zero) (combine)
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Number] =
     fold_tile .apply (
@@ -191,7 +177,7 @@ trait SumPhiTile [A ]
   def combine (acc : Measure) (elem : A) : Measure =
     MeasureMod .mk .plus (acc) (phi (elem) )
 
-  lazy val fold_tile = FoldTile .mk (zero) (combine)
+  lazy val fold_tile = FoldTile .mk [A, Measure] (zero) (combine)
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Measure] =
     fold_tile .apply (

@@ -4,14 +4,16 @@ package soda.tiles.fairness.tile.composite
  * This package contains classes to model the tiles.
  */
 
+import   soda.tiles.fairness.tile.composite.DistinctTile
 import   soda.tiles.fairness.tile.constant.AllAgentTile
 import   soda.tiles.fairness.tile.derived.bind.FilterTile
-import   soda.tiles.fairness.tile.derived.map.SigmaTile
-import   soda.tiles.fairness.tile.derived.fold.DistinctTile
+import   soda.tiles.fairness.tile.derived.bind.MapTile
+import   soda.tiles.fairness.tile.derived.bind.SigmaTile
 import   soda.tiles.fairness.tile.derived.fold.LengthTile
+import   soda.tiles.fairness.tile.derived.fold.ReverseTile
 import   soda.tiles.fairness.tile.derived.fold.SumCountTile
 import   soda.tiles.fairness.tile.primitive.ApplyTile
-import   soda.tiles.fairness.tile.primitive.MapTile
+import   soda.tiles.fairness.tile.primitive.FoldTile
 import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tile.primitive.TuplingTripleTile
 import   soda.tiles.fairness.tile.primitive.ZipTile
@@ -410,11 +412,54 @@ import Soda.tiles.fairness.tool.TileMessage
 */
 
 /**
+ * This tile returns a collection containing only the unique elements from the original, removing any duplicates while
+ * keeping the first occurrence of each.
+ */
+
+trait DistinctTile [A ]
+{
+
+
+
+  lazy val zero : Seq [A] = Seq [A] ()
+
+  def add_if_new (acc : Seq [A] ) (elem : A) : Seq [A] =
+    if ( (acc .contains (elem) )
+    ) acc
+    else acc .+: (elem)
+
+  lazy val main_fold_tile = FoldTile .mk [A, Seq [A] ] (zero) (add_if_new)
+
+  lazy val reverse_tile = ReverseTile .mk [A]
+
+  def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
+    reverse_tile .apply (
+      main_fold_tile .apply (
+        message
+      )
+    )
+
+}
+
+case class DistinctTile_ [A] () extends DistinctTile [A]
+
+object DistinctTile {
+  def mk [A] : DistinctTile [A] =
+    DistinctTile_ [A] ()
+}
+
+
+/*
+directive lean
+import Soda.tiles.fairness.tool.TileMessage
+*/
+
+/**
  * This tile takes a sequence of elements and returns 'true' when at least one element in the input
  * satisfies a property.
  */
 
-trait ExistsTile [A]
+trait ExistsTile [A ]
 {
 
   def   phi : A => Boolean
@@ -501,7 +546,7 @@ import Soda.tiles.fairness.tool.TileMessage
  * satisfy a property.
  */
 
-trait ForallTile [A]
+trait ForallTile [A ]
 {
 
   def   phi : A => Boolean

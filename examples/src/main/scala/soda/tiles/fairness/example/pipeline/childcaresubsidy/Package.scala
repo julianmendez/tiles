@@ -10,7 +10,7 @@ import   soda.tiles.fairness.tile.derived.apply.CombineBooleanTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairFstTile
 import   soda.tiles.fairness.tile.derived.apply.ProjectionPairSndTile
 import   soda.tiles.fairness.tile.derived.bind.FilterTile
-import   soda.tiles.fairness.tile.primitive.MapTile
+import   soda.tiles.fairness.tile.derived.bind.MapTile
 import   soda.tiles.fairness.tile.primitive.TuplingPairTile
 import   soda.tiles.fairness.tool.Agent
 import   soda.tiles.fairness.tool.Assignment
