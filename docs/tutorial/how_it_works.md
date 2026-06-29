@@ -67,7 +67,6 @@ For example:
 
 | Function                                   | Implementation               |
 |--------------------------------------------|------------------------------|
-| <sub>*(α)*</sub> distinct <sub>*(α)*</sub> | [DistinctTile][DistinctTile] |
 | <sub>*(α)*</sub> filter φ <sub>*(α)*</sub> | [FilterTile][FilterTile]     |
 | <sub>*(α)*</sub> map φ <sub>*(β)*</sub>    | [MapTile][MapTile]           |
 | <sub>*(α)*</sub> sum φ <sub>*m*</sub>      | [SumPhiTile][SumPhiTile]     |
@@ -142,6 +141,7 @@ For example:
 
 | Function                                      | Implementation                     |
 |-----------------------------------------------|------------------------------------|
+| <sub>*(α)*</sub> distinct <sub>*(α)*</sub>    | [DistinctTile][DistinctTile]       |
 | <sub>*(a)*</sub> accumulates <sub>*(m)*</sub> | [AccumulatesTile][AccumulatesTile] |
 | <sub>*(α)*</sub> exists φ <sub>*b*</sub>      | [ExistsTile][ExistsTile]           |
 
@@ -166,7 +166,7 @@ Graphically, we can represent [equity][equity-example] with the following pipeli
 
 [FilterTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/bind/FilterTile.soda
 
-[DistinctTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/DistinctTile.soda
+[DistinctTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/composite/DistinctTile.soda
 
 [ZipTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/ZipTile.soda
 
