@@ -15,7 +15,7 @@ class ReverseTile [A : Type]
   prepend (acc : Seq [A] ) (elem : A) : Seq [A] =
     acc .+: (elem)
 
-  fold_tile = FoldTile .mk (zero) (prepend)
+  fold_tile = FoldTile .mk [A] [Seq [A] ] (zero) (prepend)
 
   apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
     fold_tile .apply (

@@ -65,7 +65,7 @@ trait ReverseTile [A ]
   def prepend (acc : Seq [A] ) (elem : A) : Seq [A] =
     acc .+: (elem)
 
-  lazy val fold_tile = FoldTile .mk (zero) (prepend)
+  lazy val fold_tile = FoldTile .mk [A, Seq [A] ] (zero) (prepend)
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Seq [A] ] =
     fold_tile .apply (
@@ -97,13 +97,13 @@ trait SumCountTile
   lazy val one : Measure = MeasureMod .mk .one
 
   lazy val pair_zero : TilePair [Measure, Measure] =
-    TilePair .mk (zero) (zero)
+    TilePair .mk [Measure, Measure] (zero) (zero)
 
   def combine (acc : TilePair [Measure, Measure] ) (elem : Measure)
       : TilePair [Measure, Measure] =
-    TilePair .mk (MeasureMod .mk .plus (acc .fst) (elem) ) (MeasureMod .mk .plus (acc .snd) (one) )
+    TilePair .mk [Measure, Measure] (MeasureMod .mk .plus (acc .fst) (elem) ) (MeasureMod .mk .plus (acc .snd) (one) )
 
-  lazy val fold_tile = FoldTile .mk (pair_zero) (combine)
+  lazy val fold_tile = FoldTile .mk [Measure, TilePair [Measure, Measure] ] (pair_zero) (combine)
 
   def apply (message : TileMessage [Seq [Measure] ] ) : TileMessage [TilePair [Measure, Measure] ] =
     fold_tile .apply (
@@ -140,7 +140,7 @@ trait SumPhiNumberTile [A ]
   def combine (acc : Number) (elem : A) : Number =
     (acc) + (phi (elem) )
 
-  lazy val fold_tile = FoldTile .mk (zero) (combine)
+  lazy val fold_tile = FoldTile .mk [A, Number] (zero) (combine)
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Number] =
     fold_tile .apply (
@@ -177,7 +177,7 @@ trait SumPhiTile [A ]
   def combine (acc : Measure) (elem : A) : Measure =
     MeasureMod .mk .plus (acc) (phi (elem) )
 
-  lazy val fold_tile = FoldTile .mk (zero) (combine)
+  lazy val fold_tile = FoldTile .mk [A, Measure] (zero) (combine)
 
   def apply (message : TileMessage [Seq [A] ] ) : TileMessage [Measure] =
     fold_tile .apply (

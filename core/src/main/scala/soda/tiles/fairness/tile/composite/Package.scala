@@ -428,7 +428,7 @@ trait DistinctTile [A ]
     ) acc
     else acc .+: (elem)
 
-  lazy val main_fold_tile = FoldTile .mk (zero) (add_if_new)
+  lazy val main_fold_tile = FoldTile .mk [A, Seq [A] ] (zero) (add_if_new)
 
   lazy val reverse_tile = ReverseTile .mk [A]
 
@@ -459,7 +459,7 @@ import Soda.tiles.fairness.tool.TileMessage
  * satisfies a property.
  */
 
-trait ExistsTile [A]
+trait ExistsTile [A ]
 {
 
   def   phi : A => Boolean
@@ -546,7 +546,7 @@ import Soda.tiles.fairness.tool.TileMessage
  * satisfy a property.
  */
 
-trait ForallTile [A]
+trait ForallTile [A ]
 {
 
   def   phi : A => Boolean

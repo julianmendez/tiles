@@ -19,7 +19,7 @@ class DistinctTile [A : Type]
     then acc
     else acc .+: (elem)
 
-  main_fold_tile = FoldTile .mk (zero) (add_if_new)
+  main_fold_tile = FoldTile .mk [A] [Seq [A] ] (zero) (add_if_new)
 
   reverse_tile = ReverseTile .mk [A]
 

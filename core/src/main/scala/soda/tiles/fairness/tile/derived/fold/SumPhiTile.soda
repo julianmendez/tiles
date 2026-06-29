@@ -17,7 +17,7 @@ class SumPhiTile [A : Type]
   combine (acc : Measure) (elem : A) : Measure =
     MeasureMod .mk .plus (acc) (phi (elem) )
 
-  fold_tile = FoldTile .mk (zero) (combine)
+  fold_tile = FoldTile .mk [A] [Measure] (zero) (combine)
 
   apply (message : TileMessage [Seq [A] ] ) : TileMessage [Measure] =
     fold_tile .apply (
