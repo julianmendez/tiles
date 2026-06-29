@@ -58,7 +58,6 @@ These are the primitive tiles.
 |--------------------------------------------------|-------------------------|
 | <sub>*(α),(β)*</sub> cross <sub>*(⟨α, β⟩)*</sub> | [CrossTile][CrossTile]  |
 | <sub>*(α),(β)*</sub> zip <sub>*(⟨α, β⟩)*</sub>   | [ZipTile][ZipTile]      |
-| <sub>*(α)*</sub> map φ <sub>*(β)*</sub>          | [MapTile][MapTile]      |
 | <sub>*α*</sub> apply φ <sub>*β*</sub>            | [ApplyTile][ApplyTile]  |
 | <sub>*(α)*</sub> bind φ <sub>*(β)*</sub>         | [BindTile][BindTile]    |
 | <sub>*(α)*</sub> fold *z* using φ <sub>*β*</sub> | [FoldTile][FoldTile]    |
@@ -70,6 +69,7 @@ For example:
 |--------------------------------------------|------------------------------|
 | <sub>*(α)*</sub> distinct <sub>*(α)*</sub> | [DistinctTile][DistinctTile] |
 | <sub>*(α)*</sub> filter φ <sub>*(α)*</sub> | [FilterTile][FilterTile]     |
+| <sub>*(α)*</sub> map φ <sub>*(β)*</sub>    | [MapTile][MapTile]           |
 | <sub>*(α)*</sub> sum φ <sub>*m*</sub>      | [SumPhiTile][SumPhiTile]     |
 | <sub>*(m)*</sub> sum <sub>*m*</sub>        | [SumTile][SumTile]           |
 | <sub>*(α)*</sub> length <sub>*m*</sub>     | [LengthTile][LengthTile]     |
@@ -156,7 +156,7 @@ Graphically, we can represent [equity][equity-example] with the following pipeli
 
 ![equity0](equity0.png)
 
-[MapTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/MapTile.soda
+[MapTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/derived/bind/MapTile.soda
 
 [ApplyTile]: https://github.com/julianmendez/tiles/blob/master/core/src/main/scala/soda/tiles/fairness/tile/primitive/ApplyTile.soda
 
