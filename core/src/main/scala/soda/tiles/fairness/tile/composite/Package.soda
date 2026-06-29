@@ -5,14 +5,16 @@ package soda.tiles.fairness.tile.composite
  */
 
 import
+  soda.tiles.fairness.tile.composite.DistinctTile
   soda.tiles.fairness.tile.constant.AllAgentTile
   soda.tiles.fairness.tile.derived.bind.FilterTile
   soda.tiles.fairness.tile.derived.bind.MapTile
   soda.tiles.fairness.tile.derived.bind.SigmaTile
-  soda.tiles.fairness.tile.derived.fold.DistinctTile
   soda.tiles.fairness.tile.derived.fold.LengthTile
+  soda.tiles.fairness.tile.derived.fold.ReverseTile
   soda.tiles.fairness.tile.derived.fold.SumCountTile
   soda.tiles.fairness.tile.primitive.ApplyTile
+  soda.tiles.fairness.tile.primitive.FoldTile
   soda.tiles.fairness.tile.primitive.TuplingPairTile
   soda.tiles.fairness.tile.primitive.TuplingTripleTile
   soda.tiles.fairness.tile.primitive.ZipTile
