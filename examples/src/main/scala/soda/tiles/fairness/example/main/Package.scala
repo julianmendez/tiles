@@ -26,7 +26,7 @@ trait Main
   lazy val help = "" +
     "\nTiles" +
     "\n" +
-    "\nCopyright 2023--2025 Julian Alfredo Mendez" +
+    "\nCopyright 2023--2026 Julian Alfredo Mendez" +
     "\n" +
     "\nhttps://github.com/julianmendez/tiles" +
     "\n" +
